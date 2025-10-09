@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Lyt.Jigsaw.Desktop/Lyt.Jigsaw.Desktop.csproj" />
+  <Project Path="Lyt.Jigsaw.Model/Lyt.Jigsaw.Model.csproj" />
+  <Project Path="Lyt.Jigsaw/Lyt.Jigsaw.csproj" />
+</Solution>

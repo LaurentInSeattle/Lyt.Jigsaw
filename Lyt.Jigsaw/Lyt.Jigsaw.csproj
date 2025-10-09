@@ -1,0 +1,121 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>Lyt.Jigsaw</RootNamespace>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>IDE0079</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>IDE0079</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.3" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.3" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.3" />
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.3" />
+    <PackageReference Include="SkiaSharp" Version="3.119.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+    <AvaloniaResource Include="Assets\Languages\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaXaml Remove="Assets\Icons\FluentSvgResourceDictionary.axaml" />
+    <AvaloniaXaml Remove="Assets\Icons\Icons.axaml" />
+    <AvaloniaXaml Remove="Assets\Icons\PathResourceDictionary.axaml" />
+    <AvaloniaXaml Remove="Assets\Icons\Unused_FluentSvgResourceDictionaryCopy.axaml" />
+    <AvaloniaXaml Remove="Assets\Languages\Lang_en-US.axaml" />
+    <AvaloniaXaml Remove="Assets\Languages\Lang_fr-FR.axaml" />
+    <AvaloniaXaml Remove="Assets\Palette\DeepBluePalette.axaml" />
+    <AvaloniaXaml Remove="Assets\Theme\AutoCompleteBoxStyles.axaml" />
+    <AvaloniaXaml Remove="Assets\Theme\Buttons.axaml" />
+    <AvaloniaXaml Remove="Assets\Theme\ListBoxItemStyles.axaml" />
+    <AvaloniaXaml Remove="Assets\Theme\ListBoxStyles.axaml" />
+    <AvaloniaXaml Remove="Assets\Theme\Sliders.axaml" />
+    <AvaloniaXaml Remove="Assets\Theme\TextBoxStyles.axaml" />
+    <AvaloniaXaml Remove="Assets\Theme\Toggles.axaml" />
+    <AvaloniaXaml Remove="Assets\Theme\Typography.axaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Lyt.Avalonia\Lyt.Avalonia.Controls\Lyt.Avalonia.Controls.csproj" />
+    <ProjectReference Include="..\..\Lyt.Avalonia\Lyt.Avalonia.Interfaces\Lyt.Avalonia.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Lyt.Avalonia\Lyt.Avalonia.Localizer\Lyt.Avalonia.Localizer.csproj" />
+    <ProjectReference Include="..\..\Lyt.Avalonia\Lyt.Avalonia.Mvvm\Lyt.Avalonia.Mvvm.csproj" />
+    <ProjectReference Include="..\..\Lyt.Framework\Lyt.Framework.Interfaces\Lyt.Framework.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Lyt.Framework\Lyt.Model\Lyt.Model.csproj" />
+    <ProjectReference Include="..\..\Lyt.Framework\Lyt.Mvvm\Lyt.Mvvm.csproj" />
+    <ProjectReference Include="..\..\Lyt.Framework\Lyt.Persistence\Lyt.Persistence.csproj" />
+    <ProjectReference Include="..\..\Lyt.Framework\Lyt.Translator.Service\Lyt.Translator.Service.csproj" />
+    <ProjectReference Include="..\..\Lyt.Framework\Lyt.Utilities\Lyt.Utilities.csproj" />
+    <ProjectReference Include="..\Lyt.Jigsaw.Model\Lyt.Jigsaw.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controls\" />
+    <Folder Include="Workflow\" />
+    <Folder Include="Utilities\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Update="Assets\Icons\FluentSvgResourceDictionary.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+    <AvaloniaResource Update="Assets\Icons\Icons.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+    <AvaloniaResource Update="Assets\Icons\PathResourceDictionary.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+    <AvaloniaResource Update="Assets\Icons\Unused_FluentSvgResourceDictionaryCopy.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+    <AvaloniaResource Update="Assets\Languages\Lang_en-US.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+    <AvaloniaResource Update="Assets\Languages\Lang_fr-FR.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+    <AvaloniaResource Update="Assets\Palette\DeepBluePalette.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+    <AvaloniaResource Update="Assets\Theme\AutoCompleteBoxStyles.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+    <AvaloniaResource Update="Assets\Theme\Buttons.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+    <AvaloniaResource Update="Assets\Theme\ListBoxItemStyles.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+    <AvaloniaResource Update="Assets\Theme\ListBoxStyles.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+    <AvaloniaResource Update="Assets\Theme\Sliders.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+    <AvaloniaResource Update="Assets\Theme\TextBoxStyles.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+    <AvaloniaResource Update="Assets\Theme\Toggles.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+    <AvaloniaResource Update="Assets\Theme\Typography.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+  </ItemGroup>
+
+</Project>
