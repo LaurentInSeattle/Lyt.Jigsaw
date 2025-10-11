@@ -2,11 +2,16 @@
 
 public sealed class Group
 {
+    private readonly Puzzle puzzle;
+
+    public Group (Puzzle puzzle)
+    {
+        this.puzzle = puzzle;
+    }
+
     public List<Piece> Pieces { get; set; } = [];
 
-    public double X { get; set; }
-
-    public double Y { get; set; }
+    public Location Location { get; set; }
 
     public bool CanAddPiece (Piece piece)
     {

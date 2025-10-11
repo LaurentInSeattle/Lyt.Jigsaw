@@ -28,6 +28,10 @@ public sealed class Puzzle
 
     public List<Group> Groups { get; private set; } = [];
 
+    public List<Piece> Pieces { get; private set; } = [];
+
+    public Dictionary<int, Piece> PieceDictionary { get; private set; } = [];
+
     public bool IsComplete
         => this.Groups.Count == 1 && this.Groups[0].Pieces.Count == this.PieceCount;
 
@@ -40,18 +44,27 @@ public sealed class Puzzle
             return false;
         }
 
-        if (this.puzzleSetups.TryGetValue(pieceCount, out var setup) && setup is not null)
+        if (!this.puzzleSetups.TryGetValue(pieceCount, out var setup) || setup is null)
         {
-            this.Rows = setup.Rows;
-            this.Columns = setup.Columns;
-            this.PieceSize = setup.PieceSize;
-            this.PieceOverlap = setup.PieceSize / 4;
-            this.PieceCount = pieceCount;
-            this.RotationStep = 360 / rotationSteps;
-            return true;
+            return false;
         }
 
-        return false;
+        this.Rows = setup.Rows;
+        this.Columns = setup.Columns;
+        this.PieceSize = setup.PieceSize;
+        this.PieceOverlap = setup.PieceSize / 4;
+        this.PieceCount = pieceCount;
+        if (rotationSteps == 0)
+        {
+            this.RotationStep = 0;
+        }
+        else
+        {
+            this.RotationStep = 360 / rotationSteps;
+        }
+
+        this.CreatePieces();
+        return true;
     }
 
     private void GenerateSetups()
@@ -65,4 +78,17 @@ public sealed class Puzzle
             this.puzzleSetups.TryAdd(pieceCount, setup);
         }
     }
+
+    private void CreatePieces()
+    {
+        for (int row = 0; row < this.Rows; ++row)
+        {
+            for (int col = 0; col < this.Columns; ++col)
+            {
+                var piece = new Piece(this, row, col); 
+                this.Pieces.Add(piece);
+                this.PieceDictionary.Add(piece.Id, piece);
+            }
+        }
+    } 
 }

@@ -87,6 +87,7 @@ public sealed partial class ShellViewModel
 
         var puzzle = new Puzzle(1080, 1920, 0);
         var counts = puzzle.PieceCounts;
+        puzzle.Setup(counts[counts.Count / 2], rotationSteps :0 );
     }
 
     private async void ActivateInitialView()
