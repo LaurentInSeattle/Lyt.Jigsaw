@@ -24,6 +24,7 @@ global using Lyt.Model;
 global using Lyt.Persistence;
 global using Lyt.Translator.Service;
 
+global using Lyt.Jigsaw.Model.Infrastucture;
 global using Lyt.Jigsaw.Model.Messaging;
 global using Lyt.Jigsaw.Model.PuzzleObjects;
 

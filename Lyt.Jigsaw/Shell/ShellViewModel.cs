@@ -1,5 +1,7 @@
 ﻿namespace Lyt.Jigsaw.Shell;
 
+using Lyt.Jigsaw.Model.PuzzleObjects;
+
 using static Messaging.ApplicationMessagingExtensions;
 
 public sealed partial class ShellViewModel 
@@ -78,10 +80,13 @@ public sealed partial class ShellViewModel
         }
 
         // Delay a bit the launch of the gallery so that there is time to ping 
-        this.Logger.Debug("OnViewLoaded: Internet connected: " + this.jigsawModel.IsInternetConnected);
-        Schedule.OnUiThread(100, this.ActivateInitialView, DispatcherPriority.Background);
+        //this.Logger.Debug("OnViewLoaded: Internet connected: " + this.jigsawModel.IsInternetConnected);
+        //Schedule.OnUiThread(100, this.ActivateInitialView, DispatcherPriority.Background);
 
         this.Logger.Debug("OnViewLoaded complete");
+
+        var puzzle = new Puzzle(1080, 1920, 0);
+        var counts = puzzle.PieceCounts;
     }
 
     private async void ActivateInitialView()

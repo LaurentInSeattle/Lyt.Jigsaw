@@ -4,7 +4,7 @@ using static Lyt.Persistence.FileManagerModel;
 
 public sealed partial class JigsawModel : ModelBase
 {
-    public const string DefaultLanguage = "it-IT";
+    public const string DefaultLanguage = "fr-FR";
     private const string JigsawModelFilename = "JigsawData";
 
     private static readonly JigsawModel DefaultData =
@@ -137,7 +137,7 @@ public sealed partial class JigsawModel : ModelBase
                 var fileInfo = new FileInfo(path);
                 if (fileInfo.Length < 1024)
                 {
-                    if (Debugger.IsAttached) { Debugger.Break(); }
+                    // if (Debugger.IsAttached) { Debugger.Break(); }
                     this.Logger.Warning("Model file is too small!");
                 }
             }
