@@ -188,11 +188,51 @@
 					x:Name="ToasterHost"
 					Grid.Column="1" Grid.Row="1"
 					VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-					> 			
-					<Grid
+					>
+          <Grid
 						x:Name="ShellViewContent"
 						VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-						/>
+						>
+            <!-- x = 100  y = 100 -->
+            <Canvas
+              Margin="200"              
+              >
+              <Path Stroke="Green" StrokeThickness="2">
+                <Path.Data>
+                  <PathGeometry>
+                    <PathGeometry.Figures>
+                      <PathFigure
+                        StartPoint="0,0"
+                        IsClosed="False"
+                        >
+                        <PathFigure.Segments>
+                          <PolyLineSegment                            
+                            Points="0,100 100,100 100,-0 100,-100 200,-100 200,0 200,100 300,100 300,0"/>
+                        </PathFigure.Segments>
+                      </PathFigure>
+                    </PathGeometry.Figures>
+                  </PathGeometry>
+                </Path.Data>
+              </Path>
+              <Path Stroke="Red" StrokeThickness="2">
+                <Path.Data>
+                  <PathGeometry>
+                    <PathGeometry.Figures>
+                      <PathFigure 
+                        StartPoint="0,0" 
+                        IsClosed="False"
+                        >
+                        <PathFigure.Segments>
+                          <PolyBezierSegment 
+                            Points="0,100 100,100 100,-0 100,-100 200,-100 200,0 200,100 300,100 300,0"/>
+                        </PathFigure.Segments>
+                      </PathFigure>
+                    </PathGeometry.Figures>
+                  </PathGeometry>
+                </Path.Data>
+              </Path>
+            </Canvas>          
+          </Grid>
 				</Grid>
 			</Grid>
 		</Grid>
