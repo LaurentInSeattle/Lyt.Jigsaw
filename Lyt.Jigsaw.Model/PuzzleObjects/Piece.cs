@@ -9,6 +9,7 @@ public sealed class Piece
         this.puzzle = puzzle;
         this.Position = new IntPosition(row, col)   ;
         this.Id = row * puzzle.Columns  + col ;
+        this.RotationAngle = puzzle.Randomizer.Next(puzzle.RotationSteps) * puzzle.RotationStepAngle; 
     }
 
     public int Id { get; private set; }
@@ -19,8 +20,6 @@ public sealed class Piece
 
     public int RotationAngle { get; set; }
 
-    public Group? MaybeGroup { get; set; }
-
     public int TopId { get; private set; }
 
     public int BottomId { get; private set; }
@@ -29,10 +28,12 @@ public sealed class Piece
     
     public int RightId { get; private set; }
 
+    public Group? MaybeGroup { get; set; }
+
     public Group Group 
         => this.MaybeGroup is not null ? 
             this.MaybeGroup : 
-            throw new Exception("Should have checked IsGrouped");
+            throw new Exception("Should have checked 'IsGrouped'.");
 
     public bool IsGrouped => this.MaybeGroup is not null;
 

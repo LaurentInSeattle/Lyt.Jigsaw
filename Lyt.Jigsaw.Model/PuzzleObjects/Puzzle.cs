@@ -3,11 +3,13 @@
 public sealed class Puzzle
 {
     private readonly Dictionary<int, PuzzleSetup> puzzleSetups;
+    internal readonly Randomizer Randomizer; 
 
-    public Puzzle(int height, int width, int rotationStep)
+    public Puzzle(int height, int width, int rotationSteps)
     {
         this.ImageSize = new(height, width);
-        this.RotationStep = rotationStep;
+        this.RotationSteps = rotationSteps;
+        this.Randomizer = new Randomizer(); 
         this.puzzleSetups = [];
         this.GenerateSetups();
     }
@@ -22,11 +24,15 @@ public sealed class Puzzle
 
     public int PieceOverlap { get; private set; }
 
-    public int RotationStep { get; private set; }
+    public int RotationSteps { get; private set; }
+
+    public int RotationStepAngle { get; private set; }
 
     public int PieceCount { get; private set; }
 
     public List<Group> Groups { get; private set; } = [];
+
+    public Dictionary<int, Group> GroupDictionary { get; private set; } = [];
 
     public List<Piece> Pieces { get; private set; } = [];
 
@@ -56,11 +62,11 @@ public sealed class Puzzle
         this.PieceCount = pieceCount;
         if (rotationSteps == 0)
         {
-            this.RotationStep = 0;
+            this.RotationStepAngle = 0;
         }
         else
         {
-            this.RotationStep = 360 / rotationSteps;
+            this.RotationStepAngle = 360 / rotationSteps;
         }
 
         this.CreatePieces();
