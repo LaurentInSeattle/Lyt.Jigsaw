@@ -43,6 +43,11 @@ public sealed class Puzzle
 
     public List<int> PieceCounts => [.. this.puzzleSetups.Keys];
 
+    public Piece FromId(int id)
+        => this.PieceDictionary.TryGetValue(id, out Piece? piece) && piece is not null ?
+                piece :
+                throw new ArgumentException("No such Piece Id "); 
+
     public bool Setup(int pieceCount, int rotationSteps)
     {
         if ((rotationSteps < 0) || (rotationSteps > 6))
@@ -96,5 +101,26 @@ public sealed class Puzzle
                 this.PieceDictionary.Add(piece.Id, piece);
             }
         }
-    } 
+
+        for (int row = 0; row < this.Rows; ++row)
+        {
+            for (int col = 0; col < this.Columns; ++col)
+            {
+                var piece = this.FromId(this.ToId(row, col));
+                piece.UpdateSides(); 
+            }
+        }
+
+        for (int row = 0; row < this.Rows; ++row)
+        {
+            for (int col = 0; col < this.Columns; ++col)
+            {
+                var piece = this.FromId(this.ToId(row, col));
+                if (piece.AnySideUnknown)
+                {
+                    throw new Exception("Failed to calculate sides"); 
+                }
+            }
+        }
+    }
 }

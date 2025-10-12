@@ -7,8 +7,28 @@ public sealed class Piece
     public Piece(Puzzle puzzle, int row, int col)
     {
         this.puzzle = puzzle;
-        this.Position = new IntPosition(row, col)   ;
-        this.Id = row * puzzle.Columns  + col ;
+        this.Position = new IntPosition(row, col);
+        this.Id = this.Position.ToId(puzzle);
+        if ( ! this.IsTop )
+        {
+            this.TopId = puzzle.ToId(row-1, col);
+        }
+
+        if (!this.IsBottom)
+        {
+            this.BottomId = puzzle.ToId(row + 1, col); 
+        }
+
+        if (!this.IsLeft)
+        {
+            this.LeftId = puzzle.ToId(row, col - 1);
+        }
+
+        if (!this.IsRight)
+        {
+            this.RightId = puzzle.ToId(row, col + 1);
+        }
+
         this.RotationAngle = puzzle.Randomizer.Next(puzzle.RotationSteps) * puzzle.RotationStepAngle; 
     }
 
@@ -28,6 +48,14 @@ public sealed class Piece
     
     public int RightId { get; private set; }
 
+    public SideKind TopSide { get; private set; }
+
+    public SideKind BottomSide { get; private set; }
+
+    public SideKind LeftSide { get; private set; }
+    
+    public SideKind RightSide { get; private set; }
+
     public Group? MaybeGroup { get; set; }
 
     public Group Group 
@@ -46,4 +74,96 @@ public sealed class Piece
     public bool IsLeft => this.Position.Column == 0;
     
     public bool IsRight => this.Position.Column == this.puzzle.Columns - 1;
+
+    public Piece GetTop ( )
+    {
+        if ( this.IsTop )
+        {
+            throw new Exception("Cant get Top neighbour of Top piece"); 
+        }
+
+        if (this.puzzle.PieceDictionary.TryGetValue( this.TopId, out var top ) && (top is not null))
+        {
+            return top;
+        }
+
+        throw new Exception("Failed to get Top neighbour of non-Top piece");
+    }
+
+    public Piece GetBottom()
+    {
+        if (this.IsBottom)
+        {
+            throw new Exception("Cant get Bottom neighbour of Bottom piece");
+        }
+
+        if (this.puzzle.PieceDictionary.TryGetValue(this.BottomId, out var bottom) && (bottom is not null))
+        {
+            return bottom;
+        }
+
+        throw new Exception("Failed to get Bottom neighbour of non-Bottom piece");
+    }
+
+    public Piece GetLeft()
+    {
+        if (this.IsLeft)
+        {
+            throw new Exception("Cant get Left neighbour of Left piece");
+        }
+
+        if (this.puzzle.PieceDictionary.TryGetValue(this.LeftId, out var left) && (left is not null))
+        {
+            return left;
+        }
+
+        throw new Exception("Failed to get Left neighbour of non-Left piece");
+    }
+
+    public Piece GetRight()
+    {
+        if (this.IsRight)
+        {
+            throw new Exception("Cant get Right neighbour of Right piece");
+        }
+
+        if (this.puzzle.PieceDictionary.TryGetValue(this.RightId, out var right) && (right is not null))
+        {
+            return right;
+        }
+
+        throw new Exception("Failed to get Right neighbour of non-Right piece");
+    }
+
+    internal void UpdateSides()
+    {
+        if ( this.IsTop)
+        {
+            this.TopSide = SideKind.Flat;
+        }
+        else
+        {
+            var top = this.GetTop();
+            this.TopSide = top.BottomSide == SideKind.Inside ? SideKind.Outside : SideKind.Inside;
+        }
+
+        if (this.IsLeft)
+        {
+            this.LeftSide = SideKind.Flat;
+        }
+        else
+        {
+            var left = this.GetLeft();
+            this.LeftSide = left.RightSide == SideKind.Inside ? SideKind.Outside : SideKind.Inside;
+        }
+
+        this.BottomSide = this.IsBottom ? SideKind.Flat : this.puzzle.RandomSide();
+        this.RightSide = this.IsRight ? SideKind.Flat : this.puzzle.RandomSide();
+    }
+
+    internal bool AnySideUnknown =>
+        this.TopSide == SideKind.Unknown ||
+        this.BottomSide == SideKind.Unknown ||
+        this.LeftSide == SideKind.Unknown ||
+        this.RightSide == SideKind.Unknown;
 }
