@@ -39,6 +39,7 @@
     <AvaloniaXaml Remove="Assets\Icons\Unused_FluentSvgResourceDictionaryCopy.axaml" />
     <AvaloniaXaml Remove="Assets\Languages\Lang_en-US.axaml" />
     <AvaloniaXaml Remove="Assets\Languages\Lang_fr-FR.axaml" />
+    <AvaloniaXaml Remove="Assets\Languages\Lang_it-IT.axaml" />
     <AvaloniaXaml Remove="Assets\Palette\DeepBluePalette.axaml" />
     <AvaloniaXaml Remove="Assets\Theme\AutoCompleteBoxStyles.axaml" />
     <AvaloniaXaml Remove="Assets\Theme\Buttons.axaml" />
@@ -86,6 +87,9 @@
       <SubType>Designer</SubType>
     </AvaloniaResource>
     <AvaloniaResource Update="Assets\Languages\Lang_fr-FR.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+    <AvaloniaResource Update="Assets\Languages\Lang_it-IT.axaml">
       <SubType>Designer</SubType>
     </AvaloniaResource>
     <AvaloniaResource Update="Assets\Palette\DeepBluePalette.axaml">
