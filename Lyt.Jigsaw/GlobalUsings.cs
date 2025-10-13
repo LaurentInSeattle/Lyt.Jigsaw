@@ -89,7 +89,8 @@ global using Lyt.Utilities.Randomizing;
 global using Lyt.Translator.Service;
 
 global using Lyt.Jigsaw.Model;
-//global using Lyt.Jigsaw.Model.DataObjects;
+global using Lyt.Jigsaw.Model.Infrastucture;
+global using Lyt.Jigsaw.Model.PuzzleObjects;
 global using Lyt.Jigsaw.Model.Messaging;
 
 
@@ -98,6 +99,8 @@ global using Lyt.Jigsaw.Model.Messaging;
 global using Lyt.Jigsaw.Messaging;
 //global using Lyt.Jigsaw.Service;
 global using Lyt.Jigsaw.Shell;
+global using Lyt.Jigsaw.Workflow.Game;
+
 //global using Lyt.Jigsaw.Utilities;
 //global using Lyt.Jigsaw.Workflow.Collection;
 //global using Lyt.Jigsaw.Workflow.Gallery;

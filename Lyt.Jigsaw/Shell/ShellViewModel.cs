@@ -1,7 +1,5 @@
 ﻿namespace Lyt.Jigsaw.Shell;
 
-using Lyt.Jigsaw.Model.PuzzleObjects;
-
 using static Messaging.ApplicationMessagingExtensions;
 
 public sealed partial class ShellViewModel 
@@ -88,7 +86,49 @@ public sealed partial class ShellViewModel
         var puzzle = new Puzzle(1080, 1920, 0);
         var counts = puzzle.PieceCounts;
         puzzle.Setup(counts[counts.Count / 2], rotationSteps :0 );
+        Schedule.OnUiThread(100, this.TestPoints, DispatcherPriority.Background);
     }
+
+    private void TestPoints()
+    {
+        List<Point> hpoints =
+        [
+            // Base
+            //new (0, 0),
+            //new (300, 20),
+            //new (350, -120),
+            //new (450, -120),
+            //new (500, 20),
+            //new (800, 0),
+
+            // Variant
+            new (0, 0),
+            new (300, 20),
+            new (350, -160),
+            new (450, -100),
+            new (500, 20),
+            new (800, 0),
+
+            // Variant
+            //new (0, 0),
+            //new (350, 20),
+            //new (350, -120),
+            //new (450, -120),
+            //new (480, 30),
+            //new (800, 0),
+        ];
+
+        List<Point> vpoints = [];
+        foreach (var point  in hpoints)
+        {
+            vpoints.Add(new Point(point.Y, point.X)); 
+        }
+
+        this.View.PathSegments.Data = GeometryGenerator.Segments(vpoints, isClosed: false);
+        this.View.PathPoints.Data = GeometryGenerator.BezierControlPoints(vpoints, isClosed: false);
+        this.View.PathCurve.Data = GeometryGenerator.CatmullRom(vpoints, isClosed: false);
+    }
+
 
     private async void ActivateInitialView()
     {

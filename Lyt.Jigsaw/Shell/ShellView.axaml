@@ -195,42 +195,21 @@
 						>
             <!-- x = 100  y = 100 -->
             <Canvas
-              Margin="200"              
+              x:Name="GameCanvas"
+              Margin="200 200 0 0"              
               >
-              <Path Stroke="Green" StrokeThickness="2">
-                <Path.Data>
-                  <PathGeometry>
-                    <PathGeometry.Figures>
-                      <PathFigure
-                        StartPoint="0,0"
-                        IsClosed="False"
-                        >
-                        <PathFigure.Segments>
-                          <PolyLineSegment                            
-                            Points="0,100 100,100 100,-0 100,-100 200,-100 200,0 200,100 300,100 300,0"/>
-                        </PathFigure.Segments>
-                      </PathFigure>
-                    </PathGeometry.Figures>
-                  </PathGeometry>
-                </Path.Data>
-              </Path>
-              <Path Stroke="Red" StrokeThickness="2">
-                <Path.Data>
-                  <PathGeometry>
-                    <PathGeometry.Figures>
-                      <PathFigure 
-                        StartPoint="0,0" 
-                        IsClosed="False"
-                        >
-                        <PathFigure.Segments>
-                          <PolyBezierSegment 
-                            Points="0,100 100,100 100,-0 100,-100 200,-100 200,0 200,100 300,100 300,0"/>
-                        </PathFigure.Segments>
-                      </PathFigure>
-                    </PathGeometry.Figures>
-                  </PathGeometry>
-                </Path.Data>
-              </Path>
+              <Path
+                x:Name="PathSegments"
+                Stroke="CornflowerBlue" StrokeThickness="2"
+                />
+              <Path 
+                x:Name="PathPoints"
+                Stroke="Green" StrokeThickness="2"
+                />
+              <Path
+                x:Name="PathCurve"
+                Stroke="Red" StrokeThickness="2"
+                />
             </Canvas>          
           </Grid>
 				</Grid>
