@@ -17,4 +17,5 @@ internal class Program
             .UsePlatformDetect()
             .WithInterFont()
             .LogToTrace();
+            //.WithDeveloperTools();
 }

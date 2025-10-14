@@ -1,15 +1,37 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Game;
 
-public class GeometryGenerator
+public static class GeometryGenerator
 {
-    public static PathGeometry CatmullRom(IList<Point> points, bool isClosed)
+    public static Geometry Combine(params IEnumerable<PathGeometry> pathGeometries)
+    {
+        var geometryGroup = new GeometryGroup();
+        foreach (var pathGeometry in pathGeometries)
+        {
+            geometryGroup.Children.Add(pathGeometry);
+        }
+
+        return geometryGroup;
+    }
+
+    public static List<Point> ToPoints(this IntPointList intPoints)
+    {
+        var points = new List<Point>();
+        foreach (var point in intPoints)
+        {
+            points.Add(new Point(point.X, point.Y));
+        }
+
+        return points;
+    }
+
+    public static PathGeometry CatmullRom(IList<Point> points, bool isClosed = false)
     {
         var geometry = new PathGeometry();
         using (var context = geometry.Open())
         {
             if (points == null || points.Count < 2)
             {
-                throw new ArgumentException("Points"); 
+                throw new ArgumentException("Points");
             }
 
             context.BeginFigure(points[0], false);
@@ -22,12 +44,12 @@ public class GeometryGenerator
                 Point p3 = (i == points.Count - 2) ? points[i + 1] : points[i + 2];
 
                 // Tangents at p1 and p2
-                Point t1 = new ((p2.X - p0.X) / 2, (p2.Y - p0.Y) / 2);
-                Point t2 = new ((p3.X - p1.X) / 2, (p3.Y - p1.Y) / 2);
+                Point t1 = new((p2.X - p0.X) / 2, (p2.Y - p0.Y) / 2);
+                Point t2 = new((p3.X - p1.X) / 2, (p3.Y - p1.Y) / 2);
 
                 // Convert Catmull-Rom to Cubic Bezier control points
-                Point control1 = new (p1.X + t1.X / 3, p1.Y + t1.Y / 3);
-                Point control2 = new (p2.X - t2.X / 3, p2.Y - t2.Y / 3);
+                Point control1 = new(p1.X + t1.X / 3, p1.Y + t1.Y / 3);
+                Point control2 = new(p2.X - t2.X / 3, p2.Y - t2.Y / 3);
 
                 context.CubicBezierTo(control1, control2, p2);
             }
@@ -41,7 +63,7 @@ public class GeometryGenerator
         return geometry;
     }
 
-    public static PathGeometry BezierControlPoints(IList<Point> points, bool isClosed)
+    public static PathGeometry BezierControlPoints(IList<Point> points, bool isClosed = false)
     {
         var geometry = new PathGeometry();
         using (var context = geometry.Open())
@@ -82,7 +104,7 @@ public class GeometryGenerator
         return geometry;
     }
 
-    public static PathGeometry Segments(IList<Point> points, bool isClosed)
+    public static PathGeometry Segments(IList<Point> points, bool isClosed = false)
     {
         var geometry = new PathGeometry();
         using (var context = geometry.Open())

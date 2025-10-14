@@ -198,6 +198,9 @@
               x:Name="GameCanvas"
               Margin="200 200 0 0"              
               >
+              <Image
+                x:Name ="Image"                
+								/>
               <Path
                 x:Name="PathSegments"
                 Stroke="CornflowerBlue" StrokeThickness="2"

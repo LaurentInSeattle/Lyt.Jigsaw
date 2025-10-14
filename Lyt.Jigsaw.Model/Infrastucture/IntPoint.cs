@@ -1,15 +1,9 @@
 ﻿namespace Lyt.Jigsaw.Model.Infrastucture; 
 
-public struct IntPoint
+public struct IntPoint(int x, int y)
 {
-    public IntPoint(int x, int y)
-    {
-        this.X = x; 
-        this.Y = y;
-    }
+    public int X { get; private set; } = x;
 
-    public int X { get; private set; }
-
-    public int Y { get; private set; }
+    public int Y { get; private set; } = y;
 }
 

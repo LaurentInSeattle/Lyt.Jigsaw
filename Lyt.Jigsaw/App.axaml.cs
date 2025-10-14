@@ -122,5 +122,11 @@ public partial class App : ApplicationBase
     }
 
     // Why does it need to be there ??? 
-    public override void Initialize() => AvaloniaXamlLoader.Load(this);
+    public override void Initialize()
+    {
+        AvaloniaXamlLoader.Load(this);
+#if DEBUG
+        this.AttachDevTools();
+#endif
+    } 
 }
