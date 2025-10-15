@@ -1,5 +1,7 @@
 ﻿namespace Lyt.Jigsaw.Shell;
 
+using Lyt.Avalonia.Controls.Images;
+
 using static Messaging.ApplicationMessagingExtensions;
 
 public sealed partial class ShellViewModel 
@@ -91,24 +93,39 @@ public sealed partial class ShellViewModel
 
     private void TestPoints()
     {
+
         ResourcesUtilities.SetResourcesPath("Lyt.Jigsaw.Resources");
         ResourcesUtilities.SetExecutingAssembly(Assembly.GetExecutingAssembly());
-        byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Bonheur_Matisse.jpg", out string? _);
-        var image = WriteableBitmap.DecodeToWidth(new MemoryStream(imageBytes), 2000, BitmapInterpolationMode.HighQuality);
-        var rectangleRoi = new PixelRect( 200, 200, 1000, 1000);
+        // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Bonheur_Matisse.jpg", out string? _);
+        byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Kauai.jpg", out string? _);
+        var image = WriteableBitmap.DecodeToWidth(new MemoryStream(imageBytes), 2600, BitmapInterpolationMode.HighQuality);
+        var rectangleRoi = new PixelRect( 200, 200, 1200, 1200);
         var cropped = new CroppedBitmap(image, rectangleRoi);
-        this.View.Image.Source = cropped; 
+        this.View.Image.Source = cropped;
 
         IntPointList hpoints =
         [
             // Variant
             new (0, 0),
             new (300, 20),
-            new (350, -160),
+            new (350, -180),
             new (450, -100),
             new (500, 20),
             new (800, 0),
         ];
+
+        IntPointList dummy =
+        [
+            new (0, 0),
+            new (0, 0),
+        ];
+
+        hpoints = hpoints.HorizontalOffset(200).VerticalOffset(200);
+        var dummyPoints = dummy.HorizontalOffset(200).VerticalOffset(200).ToPoints();
+        var topPoints = hpoints.ToPoints();
+        var rightPoints = hpoints.Swap().HorizontalOffset(800).ToPoints();
+        var bottomPoints = hpoints.VerticalOffset(800).ReverseOrder().ToPoints();
+        var leftPoints = hpoints.Swap().ReverseOrder().ToPoints();
 
         //var top = GeometryGenerator.BezierControlPoints(hpoints.ToPoints()); 
         //var right = GeometryGenerator.BezierControlPoints(hpoints.Swap().HorizontalOffset(800).ToPoints());
@@ -116,17 +133,28 @@ public sealed partial class ShellViewModel
         //var left = GeometryGenerator.BezierControlPoints(hpoints.Swap().ToPoints());
         //this.View.PathPoints.Data = GeometryGenerator.Combine(top, right, bottom,  left);
 
-        var top = GeometryGenerator.CatmullRom(hpoints.ToPoints());
-        var right = GeometryGenerator.CatmullRom(hpoints.Swap().HorizontalOffset(800).ToPoints());
-        var bottom = GeometryGenerator.CatmullRom(hpoints.VerticalOffset(800).ToPoints());
-        var left = GeometryGenerator.CatmullRom(hpoints.Swap().ToPoints());
-        var geometry = GeometryGenerator.Combine(top, right, bottom, left);
-        this.View.PathCurve.Data = geometry;
-        this.View.Image.Clip = geometry;
+        var top = GeometryGenerator.CatmullRom(topPoints);
+        var right = GeometryGenerator.CatmullRom(rightPoints);
+        var bottom = GeometryGenerator.CatmullRom(bottomPoints);
+        var left = GeometryGenerator.CatmullRom(leftPoints);
+        //var pathData = GeometryGenerator.Combine(top, right, bottom, left);
+
+        var rotateTransformImage = new RotateTransform() { Angle = 27 };
+        //this.View.PathCurve.Data = pathData;
+        //this.View.PathCurve.RenderTransform = rotateTransform;
+
+        var outerGeometry = new RectangleGeometry(new Rect(0, 0, 1200, 1200), 0, 0);
+        var innerGeometry = GeometryGenerator.Combine(topPoints, rightPoints, bottomPoints, leftPoints, dummyPoints);
+        this.View.PathCurve.Data = innerGeometry;
+        var clipGeometry = GeometryGenerator.InvertedClip(outerGeometry, innerGeometry);
+        this.View.Image.Clip = clipGeometry;
+        this.View.Image.RenderTransform= rotateTransformImage;
 
         // this.View.PathSegments.Data = GeometryGenerator.Segments(vpoints, isClosed: false);
         // this.View.PathPoints.Data = GeometryGenerator.BezierControlPoints(vpoints, isClosed: false);
         // this.View.PathCurve.Data = GeometryGenerator.CatmullRom(vpoints, isClosed: false);
+
+        //this.View.Image.Clip = new RectangleGeometry(new Rect(0, 0, 1000, 1000), 20, 20);
     }
 
 

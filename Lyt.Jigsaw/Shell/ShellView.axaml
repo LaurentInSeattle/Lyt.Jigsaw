@@ -187,19 +187,21 @@
 				<Grid
 					x:Name="ToasterHost"
 					Grid.Column="1" Grid.Row="1"
+          Margin="20 20 0 0"              
+          Background ="#A0202020"
 					VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 					>
           <Grid
 						x:Name="ShellViewContent"
 						VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 						>
-            <!-- x = 100  y = 100 -->
             <Canvas
               x:Name="GameCanvas"
-              Margin="200 200 0 0"              
+              Margin="0"              
               >
               <Image
-                x:Name ="Image"                
+                x:Name ="Image"
+                Width="1200" Height="1200"
 								/>
               <Path
                 x:Name="PathSegments"
@@ -212,6 +214,7 @@
               <Path
                 x:Name="PathCurve"
                 Stroke="Red" StrokeThickness="2"
+                Fill="Transparent"
                 />
             </Canvas>          
           </Grid>

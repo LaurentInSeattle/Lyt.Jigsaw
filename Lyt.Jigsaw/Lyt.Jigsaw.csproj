@@ -52,7 +52,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\Kauai.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="Resources\Images\Bonheur_Matisse.jpg" />
+    <EmbeddedResource Include="Resources\Images\Kauai.jpg" />
   </ItemGroup>
 
   <ItemGroup>

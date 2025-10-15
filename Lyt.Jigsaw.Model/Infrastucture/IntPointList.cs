@@ -40,6 +40,17 @@ public sealed class IntPointList : List<IntPoint> , IList<IntPoint>
         return points;
     }
 
+    public IntPointList ReverseOrder()
+    {
+        IntPointList points = [];
+        for(int i = 0; i < this.Count; ++ i)
+        {
+            points.Add(this[this.Count - 1 - i]);
+        }
+
+        return points;
+    }
+
     public IntPointList Swap()
     {
         IntPointList points = [];

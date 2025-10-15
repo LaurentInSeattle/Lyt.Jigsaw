@@ -24,16 +24,80 @@ public static class GeometryGenerator
         return points;
     }
 
-    public static PathGeometry CatmullRom(IList<Point> points, bool isClosed = false)
+    public static Geometry InvertedClip(Geometry outerGeometry, Geometry innerGeometry)
+        // Combine the two geometries with the 'Exclude' mode.
+        // This clips out the area of the second geometry from the first.
+        => new CombinedGeometry(GeometryCombineMode.Intersect, outerGeometry, innerGeometry);
+
+
+    public static Geometry Combine(params IEnumerable<IList<Point>> pointsLists)
     {
-        var geometry = new PathGeometry();
-        using (var context = geometry.Open())
+        if (pointsLists == null || !pointsLists.Any())
         {
-            if (points == null || points.Count < 2)
+            throw new ArgumentException("Points");
+        }
+
+        var pathGeometry = new PathGeometry() { Figures = [] };
+        var segment = new PolyBezierSegment { Points = [] };
+        var pathFigure = new PathFigure()
+        {
+            IsFilled = true,
+            IsClosed = false,
+            Segments = [],
+        };
+
+        foreach (var points in pointsLists)
+        {
+            if (points == null || points.Count <= 1)
             {
                 throw new ArgumentException("Points");
             }
 
+            pathFigure.StartPoint = points[0];
+
+            // Add Catmull Rom 
+            for (int i = 0; i < points.Count - 1; i++)
+            {
+                Point p0 = (i == 0) ? points[0] : points[i - 1];
+                Point p1 = points[i];
+                Point p2 = points[i + 1];
+                Point p3 = (i == points.Count - 2) ? points[i + 1] : points[i + 2];
+
+                // Tangents at p1 and p2
+                Point t1 = new((p2.X - p0.X) / 2, (p2.Y - p0.Y) / 2);
+                Point t2 = new((p3.X - p1.X) / 2, (p3.Y - p1.Y) / 2);
+
+                // Convert Catmull-Rom to Cubic Bezier control points
+                Point control1 = new(p1.X + t1.X / 3, p1.Y + t1.Y / 3);
+                Point control2 = new(p2.X - t2.X / 3, p2.Y - t2.Y / 3);
+
+                // context.CubicBezierTo(control1, control2, p2);
+                segment.Points.Add(control1);
+                segment.Points.Add(control2);
+                segment.Points.Add(p2);
+            }
+        }
+
+        //foreach (var p in segment.Points)
+        //{
+        //    Debug.WriteLine("X: {0:F1}  Y: {1:F1}", p.X, p.Y); 
+        //}
+
+        pathFigure.Segments.Add(segment);
+        pathGeometry.Figures.Add(pathFigure);
+        return pathGeometry;
+    }
+
+    public static PathGeometry CatmullRom(IList<Point> points, bool isFilled = false, bool isClosed = false)
+    {
+        if (points == null || points.Count < 2)
+        {
+            throw new ArgumentException("Points");
+        }
+
+        var geometry = new PathGeometry();
+        using (var context = geometry.Open())
+        {
             context.BeginFigure(points[0], false);
 
             for (int i = 0; i < points.Count - 1; i++)
@@ -54,10 +118,7 @@ public static class GeometryGenerator
                 context.CubicBezierTo(control1, control2, p2);
             }
 
-            if (isClosed)
-            {
-                context.EndFigure(true);
-            }
+            context.EndFigure(isClosed);
         }
 
         return geometry;
@@ -65,14 +126,14 @@ public static class GeometryGenerator
 
     public static PathGeometry BezierControlPoints(IList<Point> points, bool isClosed = false)
     {
+        if (points == null || points.Count < 2)
+        {
+            throw new ArgumentException("Points");
+        }
+
         var geometry = new PathGeometry();
         using (var context = geometry.Open())
         {
-            if (points == null || points.Count < 2)
-            {
-                throw new ArgumentException("Points");
-            }
-
             context.BeginFigure(points[0], false);
 
             for (int i = 0; i < points.Count - 1; i++)
@@ -106,14 +167,14 @@ public static class GeometryGenerator
 
     public static PathGeometry Segments(IList<Point> points, bool isClosed = false)
     {
+        if (points == null || points.Count < 2)
+        {
+            throw new ArgumentException("Points");
+        }
+
         var geometry = new PathGeometry();
         using (var context = geometry.Open())
         {
-            if (points == null || points.Count < 2)
-            {
-                throw new ArgumentException("Points");
-            }
-
             context.BeginFigure(points[0], false);
 
             for (int i = 1; i < points.Count - 1; ++i)
