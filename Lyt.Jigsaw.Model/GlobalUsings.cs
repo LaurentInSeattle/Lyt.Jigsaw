@@ -24,6 +24,7 @@ global using Lyt.Framework.Interfaces.Messaging;
 global using Lyt.Model;
 global using Lyt.Persistence;
 global using Lyt.Translator.Service;
+global using Lyt.Utilities.Profiling;
 global using Lyt.Utilities.Randomizing;
 
 

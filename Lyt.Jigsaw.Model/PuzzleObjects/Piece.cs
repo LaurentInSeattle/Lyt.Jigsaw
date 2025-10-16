@@ -152,8 +152,10 @@ public sealed class Piece
         }
         else
         {
-            var top = this.GetTop();
             this.TopSide = SideKind.Curved;
+            var top = this.GetTop();
+            var points = top.BottomPoints.ReverseOrder();
+            this.TopPoints = points.VerticalOffset(-1000).VerticalFlip().VerticalOffset(200); 
         }
 
         if (this.IsLeft)
@@ -163,19 +165,21 @@ public sealed class Piece
         }
         else
         {
-            var left = this.GetLeft();
             this.LeftSide = SideKind.Curved;
+            var left = this.GetLeft();
+            var points = left.RightPoints.ReverseOrder();
+            this.LeftPoints = points.HorizontalOffset(-1000).HorizontalFlip().HorizontalOffset(200); 
         }
 
         if ( this.IsBottom)
         {
             this.BottomSide = SideKind.Flat ;
-            this.BottomPoints = IntPointList.FlatPoints.VerticalOffset(1000).ReverseOrder();
+            this.BottomPoints = IntPointList.FlatPoints.HorizontalOffset(200).VerticalOffset(1000).ReverseOrder();
         }
         else
         {
             this.BottomSide = SideKind.Curved;
-            var bottom = this.GetBottom(); 
+            this.BottomPoints = IntPointList.RandomizeBasePoints().HorizontalOffset(200).VerticalOffset(1000).ReverseOrder();
         }
 
         if (this.IsRight)
@@ -186,15 +190,15 @@ public sealed class Piece
         else
         {
             this.RightSide = SideKind.Curved;
-            var right = this.GetRight();
+            this.RightPoints = IntPointList.RandomizeBasePoints().Swap().VerticalOffset(200).HorizontalOffset(1000);
         }
     }
 
     internal bool AnySideUnknown =>
-        //this.TopPoints.Count == 0 ||
-        //this.BottomPoints.Count == 0 ||
-        //this.LeftPoints.Count == 0 ||
-        //this.RightPoints.Count == 0 ||
+        this.TopPoints.Count == 0 ||
+        this.BottomPoints.Count == 0 ||
+        this.LeftPoints.Count == 0 ||
+        this.RightPoints.Count == 0 ||
         this.TopSide == SideKind.Unknown ||
         this.BottomSide == SideKind.Unknown ||
         this.LeftSide == SideKind.Unknown ||

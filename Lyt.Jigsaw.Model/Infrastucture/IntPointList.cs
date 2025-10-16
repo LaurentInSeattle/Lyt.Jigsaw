@@ -6,7 +6,7 @@ public sealed class IntPointList : List<IntPoint> , IList<IntPoint>
 
     static IntPointList() => IntPointList.randomizer = new Randomizer();
 
-    public static readonly List<IntPoint> HorizontalBasePoints =
+    public static readonly IntPointList HorizontalBasePoints =
     [
         // Base
         new (0, 0),

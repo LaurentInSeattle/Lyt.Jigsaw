@@ -85,9 +85,9 @@ public sealed partial class ShellViewModel
 
         this.Logger.Debug("OnViewLoaded complete");
 
-        var puzzle = new Puzzle(1080, 1920, 0);
+        var puzzle = new Puzzle(this.Logger, 1080, 1920, 0);
         var counts = puzzle.PieceCounts;
-        puzzle.Setup(counts[counts.Count / 2], rotationSteps :0 );
+        puzzle.Setup(counts[0], rotationSteps :0 );
         Schedule.OnUiThread(100, this.TestPoints, DispatcherPriority.Background);
     }
 

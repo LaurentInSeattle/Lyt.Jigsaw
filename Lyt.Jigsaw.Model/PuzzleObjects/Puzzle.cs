@@ -3,13 +3,17 @@
 public sealed class Puzzle
 {
     private readonly Dictionary<int, PuzzleSetup> puzzleSetups;
-    internal readonly Randomizer Randomizer; 
 
-    public Puzzle(int height, int width, int rotationSteps)
+    internal readonly Randomizer Randomizer;
+
+    private  readonly Profiler profiler;
+
+    public Puzzle(ILogger logger, int height, int width, int rotationSteps)
     {
         this.ImageSize = new(height, width);
         this.RotationSteps = rotationSteps;
         this.Randomizer = new Randomizer();
+        this.profiler = new Profiler(logger); 
         this.puzzleSetups = [];
         this.GenerateSetups();
     }
@@ -92,6 +96,8 @@ public sealed class Puzzle
 
     private void CreatePieces()
     {
+        this.profiler.StartTiming();
+
         for (int row = 0; row < this.Rows; ++row)
         {
             for (int col = 0; col < this.Columns; ++col)
@@ -101,7 +107,7 @@ public sealed class Puzzle
                 this.PieceDictionary.Add(piece.Id, piece);
             }
         }
-
+        
         for (int row = 0; row < this.Rows; ++row)
         {
             for (int col = 0; col < this.Columns; ++col)
@@ -110,6 +116,10 @@ public sealed class Puzzle
                 piece.UpdateSides(); 
             }
         }
+
+        // Measured at less of 12 ms in debug build for 180 pieces 
+        // Measured at less of 35 ms in debug build for 1920 pieces 
+        this.profiler.EndTiming("Creating point lists");
 
         for (int row = 0; row < this.Rows; ++row)
         {
