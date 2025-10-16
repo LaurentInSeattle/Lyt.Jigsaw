@@ -1,0 +1,27 @@
+﻿<UserControl
+	x:Class="Lyt.Jigsaw.Workflow.Game.PieceView"
+	xmlns:vm="clr-namespace:Lyt.Jigsaw.Workflow.Game"
+	x:DataType="vm:PieceViewModel"
+
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+
+	xmlns:glyphs="clr-namespace:Lyt.Avalonia.Controls.Glyphs;assembly=Lyt.Avalonia.Controls"
+	xmlns:panzoom="using:Lyt.Avalonia.Controls.PanZoom"
+	xmlns:interactions="using:Lyt.Avalonia.Mvvm.Behaviors"
+	xmlns:images="clr-namespace:Lyt.Avalonia.Controls.Images;assembly=Lyt.Avalonia.Controls"
+	xmlns:progress="clr-namespace:Lyt.Avalonia.Controls.Progress;assembly=Lyt.Avalonia.Controls"
+	
+	Background="Transparent"
+	>
+	<Image
+		x:Name="Image"
+    Source="{Binding CroppedBitmap}"
+    Clip="{Binding ClipGeometry}"
+    RenderTransform="{Binding RotationTransform}"
+		>
+	</Image>
+</UserControl>

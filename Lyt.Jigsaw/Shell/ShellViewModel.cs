@@ -1,6 +1,7 @@
 ﻿namespace Lyt.Jigsaw.Shell;
 
 using Lyt.Avalonia.Controls.Images;
+using Lyt.Mvvm;
 
 using static Messaging.ApplicationMessagingExtensions;
 
@@ -81,109 +82,59 @@ public sealed partial class ShellViewModel
 
         // Delay a bit the launch of the gallery so that there is time to ping 
         //this.Logger.Debug("OnViewLoaded: Internet connected: " + this.jigsawModel.IsInternetConnected);
-        //Schedule.OnUiThread(100, this.ActivateInitialView, DispatcherPriority.Background);
+        Schedule.OnUiThread(100, this.ActivateInitialView, DispatcherPriority.Background);
 
         this.Logger.Debug("OnViewLoaded complete");
 
-        var puzzle = new Puzzle(this.Logger, 1080, 1920, 0);
-        var counts = puzzle.PieceCounts;
-        puzzle.Setup(counts[0], rotationSteps :0 );
-        Schedule.OnUiThread(100, this.TestPoints, DispatcherPriority.Background);
+        // Schedule.OnUiThread(100, this.TestPoints, DispatcherPriority.Background);
     }
 
-    private void TestPoints()
+    private async void ActivateInitialView()
     {
+        Select(ActivatedView.Puzzle);
+        this.TestStart();
 
+        //this.isFirstActivation = true;
+        //if (this.jigsawModel.IsFirstRun)
+        //{
+        //    Select(ActivatedView.Language);
+        //}
+        //else
+        //{
+        //    //int retries = 3;
+        //    //while (retries > 0)
+        //    //{
+        //    //    this.Logger.Debug("ActivateInitialView: Internet connected: " + this.jigsawModel.IsInternetConnected);
+        //    //    if (this.jigsawModel.IsInternetConnected)
+        //    //    {
+        //    //        Select(ActivatedView.Puzzle);
+        //    //        this.Logger.Debug("OnViewLoaded OnViewActivation complete");
+        //    //        return;
+        //    //    }
+
+        //    //    await Task.Delay(100);
+        //    //    --retries;
+        //    //}
+        //}
+
+        this.Logger.Debug("OnViewLoaded OnViewActivation complete");
+    }
+
+    private void TestStart()
+    {
         ResourcesUtilities.SetResourcesPath("Lyt.Jigsaw.Resources");
         ResourcesUtilities.SetExecutingAssembly(Assembly.GetExecutingAssembly());
         // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Bonheur_Matisse.jpg", out string? _);
         byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Kauai.jpg", out string? _);
-        var image = WriteableBitmap.DecodeToWidth(new MemoryStream(imageBytes), 2600, BitmapInterpolationMode.HighQuality);
-        var rectangleRoi = new PixelRect( 200, 200, 1200, 1200);
-        var cropped = new CroppedBitmap(image, rectangleRoi);
-        this.View.Image.Source = cropped;
+        var image = WriteableBitmap.DecodeToWidth(new MemoryStream(imageBytes), 1600, BitmapInterpolationMode.HighQuality);
+        //var rectangleRoi = new PixelRect(200, 200, 1200, 1200);
+        //var cropped = new CroppedBitmap(image, rectangleRoi);
+        //this.View.Image.Source = cropped;
 
-        var hpoints = IntPointList.RandomizeBasePoints(); 
-        hpoints = hpoints.HorizontalOffset(200).VerticalOffset(200);
-        var flatPoints = IntPointList.FlatPoints.HorizontalOffset(200).VerticalOffset(200);
-        var dummyPoints = IntPointList.DummyPoints.HorizontalOffset(200).VerticalOffset(200).ToPoints();
-        var topPoints = hpoints.ToPoints();
-        // var topPoints = flatPoints.ToPoints();
-
-        hpoints = IntPointList.RandomizeBasePoints();
-        hpoints = hpoints.VerticalFlip(); 
-        hpoints = hpoints.HorizontalOffset(200).VerticalOffset(200);
-        var rPoints = IntPointList.FlatPoints.Swap().VerticalOffset(200).HorizontalOffset(1000);
-        var rightPoints = rPoints.ToPoints();
-        // var rightPoints = hpoints.Swap().HorizontalOffset(800).ToPoints();
-
-        hpoints = IntPointList.RandomizeBasePoints();
-        hpoints = hpoints.HorizontalOffset(200).VerticalOffset(200);
-        var bottomPoints = hpoints.VerticalOffset(800).ReverseOrder().ToPoints();
-
-        hpoints = IntPointList.RandomizeBasePoints();
-        hpoints = hpoints.HorizontalOffset(200).VerticalOffset(200);
-        var leftPoints = IntPointList.FlatPoints.HorizontalOffset(200).VerticalOffset(200).Swap().ReverseOrder().ToPoints();
-        // var leftPoints = hpoints.Swap().ReverseOrder().ToPoints();
-
-        //var top = GeometryGenerator.BezierControlPoints(hpoints.ToPoints()); 
-        //var right = GeometryGenerator.BezierControlPoints(hpoints.Swap().HorizontalOffset(800).ToPoints());
-        //var bottom = GeometryGenerator.BezierControlPoints(hpoints.VerticalOffset(800).ToPoints());
-        //var left = GeometryGenerator.BezierControlPoints(hpoints.Swap().ToPoints());
-        //this.View.PathPoints.Data = GeometryGenerator.Combine(top, right, bottom,  left);
-
-        var top = GeometryGenerator.CatmullRom(topPoints);
-        var right = GeometryGenerator.CatmullRom(rightPoints);
-        var bottom = GeometryGenerator.CatmullRom(bottomPoints);
-        var left = GeometryGenerator.CatmullRom(leftPoints);
-        //var pathData = GeometryGenerator.Combine(top, right, bottom, left);
-
-        var rotateTransformImage = new RotateTransform() { Angle = 17 };
-        //this.View.PathCurve.Data = pathData;
-        //this.View.PathCurve.RenderTransform = rotateTransform;
-
-        var outerGeometry = new RectangleGeometry(new Rect(0, 0, 1200, 1200), 0, 0);
-        var innerGeometry = GeometryGenerator.Combine(topPoints, rightPoints, bottomPoints, leftPoints, dummyPoints);
-        this.View.PathCurve.Data = innerGeometry;
-        var clipGeometry = GeometryGenerator.InvertedClip(outerGeometry, innerGeometry);
-        this.View.Image.Clip = clipGeometry;
-        this.View.Image.RenderTransform= rotateTransformImage;
-
-        // this.View.PathSegments.Data = GeometryGenerator.Segments(vpoints, isClosed: false);
-        // this.View.PathPoints.Data = GeometryGenerator.BezierControlPoints(vpoints, isClosed: false);
-        // this.View.PathCurve.Data = GeometryGenerator.CatmullRom(vpoints, isClosed: false);
-
-        //this.View.Image.Clip = new RectangleGeometry(new Rect(0, 0, 1000, 1000), 20, 20);
-    }
-
-
-    private async void ActivateInitialView()
-    {
-        this.isFirstActivation = true;
-
-        if (this.jigsawModel.IsFirstRun)
-        {
-            Select(ActivatedView.Language);
-        }
-        else
-        {
-            int retries = 3;
-            while (retries > 0)
-            {
-                this.Logger.Debug("ActivateInitialView: Internet connected: " + this.jigsawModel.IsInternetConnected);
-                if (this.jigsawModel.IsInternetConnected)
-                {
-                    Select(ActivatedView.Gallery);
-                    this.Logger.Debug("OnViewLoaded OnViewActivation complete");
-                    return;
-                }
-
-                await Task.Delay(100);
-                --retries;
-            }
-        }
-
-        this.Logger.Debug("OnViewLoaded OnViewActivation complete");
+        var puzzle = new Puzzle(this.Logger, image.PixelSize.Height, image.PixelSize.Width, 0);
+        var counts = puzzle.PieceCounts;
+        var vm = App.GetRequiredService<PuzzleViewModel>();
+        vm.Start(image, counts[counts.Count-1], rotationSteps: 0); 
     }
 
     private void SetupWorkflow()
@@ -210,8 +161,17 @@ public sealed partial class ShellViewModel
                 new SelectableView<ActivatedView>(activatedView, vm, control, vmToolbar));
         }
 
-        //Setup<GalleryViewModel, GalleryView, GalleryToolbarViewModel, GalleryToolbarView>(
-        //    ActivatedView.Gallery, view.TodayButton);
+        void SetupNoToolbar<TViewModel, TControl>(
+                ActivatedView activatedView, Control control)
+            where TViewModel : ViewModel<TControl>
+            where TControl : Control, IView, new()
+        {
+            var vm = App.GetRequiredService<TViewModel>();
+            vm.CreateViewAndBind();
+            selectableViews.Add(new SelectableView<ActivatedView>(activatedView, vm));
+        }
+
+        SetupNoToolbar<PuzzleViewModel, PuzzleView>(ActivatedView.Puzzle, view.TodayButton);
 
         //Setup<CollectionViewModel, CollectionView, CollectionToolbarViewModel, CollectionToolbarView>(
         //    ActivatedView.Collection, view.CollectionButton);
@@ -261,7 +221,7 @@ public sealed partial class ShellViewModel
 #pragma warning disable CA1822 // Mark members as static
 
     [RelayCommand]
-    public void OnToday() => Select(ActivatedView.Gallery);
+    public void OnToday() => Select(ActivatedView.Puzzle);
 
     [RelayCommand]
     public void OnCollection() => Select(ActivatedView.Collection);
@@ -285,4 +245,73 @@ public sealed partial class ShellViewModel
     }
 #pragma warning restore CA1822
 #pragma warning restore IDE0079
+
+    // TODO : Delete later 
+    private void TestPoints()
+    {
+        ResourcesUtilities.SetResourcesPath("Lyt.Jigsaw.Resources");
+        ResourcesUtilities.SetExecutingAssembly(Assembly.GetExecutingAssembly());
+        // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Bonheur_Matisse.jpg", out string? _);
+        byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Kauai.jpg", out string? _);
+        var image = WriteableBitmap.DecodeToWidth(new MemoryStream(imageBytes), 2600, BitmapInterpolationMode.HighQuality);
+        var rectangleRoi = new PixelRect(200, 200, 1200, 1200);
+        var cropped = new CroppedBitmap(image, rectangleRoi);
+        // this.View.Image.Source = cropped;
+
+        var puzzle = new Puzzle(this.Logger, 1080, 1920, 0);
+        var counts = puzzle.PieceCounts;
+        puzzle.Setup(counts[0], rotationSteps: 0);
+
+        var hpoints = IntPointList.RandomizeBasePoints();
+        hpoints = hpoints.HorizontalOffset(200).VerticalOffset(200);
+        var flatPoints = IntPointList.FlatPoints.HorizontalOffset(200).VerticalOffset(200);
+        var dummyPoints = IntPointList.DummyPoints.HorizontalOffset(200).VerticalOffset(200).ToPoints();
+        var topPoints = hpoints.ToPoints();
+        // var topPoints = flatPoints.ToPoints();
+
+        hpoints = IntPointList.RandomizeBasePoints();
+        hpoints = hpoints.VerticalFlip();
+        hpoints = hpoints.HorizontalOffset(200).VerticalOffset(200);
+        var rPoints = IntPointList.FlatPoints.Swap().VerticalOffset(200).HorizontalOffset(1000);
+        var rightPoints = rPoints.ToPoints();
+        // var rightPoints = hpoints.Swap().HorizontalOffset(800).ToPoints();
+
+        hpoints = IntPointList.RandomizeBasePoints();
+        hpoints = hpoints.HorizontalOffset(200).VerticalOffset(200);
+        var bottomPoints = hpoints.VerticalOffset(800).ReverseOrder().ToPoints();
+
+        hpoints = IntPointList.RandomizeBasePoints();
+        hpoints = hpoints.HorizontalOffset(200).VerticalOffset(200);
+        var leftPoints = IntPointList.FlatPoints.HorizontalOffset(200).VerticalOffset(200).Swap().ReverseOrder().ToPoints();
+        // var leftPoints = hpoints.Swap().ReverseOrder().ToPoints();
+
+        //var top = GeometryGenerator.BezierControlPoints(hpoints.ToPoints()); 
+        //var right = GeometryGenerator.BezierControlPoints(hpoints.Swap().HorizontalOffset(800).ToPoints());
+        //var bottom = GeometryGenerator.BezierControlPoints(hpoints.VerticalOffset(800).ToPoints());
+        //var left = GeometryGenerator.BezierControlPoints(hpoints.Swap().ToPoints());
+        //this.View.PathPoints.Data = GeometryGenerator.Combine(top, right, bottom,  left);
+
+        var top = GeometryGenerator.CatmullRom(topPoints);
+        var right = GeometryGenerator.CatmullRom(rightPoints);
+        var bottom = GeometryGenerator.CatmullRom(bottomPoints);
+        var left = GeometryGenerator.CatmullRom(leftPoints);
+        //var pathData = GeometryGenerator.Combine(top, right, bottom, left);
+
+        var rotateTransformImage = new RotateTransform() { Angle = 17 };
+        //this.View.PathCurve.Data = pathData;
+        //this.View.PathCurve.RenderTransform = rotateTransform;
+
+        var outerGeometry = new RectangleGeometry(new Rect(0, 0, 1200, 1200), 0, 0);
+        var innerGeometry = GeometryGenerator.Combine(topPoints, rightPoints, bottomPoints, leftPoints, dummyPoints);
+        // this.View.PathCurve.Data = innerGeometry;
+        var clipGeometry = GeometryGenerator.InvertedClip(outerGeometry, innerGeometry);
+        // this.View.Image.Clip = clipGeometry;
+        // this.View.Image.RenderTransform = rotateTransformImage;
+
+        // this.View.PathSegments.Data = GeometryGenerator.Segments(vpoints, isClosed: false);
+        // this.View.PathPoints.Data = GeometryGenerator.BezierControlPoints(vpoints, isClosed: false);
+        // this.View.PathCurve.Data = GeometryGenerator.CatmullRom(vpoints, isClosed: false);
+
+        //this.View.Image.Clip = new RectangleGeometry(new Rect(0, 0, 1000, 1000), 20, 20);
+    }
 }

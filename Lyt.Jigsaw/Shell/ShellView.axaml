@@ -195,28 +195,6 @@
 						x:Name="ShellViewContent"
 						VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 						>
-            <Canvas
-              x:Name="GameCanvas"
-              Margin="0"              
-              >
-              <Image
-                x:Name ="Image"
-                Width="1200" Height="1200"
-								/>
-              <Path
-                x:Name="PathSegments"
-                Stroke="CornflowerBlue" StrokeThickness="2"
-                />
-              <Path 
-                x:Name="PathPoints"
-                Stroke="Green" StrokeThickness="2"
-                />
-              <Path
-                x:Name="PathCurve"
-                Stroke="Red" StrokeThickness="2"
-                Fill="Transparent"
-                />
-            </Canvas>          
           </Grid>
 				</Grid>
 			</Grid>

@@ -53,6 +53,17 @@
 
   <ItemGroup>
     <None Remove="Resources\Images\Kauai.jpg" />
+    <None Remove="Workflow\Game\PieceView.xaml" />
+    <None Remove="Workflow\Game\PuzzleView.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaXaml Include="Workflow\Game\PieceView.xaml">
+      <Generator></Generator>
+    </AvaloniaXaml>
+    <AvaloniaXaml Include="Workflow\Game\PuzzleView.xaml">
+      <Generator></Generator>
+    </AvaloniaXaml>
   </ItemGroup>
 
   <ItemGroup>

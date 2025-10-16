@@ -2,11 +2,11 @@
 
 public sealed class Piece
 {
-    private readonly Puzzle puzzle; 
+    public readonly Puzzle Puzzle; 
 
     public Piece(Puzzle puzzle, int row, int col)
     {
-        this.puzzle = puzzle;
+        this.Puzzle = puzzle;
         this.Position = new IntPosition(row, col);
         this.Id = this.Position.ToId(puzzle);
         if ( ! this.IsTop )
@@ -77,11 +77,11 @@ public sealed class Piece
 
     public bool IsTop => this.Position.Row == 0;
 
-    public bool IsBottom => this.Position.Row == this.puzzle.Rows - 1;
+    public bool IsBottom => this.Position.Row == this.Puzzle.Rows - 1;
     
     public bool IsLeft => this.Position.Column == 0;
     
-    public bool IsRight => this.Position.Column == this.puzzle.Columns - 1;
+    public bool IsRight => this.Position.Column == this.Puzzle.Columns - 1;
 
     public Piece GetTop ( )
     {
@@ -90,7 +90,7 @@ public sealed class Piece
             throw new Exception("Cant get Top neighbour of Top piece"); 
         }
 
-        if (this.puzzle.PieceDictionary.TryGetValue( this.TopId, out var top ) && (top is not null))
+        if (this.Puzzle.PieceDictionary.TryGetValue( this.TopId, out var top ) && (top is not null))
         {
             return top;
         }
@@ -105,7 +105,7 @@ public sealed class Piece
             throw new Exception("Cant get Bottom neighbour of Bottom piece");
         }
 
-        if (this.puzzle.PieceDictionary.TryGetValue(this.BottomId, out var bottom) && (bottom is not null))
+        if (this.Puzzle.PieceDictionary.TryGetValue(this.BottomId, out var bottom) && (bottom is not null))
         {
             return bottom;
         }
@@ -120,7 +120,7 @@ public sealed class Piece
             throw new Exception("Cant get Left neighbour of Left piece");
         }
 
-        if (this.puzzle.PieceDictionary.TryGetValue(this.LeftId, out var left) && (left is not null))
+        if (this.Puzzle.PieceDictionary.TryGetValue(this.LeftId, out var left) && (left is not null))
         {
             return left;
         }
@@ -135,7 +135,7 @@ public sealed class Piece
             throw new Exception("Cant get Right neighbour of Right piece");
         }
 
-        if (this.puzzle.PieceDictionary.TryGetValue(this.RightId, out var right) && (right is not null))
+        if (this.Puzzle.PieceDictionary.TryGetValue(this.RightId, out var right) && (right is not null))
         {
             return right;
         }
