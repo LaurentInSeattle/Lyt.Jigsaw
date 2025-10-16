@@ -103,29 +103,28 @@ public sealed partial class ShellViewModel
         var cropped = new CroppedBitmap(image, rectangleRoi);
         this.View.Image.Source = cropped;
 
-        IntPointList hpoints =
-        [
-            // Variant
-            new (0, 0),
-            new (300, 20),
-            new (350, -180),
-            new (450, -100),
-            new (500, 20),
-            new (800, 0),
-        ];
-
-        IntPointList dummy =
-        [
-            new (0, 0),
-            new (0, 0),
-        ];
-
+        var hpoints = IntPointList.RandomizeBasePoints(); 
         hpoints = hpoints.HorizontalOffset(200).VerticalOffset(200);
-        var dummyPoints = dummy.HorizontalOffset(200).VerticalOffset(200).ToPoints();
+        var flatPoints = IntPointList.FlatPoints.HorizontalOffset(200).VerticalOffset(200);
+        var dummyPoints = IntPointList.DummyPoints.HorizontalOffset(200).VerticalOffset(200).ToPoints();
         var topPoints = hpoints.ToPoints();
-        var rightPoints = hpoints.Swap().HorizontalOffset(800).ToPoints();
+        // var topPoints = flatPoints.ToPoints();
+
+        hpoints = IntPointList.RandomizeBasePoints();
+        hpoints = hpoints.VerticalFlip(); 
+        hpoints = hpoints.HorizontalOffset(200).VerticalOffset(200);
+        var rPoints = IntPointList.FlatPoints.Swap().VerticalOffset(200).HorizontalOffset(1000);
+        var rightPoints = rPoints.ToPoints();
+        // var rightPoints = hpoints.Swap().HorizontalOffset(800).ToPoints();
+
+        hpoints = IntPointList.RandomizeBasePoints();
+        hpoints = hpoints.HorizontalOffset(200).VerticalOffset(200);
         var bottomPoints = hpoints.VerticalOffset(800).ReverseOrder().ToPoints();
-        var leftPoints = hpoints.Swap().ReverseOrder().ToPoints();
+
+        hpoints = IntPointList.RandomizeBasePoints();
+        hpoints = hpoints.HorizontalOffset(200).VerticalOffset(200);
+        var leftPoints = IntPointList.FlatPoints.HorizontalOffset(200).VerticalOffset(200).Swap().ReverseOrder().ToPoints();
+        // var leftPoints = hpoints.Swap().ReverseOrder().ToPoints();
 
         //var top = GeometryGenerator.BezierControlPoints(hpoints.ToPoints()); 
         //var right = GeometryGenerator.BezierControlPoints(hpoints.Swap().HorizontalOffset(800).ToPoints());
@@ -139,7 +138,7 @@ public sealed partial class ShellViewModel
         var left = GeometryGenerator.CatmullRom(leftPoints);
         //var pathData = GeometryGenerator.Combine(top, right, bottom, left);
 
-        var rotateTransformImage = new RotateTransform() { Angle = 27 };
+        var rotateTransformImage = new RotateTransform() { Angle = 17 };
         //this.View.PathCurve.Data = pathData;
         //this.View.PathCurve.RenderTransform = rotateTransform;
 

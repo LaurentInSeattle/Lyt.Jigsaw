@@ -9,7 +9,7 @@ public sealed class Puzzle
     {
         this.ImageSize = new(height, width);
         this.RotationSteps = rotationSteps;
-        this.Randomizer = new Randomizer(); 
+        this.Randomizer = new Randomizer();
         this.puzzleSetups = [];
         this.GenerateSetups();
     }

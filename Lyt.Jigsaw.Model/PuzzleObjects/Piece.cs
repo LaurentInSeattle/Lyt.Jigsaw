@@ -48,6 +48,14 @@ public sealed class Piece
     
     public int RightId { get; private set; }
 
+    public IntPointList TopPoints { get; private set; } = [];
+
+    public IntPointList BottomPoints { get; private set; } = [];
+
+    public IntPointList LeftPoints { get; private set; } = [];
+
+    public IntPointList RightPoints { get; private set; } = [];
+
     public SideKind TopSide { get; private set; }
 
     public SideKind BottomSide { get; private set; }
@@ -140,28 +148,53 @@ public sealed class Piece
         if ( this.IsTop)
         {
             this.TopSide = SideKind.Flat;
+            this.TopPoints = IntPointList.FlatPoints.HorizontalOffset(200).VerticalOffset(200);
         }
         else
         {
             var top = this.GetTop();
-            this.TopSide = top.BottomSide == SideKind.Inside ? SideKind.Outside : SideKind.Inside;
+            this.TopSide = SideKind.Curved;
         }
 
         if (this.IsLeft)
         {
             this.LeftSide = SideKind.Flat;
+            this.LeftPoints = IntPointList.FlatPoints.Swap().HorizontalOffset(200).VerticalOffset(200).ReverseOrder();
         }
         else
         {
             var left = this.GetLeft();
-            this.LeftSide = left.RightSide == SideKind.Inside ? SideKind.Outside : SideKind.Inside;
+            this.LeftSide = SideKind.Curved;
         }
 
-        this.BottomSide = this.IsBottom ? SideKind.Flat : this.puzzle.RandomSide();
-        this.RightSide = this.IsRight ? SideKind.Flat : this.puzzle.RandomSide();
+        if ( this.IsBottom)
+        {
+            this.BottomSide = SideKind.Flat ;
+            this.BottomPoints = IntPointList.FlatPoints.VerticalOffset(1000).ReverseOrder();
+        }
+        else
+        {
+            this.BottomSide = SideKind.Curved;
+            var bottom = this.GetBottom(); 
+        }
+
+        if (this.IsRight)
+        {
+            this.RightSide = SideKind.Flat;
+            this.RightPoints = IntPointList.FlatPoints.Swap().VerticalOffset(200).HorizontalOffset(1000);
+        }
+        else
+        {
+            this.RightSide = SideKind.Curved;
+            var right = this.GetRight();
+        }
     }
 
     internal bool AnySideUnknown =>
+        //this.TopPoints.Count == 0 ||
+        //this.BottomPoints.Count == 0 ||
+        //this.LeftPoints.Count == 0 ||
+        //this.RightPoints.Count == 0 ||
         this.TopSide == SideKind.Unknown ||
         this.BottomSide == SideKind.Unknown ||
         this.LeftSide == SideKind.Unknown ||

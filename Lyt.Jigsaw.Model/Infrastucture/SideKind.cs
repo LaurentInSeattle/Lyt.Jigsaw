@@ -4,6 +4,5 @@ public enum SideKind
 {
     Unknown, 
     Flat, 
-    Outside, 
-    Inside,
+    Curved,
 }

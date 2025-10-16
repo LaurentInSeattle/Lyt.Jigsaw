@@ -7,8 +7,5 @@ public static class PuzzleExtensions
 
     public static int ToId(this Puzzle puzzle, int row, int column)
         => row * puzzle.Columns + column;
-
-    public static SideKind RandomSide(this Puzzle puzzle)
-        => puzzle.Randomizer.NextBool() ? SideKind.Outside : SideKind.Inside;
 }
 
