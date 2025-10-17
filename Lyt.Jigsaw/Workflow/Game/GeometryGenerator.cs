@@ -2,17 +2,6 @@
 
 public static class GeometryGenerator
 {
-    public static Geometry Combine(params IEnumerable<PathGeometry> pathGeometries)
-    {
-        var geometryGroup = new GeometryGroup();
-        foreach (var pathGeometry in pathGeometries)
-        {
-            geometryGroup.Children.Add(pathGeometry);
-        }
-
-        return geometryGroup;
-    }
-
     public static List<Point> ToPoints(this IntPointList intPoints)
     {
         var points = new List<Point>();
@@ -24,11 +13,20 @@ public static class GeometryGenerator
         return points;
     }
 
-    public static Geometry InvertedClip(Geometry outerGeometry, Geometry innerGeometry)
-        // Combine the two geometries with the 'Exclude' mode.
-        // This clips out the area of the second geometry from the first.
-        => new CombinedGeometry(GeometryCombineMode.Intersect, outerGeometry, innerGeometry);
+    public static List<Point> ToScaledPoints(this IntPointList intPoints, double scale)
+    {
+        var points = new List<Point>();
+        foreach (var point in intPoints)
+        {
+            points.Add(new Point(point.X, point.Y) * scale);
+        }
 
+        return points;
+    }
+
+    // Combine the two geometries with the 'Intersect' mode.
+    public static Geometry InvertedClip(Geometry outerGeometry, Geometry innerGeometry)
+        => new CombinedGeometry(GeometryCombineMode.Intersect, outerGeometry, innerGeometry);
 
     public static Geometry Combine(params IEnumerable<IList<Point>> pointsLists)
     {
@@ -53,9 +51,8 @@ public static class GeometryGenerator
                 throw new ArgumentException("Points");
             }
 
+            // Convert Catmull-Rom to Cubic Bezier control points
             pathFigure.StartPoint = points[0];
-
-            // Add Catmull Rom 
             for (int i = 0; i < points.Count - 1; i++)
             {
                 Point p0 = (i == 0) ? points[0] : points[i - 1];
@@ -78,15 +75,12 @@ public static class GeometryGenerator
             }
         }
 
-        //foreach (var p in segment.Points)
-        //{
-        //    Debug.WriteLine("X: {0:F1}  Y: {1:F1}", p.X, p.Y); 
-        //}
-
         pathFigure.Segments.Add(segment);
         pathGeometry.Figures.Add(pathFigure);
         return pathGeometry;
     }
+
+    #region Unused - Keep for now 
 
     public static PathGeometry CatmullRom(IList<Point> points, bool isFilled = false, bool isClosed = false)
     {
@@ -190,4 +184,17 @@ public static class GeometryGenerator
 
         return geometry;
     }
+
+    public static Geometry Combine(params IEnumerable<PathGeometry> pathGeometries)
+    {
+        var geometryGroup = new GeometryGroup();
+        foreach (var pathGeometry in pathGeometries)
+        {
+            geometryGroup.Children.Add(pathGeometry);
+        }
+
+        return geometryGroup;
+    }
+    
+    #endregion Unused 
 }

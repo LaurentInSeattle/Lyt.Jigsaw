@@ -8,4 +8,3 @@ public static class PuzzleExtensions
     public static int ToId(this Puzzle puzzle, int row, int column)
         => row * puzzle.Columns + column;
 }
-

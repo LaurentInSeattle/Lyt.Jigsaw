@@ -25,8 +25,8 @@ public sealed class IntPointList : List<IntPoint> , IList<IntPoint>
 
     public static readonly IntPointList DummyPoints =
     [
-        new (0, 0),
-        new (0, 0),
+        new (200, 200),
+        new (200, 200),
     ];
 
     public static IntPointList RandomizeBasePoints()
@@ -44,16 +44,16 @@ public sealed class IntPointList : List<IntPoint> , IList<IntPoint>
 
         IntPoint p2 = HorizontalBasePoints[2];
         bool randX2 = randomizer.NextBool();
-        int x2 = randX2 ? p2.X + randomizer.Next(-30, 30) : p2.X;
+        int x2 = randX2 ? p2.X + randomizer.Next(-40, 40) : p2.X;
         bool randY2 = randomizer.NextBool();
-        int y2 = randY2 ? p2.Y + randomizer.Next(-50, 10) : p2.Y;
+        int y2 = randY2 ? p2.Y + randomizer.Next(-80, 10) : p2.Y;
         points.Add(new IntPoint(x2, y2));
 
         IntPoint p3 = HorizontalBasePoints[3];
         bool randX3 = randomizer.NextBool();
-        int x3 = randX3 ? p3.X + randomizer.Next(-30, 30) : p3.X;
+        int x3 = randX3 ? p3.X + randomizer.Next(-40, 40) : p3.X;
         bool randY3 = randomizer.NextBool();
-        int y3 = randY3 ? p3.Y + randomizer.Next(-50, 10) : p3.Y;
+        int y3 = randY3 ? p3.Y + randomizer.Next(-80, 10) : p3.Y;
         points.Add(new IntPoint(x3, y3));
 
         IntPoint p4 = HorizontalBasePoints[4];
@@ -86,6 +86,17 @@ public sealed class IntPointList : List<IntPoint> , IList<IntPoint>
         return points;
     }
 
+    public IntPointList VerticalFlip()
+    {
+        IntPointList points = [];
+        foreach (var point in this)
+        {
+            points.Add(new IntPoint(point.X, -point.Y));
+        }
+
+        return points;
+    }
+
     public IntPointList Swap()
     {
         IntPointList points = [];
@@ -97,45 +108,12 @@ public sealed class IntPointList : List<IntPoint> , IList<IntPoint>
         return points;
     }
 
-    public IntPointList VerticalOffset(int offset)
+    public IntPointList Offset(int offsetX, int offsetY)
     {
         IntPointList points = [];
         foreach (var point in this)
         {
-            points.Add(new IntPoint(point.X, point.Y + offset));
-        }
-
-        return points;
-    }
-
-    public IntPointList VerticalFlip()
-    {
-        IntPointList points = [];
-        foreach (var point in this)
-        {
-            points.Add(new IntPoint(point.X, - point.Y ));
-        }
-
-        return points;
-    }
-
-    public IntPointList HorizontalOffset(int offset)
-    {
-        IntPointList points = [];
-        foreach (var point in this)
-        {
-            points.Add(new IntPoint(point.X + offset, point.Y));
-        }
-
-        return points;
-    }
-
-    public IntPointList HorizontalFlip()
-    {
-        IntPointList points = [];
-        foreach (var point in this)
-        {
-            points.Add(new IntPoint(-point.X, point.Y));
+            points.Add(new IntPoint(point.X + offsetX, point.Y + offsetY));
         }
 
         return points;

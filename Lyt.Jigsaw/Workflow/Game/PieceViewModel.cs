@@ -24,6 +24,8 @@ public sealed partial class PieceViewModel : ViewModel<PieceView >
         this.puzzleViewModel = puzzleViewModel;
         this.piece = piece;
         var puzzle = piece.Puzzle; 
+
+        // Cropping 
         int roiSize = puzzle.PieceSize + 2 * puzzle.PieceOverlap;
         int roiX = piece.Position.Column * puzzle.PieceSize - puzzle.PieceOverlap;
         roiX = Math.Max(0, roiX);
@@ -32,6 +34,20 @@ public sealed partial class PieceViewModel : ViewModel<PieceView >
         var rectangleRoi = new PixelRect(roiX, roiY, roiSize, roiSize);
         var cropped = new CroppedBitmap(puzzleViewModel.Image, rectangleRoi);
         this.CroppedBitmap = cropped;
+
+        // Clipping 
+        int outerSize = puzzle.PieceSize + 2 * puzzle.PieceOverlap;
+        var outerGeometry = new RectangleGeometry(new Rect(0, 0, outerSize, outerSize), 0, 0);
+        double scale = outerSize / 1200.0; 
+        var innerGeometry = 
+            GeometryGenerator.Combine(
+                piece.TopPoints.ToScaledPoints(scale),
+                piece.RightPoints.ToScaledPoints(scale), 
+                piece.BottomPoints.ToScaledPoints(scale),
+                piece.LeftPoints.ToScaledPoints(scale), 
+                IntPointList.DummyPoints.ToScaledPoints(scale));
+        this.ClipGeometry = GeometryGenerator.InvertedClip(outerGeometry, innerGeometry);
+
         this.RotationTransform = new RotateTransform(piece.RotationAngle);
     }
 

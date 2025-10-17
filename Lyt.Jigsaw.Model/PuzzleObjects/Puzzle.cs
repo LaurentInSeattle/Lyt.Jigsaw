@@ -85,7 +85,7 @@ public sealed class Puzzle
     private void GenerateSetups()
     {
         int minDimension = Math.Min(this.ImageSize.Width, this.ImageSize.Height);
-        int maxPieceSize = minDimension / 4;
+        int maxPieceSize = minDimension / 3;
         for (int pieceSize = 32; pieceSize <= maxPieceSize; pieceSize += 4)
         {
             var setup = new PuzzleSetup(pieceSize, this.ImageSize);
@@ -119,7 +119,7 @@ public sealed class Puzzle
 
         // Measured at less of 12 ms in debug build for 180 pieces 
         // Measured at less of 35 ms in debug build for 1920 pieces 
-        this.profiler.EndTiming("Creating point lists");
+        this.profiler.EndTiming(string.Format("Creating point lists - Piece Count: {0}", this.PieceCount));
 
         for (int row = 0; row < this.Rows; ++row)
         {

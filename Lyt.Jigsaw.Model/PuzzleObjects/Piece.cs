@@ -148,49 +148,49 @@ public sealed class Piece
         if ( this.IsTop)
         {
             this.TopSide = SideKind.Flat;
-            this.TopPoints = IntPointList.FlatPoints.HorizontalOffset(200).VerticalOffset(200);
+            this.TopPoints = IntPointList.FlatPoints.Offset(200,200);
         }
         else
         {
             this.TopSide = SideKind.Curved;
             var top = this.GetTop();
             var points = top.BottomPoints.ReverseOrder();
-            this.TopPoints = points.VerticalOffset(-1000).VerticalFlip().VerticalOffset(200); 
+            this.TopPoints = points.Offset(0, -800);
         }
 
         if (this.IsLeft)
         {
             this.LeftSide = SideKind.Flat;
-            this.LeftPoints = IntPointList.FlatPoints.Swap().HorizontalOffset(200).VerticalOffset(200).ReverseOrder();
+            this.LeftPoints = IntPointList.FlatPoints.Swap().Offset(200,200).ReverseOrder();
         }
         else
         {
             this.LeftSide = SideKind.Curved;
             var left = this.GetLeft();
             var points = left.RightPoints.ReverseOrder();
-            this.LeftPoints = points.HorizontalOffset(-1000).HorizontalFlip().HorizontalOffset(200); 
+            this.LeftPoints = points.Offset(-800, 0);
         }
 
         if ( this.IsBottom)
         {
             this.BottomSide = SideKind.Flat ;
-            this.BottomPoints = IntPointList.FlatPoints.HorizontalOffset(200).VerticalOffset(1000).ReverseOrder();
+            this.BottomPoints = IntPointList.FlatPoints.Offset(200,1000).ReverseOrder();
         }
         else
         {
             this.BottomSide = SideKind.Curved;
-            this.BottomPoints = IntPointList.RandomizeBasePoints().HorizontalOffset(200).VerticalOffset(1000).ReverseOrder();
+            this.BottomPoints = IntPointList.RandomizeBasePoints().Offset(200,1000).ReverseOrder();
         }
 
         if (this.IsRight)
         {
             this.RightSide = SideKind.Flat;
-            this.RightPoints = IntPointList.FlatPoints.Swap().VerticalOffset(200).HorizontalOffset(1000);
+            this.RightPoints = IntPointList.FlatPoints.Swap().Offset(1000, 200);
         }
         else
         {
             this.RightSide = SideKind.Curved;
-            this.RightPoints = IntPointList.RandomizeBasePoints().Swap().VerticalOffset(200).HorizontalOffset(1000);
+            this.RightPoints = IntPointList.RandomizeBasePoints().Swap().Offset(1000, 200);
         }
     }
 
