@@ -1,6 +1,6 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Game; 
 
-public sealed partial class PieceViewModel : ViewModel<PieceView > 
+public sealed partial class PieceViewModel : ViewModel<PieceView> , IDragMovableViewModel
 {
     [ObservableProperty]
     private CroppedBitmap croppedBitmap;
@@ -12,6 +12,7 @@ public sealed partial class PieceViewModel : ViewModel<PieceView >
     private Transform rotationTransform;
 
     private readonly PuzzleViewModel puzzleViewModel;
+
     private readonly Piece piece; 
 
     public PieceViewModel(PuzzleViewModel puzzleViewModel, Piece piece)
@@ -49,6 +50,25 @@ public sealed partial class PieceViewModel : ViewModel<PieceView >
         this.ClipGeometry = GeometryGenerator.InvertedClip(outerGeometry, innerGeometry);
 
         this.RotationTransform = new RotateTransform(piece.RotationAngle);
+    }
+
+    public void OnEntered() { }
+    public void OnExited() { }
+    public void OnLongPress() { }
+    
+    public void OnClicked(bool isRightClick)
+    {
+        if ( isRightClick)
+        {
+
+        }
+    }
+
+    public bool OnBeginMove(Point fromPoint) => true; 
+
+    public void OnEndMove(Point fromPoint, Point toPoint)
+    {
+
     }
 
     //[RelayCommand]

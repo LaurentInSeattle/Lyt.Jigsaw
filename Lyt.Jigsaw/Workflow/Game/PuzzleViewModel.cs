@@ -28,7 +28,8 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView > // , IRecip
         foreach (Piece piece in this.Puzzle.Pieces)
         {
             var vm = new PieceViewModel(this, piece);
-            var view = vm.CreateViewAndBind(); 
+            PieceView view = vm.CreateViewAndBind();
+            view.AttachBehavior(this.View.InnerCanvas); 
             this.View.InnerCanvas.Children.Add(view);
             var position = piece.Position; 
             view.SetValue(Canvas.TopProperty, (double)position.Row * pieceSizeWithOverlap);
