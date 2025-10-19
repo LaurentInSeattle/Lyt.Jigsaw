@@ -1,4 +1,6 @@
-﻿namespace Lyt.Jigsaw.Workflow.Game; 
+﻿namespace Lyt.Jigsaw.Workflow.Game;
+
+using Lyt.Jigsaw.Utilities;
 
 public sealed partial class PieceViewModel : ViewModel<PieceView> , IDragMovableViewModel
 {
@@ -49,7 +51,7 @@ public sealed partial class PieceViewModel : ViewModel<PieceView> , IDragMovable
                 IntPointList.DummyPoints.ToScaledPoints(scale));
         this.ClipGeometry = GeometryGenerator.InvertedClip(outerGeometry, innerGeometry);
 
-        this.RotationTransform = new RotateTransform(piece.RotationAngle);
+        this.RotationTransform = new RotateTransform(this.piece.RotationAngle);
     }
 
     public void OnEntered() { }
@@ -58,17 +60,20 @@ public sealed partial class PieceViewModel : ViewModel<PieceView> , IDragMovable
     
     public void OnClicked(bool isRightClick)
     {
-        if ( isRightClick)
-        {
-
-        }
+        this.piece.Rotate(isCCW: isRightClick);
+        this.RotationTransform = new RotateTransform(this.piece.RotationAngle);
     }
 
-    public bool OnBeginMove(Point fromPoint) => true; 
+    public bool OnBeginMove(Point fromPoint)
+    {
+        return true; 
+        //double distance = Point.Distance(fromPoint, this.piece.Center.ToPoint()); 
+        //return distance < this.piece.Puzzle.ApparentPieceSize;
+    }   
 
     public void OnEndMove(Point fromPoint, Point toPoint)
     {
-
+        this.piece.MoveTo(toPoint.X, toPoint.Y);
     }
 
     //[RelayCommand]

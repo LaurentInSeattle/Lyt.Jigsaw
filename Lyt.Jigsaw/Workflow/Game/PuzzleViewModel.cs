@@ -31,10 +31,15 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView > // , IRecip
             PieceView view = vm.CreateViewAndBind();
             view.AttachBehavior(this.View.InnerCanvas); 
             this.View.InnerCanvas.Children.Add(view);
-            var position = piece.Position; 
-            view.SetValue(Canvas.TopProperty, (double)position.Row * pieceSizeWithOverlap);
-            view.SetValue(Canvas.LeftProperty, (double)position.Column * pieceSizeWithOverlap);
+            var position = piece.Position;
+            double x = (double)position.Column * pieceSizeWithOverlap;
+            double y = (double)position.Row * pieceSizeWithOverlap; 
+            view.SetValue(Canvas.TopProperty, y );
+            view.SetValue(Canvas.LeftProperty, x);
+            piece.MoveTo(x, y, save: false); 
         }
+
+        this.Puzzle.Save(); 
 
         // For 1400 pieces, in DEBUG build:  *****Creating pieces - Timing: 432,5 ms.  
         this.Logger.Info(string.Format("Piece Count: {0}", this.Puzzle.PieceCount)); 

@@ -20,11 +20,11 @@ public sealed class Puzzle
 
     public IntSize ImageSize { get; set; }
 
-    public int PieceSize { get; set; }
-
     public int Rows { get; private set; }
 
     public int Columns { get; private set; }
+
+    public int PieceSize { get; set; }
 
     public int PieceOverlap { get; private set; }
 
@@ -41,6 +41,8 @@ public sealed class Puzzle
     public List<Piece> Pieces { get; private set; } = [];
 
     public Dictionary<int, Piece> PieceDictionary { get; private set; } = [];
+
+    public int ApparentPieceSize => this.PieceSize - 2 * this.PieceOverlap;
 
     public bool IsComplete
         => this.Groups.Count == 1 && this.Groups[0].Pieces.Count == this.PieceCount;
@@ -132,5 +134,12 @@ public sealed class Puzzle
                 }
             }
         }
+    }
+
+    public void Save()
+    {
+        // TODO 
+        // Serialize and save to disk 
+        Debug.WriteLine("Saved"); 
     }
 }
