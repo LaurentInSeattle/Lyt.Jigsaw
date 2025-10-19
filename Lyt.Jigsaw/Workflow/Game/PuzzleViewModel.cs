@@ -21,7 +21,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView > // , IRecip
         this.Puzzle = new Puzzle(this.Logger, imagePixelSize.Height, imagePixelSize.Width, rotationSteps);
         this.Puzzle.Setup(pieceCount, rotationSteps);
         int pieceSize = this.Puzzle.PieceSize;
-        int pieceSizeWithOverlap = this.Puzzle.PieceSize + 2 * this.Puzzle.PieceOverlap;
+        int pieceSizeWithOverlap = pieceSize + 2 * this.Puzzle.PieceOverlap;
         this.CanvasWidth = pieceSizeWithOverlap * this.Puzzle.Columns;
         this.CanvasHeight = pieceSizeWithOverlap * this.Puzzle.Rows;
         

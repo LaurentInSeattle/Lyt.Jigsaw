@@ -55,7 +55,9 @@ public sealed partial class PieceViewModel : ViewModel<PieceView> , IDragMovable
     }
 
     public void OnEntered() { }
+
     public void OnExited() { }
+    
     public void OnLongPress() { }
     
     public void OnClicked(bool isRightClick)
@@ -67,13 +69,16 @@ public sealed partial class PieceViewModel : ViewModel<PieceView> , IDragMovable
     public bool OnBeginMove(Point fromPoint)
     {
         return true; 
-        //double distance = Point.Distance(fromPoint, this.piece.Center.ToPoint()); 
-        //return distance < this.piece.Puzzle.ApparentPieceSize;
+        // double distance = Point.Distance(fromPoint, this.piece.Center.ToPoint()); 
+        // return distance < this.piece.Puzzle.ApparentPieceSize;
     }   
 
     public void OnEndMove(Point fromPoint, Point toPoint)
     {
         this.piece.MoveTo(toPoint.X, toPoint.Y);
+
+        // Check for any match 
+        this.piece.Puzzle.CheckForMatchingPiece(this.piece);
     }
 
     //[RelayCommand]

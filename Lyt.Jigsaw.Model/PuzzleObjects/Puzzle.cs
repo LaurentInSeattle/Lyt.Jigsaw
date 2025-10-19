@@ -1,19 +1,21 @@
 ﻿namespace Lyt.Jigsaw.Model.PuzzleObjects;
 
+using System.IO.Pipelines;
+
 public sealed class Puzzle
 {
     private readonly Dictionary<int, PuzzleSetup> puzzleSetups;
 
     internal readonly Randomizer Randomizer;
 
-    private  readonly Profiler profiler;
+    private readonly Profiler profiler;
 
     public Puzzle(ILogger logger, int height, int width, int rotationSteps)
     {
         this.ImageSize = new(height, width);
         this.RotationSteps = rotationSteps;
         this.Randomizer = new Randomizer();
-        this.profiler = new Profiler(logger); 
+        this.profiler = new Profiler(logger);
         this.puzzleSetups = [];
         this.GenerateSetups();
     }
@@ -52,7 +54,7 @@ public sealed class Puzzle
     public Piece FromId(int id)
         => this.PieceDictionary.TryGetValue(id, out Piece? piece) && piece is not null ?
                 piece :
-                throw new ArgumentException("No such Piece Id "); 
+                throw new ArgumentException("No such Piece Id ");
 
     public bool Setup(int pieceCount, int rotationSteps)
     {
@@ -104,18 +106,18 @@ public sealed class Puzzle
         {
             for (int col = 0; col < this.Columns; ++col)
             {
-                var piece = new Piece(this, row, col); 
+                var piece = new Piece(this, row, col);
                 this.Pieces.Add(piece);
                 this.PieceDictionary.Add(piece.Id, piece);
             }
         }
-        
+
         for (int row = 0; row < this.Rows; ++row)
         {
             for (int col = 0; col < this.Columns; ++col)
             {
                 var piece = this.FromId(this.ToId(row, col));
-                piece.UpdateSides(); 
+                piece.UpdateSides();
             }
         }
 
@@ -130,7 +132,7 @@ public sealed class Puzzle
                 var piece = this.FromId(this.ToId(row, col));
                 if (piece.AnySideUnknown)
                 {
-                    throw new Exception("Failed to calculate sides"); 
+                    throw new Exception("Failed to calculate sides");
                 }
             }
         }
@@ -140,6 +142,36 @@ public sealed class Puzzle
     {
         // TODO 
         // Serialize and save to disk 
-        Debug.WriteLine("Saved"); 
+        Debug.WriteLine("Saved");
+    }
+
+    public List<Piece> FindCloseTo(Piece targetPiece)
+    {
+        List<Piece> pieces = [];
+        foreach (Piece piece in this.Pieces)
+        {
+            if (targetPiece.Id == piece.Id)
+            {
+                continue; 
+            }
+
+            if (Location.Distance(piece.Center, targetPiece.Center) < this.ApparentPieceSize * 2.0)
+            {
+                pieces.Add(piece);
+            }
+        }
+
+        return pieces;
+    }
+
+    public void CheckForMatchingPiece(Piece targetPiece)
+    {
+        var pieces = this.FindCloseTo(targetPiece);
+        if ( pieces.Count == 0 )
+        {
+            return;
+        }
+
+
     }
 }
