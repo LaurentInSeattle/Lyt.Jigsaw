@@ -145,33 +145,37 @@ public sealed class Puzzle
         Debug.WriteLine("Saved");
     }
 
-    public List<Piece> FindCloseTo(Piece targetPiece)
+    public Piece? FindCloseTo(Piece targetPiece)
     {
-        List<Piece> pieces = [];
+        double minDistance = double.MaxValue; 
+        Piece? closestPiece = null;
         foreach (Piece piece in this.Pieces)
         {
-            if (targetPiece.Id == piece.Id)
+            if (targetPiece == piece)
             {
                 continue; 
             }
 
-            if (Location.Distance(piece.Center, targetPiece.Center) < this.ApparentPieceSize * 2.0)
+            double distance = Location.Distance(piece.Center, targetPiece.Center);
+            if ( distance < minDistance)
             {
-                pieces.Add(piece);
+                minDistance = distance;
+                closestPiece = piece;
             }
         }
 
-        return pieces;
+        return closestPiece;
     }
 
     public void CheckForMatchingPiece(Piece targetPiece)
     {
-        var pieces = this.FindCloseTo(targetPiece);
-        if ( pieces.Count == 0 )
+        Piece? closest = this.FindCloseTo(targetPiece);
+        if ( closest is null )
         {
             return;
         }
 
-
+        double distance = Location.Distance(closest.Center, targetPiece.Center);
+        Debug.WriteLine("Distance: " + distance.ToString("F2")); 
     }
 }

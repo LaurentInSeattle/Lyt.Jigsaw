@@ -212,7 +212,7 @@ public sealed class Piece
         else
         {
             ++this.RotationSteps;
-            if (this.RotationSteps == this.Puzzle.RotationSteps)
+            if (this.RotationSteps >= this.Puzzle.RotationSteps)
             {
                 this.RotationSteps = 0;
             }
