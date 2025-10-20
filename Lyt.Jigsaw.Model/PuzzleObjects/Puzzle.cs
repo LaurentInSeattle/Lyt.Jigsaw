@@ -181,6 +181,14 @@ public sealed class Puzzle
                     continue;
                 }
 
+                // Not enough: Should share closest sides 
+                var location = piece.SnapLocation(placement);
+                double moveDistance = Location.Distance(location, targetPiece.Location);
+                if (moveDistance > this.PieceSnapDistance * 10)
+                {
+                    continue; 
+                } 
+
                 closestPiece = piece;
             }
         }

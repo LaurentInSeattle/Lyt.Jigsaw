@@ -265,27 +265,30 @@ public sealed class Piece
 
     internal void SnapTo(Piece targetPiece, Placement placement)
     {
-        //
-        // Full of bugs Math broken 
-        //
+        var location = this.SnapLocation(placement);
+        targetPiece.MoveTo(location.X, location.Y);   
+    }
+
+    internal Location SnapLocation(Placement placement)
+    {
         double angle = placement switch
         {
-            Placement.Top => 90.0,
+            Placement.Top => -90.0,
             Placement.Right => 0.0,
-            Placement.Bottom => -90.0,
+            Placement.Bottom => 90.0,
             Placement.Left => 180.0,
             _ => throw new Exception("Unknown placement"),
         };
 
         angle += this.RotationAngle;
-        angle = - angle;
+        angle = -angle;
         angle = Math.Tau * angle / 360.0;
         double cos = Math.Cos(angle);
         double sin = Math.Sin(angle);
         double radius = this.Puzzle.PieceSize;
-        double x = radius * cos + this.Location.X;
-        double y = radius * sin + this.Location.Y;
-        targetPiece.MoveTo(x, y);   
+        double x = this.Location.X + radius * cos;
+        double y = this.Location.Y - radius * sin;
+        return new(x, y);
     }
 
     public Location Center =>
