@@ -1,7 +1,5 @@
 ﻿namespace Lyt.Jigsaw.Model.PuzzleObjects;
 
-using System.Xml.Linq;
-
 public sealed class Piece
 {
     public readonly Puzzle Puzzle;
@@ -225,13 +223,69 @@ public sealed class Piece
         }
     }
 
-    public void MoveTo(double x, double y, bool save=true)
+    public void MoveTo(double x, double y, bool save = true)
     {
         this.Location = new Location(x, y);
-        if( save)
+        if (save)
         {
             this.Puzzle.Save();
         }
+    }
+
+    internal bool ShareOneSideWith(Piece targetPiece, out Placement placement)
+    {
+        placement = Placement.Unknown;
+
+        if ((!this.IsTop) && (this.GetTop() == targetPiece))
+        {
+            placement = Placement.Top;
+            return true;
+        }
+
+        if ((!this.IsBottom) && (this.GetBottom() == targetPiece))
+        {
+            placement = Placement.Bottom;
+            return true;
+        }
+
+        if ((!this.IsLeft) && (this.GetLeft() == targetPiece))
+        {
+            placement = Placement.Left;
+            return true;
+        }
+
+        if ((!this.IsRight) && (this.GetRight() == targetPiece))
+        {
+            placement = Placement.Right;
+            return true;
+        }
+
+        return false;
+    }
+
+    internal void SnapTo(Piece targetPiece, Placement placement)
+    {
+        //
+        // Full of bugs Math broken 
+        //
+        double angle = placement switch
+        {
+            Placement.Top => 90.0,
+            Placement.Right => 0.0,
+            Placement.Bottom => -90.0,
+            Placement.Left => 180.0,
+            _ => throw new Exception("Unknown placement"),
+        };
+
+        angle += this.RotationAngle;
+        angle = - angle;
+        angle = Math.Tau * angle / 360.0;
+        double cos = Math.Cos(angle);
+        double sin = Math.Sin(angle);
+        double radius = this.Puzzle.PieceSize;
+        double x = radius * cos + this.Location.X;
+        double y = radius * sin + this.Location.Y;
+        targetPiece.MoveTo(x, y);   
     }
 
     public Location Center =>

@@ -1,6 +1,6 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Game;
 
-using Lyt.Jigsaw.Utilities;
+using Location = Model.Infrastucture.Location;
 
 public sealed partial class PieceViewModel : ViewModel<PieceView> , IDragMovableViewModel
 {
@@ -78,8 +78,13 @@ public sealed partial class PieceViewModel : ViewModel<PieceView> , IDragMovable
         this.piece.MoveTo(toPoint.X, toPoint.Y);
 
         // Check for any match 
-        this.piece.Puzzle.CheckForMatchingPiece(this.piece);
+        if ( this.piece.Puzzle.CheckForMatchingPiece(this.piece))
+        {
+            // Snap on the UI 
+            this.View.MoveTo(this.piece.Location);
+        }
     }
+
 
     //[RelayCommand]
     //public void OnDoSomething()

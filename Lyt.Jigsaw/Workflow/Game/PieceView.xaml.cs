@@ -1,4 +1,6 @@
-﻿namespace Lyt.Jigsaw.Workflow.Game; 
+﻿namespace Lyt.Jigsaw.Workflow.Game;
+
+using Location = Model.Infrastucture.Location;
 
 public sealed partial class PieceView : View
 {
@@ -13,5 +15,11 @@ public sealed partial class PieceView : View
     ~PieceView()
     {
         this.dragMovable?.Detach();
+    }
+
+    public void MoveTo( Location location )
+    {
+        this.SetValue(Canvas.LeftProperty, location.X);
+        this.SetValue(Canvas.TopProperty, location.Y);
     }
 }

@@ -1,7 +1,5 @@
 ﻿namespace Lyt.Jigsaw.Model.PuzzleObjects;
 
-using System.IO.Pipelines;
-
 public sealed class Puzzle
 {
     private readonly Dictionary<int, PuzzleSetup> puzzleSetups;
@@ -17,10 +15,13 @@ public sealed class Puzzle
         this.Randomizer = new Randomizer();
         this.profiler = new Profiler(logger);
         this.puzzleSetups = [];
+        this.PieceSnapDistance = 6.66;
         this.GenerateSetups();
     }
 
     public IntSize ImageSize { get; set; }
+
+    public double PieceSnapDistance { get; private set; }
 
     public int Rows { get; private set; }
 
@@ -145,21 +146,41 @@ public sealed class Puzzle
         Debug.WriteLine("Saved");
     }
 
-    public Piece? FindCloseTo(Piece targetPiece)
+    public Piece? FindCloseTo(Piece targetPiece , out Placement placement)
     {
-        double minDistance = double.MaxValue; 
+        placement = Placement.Unknown; 
+        double minDistance = double.MaxValue;
         Piece? closestPiece = null;
         foreach (Piece piece in this.Pieces)
         {
             if (targetPiece == piece)
             {
-                continue; 
+                continue;
             }
 
+            // pieces should have the same orientation 
+            if (piece.RotationAngle != targetPiece.RotationAngle)
+            {
+                continue;
+            }
+
+            // distance should be equal to piece size + or - the snap visual distance 
             double distance = Location.Distance(piece.Center, targetPiece.Center);
-            if ( distance < minDistance)
+            if (distance < minDistance)
             {
                 minDistance = distance;
+                double delta = Math.Abs(distance - this.PieceSize);
+                if (delta > this.PieceSnapDistance)
+                {
+                    continue;
+                }
+
+                // pieces should share one side  
+                if (!piece.ShareOneSideWith(targetPiece, out placement))
+                {
+                    continue;
+                }
+
                 closestPiece = piece;
             }
         }
@@ -167,15 +188,16 @@ public sealed class Puzzle
         return closestPiece;
     }
 
-    public void CheckForMatchingPiece(Piece targetPiece)
+    public bool CheckForMatchingPiece(Piece targetPiece)
     {
-        Piece? closest = this.FindCloseTo(targetPiece);
-        if ( closest is null )
+        // Find closest piece
+        Piece? closest = this.FindCloseTo(targetPiece, out Placement placement);
+        if (closest is null)
         {
-            return;
+            return false;
         }
 
-        double distance = Location.Distance(closest.Center, targetPiece.Center);
-        Debug.WriteLine("Distance: " + distance.ToString("F2")); 
+        closest.SnapTo(targetPiece, placement);
+        return true;
     }
 }
