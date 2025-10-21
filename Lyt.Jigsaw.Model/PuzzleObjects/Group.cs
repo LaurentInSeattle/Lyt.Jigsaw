@@ -104,5 +104,8 @@ public sealed class Group
         }
     }
 
-    public void Rotate(bool isCCW) => throw new NotImplementedException();
+    public void Rotate(bool isCCW)
+    {
+        Debug.WriteLine("NotImplemented");
+    } 
 }

@@ -17,9 +17,11 @@ public sealed partial class PieceView : View
         this.dragMovable?.Detach();
     }
 
-    public void MoveTo( Location location )
+    public void MoveTo(Location location)
     {
         this.SetValue(Canvas.LeftProperty, location.X);
         this.SetValue(Canvas.TopProperty, location.Y);
     }
+
+    internal void BringToTop() => this.SetValue(Canvas.ZIndexProperty, DragMovable.ZIndex);
 }

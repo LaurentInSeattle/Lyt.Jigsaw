@@ -112,9 +112,10 @@ public sealed partial class PieceViewModel : ViewModel<PieceView> , IDragMovable
                     continue;
                 }
 
-                // Move on the UI 
+                // Move on the UI and bring the pieces on top 
                 var pieceView = this.puzzleViewModel.GetViewFromPiece(other);
                 pieceView.MoveTo(other.Location);
+                pieceView.BringToTop(); 
             }
         } 
     }
