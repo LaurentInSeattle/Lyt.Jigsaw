@@ -101,7 +101,7 @@ public sealed class Piece
                 this.SnapPiece :
                 throw new Exception("Should have checked 'IsSnapped'.");
         set => this.MaybeSnapPiece = value;
-    } 
+    }
 
     public Piece GetTop()
     {
@@ -242,13 +242,25 @@ public sealed class Piece
 
     public void MoveTo(double x, double y, bool save = true)
     {
+        double deltaX = x - this.Location.X;
+        double deltaY = y - this.Location.Y;
         this.Location = new Location(x, y);
 
         if (this.IsGrouped)
         {
-            // Move the rest of the group 
-            this.Group.Move(this);
-        } 
+            // Move the rest of the group by 
+            this.Group.MoveBy(this, deltaX, deltaY);
+        }
+
+        if (save)
+        {
+            this.Puzzle.Save();
+        }
+    }
+
+    public void MoveBy(double deltaX, double deltaY, bool save = true)
+    {
+        this.Location = new Location(this.Location.X + deltaX, this.Location.Y + deltaY);
 
         if (save)
         {

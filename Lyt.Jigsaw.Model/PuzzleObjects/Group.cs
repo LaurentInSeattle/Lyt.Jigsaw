@@ -91,8 +91,16 @@ public sealed class Group
         return true;
     }
 
-    internal void Move(Piece piece)
+    internal void MoveBy(Piece piece, double deltaX, double deltaY)
     {
+        foreach (Piece other in this.Pieces)
+        {
+            if (piece == other)
+            {
+                continue; 
+            }
 
+            other.MoveBy(deltaX, deltaY, save: false); 
+        }
     }
 }

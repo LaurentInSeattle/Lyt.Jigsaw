@@ -75,7 +75,7 @@ public sealed partial class PieceViewModel : ViewModel<PieceView> , IDragMovable
 
     public void OnEndMove(Point fromPoint, Point toPoint)
     {
-        this.piece.MoveTo(toPoint.X, toPoint.Y);
+        this.OnMove(fromPoint, toPoint);
 
         // Check for any match 
         if ( this.piece.Puzzle.CheckForMatchingPiece(this.piece))
@@ -88,6 +88,21 @@ public sealed partial class PieceViewModel : ViewModel<PieceView> , IDragMovable
     public void OnMove(Point fromPoint, Point toPoint)
     {
         this.piece.MoveTo(toPoint.X, toPoint.Y);
+
+        if (this.piece.IsGrouped)
+        {
+            foreach (Piece other in this.piece.Group.Pieces)
+            {
+                if (piece == other)
+                {
+                    continue;
+                }
+
+                // Move on the UI 
+                var pieceView = this.puzzleViewModel.GetViewFromPiece(other);
+                pieceView.MoveTo(other.Location);
+            }
+        } 
     }
 
 
