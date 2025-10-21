@@ -57,7 +57,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView > // , IRecip
             throw new Exception("pieceViewModels is null or empty");
         } 
 
-        if ( this.pieceViewModels.TryGetValue(piece, out var vm) && ( vm is not null))
+        if ( this.pieceViewModels.TryGetValue(piece, out PieceViewModel? vm) && ( vm is not null))
         {
             if (vm.View is not null)
             {
@@ -66,6 +66,21 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView > // , IRecip
         }
 
         throw new Exception("pieceViewModels has no view for this piece.");
+    }
+
+    public PieceViewModel GetViewModelFromPiece(Piece piece)
+    {
+        if (this.pieceViewModels is null || this.pieceViewModels.Count == 0)
+        {
+            throw new Exception("pieceViewModels is null or empty");
+        }
+
+        if (this.pieceViewModels.TryGetValue(piece, out PieceViewModel? vm) && (vm is not null))
+        {
+            return vm; 
+        }
+
+        throw new Exception("pieceViewModels has no view model for this piece.");
     }
 
     //[RelayCommand]

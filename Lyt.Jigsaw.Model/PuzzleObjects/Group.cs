@@ -103,4 +103,6 @@ public sealed class Group
             other.MoveBy(deltaX, deltaY, save: false); 
         }
     }
+
+    public void Rotate(bool isCCW) => throw new NotImplementedException();
 }

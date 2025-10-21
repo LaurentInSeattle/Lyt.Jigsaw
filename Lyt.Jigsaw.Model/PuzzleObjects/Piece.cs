@@ -318,11 +318,13 @@ public sealed class Piece
         else if (this.IsGrouped && !targetPiece.IsGrouped)
         {
             // target piece is joining the group this piece belongs to
+            this.Group.AddPiece(targetPiece);
         }
         else if (!this.IsGrouped && targetPiece.IsGrouped)
         {
             // group of target piece is joining with this piece
             // similar as above reversing roles of this piece and target piece 
+            targetPiece.Group.AddPiece(this);
         }
         else
         {
