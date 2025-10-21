@@ -1,8 +1,5 @@
 ﻿namespace Lyt.Jigsaw.Model.PuzzleObjects;
 
-using System.Collections.Generic;
-using System.IO.Pipelines;
-
 public sealed class Group
 {
     private readonly Puzzle puzzle;
@@ -45,7 +42,7 @@ public sealed class Group
             throw new ArgumentException("Cannot add twice the same piece");
         }
 
-        return false;
+        return true;
     }
 
     public bool AddPiece(Piece piece)
@@ -55,6 +52,7 @@ public sealed class Group
             return false;
         } 
 
+        piece.Group = this;
         this.Pieces.Add(piece);
         this.PieceDictionary.Add(piece.Id, piece);
         return true;
@@ -68,7 +66,7 @@ public sealed class Group
             throw new ArgumentException("Cannot merge the same groups");
         }
 
-        return false;
+        return true;
     }
 
     /// <summary> Other group merging into this one </summary>
@@ -91,5 +89,10 @@ public sealed class Group
         group.Pieces.Clear();
         group.PieceDictionary.Clear();
         return true;
+    }
+
+    internal void Move(Piece piece)
+    {
+
     }
 }

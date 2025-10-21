@@ -85,6 +85,11 @@ public sealed partial class PieceViewModel : ViewModel<PieceView> , IDragMovable
         }
     }
 
+    public void OnMove(Point fromPoint, Point toPoint)
+    {
+        this.piece.MoveTo(toPoint.X, toPoint.Y);
+    }
+
 
     //[RelayCommand]
     //public void OnDoSomething()

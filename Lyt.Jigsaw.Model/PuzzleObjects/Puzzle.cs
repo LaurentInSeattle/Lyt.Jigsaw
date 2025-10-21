@@ -39,8 +39,6 @@ public sealed class Puzzle
 
     public List<Group> Groups { get; private set; } = [];
 
-    public Dictionary<int, Group> GroupDictionary { get; private set; } = [];
-
     public List<Piece> Pieces { get; private set; } = [];
 
     public Dictionary<int, Piece> PieceDictionary { get; private set; } = [];
@@ -142,6 +140,7 @@ public sealed class Puzzle
     public void Save()
     {
         // TODO 
+        Debug.WriteLine("Save: TODO!");
         // Serialize and save to disk 
         Debug.WriteLine("Saved");
     }

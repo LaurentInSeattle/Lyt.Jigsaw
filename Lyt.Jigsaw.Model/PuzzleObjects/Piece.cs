@@ -67,12 +67,15 @@ public sealed class Piece
 
     public SideKind RightSide { get; private set; }
 
-    public Group? MaybeGroup { get; set; }
+    public Group? MaybeGroup { get; private set; }
 
     public Group Group
-        => this.MaybeGroup is not null ?
+    {
+        get => this.MaybeGroup is not null ?
             this.MaybeGroup :
             throw new Exception("Should have checked 'IsGrouped'.");
+        set => this.MaybeGroup = value;
+    }
 
     public bool IsGrouped => this.MaybeGroup is not null;
 
@@ -85,6 +88,20 @@ public sealed class Piece
     public bool IsLeft => this.Position.Column == 0;
 
     public bool IsRight => this.Position.Column == this.Puzzle.Columns - 1;
+
+    public Placement SnapPlacement { get; private set; } = Placement.Unknown;
+
+    public Piece? MaybeSnapPiece { get; private set; }
+
+    public bool IsSnapped => this.MaybeSnapPiece is not null && this.SnapPlacement != Placement.Unknown;
+
+    public Piece SnapPiece
+    {
+        get => this.MaybeSnapPiece is not null ?
+                this.SnapPiece :
+                throw new Exception("Should have checked 'IsSnapped'.");
+        set => this.MaybeSnapPiece = value;
+    } 
 
     public Piece GetTop()
     {
@@ -226,6 +243,13 @@ public sealed class Piece
     public void MoveTo(double x, double y, bool save = true)
     {
         this.Location = new Location(x, y);
+
+        if (this.IsGrouped)
+        {
+            // Move the rest of the group 
+            this.Group.Move(this);
+        } 
+
         if (save)
         {
             this.Puzzle.Save();
@@ -266,7 +290,33 @@ public sealed class Piece
     internal void SnapTo(Piece targetPiece, Placement placement)
     {
         var location = this.SnapLocation(placement);
-        targetPiece.MoveTo(location.X, location.Y);   
+        targetPiece.MoveTo(location.X, location.Y);
+        targetPiece.SnapPiece = this;
+        targetPiece.SnapPlacement = placement;
+        if (!this.IsSnapped)
+        {
+            this.SnapPiece = targetPiece;
+            this.SnapPlacement = placement.Opposite();
+        }
+
+        if (this.IsGrouped && targetPiece.IsGrouped)
+        {
+            // two groups are merging  
+        }
+        else if (this.IsGrouped && !targetPiece.IsGrouped)
+        {
+            // target piece is joining the group this piece belongs to
+        }
+        else if (!this.IsGrouped && targetPiece.IsGrouped)
+        {
+            // group of target piece is joining with this piece
+            // similar as above reversing roles of this piece and target piece 
+        }
+        else
+        {
+            // two non-grouped pieces creating the first group 
+            this.Puzzle.Groups.Add(new Group(this.Puzzle, this, targetPiece));
+        }
     }
 
     internal Location SnapLocation(Placement placement)
