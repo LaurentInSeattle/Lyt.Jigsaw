@@ -268,7 +268,7 @@ public sealed class Piece
         }
     }
 
-    internal bool ShareOneSideWith(Piece targetPiece, out Placement placement)
+    internal bool IsSharingOneSideWith(Piece targetPiece, out Placement placement)
     {
         placement = Placement.Unknown;
 
@@ -299,7 +299,7 @@ public sealed class Piece
         return false;
     }
 
-    internal void SnapTo(Piece targetPiece, Placement placement)
+    internal void SnapTargetToThis(Piece targetPiece, Placement placement)
     {
         var location = this.SnapLocation(placement);
         targetPiece.MoveTo(location.X, location.Y, save:false);

@@ -2,7 +2,7 @@
 
 using Location = Model.Infrastucture.Location;
 
-public sealed partial class PieceViewModel : ViewModel<PieceView> , IDragMovableViewModel
+public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableViewModel
 {
     [ObservableProperty]
     private CroppedBitmap croppedBitmap;
@@ -15,18 +15,18 @@ public sealed partial class PieceViewModel : ViewModel<PieceView> , IDragMovable
 
     private readonly PuzzleViewModel puzzleViewModel;
 
-    private readonly Piece piece; 
+    private readonly Piece piece;
 
     public PieceViewModel(PuzzleViewModel puzzleViewModel, Piece piece)
     {
         if (puzzleViewModel.Image is null)
         {
-            throw new ArgumentException("No Image"); 
-        } 
+            throw new ArgumentException("No Image");
+        }
 
         this.puzzleViewModel = puzzleViewModel;
         this.piece = piece;
-        var puzzle = piece.Puzzle; 
+        var puzzle = piece.Puzzle;
 
         // Cropping 
         int roiSize = puzzle.PieceSize + 2 * puzzle.PieceOverlap;
@@ -41,13 +41,13 @@ public sealed partial class PieceViewModel : ViewModel<PieceView> , IDragMovable
         // Clipping 
         int outerSize = puzzle.PieceSize + 2 * puzzle.PieceOverlap;
         var outerGeometry = new RectangleGeometry(new Rect(0, 0, outerSize, outerSize), 0, 0);
-        double scale = outerSize / 1200.0; 
-        var innerGeometry = 
+        double scale = outerSize / 1200.0;
+        var innerGeometry =
             GeometryGenerator.Combine(
                 piece.TopPoints.ToScaledPoints(scale),
-                piece.RightPoints.ToScaledPoints(scale), 
+                piece.RightPoints.ToScaledPoints(scale),
                 piece.BottomPoints.ToScaledPoints(scale),
-                piece.LeftPoints.ToScaledPoints(scale), 
+                piece.LeftPoints.ToScaledPoints(scale),
                 IntPointList.DummyPoints.ToScaledPoints(scale));
         this.ClipGeometry = GeometryGenerator.InvertedClip(outerGeometry, innerGeometry);
 
@@ -57,9 +57,9 @@ public sealed partial class PieceViewModel : ViewModel<PieceView> , IDragMovable
     public void OnEntered() { }
 
     public void OnExited() { }
-    
+
     public void OnLongPress() { }
-    
+
     public void OnClicked(bool isRightClick)
     {
         if (this.piece.IsGrouped)
@@ -77,31 +77,40 @@ public sealed partial class PieceViewModel : ViewModel<PieceView> , IDragMovable
         {
             this.piece.Rotate(isCCW: isRightClick);
             this.RotationTransform = new RotateTransform(this.piece.RotationAngle);
-        } 
+        }
     }
 
     public bool OnBeginMove(Point fromPoint)
     {
-        return true; 
+        return true;
         // double distance = Point.Distance(fromPoint, this.piece.Center.ToPoint()); 
         // return distance < this.piece.Puzzle.ApparentPieceSize;
-    }   
+    }
 
     public void OnEndMove(Point fromPoint, Point toPoint)
     {
         this.OnMove(fromPoint, toPoint);
 
-        // Check for any match 
-        if ( this.piece.Puzzle.CheckForMatchingPiece(this.piece, out Piece? closest))
-        {
-            // For single piece moving: Snap it on the UI 
-            this.View.MoveTo(this.piece.Location);
 
-            // For groups: Snap on the UI the lone piece 
-            if (closest is not null)
+        // Save the state first since CheckForMatchingPiece may change it 
+        bool isMovingGroup = this.piece.IsGrouped;  
+
+        // Check for any match 
+        if (this.piece.Puzzle.CheckForMatchingPiece(this.piece, out Piece? closest))
+        {
+            if (isMovingGroup)
             {
-                var pieceView = this.puzzleViewModel.GetViewFromPiece(closest);
-                pieceView.MoveTo(closest.Location);
+                // For groups: Snap on the UI the lone piece 
+                if (closest is not null)
+                {
+                    var pieceView = this.puzzleViewModel.GetViewFromPiece(closest);
+                    pieceView.MoveTo(closest.Location);
+                }
+            }
+            else
+            {
+                // For single piece moving: Snap it on the UI 
+                this.View.MoveTo(this.piece.Location);
             }
         }
     }
@@ -122,9 +131,9 @@ public sealed partial class PieceViewModel : ViewModel<PieceView> , IDragMovable
                 // Move on the UI and bring the pieces on top 
                 var pieceView = this.puzzleViewModel.GetViewFromPiece(other);
                 pieceView.MoveTo(other.Location);
-                pieceView.BringToTop(); 
+                pieceView.BringToTop();
             }
-        } 
+        }
     }
 
 

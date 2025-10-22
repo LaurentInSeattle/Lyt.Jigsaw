@@ -185,7 +185,7 @@ public sealed class Puzzle
                 }
 
                 // pieces should share one side  
-                if (!piece.ShareOneSideWith(targetPiece, out placement))
+                if (!piece.IsSharingOneSideWith(targetPiece, out placement))
                 {
                     continue;
                 }
@@ -205,30 +205,31 @@ public sealed class Puzzle
         return closestPiece;
     }
 
-    public bool CheckForMatchingPiece(Piece targetPiece, out Piece? snapped)
+    public bool CheckForMatchingPiece(Piece movingPiece, out Piece? snapped)
     {
         // Target is the piece moving 
         snapped = null;
 
         // Find closest piece
-        Piece? closest = this.FindCloseTo(targetPiece, out Placement placement);
+        Piece? closest = this.FindCloseTo(movingPiece, out Placement placement);
         if (closest is null)
         {
             return false;
         }
 
-        if (targetPiece.IsGrouped)
+
+        if (movingPiece.IsGrouped)
         {
-            targetPiece.SnapTo(closest, placement);
-            snapped = targetPiece;
+            movingPiece.SnapTargetToThis(closest, placement.Opposite());
+            snapped = closest;
         }
         else
         {
-            closest.SnapTo(targetPiece, placement);
-            snapped = closest; 
+            closest.SnapTargetToThis(movingPiece, placement);
+            snapped = movingPiece;
         }
 
-        closest.ManageGroups(targetPiece); 
+        closest.ManageGroups(movingPiece); 
 
         return true;
     }
