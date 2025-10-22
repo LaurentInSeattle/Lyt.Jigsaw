@@ -92,16 +92,23 @@ public sealed partial class PieceViewModel : ViewModel<PieceView> , IDragMovable
         this.OnMove(fromPoint, toPoint);
 
         // Check for any match 
-        if ( this.piece.Puzzle.CheckForMatchingPiece(this.piece))
+        if ( this.piece.Puzzle.CheckForMatchingPiece(this.piece, out Piece? closest))
         {
-            // Snap on the UI 
+            // For single piece moving: Snap it on the UI 
             this.View.MoveTo(this.piece.Location);
+
+            // For groups: Snap on the UI the lone piece 
+            if (closest is not null)
+            {
+                var pieceView = this.puzzleViewModel.GetViewFromPiece(closest);
+                pieceView.MoveTo(closest.Location);
+            }
         }
     }
 
     public void OnMove(Point fromPoint, Point toPoint)
     {
-        this.piece.MoveTo(toPoint.X, toPoint.Y);
+        this.piece.MoveTo(toPoint.X, toPoint.Y, save: false);
 
         if (this.piece.IsGrouped)
         {

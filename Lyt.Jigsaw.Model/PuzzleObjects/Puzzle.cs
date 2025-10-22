@@ -15,7 +15,7 @@ public sealed class Puzzle
         this.Randomizer = new Randomizer();
         this.profiler = new Profiler(logger);
         this.puzzleSetups = [];
-        this.PieceSnapDistance = 6.66;
+        this.PieceSnapDistance = 10.0;
         this.GenerateSetups();
     }
 
@@ -150,6 +150,7 @@ public sealed class Puzzle
         placement = Placement.Unknown; 
         double minDistance = double.MaxValue;
         Piece? closestPiece = null;
+        Group? targetPieceGroup = targetPiece.MaybeGroup;
         foreach (Piece piece in this.Pieces)
         {
             if (targetPiece == piece)
@@ -162,6 +163,15 @@ public sealed class Puzzle
             {
                 continue;
             }
+
+            // pieces should not belong to the same group is there is one 
+            if ((targetPieceGroup is not null) && (piece.MaybeGroup is Group pieceGroup)    ) 
+            {                
+                if ( targetPieceGroup == pieceGroup)
+                {
+                    continue;
+                }
+            } 
 
             // distance should be equal to piece size + or - the snap visual distance 
             double distance = Location.Distance(piece.Center, targetPiece.Center);
@@ -195,8 +205,11 @@ public sealed class Puzzle
         return closestPiece;
     }
 
-    public bool CheckForMatchingPiece(Piece targetPiece)
+    public bool CheckForMatchingPiece(Piece targetPiece, out Piece? snapped)
     {
+        // Target is the piece moving 
+        snapped = null;
+
         // Find closest piece
         Piece? closest = this.FindCloseTo(targetPiece, out Placement placement);
         if (closest is null)
@@ -204,7 +217,19 @@ public sealed class Puzzle
             return false;
         }
 
-        closest.SnapTo(targetPiece, placement);
+        if (targetPiece.IsGrouped)
+        {
+            targetPiece.SnapTo(closest, placement);
+            snapped = targetPiece;
+        }
+        else
+        {
+            closest.SnapTo(targetPiece, placement);
+            snapped = closest; 
+        }
+
+        closest.ManageGroups(targetPiece); 
+
         return true;
     }
 }

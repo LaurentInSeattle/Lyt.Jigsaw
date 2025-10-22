@@ -302,7 +302,7 @@ public sealed class Piece
     internal void SnapTo(Piece targetPiece, Placement placement)
     {
         var location = this.SnapLocation(placement);
-        targetPiece.MoveTo(location.X, location.Y);
+        targetPiece.MoveTo(location.X, location.Y, save:false);
         targetPiece.SnapPiece = this;
         targetPiece.SnapPlacement = placement;
         if (!this.IsSnapped)
@@ -310,7 +310,10 @@ public sealed class Piece
             this.SnapPiece = targetPiece;
             this.SnapPlacement = placement.Opposite();
         }
+    } 
 
+    internal void ManageGroups (Piece targetPiece)
+    { 
         if (this.IsGrouped && targetPiece.IsGrouped)
         {
             // two groups are merging  
