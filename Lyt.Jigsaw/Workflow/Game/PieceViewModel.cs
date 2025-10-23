@@ -64,14 +64,8 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
     {
         if (this.piece.IsGrouped)
         {
-            this.piece.Group.Rotate(isCCW: isRightClick);
-            foreach (Piece groupPiece in this.piece.Group.Pieces)
-            {
-                // Move on the UI 
-                var pieceViewModel = this.puzzleViewModel.GetViewModelFromPiece(groupPiece);
-                pieceViewModel.View.MoveTo(groupPiece.Location);
-                pieceViewModel.RotationTransform = new RotateTransform(groupPiece.RotationAngle);
-            }
+            this.piece.Group.Rotate(this.piece, isCCW: isRightClick);
+            this.puzzleViewModel.Update(); 
         }
         else
         {

@@ -131,8 +131,8 @@ public sealed partial class ShellViewModel
         var puzzle = new Puzzle(this.Logger, image.PixelSize.Height, image.PixelSize.Width, 0);
         var counts = puzzle.PieceCounts;
         var vm = App.GetRequiredService<PuzzleViewModel>();
-        // vm.Start(image, counts[counts.Count - 12], rotationSteps: 3);
-        vm.Start(image, counts[0], rotationSteps: 6);
+        vm.Start(image, counts[counts.Count - 6], rotationSteps: 3);
+        // vm.Start(image, counts[0], rotationSteps: 6);
     }
 
     private void SetupWorkflow()

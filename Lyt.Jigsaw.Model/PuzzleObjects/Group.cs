@@ -105,8 +105,52 @@ public sealed class Group
         }
     }
 
-    public void Rotate(bool isCCW)
+    public void Rotate(Piece piece, bool isCCW)
     {
-        Debug.WriteLine("NotImplemented");
-    } 
+        int steps = piece.RotationSteps; 
+        if (isCCW)
+        {
+            --steps;
+            if (steps < 0)
+            {
+                steps = this.puzzle.RotationSteps - 1;
+            }
+        }
+        else
+        {
+            ++steps;
+            if (steps >= this.puzzle.RotationSteps)
+            {
+                steps = 0;
+            }
+        }
+        
+        double angle = steps * this.puzzle.RotationStepAngle;
+        angle = -angle;
+        angle = Math.Tau * angle / 360.0;
+        double cos = Math.Cos(angle);
+        double sin = Math.Sin(angle);
+
+        foreach (Piece other in this.Pieces)
+        {
+            // All pieces rotate, the clicked piece does not move, just rotate 
+            // But all are treated as moves 
+            this.puzzle.Moves.Add(piece); 
+            other.Rotate(isCCW, isCCW);             
+            if (piece == other)
+            {
+                // clicked piece does not move
+                continue;
+            }
+
+            // Move and rotate all others
+            double radius = Location.Distance(piece.Center, other.Center);
+            double x = piece.Center.X + radius * cos;
+            double y = piece.Center.Y - radius * sin;
+            // x y == new center, adjust
+            x -= puzzle.PieceSize / 2;
+            y -= puzzle.PieceSize / 2;
+            other.Location = new(x, y);
+        }
+    }
 }

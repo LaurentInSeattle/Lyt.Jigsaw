@@ -93,8 +93,9 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView> // , IRecipi
         List<Piece> movedPieces = this.Puzzle.GetMoves();
         foreach (Piece piece in movedPieces)
         {
-            var pieceView = this.GetViewFromPiece(piece);
-            pieceView.MoveTo(piece.Location);
+            var pieceViewModel = this.GetViewModelFromPiece(piece);
+            pieceViewModel.View.MoveTo(piece.Location);
+            pieceViewModel.RotationTransform = new RotateTransform(piece.RotationAngle);
         }
     }
 
