@@ -17,20 +17,21 @@
 	
 	Background="Transparent"
 	>
-  <Grid>    
-		<Image
-			x:Name="Image"
-			Source="{Binding CroppedBitmap}"
-			Clip="{Binding ClipGeometry}"
-			RenderTransform="{Binding RotationTransform}"
-			>
-    </Image>
-    <Path
-      Stroke="DarkGray"
-      StrokeThickness="2.0"
-      Opacity="0.2"
-      Data ="{Binding ClipGeometry}"
-			RenderTransform="{Binding RotationTransform}"
-			/>
-  </Grid>
+	<Grid
+		ClipToBounds="False"
+		>    
+	<Image
+		x:Name="Image"
+		Source="{Binding CroppedBitmap}"
+		Clip="{Binding ClipGeometry}"
+		RenderTransform="{Binding RotationTransform}"
+		/>
+	<Path
+		Stroke="DarkGray"
+		StrokeThickness="2.0"
+		Opacity="0.2"
+		Data ="{Binding ClipGeometry}"
+		RenderTransform="{Binding RotationTransform}"
+		/>
+	</Grid>
 </UserControl>

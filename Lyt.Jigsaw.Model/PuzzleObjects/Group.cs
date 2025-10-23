@@ -60,12 +60,12 @@ public sealed class Group
 
     public bool CanAddGroup(Group group)
     {
-        // TODO !
-        if (this.Id == group.Id)
+        if ( ( this == group) ||(this.Id == group.Id))
         {
             throw new ArgumentException("Cannot merge the same groups");
         }
 
+        // TODO: Make sure that no piece belongs to both groups 
         return true;
     }
 
@@ -79,6 +79,7 @@ public sealed class Group
 
         foreach (var piece in group.Pieces)
         {
+            piece.UnGroup(); 
             bool success = this.AddPiece(piece);
             if (!success)
             {

@@ -79,6 +79,8 @@ public sealed class Piece
 
     public bool IsGrouped => this.MaybeGroup is not null;
 
+    public void UnGroup() => this.MaybeGroup = null; 
+
     public bool IsRotated => this.RotationAngle != 0;
 
     public bool IsTop => this.Position.Row == 0;
@@ -301,6 +303,8 @@ public sealed class Piece
 
     internal void SnapTargetToThis(Piece targetPiece, Placement placement)
     {
+        this.Puzzle.Moves.Add(targetPiece);
+
         var location = this.SnapLocation(placement);
         targetPiece.MoveTo(location.X, location.Y, save:false);
         targetPiece.SnapPiece = this;
@@ -316,7 +320,9 @@ public sealed class Piece
     { 
         if (this.IsGrouped && targetPiece.IsGrouped)
         {
-            // two groups are merging  
+            // two groups are merging : the group of this.Piece is going into Target 
+            targetPiece.Group.AddGroup(this.Group); 
+            this.Puzzle.Groups.Remove(this.Group);
         }
         else if (this.IsGrouped && !targetPiece.IsGrouped)
         {

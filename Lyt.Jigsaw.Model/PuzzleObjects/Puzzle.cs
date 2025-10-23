@@ -15,7 +15,7 @@ public sealed class Puzzle
         this.Randomizer = new Randomizer();
         this.profiler = new Profiler(logger);
         this.puzzleSetups = [];
-        this.PieceSnapDistance = 10.0;
+        this.PieceSnapDistance = 20.0;
         this.GenerateSetups();
     }
 
@@ -42,6 +42,8 @@ public sealed class Puzzle
     public List<Piece> Pieces { get; private set; } = [];
 
     public Dictionary<int, Piece> PieceDictionary { get; private set; } = [];
+
+    public List<Piece> Moves { get; private set; } = [];
 
     public int ApparentPieceSize => this.PieceSize - 2 * this.PieceOverlap;
 
@@ -145,9 +147,9 @@ public sealed class Puzzle
         Debug.WriteLine("Saved");
     }
 
-    public Piece? FindCloseTo(Piece targetPiece , out Placement placement)
+    public Piece? FindCloseTo(Piece targetPiece, out Placement placement)
     {
-        placement = Placement.Unknown; 
+        placement = Placement.Unknown;
         double minDistance = double.MaxValue;
         Piece? closestPiece = null;
         Group? targetPieceGroup = targetPiece.MaybeGroup;
@@ -165,13 +167,13 @@ public sealed class Puzzle
             }
 
             // pieces should not belong to the same group is there is one 
-            if ((targetPieceGroup is not null) && (piece.MaybeGroup is Group pieceGroup)    ) 
-            {                
-                if ( targetPieceGroup == pieceGroup)
+            if ((targetPieceGroup is not null) && (piece.MaybeGroup is Group pieceGroup))
+            {
+                if (targetPieceGroup == pieceGroup)
                 {
                     continue;
                 }
-            } 
+            }
 
             // distance should be equal to piece size + or - the snap visual distance 
             double distance = Location.Distance(piece.Center, targetPiece.Center);
@@ -195,8 +197,8 @@ public sealed class Puzzle
                 double moveDistance = Location.Distance(location, targetPiece.Location);
                 if (moveDistance > this.PieceSnapDistance * 10)
                 {
-                    continue; 
-                } 
+                    continue;
+                }
 
                 closestPiece = piece;
             }
@@ -205,32 +207,78 @@ public sealed class Puzzle
         return closestPiece;
     }
 
-    public bool CheckForMatchingPiece(Piece movingPiece, out Piece? snapped)
+    public bool CheckForSnaps(Piece movingPiece)
     {
-        // Target is the piece moving 
-        snapped = null;
+        this.Moves.Clear();
 
         // Find closest piece
         Piece? closest = this.FindCloseTo(movingPiece, out Placement placement);
         if (closest is null)
         {
-            return false;
-        }
+            if (movingPiece.IsGrouped)
+            {
+                foreach (var groupPiece in movingPiece.Group.Pieces)
+                {
+                    if (groupPiece == movingPiece)
+                    {
+                        continue;
+                    }
 
+                    closest = this.FindCloseTo(groupPiece, out placement);
+                    if (closest is not null)
+                    {
+                        // var oldLocation = closest.Location;
+                        groupPiece.SnapTargetToThis(closest, placement.Opposite());
+                        if (closest.IsGrouped)
+                        {
+                            // Moving the piece when snapping will adjust the group as well 
+                            foreach (var closestGroupPiece in closest.Group.Pieces)
+                            {
+                                if (closestGroupPiece == closest)
+                                {
+                                    continue;
+                                }
 
-        if (movingPiece.IsGrouped)
-        {
-            movingPiece.SnapTargetToThis(closest, placement.Opposite());
-            snapped = closest;
+                                this.Moves.Add(closestGroupPiece);
+                            }
+                        }
+
+                        closest.ManageGroups(groupPiece);
+                        break;
+                    }
+                }
+            }
         }
         else
         {
-            closest.SnapTargetToThis(movingPiece, placement);
-            snapped = movingPiece;
+            // Found 
+            if (movingPiece.IsGrouped)
+            {
+                movingPiece.SnapTargetToThis(closest, placement.Opposite());
+                if (closest.IsGrouped)
+                {
+                    // Moving the piece when snapping will adjust the group as well 
+                    foreach (var closestGroupPiece in closest.Group.Pieces)
+                    {
+                        if ( closestGroupPiece == closest)
+                        {
+                            continue;
+                        }
+
+                        this.Moves.Add(closestGroupPiece);
+                    }
+                }
+            }
+            else
+            {
+                closest.SnapTargetToThis(movingPiece, placement);
+            }
+
+            closest.ManageGroups(movingPiece);
         }
 
-        closest.ManageGroups(movingPiece); 
-
-        return true;
+        return this.Moves.Count > 0 ;
     }
+
+    public List<Piece> GetMoves() => this.Moves;
 }
