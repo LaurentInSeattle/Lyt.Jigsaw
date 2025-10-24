@@ -107,6 +107,8 @@ public sealed class Group
 
     public void Rotate(Piece piece, bool isCCW)
     {
+        this.puzzle.Moves.Clear();
+
         int steps = piece.RotationSteps; 
         if (isCCW)
         {
@@ -135,21 +137,32 @@ public sealed class Group
         {
             // All pieces rotate, the clicked piece does not move, just rotate 
             // But all are treated as moves 
-            this.puzzle.Moves.Add(piece); 
-            other.Rotate(isCCW, isCCW);             
+            this.puzzle.Moves.Add(other); 
+            other.Rotate(isCCW, false);             
             if (piece == other)
             {
                 // clicked piece does not move
                 continue;
             }
 
-            // Move and rotate all others
+            // Move all others
+            // BROKEN !!
+            //double deltaX = piece.Center.X - other.Center.X;
+            //double deltaY = piece.Center.Y - other.Center.Y;
+            double x = piece.Center.X;
+            double y = piece.Center.Y;
+            y = -y;
             double radius = Location.Distance(piece.Center, other.Center);
-            double x = piece.Center.X + radius * cos;
-            double y = piece.Center.Y - radius * sin;
+            x += radius * cos;
+            y += radius * sin;
+            y = -y;
+
             // x y == new center, adjust
             x -= puzzle.PieceSize / 2;
             y -= puzzle.PieceSize / 2;
+            //x += deltaX;
+            //y += deltaY;
+            // BROKEN !!
             other.Location = new(x, y);
         }
     }
