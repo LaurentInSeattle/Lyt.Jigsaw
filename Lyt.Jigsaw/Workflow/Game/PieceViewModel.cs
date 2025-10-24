@@ -69,7 +69,7 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
         }
         else
         {
-            this.piece.Rotate(isCCW: isRightClick);
+            this.piece.Rotate(isCCW: isRightClick, save: false);
             this.RotationTransform = new RotateTransform(this.piece.RotationAngle);
         }
     }

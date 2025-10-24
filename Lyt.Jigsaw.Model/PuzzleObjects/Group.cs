@@ -132,6 +132,9 @@ public sealed class Group
         angle = Math.Tau * angle / 360.0;
         double cos = Math.Cos(angle);
         double sin = Math.Sin(angle);
+        double halfSize = puzzle.PieceSize / 2.0;
+        double pCx = piece.Center.X;
+        double pCy = -piece.Center.Y;
 
         foreach (Piece other in this.Pieces)
         {
@@ -146,23 +149,32 @@ public sealed class Group
             }
 
             // Move all others
-            // BROKEN !!
-            //double deltaX = piece.Center.X - other.Center.X;
-            //double deltaY = piece.Center.Y - other.Center.Y;
-            double x = piece.Center.X;
-            double y = piece.Center.Y;
-            y = -y;
-            double radius = Location.Distance(piece.Center, other.Center);
-            x += radius * cos;
-            y += radius * sin;
-            y = -y;
+
+            // Normalize 
+            double oCx = other.Center.X;
+            double oCy = - other.Center.Y;
+
+            // Recenter 
+            double deltaX = oCx - pCx;
+            double deltaY = oCy - pCy;
+
+            // rotate 
+            double x = deltaX * cos - deltaY * sin;
+            double y = deltaX * sin + deltaY * cos;
+
+            // Denormalize 
+            y = -y; 
+
+            // Recenter 
+            x += piece.Center.X;
+            y += piece.Center.Y;
+
 
             // x y == new center, adjust
-            x -= puzzle.PieceSize / 2;
-            y -= puzzle.PieceSize / 2;
-            //x += deltaX;
-            //y += deltaY;
-            // BROKEN !!
+            x -= halfSize;
+            y -= halfSize;
+
+            // Update
             other.Location = new(x, y);
         }
     }
