@@ -2,35 +2,34 @@
 
 public sealed class Group
 {
-    private readonly Puzzle puzzle;
+    internal Group(Group group1, Group group2)
+    {
+        this.AddGroup(group1);
+        this.AddGroup(group2);
+    }
 
     /// <summary> Two pieces joining to create a new group </summary>
-    internal Group(Puzzle puzzle, Piece first, Piece last)
+    internal Group(Piece first, Piece last)
     {
         if (first.Id == last.Id)
         {
             throw new ArgumentException("Cannot add twice the same piece");
         }
 
-        this.puzzle = puzzle;
-        this.Id = first.Id;
         this.AddPiece(first);
         this.AddPiece(last);
     }
 
     public List<Piece> Pieces { get; set; } = [];
 
-    internal int Id { get; private set; }
-
     internal Dictionary<int, Piece> PieceDictionary { get; private set; } = [];
-
-    internal Location Location { get; set; }
 
     public void Rotate(Piece piece, bool isCCW)
     {
-        this.puzzle.Moves.Clear();
+        Puzzle puzzle = piece.Puzzle; 
+        puzzle.Moves.Clear();
 
-        double angle = this.puzzle.RotationStepAngle;
+        double angle = puzzle.RotationStepAngle;
         if (!isCCW)
         {
             angle = -angle;
@@ -49,7 +48,7 @@ public sealed class Group
         {
             // All pieces rotate, the clicked piece does not move, just rotate 
             // But all are treated as moves 
-            this.puzzle.Moves.Add(other);
+            puzzle.Moves.Add(other);
             other.Rotate(isCCW);
             if (piece == other)
             {
@@ -103,11 +102,6 @@ public sealed class Group
     /// <summary> Other group merging into this one </summary>
     internal bool AddGroup(Group group)
     {
-        if (!this.CanAddGroup(group))
-        {
-            return false;
-        }
-
         foreach (var piece in group.Pieces)
         {
             piece.UnGroup(); 
@@ -151,17 +145,6 @@ public sealed class Group
             throw new ArgumentException("Cannot add twice the same piece");
         }
 
-        return true;
-    }
-
-    private bool CanAddGroup(Group group)
-    {
-        if ((this == group) || (this.Id == group.Id))
-        {
-            throw new ArgumentException("Cannot merge the same groups");
-        }
-
-        // TODO: Make sure that no piece belongs to both groups 
         return true;
     }
 }

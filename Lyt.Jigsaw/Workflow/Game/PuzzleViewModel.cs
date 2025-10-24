@@ -85,7 +85,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView> // , IRecipi
 
     internal void Update()
     {
-        if (this.Puzzle is null )
+        if (this.Puzzle is null)
         {
             throw new Exception("Puzzle is null ");
         }
@@ -98,7 +98,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView> // , IRecipi
             pieceViewModel.RotationTransform = new RotateTransform(piece.RotationAngle);
         }
 
-        if ( this.Puzzle.IsComplete)
+        if (this.Puzzle.IsComplete)
         {
             if (this.pieceViewModels is not null)
             {
@@ -106,7 +106,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView> // , IRecipi
                 {
                     vm.OnComplete();
                 }
-            } 
+            }
         }
     }
 

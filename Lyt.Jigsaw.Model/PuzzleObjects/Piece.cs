@@ -299,12 +299,20 @@ public sealed class Piece
     } 
 
     internal void ManageGroups (Piece targetPiece)
-    { 
+    {
+        var groups = this.Puzzle.Groups; 
         if (this.IsGrouped && targetPiece.IsGrouped)
         {
-            // two groups are merging : the group of this.Piece is going into Target 
-            targetPiece.Group.AddGroup(this.Group); 
-            this.Puzzle.Groups.Remove(this.Group);
+            // two groups are merging into one 
+            var groupToRemove1 = this.Group;
+            var groupToRemove2 = targetPiece.Group;
+            groups.Add(new Group(this.Group, targetPiece.Group));
+
+            // Do not use : targetPiece.Group ot this.Group
+            // because target and this have changed of group, and this
+            // would delete the newly created one
+            groups.Remove(groupToRemove1);
+            groups.Remove(groupToRemove2);
         }
         else if (this.IsGrouped && !targetPiece.IsGrouped)
         {
@@ -320,7 +328,7 @@ public sealed class Piece
         else
         {
             // two non-grouped pieces creating the first group 
-            this.Puzzle.Groups.Add(new Group(this.Puzzle, this, targetPiece));
+            groups.Add(new Group(this, targetPiece));
         }
     }
 
