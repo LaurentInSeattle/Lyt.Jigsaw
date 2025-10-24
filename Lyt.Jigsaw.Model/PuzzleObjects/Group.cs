@@ -108,31 +108,19 @@ public sealed class Group
     public void Rotate(Piece piece, bool isCCW)
     {
         this.puzzle.Moves.Clear();
-
-        int steps = piece.RotationSteps; 
-        if (isCCW)
-        {
-            --steps;
-            if (steps < 0)
-            {
-                steps = this.puzzle.RotationSteps - 1;
-            }
-        }
-        else
-        {
-            ++steps;
-            if (steps >= this.puzzle.RotationSteps)
-            {
-                steps = 0;
-            }
-        }
         
-        double angle = steps * this.puzzle.RotationStepAngle;
-        angle = -angle;
+        double angle = this.puzzle.RotationStepAngle;
+        if (!isCCW)
+        {
+            angle = -angle;
+        } 
+
         angle = Math.Tau * angle / 360.0;
         double cos = Math.Cos(angle);
         double sin = Math.Sin(angle);
         double halfSize = puzzle.PieceSize / 2.0;
+
+        // Normalized clicked piece center coordinates 
         double pCx = piece.Center.X;
         double pCy = -piece.Center.Y;
 
@@ -144,13 +132,13 @@ public sealed class Group
             other.Rotate(isCCW, false);             
             if (piece == other)
             {
-                // clicked piece does not move
+                // clicked piece does not move, done 
                 continue;
             }
 
-            // Move all others
+            // Move all others by rotating their centers around the center of the clicked piece
 
-            // Normalize 
+            // Normalize center coordinates 
             double oCx = other.Center.X;
             double oCy = - other.Center.Y;
 
@@ -169,8 +157,7 @@ public sealed class Group
             x += piece.Center.X;
             y += piece.Center.Y;
 
-
-            // x y == new center, adjust
+            // x y == new center, adjust for top left position on canvas 
             x -= halfSize;
             y -= halfSize;
 
