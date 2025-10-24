@@ -1,7 +1,5 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Game;
 
-using Location = Model.Infrastucture.Location;
-
 public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableViewModel
 {
     [ObservableProperty]
@@ -12,6 +10,9 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
 
     [ObservableProperty]
     private Transform rotationTransform;
+
+    [ObservableProperty]
+    private bool pathIsVisible;
 
     private readonly PuzzleViewModel puzzleViewModel;
 
@@ -52,7 +53,11 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
         this.ClipGeometry = GeometryGenerator.InvertedClip(outerGeometry, innerGeometry);
 
         this.RotationTransform = new RotateTransform(this.piece.RotationAngle);
+        this.PathIsVisible = true; 
     }
+
+    public void OnComplete ()
+        => this.PathIsVisible = false;
 
     public void OnEntered() { }
 
@@ -69,7 +74,7 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
         }
         else
         {
-            this.piece.Rotate(isCCW: isRightClick, save: false);
+            this.piece.Rotate(isCCW: isRightClick);
             this.RotationTransform = new RotateTransform(this.piece.RotationAngle);
         }
     }
@@ -95,7 +100,7 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
 
     public void OnMove(Point fromPoint, Point toPoint)
     {
-        this.piece.MoveTo(toPoint.X, toPoint.Y, save: false);
+        this.piece.MoveTo(toPoint.X, toPoint.Y);
 
         if (this.piece.IsGrouped)
         {
@@ -113,11 +118,5 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
             }
         }
     }
-
-
-    //[RelayCommand]
-    //public void OnDoSomething()
-    //{
-    //}
 }
 

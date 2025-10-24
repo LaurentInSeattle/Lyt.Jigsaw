@@ -19,9 +19,14 @@ public sealed class Puzzle
         this.GenerateSetups();
     }
 
-    public IntSize ImageSize { get; set; }
+    public List<int> PieceCounts => [.. this.puzzleSetups.Keys];
 
-    public double PieceSnapDistance { get; private set; }
+    public List<Piece> Pieces { get; private set; } = [];
+
+    public int PieceCount { get; private set; }
+
+    public bool IsComplete
+        => this.Groups.Count == 1 && this.Groups[0].Pieces.Count == this.PieceCount;
 
     public int Rows { get; private set; }
 
@@ -31,31 +36,24 @@ public sealed class Puzzle
 
     public int PieceOverlap { get; private set; }
 
-    public int RotationSteps { get; private set; }
 
-    public int RotationStepAngle { get; private set; }
+    internal int RotationSteps { get; private set; }
 
-    public int PieceCount { get; private set; }
+    internal int RotationStepAngle { get; private set; }
 
-    public List<Group> Groups { get; private set; } = [];
+    internal List<Group> Groups { get; private set; } = [];
 
-    public List<Piece> Pieces { get; private set; } = [];
+    internal Dictionary<int, Piece> PieceDictionary { get; private set; } = [];
 
-    public Dictionary<int, Piece> PieceDictionary { get; private set; } = [];
+    internal List<Piece> Moves { get; private set; } = [];
 
-    public List<Piece> Moves { get; private set; } = [];
+    private IntSize ImageSize { get; set; }
 
-    public int ApparentPieceSize => this.PieceSize - 2 * this.PieceOverlap;
+    private double PieceSnapDistance { get; set; }
 
-    public bool IsComplete
-        => this.Groups.Count == 1 && this.Groups[0].Pieces.Count == this.PieceCount;
+    private int ApparentPieceSize => this.PieceSize - 2 * this.PieceOverlap;
 
-    public List<int> PieceCounts => [.. this.puzzleSetups.Keys];
-
-    public Piece FromId(int id)
-        => this.PieceDictionary.TryGetValue(id, out Piece? piece) && piece is not null ?
-                piece :
-                throw new ArgumentException("No such Piece Id ");
+    public List<Piece> GetMoves() => this.Moves;
 
     public bool Setup(int pieceCount, int rotationSteps)
     {
@@ -87,58 +85,6 @@ public sealed class Puzzle
         return true;
     }
 
-    private void GenerateSetups()
-    {
-        int minDimension = Math.Min(this.ImageSize.Width, this.ImageSize.Height);
-        int maxPieceSize = minDimension / 3;
-        for (int pieceSize = 32; pieceSize <= maxPieceSize; pieceSize += 4)
-        {
-            var setup = new PuzzleSetup(pieceSize, this.ImageSize);
-            int pieceCount = setup.Rows * setup.Columns;
-            this.puzzleSetups.TryAdd(pieceCount, setup);
-        }
-    }
-
-    private void CreatePieces()
-    {
-        this.profiler.StartTiming();
-
-        for (int row = 0; row < this.Rows; ++row)
-        {
-            for (int col = 0; col < this.Columns; ++col)
-            {
-                var piece = new Piece(this, row, col);
-                this.Pieces.Add(piece);
-                this.PieceDictionary.Add(piece.Id, piece);
-            }
-        }
-
-        for (int row = 0; row < this.Rows; ++row)
-        {
-            for (int col = 0; col < this.Columns; ++col)
-            {
-                var piece = this.FromId(this.ToId(row, col));
-                piece.UpdateSides();
-            }
-        }
-
-        // Measured at less of 12 ms in debug build for 180 pieces 
-        // Measured at less of 35 ms in debug build for 1920 pieces 
-        this.profiler.EndTiming(string.Format("Creating point lists - Piece Count: {0}", this.PieceCount));
-
-        for (int row = 0; row < this.Rows; ++row)
-        {
-            for (int col = 0; col < this.Columns; ++col)
-            {
-                var piece = this.FromId(this.ToId(row, col));
-                if (piece.AnySideUnknown)
-                {
-                    throw new Exception("Failed to calculate sides");
-                }
-            }
-        }
-    }
-
     public void Save()
     {
         // TODO 
@@ -147,7 +93,80 @@ public sealed class Puzzle
         Debug.WriteLine("Saved");
     }
 
-    public Piece? FindCloseTo(Piece targetPiece, out Placement placement)
+    public bool CheckForSnaps(Piece movingPiece)
+    {
+        this.Moves.Clear();
+
+        // Find closest piece
+        Piece? closest = this.FindCloseTo(movingPiece, out Placement placement);
+        if (closest is null)
+        {
+            if (movingPiece.IsGrouped)
+            {
+                foreach (var groupPiece in movingPiece.Group.Pieces)
+                {
+                    if (groupPiece == movingPiece)
+                    {
+                        continue;
+                    }
+
+                    closest = this.FindCloseTo(groupPiece, out placement);
+                    if (closest is not null)
+                    {
+                        // var oldLocation = closest.Location;
+                        groupPiece.SnapTargetToThis(closest, placement.Opposite());
+                        if (closest.IsGrouped)
+                        {
+                            // Moving the piece when snapping will adjust the group as well 
+                            foreach (var closestGroupPiece in closest.Group.Pieces)
+                            {
+                                if (closestGroupPiece == closest)
+                                {
+                                    continue;
+                                }
+
+                                this.Moves.Add(closestGroupPiece);
+                            }
+                        }
+
+                        closest.ManageGroups(groupPiece);
+                        break;
+                    }
+                }
+            }
+        }
+        else
+        {
+            // Found 
+            if (movingPiece.IsGrouped)
+            {
+                movingPiece.SnapTargetToThis(closest, placement.Opposite());
+                if (closest.IsGrouped)
+                {
+                    // Moving the piece when snapping will adjust the group as well 
+                    foreach (var closestGroupPiece in closest.Group.Pieces)
+                    {
+                        if (closestGroupPiece == closest)
+                        {
+                            continue;
+                        }
+
+                        this.Moves.Add(closestGroupPiece);
+                    }
+                }
+            }
+            else
+            {
+                closest.SnapTargetToThis(movingPiece, placement);
+            }
+
+            closest.ManageGroups(movingPiece);
+        }
+
+        return this.Moves.Count > 0;
+    }
+
+    private Piece? FindCloseTo(Piece targetPiece, out Placement placement)
     {
         placement = Placement.Unknown;
         double minDistance = double.MaxValue;
@@ -207,78 +226,60 @@ public sealed class Puzzle
         return closestPiece;
     }
 
-    public bool CheckForSnaps(Piece movingPiece)
+    private void GenerateSetups()
     {
-        this.Moves.Clear();
-
-        // Find closest piece
-        Piece? closest = this.FindCloseTo(movingPiece, out Placement placement);
-        if (closest is null)
+        int minDimension = Math.Min(this.ImageSize.Width, this.ImageSize.Height);
+        int maxPieceSize = minDimension / 3;
+        for (int pieceSize = 32; pieceSize <= maxPieceSize; pieceSize += 4)
         {
-            if (movingPiece.IsGrouped)
-            {
-                foreach (var groupPiece in movingPiece.Group.Pieces)
-                {
-                    if (groupPiece == movingPiece)
-                    {
-                        continue;
-                    }
-
-                    closest = this.FindCloseTo(groupPiece, out placement);
-                    if (closest is not null)
-                    {
-                        // var oldLocation = closest.Location;
-                        groupPiece.SnapTargetToThis(closest, placement.Opposite());
-                        if (closest.IsGrouped)
-                        {
-                            // Moving the piece when snapping will adjust the group as well 
-                            foreach (var closestGroupPiece in closest.Group.Pieces)
-                            {
-                                if (closestGroupPiece == closest)
-                                {
-                                    continue;
-                                }
-
-                                this.Moves.Add(closestGroupPiece);
-                            }
-                        }
-
-                        closest.ManageGroups(groupPiece);
-                        break;
-                    }
-                }
-            }
+            var setup = new PuzzleSetup(pieceSize, this.ImageSize);
+            int pieceCount = setup.Rows * setup.Columns;
+            this.puzzleSetups.TryAdd(pieceCount, setup);
         }
-        else
-        {
-            // Found 
-            if (movingPiece.IsGrouped)
-            {
-                movingPiece.SnapTargetToThis(closest, placement.Opposite());
-                if (closest.IsGrouped)
-                {
-                    // Moving the piece when snapping will adjust the group as well 
-                    foreach (var closestGroupPiece in closest.Group.Pieces)
-                    {
-                        if ( closestGroupPiece == closest)
-                        {
-                            continue;
-                        }
-
-                        this.Moves.Add(closestGroupPiece);
-                    }
-                }
-            }
-            else
-            {
-                closest.SnapTargetToThis(movingPiece, placement);
-            }
-
-            closest.ManageGroups(movingPiece);
-        }
-
-        return this.Moves.Count > 0 ;
     }
 
-    public List<Piece> GetMoves() => this.Moves;
+    private void CreatePieces()
+    {
+        this.profiler.StartTiming();
+
+        for (int row = 0; row < this.Rows; ++row)
+        {
+            for (int col = 0; col < this.Columns; ++col)
+            {
+                var piece = new Piece(this, row, col);
+                this.Pieces.Add(piece);
+                this.PieceDictionary.Add(piece.Id, piece);
+            }
+        }
+
+        for (int row = 0; row < this.Rows; ++row)
+        {
+            for (int col = 0; col < this.Columns; ++col)
+            {
+                var piece = this.FromId(this.ToId(row, col));
+                piece.UpdateSides();
+            }
+        }
+
+        // Measured at less of 12 ms in debug build for 180 pieces 
+        // Measured at less of 35 ms in debug build for 1920 pieces 
+        this.profiler.EndTiming(string.Format("Creating point lists - Piece Count: {0}", this.PieceCount));
+
+        for (int row = 0; row < this.Rows; ++row)
+        {
+            for (int col = 0; col < this.Columns; ++col)
+            {
+                var piece = this.FromId(this.ToId(row, col));
+                if (piece.AnySideUnknown)
+                {
+                    throw new Exception("Failed to calculate sides");
+                }
+            }
+        }
+    }
+
+    private Piece FromId(int id)
+        => this.PieceDictionary.TryGetValue(id, out Piece? piece) && piece is not null ?
+                piece :
+                throw new ArgumentException("No such Piece Id ");
 }

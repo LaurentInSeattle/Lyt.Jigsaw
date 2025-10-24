@@ -32,6 +32,7 @@
 		Opacity="0.2"
 		Data ="{Binding ClipGeometry}"
 		RenderTransform="{Binding RotationTransform}"
+		IsVisible="{Binding PathIsVisible}"
 		/>
 	</Grid>
 </UserControl>

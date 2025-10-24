@@ -40,7 +40,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView> // , IRecipi
             double y = (double)position.Row * pieceSizeWithOverlap;
             view.SetValue(Canvas.TopProperty, y);
             view.SetValue(Canvas.LeftProperty, x);
-            piece.MoveTo(x, y, save: false);
+            piece.MoveTo(x, y);
         }
 
         this.Puzzle.Save();
@@ -96,6 +96,17 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView> // , IRecipi
             var pieceViewModel = this.GetViewModelFromPiece(piece);
             pieceViewModel.View.MoveTo(piece.Location);
             pieceViewModel.RotationTransform = new RotateTransform(piece.RotationAngle);
+        }
+
+        if ( this.Puzzle.IsComplete)
+        {
+            if (this.pieceViewModels is not null)
+            {
+                foreach (PieceViewModel vm in this.pieceViewModels.Values)
+                {
+                    vm.OnComplete();
+                }
+            } 
         }
     }
 

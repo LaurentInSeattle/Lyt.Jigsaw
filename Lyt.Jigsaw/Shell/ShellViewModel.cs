@@ -1,8 +1,5 @@
 ﻿namespace Lyt.Jigsaw.Shell;
 
-using Lyt.Avalonia.Controls.Images;
-using Lyt.Mvvm;
-
 using static Messaging.ApplicationMessagingExtensions;
 
 public sealed partial class ShellViewModel 
@@ -124,14 +121,15 @@ public sealed partial class ShellViewModel
     {
         ResourcesUtilities.SetResourcesPath("Lyt.Jigsaw.Resources");
         ResourcesUtilities.SetExecutingAssembly(Assembly.GetExecutingAssembly());
-        // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Bonheur_Matisse.jpg", out string? _);
-        byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Kauai.jpg", out string? _);
+        // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Bonheur_Matisse.jpg", out string? _);        
+        //byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Kauai.jpg", out string? _);
+        byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Seraph-of-the-Scales.jpg", out string? _);
         var image = WriteableBitmap.DecodeToWidth(new MemoryStream(imageBytes), 1200, BitmapInterpolationMode.HighQuality);
 
         var puzzle = new Puzzle(this.Logger, image.PixelSize.Height, image.PixelSize.Width, 0);
         var counts = puzzle.PieceCounts;
         var vm = App.GetRequiredService<PuzzleViewModel>();
-        vm.Start(image, counts[counts.Count - 6], rotationSteps: 3);
+        vm.Start(image, counts[counts.Count - 1], rotationSteps: 0);
         // vm.Start(image, counts[0], rotationSteps: 6);
     }
 

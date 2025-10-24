@@ -30,26 +30,14 @@ public sealed class Piece
         }
 
         this.RotationSteps = puzzle.Randomizer.Next(puzzle.RotationSteps);
-        this.Rotate(save: false);
+        this.Rotate();
     }
-
-    public int Id { get; private set; }
 
     public Location Location { get; set; }
 
     public IntPosition Position { get; private set; }
 
-    public int RotationSteps { get; set; }
-
     public int RotationAngle { get; set; }
-
-    public int TopId { get; private set; }
-
-    public int BottomId { get; private set; }
-
-    public int LeftId { get; private set; }
-
-    public int RightId { get; private set; }
 
     public IntPointList TopPoints { get; private set; } = [];
 
@@ -59,15 +47,27 @@ public sealed class Piece
 
     public IntPointList RightPoints { get; private set; } = [];
 
-    public SideKind TopSide { get; private set; }
+    internal int RotationSteps { get; set; }
 
-    public SideKind BottomSide { get; private set; }
+    internal int Id { get; private set; }
 
-    public SideKind LeftSide { get; private set; }
+    internal int TopId { get; private set; }
 
-    public SideKind RightSide { get; private set; }
+    internal int BottomId { get; private set; }
 
-    public Group? MaybeGroup { get; private set; }
+    internal int LeftId { get; private set; }
+
+    internal int RightId { get; private set; }
+
+    private SideKind TopSide { get; set; }
+
+    private SideKind BottomSide { get; set; }
+
+    private SideKind LeftSide { get; set; }
+
+    private SideKind RightSide { get; set; }
+
+    internal Group? MaybeGroup { get; private set; }
 
     public Group Group
     {
@@ -79,19 +79,17 @@ public sealed class Piece
 
     public bool IsGrouped => this.MaybeGroup is not null;
 
-    public void UnGroup() => this.MaybeGroup = null; 
+    internal void UnGroup() => this.MaybeGroup = null; 
 
-    public bool IsRotated => this.RotationAngle != 0;
+    private bool IsTop => this.Position.Row == 0;
 
-    public bool IsTop => this.Position.Row == 0;
+    private bool IsBottom => this.Position.Row == this.Puzzle.Rows - 1;
 
-    public bool IsBottom => this.Position.Row == this.Puzzle.Rows - 1;
+    private bool IsLeft => this.Position.Column == 0;
 
-    public bool IsLeft => this.Position.Column == 0;
+    private bool IsRight => this.Position.Column == this.Puzzle.Columns - 1;
 
-    public bool IsRight => this.Position.Column == this.Puzzle.Columns - 1;
-
-    public Placement SnapPlacement { get; private set; } = Placement.Unknown;
+    private Placement SnapPlacement { get; set; } = Placement.Unknown;
 
     public Piece? MaybeSnapPiece { get; private set; }
 
@@ -105,7 +103,7 @@ public sealed class Piece
         set => this.MaybeSnapPiece = value;
     }
 
-    public Piece GetTop()
+    internal Piece GetTop()
     {
         if (this.IsTop)
         {
@@ -120,7 +118,7 @@ public sealed class Piece
         throw new Exception("Failed to get Top neighbour of non-Top piece");
     }
 
-    public Piece GetBottom()
+    internal Piece GetBottom()
     {
         if (this.IsBottom)
         {
@@ -135,7 +133,7 @@ public sealed class Piece
         throw new Exception("Failed to get Bottom neighbour of non-Bottom piece");
     }
 
-    public Piece GetLeft()
+    internal Piece GetLeft()
     {
         if (this.IsLeft)
         {
@@ -150,7 +148,7 @@ public sealed class Piece
         throw new Exception("Failed to get Left neighbour of non-Left piece");
     }
 
-    public Piece GetRight()
+    internal Piece GetRight()
     {
         if (this.IsRight)
         {
@@ -216,7 +214,7 @@ public sealed class Piece
         }
     }
 
-    public void Rotate(bool isCCW = true, bool save = true)
+    public void Rotate(bool isCCW = true)
     {
         if (isCCW)
         {
@@ -236,13 +234,9 @@ public sealed class Piece
         }
 
         this.RotationAngle = this.RotationSteps * this.Puzzle.RotationStepAngle;
-        if (save)
-        {
-            this.Puzzle.Save();
-        }
     }
 
-    public void MoveTo(double x, double y, bool save = true)
+    public void MoveTo(double x, double y)
     {
         double deltaX = x - this.Location.X;
         double deltaY = y - this.Location.Y;
@@ -253,22 +247,10 @@ public sealed class Piece
             // Move the rest of the group by 
             this.Group.MoveBy(this, deltaX, deltaY);
         }
-
-        if (save)
-        {
-            this.Puzzle.Save();
-        }
     }
 
-    public void MoveBy(double deltaX, double deltaY, bool save = true)
-    {
-        this.Location = new Location(this.Location.X + deltaX, this.Location.Y + deltaY);
-
-        if (save)
-        {
-            this.Puzzle.Save();
-        }
-    }
+    public void MoveBy(double deltaX, double deltaY)
+        => this.Location = new Location(this.Location.X + deltaX, this.Location.Y + deltaY);
 
     internal bool IsSharingOneSideWith(Piece targetPiece, out Placement placement)
     {
@@ -306,7 +288,7 @@ public sealed class Piece
         this.Puzzle.Moves.Add(targetPiece);
 
         var location = this.SnapLocation(placement);
-        targetPiece.MoveTo(location.X, location.Y, save:false);
+        targetPiece.MoveTo(location.X, location.Y);
         targetPiece.SnapPiece = this;
         targetPiece.SnapPlacement = placement;
         if (!this.IsSnapped)
@@ -364,7 +346,7 @@ public sealed class Piece
         return new(x, y);
     }
 
-    public Location Center =>
+    internal Location Center =>
         new(this.Location.X + this.Puzzle.PieceSize / 2, this.Location.Y + this.Puzzle.PieceSize / 2);
 
     internal bool AnySideUnknown =>
