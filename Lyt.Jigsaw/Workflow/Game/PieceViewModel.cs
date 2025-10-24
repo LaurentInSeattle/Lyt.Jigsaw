@@ -30,11 +30,10 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
         var puzzle = piece.Puzzle;
 
         // Cropping 
+        // Cropping works just fine with negative origin at top and left edges 
         int roiSize = puzzle.PieceSize + 2 * puzzle.PieceOverlap;
         int roiX = piece.Position.Column * puzzle.PieceSize - puzzle.PieceOverlap;
-        roiX = Math.Max(0, roiX);
         int roiY = piece.Position.Row * puzzle.PieceSize - puzzle.PieceOverlap;
-        roiY = Math.Max(0, roiY);
         var rectangleRoi = new PixelRect(roiX, roiY, roiSize, roiSize);
         var cropped = new CroppedBitmap(puzzleViewModel.Image, rectangleRoi);
         this.CroppedBitmap = cropped;
