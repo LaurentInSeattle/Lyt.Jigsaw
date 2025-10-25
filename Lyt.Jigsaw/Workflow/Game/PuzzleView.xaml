@@ -9,6 +9,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 
+	xmlns:controls="clr-namespace:Lyt.Jigsaw.Controls"
 	xmlns:glyphs="clr-namespace:Lyt.Avalonia.Controls.Glyphs;assembly=Lyt.Avalonia.Controls"
 	xmlns:panzoom="using:Lyt.Avalonia.Controls.PanZoom"
 	xmlns:interactions="using:Lyt.Avalonia.Mvvm.Behaviors"
@@ -21,10 +22,30 @@
 		x:Name="OuterGrid"
 		Background="Transparent"
 		>
-    <Canvas
-			x:Name="InnerCanvas"
-      Background="Black"
-      Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}"
-      /> 
-    </Grid>
+		<panzoom:PanZoomControl
+			x:Name="PanAndZoom"
+			Grid.Column="1" Grid.Row="1" 
+			Background="#20101010"
+			ZoomFactor="{Binding ZoomFactor}"
+			>
+			<panzoom:PanZoomControl.ZoomableContent>				
+				<Canvas
+					x:Name="InnerCanvas"
+					Background="Transparent"
+					Width="{Binding CanvasWidth}" 
+					Height="{Binding CanvasHeight}"
+					RenderOptions.BitmapInterpolationMode="LowQuality"
+					VerticalAlignment="Top" HorizontalAlignment="Left"
+					>
+				</Canvas>
+			</panzoom:PanZoomControl.ZoomableContent>
+		</panzoom:PanZoomControl>
+		<controls:ZoomController
+			x:Name="ZoomController"
+			Grid.Column="1" Grid.Row="1"
+			VerticalAlignment="Top" HorizontalAlignment="Right"
+			Min="1.0" Max="2.0"
+			Margin="0 12 12 12"
+			/>
+	</Grid>
 </UserControl>

@@ -1,6 +1,6 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Game;
 
-public sealed partial class PuzzleViewModel : ViewModel<PuzzleView> // , IRecipient<LanguageChangedMessage>
+public sealed partial class PuzzleViewModel : ViewModel<PuzzleView> , IRecipient<ZoomRequestMessage>
 {
     public Puzzle? Puzzle;
 
@@ -12,13 +12,25 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView> // , IRecipi
     [ObservableProperty]
     private double canvasHeight;
 
-    private Dictionary<Piece, PieceViewModel>? pieceViewModels;
+    [ObservableProperty]
+    private double zoomFactor;
+
+    private readonly Dictionary<Piece, PieceViewModel> pieceViewModels;
+
+    public PuzzleViewModel()
+    {
+        this.Subscribe<ZoomRequestMessage>();
+        this.pieceViewModels = [];
+    }
+
+    public void Receive(ZoomRequestMessage message)
+        => this.ZoomFactor = message.ZoomFactor;
 
     public void Start(WriteableBitmap image, int pieceCount, int rotationSteps)
     {
         this.Profiler.StartTiming();
 
-        this.pieceViewModels = [];
+        this.pieceViewModels.Clear();
         this.Image = image;
         PixelSize imagePixelSize = image.PixelSize;
         this.Puzzle = new Puzzle(this.Logger, imagePixelSize.Height, imagePixelSize.Width, rotationSteps);

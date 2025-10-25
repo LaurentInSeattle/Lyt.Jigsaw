@@ -1,0 +1,56 @@
+<UserControl 
+	x:Class="Lyt.Jigsaw.Controls.ZoomController"
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+	xmlns:glyphs="clr-namespace:Lyt.Avalonia.Controls.Glyphs;assembly=Lyt.Avalonia.Controls"
+	>
+	<Border
+		BorderThickness="1.0"
+		BorderBrush="{StaticResource LightAqua_1_100}"
+		Background="#80181010"
+		CornerRadius="8"
+		Width="56" Height="260"
+		Opacity="1.0"
+		>
+		<StackPanel 
+			Orientation="Vertical"
+			Margin="0 8 0 8"
+			>
+			<glyphs:GlyphButton
+				x:Name="maxButton"
+				Style="{StaticResource IconButton}"
+				Margin="0 0 0 8"
+				Padding="0"
+				Width="36" Height="36"
+				FontSize="13"
+				Click="OnButtonMaxClick"
+				HorizontalAlignment="Center"
+				GlyphSource="zoom_in"
+				/>
+			<Slider
+				x:Name="Slider"
+				Orientation="Vertical"
+				HorizontalAlignment="Center"
+				Margin="0 2 0 2"
+				Height="150" 
+				ValueChanged="OnSliderValueChanged"
+				TickPlacement="None"
+				IsSnapToTickEnabled="True"
+				/>
+			<glyphs:GlyphButton
+				x:Name="minButton"
+				Style="{StaticResource IconButton}"
+				FontSize="13"
+				Margin="0 8 0 0"
+				Padding="0"
+				Width="36" Height="36"
+				Click="OnButtonMinClick"
+				HorizontalAlignment="Center"
+				GlyphSource="zoom_fit"
+				/>
+		</StackPanel>
+	</Border>
+</UserControl>

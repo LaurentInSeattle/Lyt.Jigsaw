@@ -70,6 +70,7 @@ global using Lyt.Avalonia.Controls.Glyphs;
 global using Lyt.Avalonia.Mvvm;
 global using Lyt.Avalonia.Mvvm.Animations;
 global using Lyt.Avalonia.Mvvm.Behaviors.DragMove;
+global using Lyt.Avalonia.Mvvm.Behaviors.Visual;
 global using Lyt.Avalonia.Mvvm.Dialogs;
 global using Lyt.Avalonia.Mvvm.Logging;
 global using Lyt.Avalonia.Mvvm.Selector;
