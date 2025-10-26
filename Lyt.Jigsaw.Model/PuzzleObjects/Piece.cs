@@ -285,8 +285,14 @@ public sealed class Piece
 
     internal void SnapTargetToThis(Piece targetPiece, Placement placement)
     {
-        this.Puzzle.Moves.Add(targetPiece);
+        if (placement== Placement.Unknown)
+        {
+            // Randomly crashes here  :( 
+            if ( Debugger.IsAttached ) {  Debugger.Break(); }
+            return; 
+        }
 
+        this.Puzzle.Moves.Add(targetPiece);
         var location = this.SnapLocation(placement);
         targetPiece.MoveTo(location.X, location.Y);
         targetPiece.SnapPiece = this;
