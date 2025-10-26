@@ -18,6 +18,8 @@
 	
 	Background="Transparent"
 	>
+	<!-- 
+	-->
 	<Grid
 		x:Name="OuterGrid"
 		Background="Transparent"
@@ -25,17 +27,19 @@
 		<panzoom:PanZoomControl
 			x:Name="PanAndZoom"
 			Grid.Column="1" Grid.Row="1" 
-			Background="#20101010"
+			Background="#80101010"
 			ZoomFactor="{Binding ZoomFactor}"
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			>
-			<panzoom:PanZoomControl.ZoomableContent>				
+			<panzoom:PanZoomControl.ZoomableContent
+				>				
 				<Canvas
 					x:Name="InnerCanvas"
+					ClipToBounds="False"
 					Background="Transparent"
+					RenderOptions.BitmapInterpolationMode="LowQuality"
 					Width="{Binding CanvasWidth}" 
 					Height="{Binding CanvasHeight}"
-					RenderOptions.BitmapInterpolationMode="LowQuality"
-					VerticalAlignment="Top" HorizontalAlignment="Left"
 					>
 				</Canvas>
 			</panzoom:PanZoomControl.ZoomableContent>

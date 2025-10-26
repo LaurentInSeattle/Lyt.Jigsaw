@@ -1,5 +1,8 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Game;
 
+using Lyt.Jigsaw.Model.PuzzleObjects;
+using System.IO.Pipelines;
+
 public sealed partial class PuzzleViewModel : ViewModel<PuzzleView> , IRecipient<ZoomRequestMessage>
 {
     public Puzzle? Puzzle;
@@ -26,7 +29,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView> , IRecipient
     public void Receive(ZoomRequestMessage message)
         => this.ZoomFactor = message.ZoomFactor;
 
-    public void Start(WriteableBitmap image, int pieceCount, int rotationSteps)
+    public void Start(WriteableBitmap image, int pieceCount, int rotationSteps, bool randomize=true)
     {
         this.Profiler.StartTiming();
 
@@ -37,23 +40,53 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView> , IRecipient
         this.Puzzle.Setup(pieceCount, rotationSteps);
         int pieceSize = this.Puzzle.PieceSize;
         int pieceSizeWithOverlap = pieceSize + 2 * this.Puzzle.PieceOverlap;
-        this.CanvasWidth = pieceSizeWithOverlap * this.Puzzle.Columns;
-        this.CanvasHeight = pieceSizeWithOverlap * this.Puzzle.Rows;
+        this.CanvasWidth = pieceSizeWithOverlap * (3 + this.Puzzle.Columns) ;
+        this.CanvasHeight = pieceSizeWithOverlap * (1 + this.Puzzle.Rows);
+        double xOffset = pieceSizeWithOverlap / 2.0;
+        double yOffset = pieceSizeWithOverlap ;
 
-        foreach (Piece piece in this.Puzzle.Pieces)
+        PieceView CreatePieceView(Piece piece)
         {
             var vm = new PieceViewModel(this, piece);
             this.pieceViewModels.Add(piece, vm);
             PieceView view = vm.CreateViewAndBind();
             view.AttachBehavior(this.View.InnerCanvas);
             this.View.InnerCanvas.Children.Add(view);
-            var position = piece.Position;
-            double x = (double)position.Column * pieceSizeWithOverlap;
-            double y = (double)position.Row * pieceSizeWithOverlap;
-            view.SetValue(Canvas.TopProperty, y);
-            view.SetValue(Canvas.LeftProperty, x);
-            piece.MoveTo(x, y);
+            return view;
         }
+
+        if (randomize)
+        {
+            // Duplicate the list and shuffle the copy 
+            var pieces = this.Puzzle.Pieces.Shuffle().ToList();
+            int pieceIndex = 0;
+            for (int row = 0; row < this.Puzzle.Rows; row++)
+            {
+                for (int col = 0; col < this.Puzzle.Columns; col++)
+                {
+                    Piece piece = pieces[pieceIndex];
+                    var view = CreatePieceView(piece);
+                    double x = (double)col * pieceSizeWithOverlap;
+                    double y = (double)row * pieceSizeWithOverlap;
+                    piece.MoveTo(x+xOffset, y+yOffset);
+                    view.MovePieceToLocation(piece);
+
+                    ++pieceIndex;
+                }
+            }
+        }
+        else
+        {
+            foreach (Piece piece in this.Puzzle.Pieces)
+            {
+                var view = CreatePieceView(piece);
+                var position = piece.Position;
+                double x = (double)position.Column * pieceSizeWithOverlap;
+                double y = (double)position.Row * pieceSizeWithOverlap;
+                piece.MoveTo(x + xOffset, y + yOffset);
+                view.MovePieceToLocation(piece);
+            }
+        } 
 
         this.Puzzle.Save();
 
