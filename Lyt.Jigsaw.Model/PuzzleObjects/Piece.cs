@@ -35,6 +35,9 @@ public sealed class Piece
 
     public Location Location { get; set; }
 
+    public Location Center =>
+        new(this.Location.X + this.Puzzle.PieceSize / 2, this.Location.Y + this.Puzzle.PieceSize / 2);
+
     public IntPosition Position { get; private set; }
 
     public int RotationAngle { get; set; }
@@ -359,9 +362,6 @@ public sealed class Piece
         double y = this.Location.Y - radius * sin;
         return new(x, y);
     }
-
-    internal Location Center =>
-        new(this.Location.X + this.Puzzle.PieceSize / 2, this.Location.Y + this.Puzzle.PieceSize / 2);
 
     internal bool AnySideUnknown =>
         this.TopPoints.Count == 0 ||

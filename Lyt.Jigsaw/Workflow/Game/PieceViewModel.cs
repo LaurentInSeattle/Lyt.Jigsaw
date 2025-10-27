@@ -1,5 +1,7 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Game;
 
+using Location = Model.Infrastucture.Location;
+
 public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableViewModel
 {
     [ObservableProperty]
@@ -80,9 +82,9 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
 
     public bool OnBeginMove(Point fromPoint)
     {
-        return true;
-        // double distance = Point.Distance(fromPoint, this.piece.Center.ToPoint()); 
-        // return distance < this.piece.Puzzle.ApparentPieceSize;
+        double distance = 
+            Location.Distance(new Location(fromPoint.X, fromPoint.Y), this.piece.Center);
+        return distance < this.piece.Puzzle.ApparentPieceSize * 1.7;
     }
 
     public void OnEndMove(Point fromPoint, Point toPoint)

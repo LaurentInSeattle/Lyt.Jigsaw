@@ -36,6 +36,7 @@ public sealed class Puzzle
 
     public int PieceOverlap { get; private set; }
 
+    public int ApparentPieceSize => this.PieceSize - 2 * this.PieceOverlap;
 
     internal int RotationSteps { get; private set; }
 
@@ -50,8 +51,6 @@ public sealed class Puzzle
     private IntSize ImageSize { get; set; }
 
     private double PieceSnapDistance { get; set; }
-
-    private int ApparentPieceSize => this.PieceSize - 2 * this.PieceOverlap;
 
     public List<Piece> GetMoves() => this.Moves;
 
