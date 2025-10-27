@@ -3,7 +3,7 @@
 using Lyt.Jigsaw.Model.PuzzleObjects;
 using System.IO.Pipelines;
 
-public sealed partial class PuzzleViewModel : ViewModel<PuzzleView> , IRecipient<ZoomRequestMessage>
+public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<ZoomRequestMessage>
 {
     public Puzzle? Puzzle;
 
@@ -29,7 +29,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView> , IRecipient
     public void Receive(ZoomRequestMessage message)
         => this.ZoomFactor = message.ZoomFactor;
 
-    public void Start(WriteableBitmap image, int pieceCount, int rotationSteps, bool randomize=true)
+    public void Start(WriteableBitmap image, int pieceCount, int rotationSteps, bool randomize = true)
     {
         this.Profiler.StartTiming();
 
@@ -40,10 +40,11 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView> , IRecipient
         this.Puzzle.Setup(pieceCount, rotationSteps);
         int pieceSize = this.Puzzle.PieceSize;
         int pieceSizeWithOverlap = pieceSize + 2 * this.Puzzle.PieceOverlap;
-        this.CanvasWidth = pieceSizeWithOverlap * (3 + this.Puzzle.Columns) ;
-        this.CanvasHeight = pieceSizeWithOverlap * (1 + this.Puzzle.Rows);
-        double xOffset = pieceSizeWithOverlap / 2.0;
-        double yOffset = pieceSizeWithOverlap ;
+        int canvasRows = 1 + this.Puzzle.Rows;
+        int canvasColumns = 3 + this.Puzzle.Columns;
+        this.CanvasWidth = pieceSizeWithOverlap * canvasColumns;
+        this.CanvasHeight = pieceSizeWithOverlap * canvasRows;
+
 
         PieceView CreatePieceView(Piece piece)
         {
@@ -57,26 +58,61 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView> , IRecipient
 
         if (randomize)
         {
+            // Recalculate to take into account the reduced spacing 
+            double pieceDistance = pieceSizeWithOverlap * 0.88;
+            canvasRows = (int)(this.CanvasHeight / pieceDistance);
+            canvasColumns = (int)(this.CanvasWidth / pieceDistance);
+
+            // Fugure out how many full canvas rows would be needed 
+            int fullRows = pieceCount / canvasColumns;
+            int topRows = fullRows / 2;
+            int bottomRows = fullRows - topRows;
+            int piecesLeft = pieceCount - fullRows * canvasColumns;
+            int partialRows = canvasRows - fullRows;
+            int rightPieces = piecesLeft / partialRows;
+            piecesLeft = piecesLeft - rightPieces * partialRows;
+            bool hasLeftPieces = piecesLeft > 0;
+
             // Duplicate the list and shuffle the copy 
             var pieces = this.Puzzle.Pieces.Shuffle().ToList();
             int pieceIndex = 0;
+            int canvasRow = 0;
+            int canvasCol = 0;
             for (int row = 0; row < this.Puzzle.Rows; row++)
             {
                 for (int col = 0; col < this.Puzzle.Columns; col++)
                 {
+
                     Piece piece = pieces[pieceIndex];
                     var view = CreatePieceView(piece);
-                    double x = (double)col * pieceSizeWithOverlap;
-                    double y = (double)row * pieceSizeWithOverlap;
-                    piece.MoveTo(x+xOffset, y+yOffset);
+                    double x = canvasCol * pieceDistance;
+                    double y = canvasRow * pieceDistance;
+                    piece.MoveTo(x, y);
                     view.MovePieceToLocation(piece);
 
                     ++pieceIndex;
+                    ++canvasCol;
+                    if (canvasCol == 1)
+                    {
+                        bool isMidddleRow = (canvasRow >= topRows) && (canvasRow < canvasRows - bottomRows);
+                        if (isMidddleRow)
+                        {
+                            canvasCol = canvasColumns - rightPieces;
+                        }
+                    }
+                    else if (canvasCol == canvasColumns)
+                    {
+                        canvasCol = 0;
+                        ++canvasRow;
+                    }
                 }
             }
         }
         else
         {
+            double xOffset = pieceSizeWithOverlap / 2.0;
+            double yOffset = pieceSizeWithOverlap;
+
             foreach (Piece piece in this.Puzzle.Pieces)
             {
                 var view = CreatePieceView(piece);
@@ -86,7 +122,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView> , IRecipient
                 piece.MoveTo(x + xOffset, y + yOffset);
                 view.MovePieceToLocation(piece);
             }
-        } 
+        }
 
         this.Puzzle.Save();
 

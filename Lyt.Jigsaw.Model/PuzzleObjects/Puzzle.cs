@@ -101,6 +101,16 @@ public sealed class Puzzle
         Piece? closest = this.FindCloseTo(movingPiece, out Placement placement);
         if (closest is null)
         {
+            if (placement == Placement.Unknown)
+            {
+                // Bug: this should never happen ! 
+                // If we have found a piece we MUST have a placement 
+                if (Debugger.IsAttached) { Debugger.Break(); }
+
+                // Prevent the crash on invoking placement.Opposite()
+                return false;
+            }
+
             if (movingPiece.IsGrouped)
             {
                 foreach (var groupPiece in movingPiece.Group.Pieces)
