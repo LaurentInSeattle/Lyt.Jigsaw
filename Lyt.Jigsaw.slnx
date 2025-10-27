@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/Avalonia/">
+    <Project Path="../Lyt.Avalonia/Lyt.Avalonia.Controls/Lyt.Avalonia.Controls.csproj" />
     <Project Path="../Lyt.Avalonia/Lyt.Avalonia.Mvvm/Lyt.Avalonia.Mvvm.csproj" />
   </Folder>
   <Folder Name="/SolutionItems/">

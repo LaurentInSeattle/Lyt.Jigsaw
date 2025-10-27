@@ -302,4 +302,19 @@ public sealed class Puzzle
         => this.PieceDictionary.TryGetValue(id, out Piece? piece) && piece is not null ?
                 piece :
                 throw new ArgumentException("No such Piece Id ");
+
+    public void VerifyLostPieces(double canvasWidth, double canvasHeight)
+    {
+        foreach (Piece piece in this.Pieces)
+        {
+            var location = piece.Location;
+            if (location.X > canvasWidth ||
+                location.Y > canvasHeight ||
+                location.X < -this.PieceSize ||
+                location.Y < -this.PieceSize)
+            {
+                if (Debugger.IsAttached) { Debugger.Break(); break;  }
+            }
+        }
+    }
 }

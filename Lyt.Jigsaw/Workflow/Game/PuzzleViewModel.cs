@@ -189,17 +189,22 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
                 }
             }
         }
+
+        Dispatch.OnUiThread(() =>
+        {
+            this.Puzzle.VerifyLostPieces(this.CanvasWidth, this.CanvasHeight);
+
+        });
+
+        //[RelayCommand]
+        //public void OnDoSomething()
+        //{
+        //}
+
+        // public void Receive(LanguageChangedMessage message) => this.Localize();
+
+        //private void Localize()
+        //{
+        //}
     }
-
-    //[RelayCommand]
-    //public void OnDoSomething()
-    //{
-    //}
-
-    // public void Receive(LanguageChangedMessage message) => this.Localize();
-
-    //private void Localize()
-    //{
-    //}
 }
-

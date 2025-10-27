@@ -87,6 +87,7 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
 
     public void OnEndMove(Point fromPoint, Point toPoint)
     {
+        // TODO: Make sure toPoint is inside the canvas 
         this.OnMove(fromPoint, toPoint);
 
         // Check for any snaps
@@ -99,6 +100,7 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
 
     public void OnMove(Point fromPoint, Point toPoint)
     {
+        // TODO: Make sure toPoint is inside the canvas 
         this.piece.MoveTo(toPoint.X, toPoint.Y);
 
         if (this.piece.IsGrouped)
