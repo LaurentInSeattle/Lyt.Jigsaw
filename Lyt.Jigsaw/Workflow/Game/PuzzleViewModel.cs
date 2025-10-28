@@ -63,26 +63,27 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
             canvasRows = (int)(this.CanvasHeight / pieceDistance);
             canvasColumns = (int)(this.CanvasWidth / pieceDistance);
 
-            // Fugure out how many full canvas rows would be needed 
+            // Figure out how many full canvas rows would be needed 
             int fullRows = pieceCount / canvasColumns;
             int topRows = fullRows / 2;
             int bottomRows = fullRows - topRows;
             int piecesLeft = pieceCount - fullRows * canvasColumns;
-            int partialRows = canvasRows - fullRows;
-            int rightPieces = piecesLeft / partialRows;
-            piecesLeft = piecesLeft - rightPieces * partialRows;
-            bool hasLeftPieces = piecesLeft > 0;
+            int partialRows = piecesLeft == 0 ? 0 : canvasRows - fullRows;
+            int partialRowsPieces = partialRows == 0 ? 0 : 1 + piecesLeft / partialRows;
+            int rightPieces = partialRowsPieces / 2;
+            int leftPieces = partialRowsPieces - rightPieces; 
+
+            //piecesLeft = piecesLeft - partialRowsPieces * partialRows;
+            // bool hasLeftPieces = piecesLeft > 0;
 
             // Duplicate the list and shuffle the copy 
             var pieces = this.Puzzle.Pieces.Shuffle().ToList();
             int pieceIndex = 0;
-            int canvasRow = 0;
-            int canvasCol = 0;
-            for (int row = 0; row < this.Puzzle.Rows; row++)
-            {
-                for (int col = 0; col < this.Puzzle.Columns; col++)
-                {
 
+            void CreateAndPlacePiece(int canvasRow, int canvasCol)
+            {
+                if (pieceIndex < pieceCount)
+                {
                     Piece piece = pieces[pieceIndex];
                     var view = CreatePieceView(piece);
                     double x = canvasCol * pieceDistance;
@@ -90,22 +91,52 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
                     piece.MoveTo(x, y);
                     view.MovePieceToLocation(piece);
 
-                    ++pieceIndex;
-                    ++canvasCol;
-                    if (canvasCol == 1)
-                    {
-                        bool isMidddleRow = (canvasRow >= topRows) && (canvasRow < canvasRows - bottomRows);
-                        if (isMidddleRow)
-                        {
-                            canvasCol = canvasColumns - rightPieces;
-                        }
-                    }
-                    else if (canvasCol == canvasColumns)
-                    {
-                        canvasCol = 0;
-                        ++canvasRow;
-                    }
+                    pieceIndex++;
+                } 
+                // else: we're done 
+            }
+
+            // Top Rows 
+            for (int row = 0; row < topRows; row++)
+            {
+                for (int col = 0; col < canvasColumns; col++)
+                {
+                    CreateAndPlacePiece(row, col);
                 }
+            }
+
+            // Bottom Rows 
+            for (int row = 0; row < bottomRows; ++row)
+            {
+                for (int col = 0; col < canvasColumns; ++col)
+                {
+                    int bottomRow = canvasRows - 1 - row;
+                    CreateAndPlacePiece(bottomRow, col);
+                }
+            }
+
+            // Left Rows
+            for (int row = topRows; row < topRows + partialRows; ++row)
+            {
+                for (int col = 0; col < leftPieces; ++col)
+                {
+                    CreateAndPlacePiece(row, col);
+                }
+            }
+
+            // Right Rows
+            for (int row = topRows; row < topRows + partialRows; ++row)
+            {
+                for (int col = 0; col < rightPieces; ++col)
+                {
+                    int canvasCol = canvasColumns - 1 - col;
+                    CreateAndPlacePiece(row, canvasCol);
+                }
+            }
+
+            if (pieceIndex < pieceCount)
+            {
+                Debugger.Break();
             }
         }
         else
