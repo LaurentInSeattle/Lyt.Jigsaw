@@ -82,6 +82,8 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
                     piece.MoveTo(x + xOffset, y + yOffset);
                     view.MovePieceToLocation(piece);
 
+                    // Debug.WriteLine("Placed at row {0} - col {1}", canvasRow, canvasCol);
+
                     pieceIndex++;
                 }
                 // else: we're done 
@@ -90,20 +92,20 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
             void RectangularPlacement(int topRow, int rightColumn, int bottomRow, int leftColumn)
             {
                 int columnCount = 1 + rightColumn - leftColumn;
-                int lastColumnIndex = canvasColumns - 1;
-                bool oddColumns = 1 == (columnCount % 2) ;
+                int halfColumnCount = columnCount / 2;
+                bool oddColumn = columnCount - 2 * halfColumnCount > 0;
 
                 // Top Row
-                for (int col = leftColumn; col < columnCount / 2; ++col)
+                for (int count = 0; count < halfColumnCount; ++count)
                 {
-                    CreateAndPlacePiece(topRow, col);
-                    CreateAndPlacePiece(topRow, lastColumnIndex - col);
+                    CreateAndPlacePiece(topRow, leftColumn + count );
+                    CreateAndPlacePiece(topRow, rightColumn - count);
                 }
 
                 // add middle if needed 
-                if (oddColumns)
+                if (oddColumn)
                 {
-                    CreateAndPlacePiece(topRow, 1 + columnCount / 2);
+                    CreateAndPlacePiece(topRow, leftColumn + halfColumnCount);
                 }
 
                 // middle rows 
@@ -114,20 +116,18 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
                 }
 
                 // Bottom Row
-                for (int col = leftColumn; col < columnCount / 2; ++col)
+                for (int count = 0; count < halfColumnCount; ++count)
                 {
-                    CreateAndPlacePiece(bottomRow, col);
-                    CreateAndPlacePiece(bottomRow, lastColumnIndex - col);
+                    CreateAndPlacePiece(bottomRow, leftColumn + count);
+                    CreateAndPlacePiece(bottomRow, rightColumn - count);
                 }
 
                 // add middle if needed 
-                if (oddColumns)
+                if (oddColumn)
                 {
-                    CreateAndPlacePiece(topRow, 1 + columnCount / 2);
+                    CreateAndPlacePiece(bottomRow, leftColumn + halfColumnCount);
                 }
             }
-
-            Debugger.Break();
 
             int top = 0;
             int right = canvasColumns- 1;
@@ -150,7 +150,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
 
             if (pieceIndex < pieceCount)
             {
-                Debugger.Break();
+                if (Debugger.IsAttached) { Debugger.Break(); } 
             }
         }
         else

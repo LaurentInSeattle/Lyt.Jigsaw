@@ -121,16 +121,16 @@ public sealed partial class ShellViewModel
     {
         ResourcesUtilities.SetResourcesPath("Lyt.Jigsaw.Resources");
         ResourcesUtilities.SetExecutingAssembly(Assembly.GetExecutingAssembly());
-        // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Bonheur_Matisse.jpg", out string? _);        
+        byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Bonheur_Matisse.jpg", out string? _);        
         // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Kauai.jpg", out string? _);
-        byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Seraph-of-the-Scales.jpg", out string? _);
+        // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Seraph-of-the-Scales.jpg", out string? _);
         var image = WriteableBitmap.DecodeToWidth(new MemoryStream(imageBytes), 1200, BitmapInterpolationMode.HighQuality);
 
         var puzzle = new Puzzle(this.Logger, image.PixelSize.Height, image.PixelSize.Width, 0);
         var counts = puzzle.PieceCounts;
         var vm = App.GetRequiredService<PuzzleViewModel>();
         // vm.Start(image, counts[counts.Count - 10], rotationSteps: 2, randomize: true);
-        vm.Start(image, counts[counts.Count - 8 ], rotationSteps: 0, randomize: true);
+        vm.Start(image, counts[20 /*counts.Count - 21 */ ], rotationSteps: 0, randomize: true);
         // vm.Start(image, counts[0], rotationSteps: 6);
     }
 
