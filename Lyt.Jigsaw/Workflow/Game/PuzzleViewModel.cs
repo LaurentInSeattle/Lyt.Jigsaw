@@ -45,7 +45,6 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
         this.CanvasWidth = pieceSizeWithOverlap * canvasColumns;
         this.CanvasHeight = pieceSizeWithOverlap * canvasRows;
 
-
         PieceView CreatePieceView(Piece piece)
         {
             var vm = new PieceViewModel(this, piece);
@@ -56,25 +55,17 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
             return view;
         }
 
+        double xOffset;
+        double yOffset;
+
         if (randomize)
         {
             // Recalculate to take into account the reduced spacing 
-            double pieceDistance = pieceSizeWithOverlap * 0.88;
+            double pieceDistance = pieceSizeWithOverlap * 0.85;
             canvasRows = (int)(this.CanvasHeight / pieceDistance);
             canvasColumns = (int)(this.CanvasWidth / pieceDistance);
-
-            // Figure out how many full canvas rows would be needed 
-            int fullRows = pieceCount / canvasColumns;
-            int topRows = fullRows / 2;
-            int bottomRows = fullRows - topRows;
-            int piecesLeft = pieceCount - fullRows * canvasColumns;
-            int partialRows = piecesLeft == 0 ? 0 : canvasRows - fullRows;
-            int partialRowsPieces = partialRows == 0 ? 0 : 1 + piecesLeft / partialRows;
-            int rightPieces = partialRowsPieces / 2;
-            int leftPieces = partialRowsPieces - rightPieces; 
-
-            //piecesLeft = piecesLeft - partialRowsPieces * partialRows;
-            // bool hasLeftPieces = piecesLeft > 0;
+            xOffset = 0;
+            yOffset = -pieceDistance / 10.0;
 
             // Duplicate the list and shuffle the copy 
             var pieces = this.Puzzle.Pieces.Shuffle().ToList();
@@ -88,51 +79,74 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
                     var view = CreatePieceView(piece);
                     double x = canvasCol * pieceDistance;
                     double y = canvasRow * pieceDistance;
-                    piece.MoveTo(x, y);
+                    piece.MoveTo(x + xOffset, y + yOffset);
                     view.MovePieceToLocation(piece);
 
                     pieceIndex++;
-                } 
+                }
                 // else: we're done 
             }
 
-            // Top Rows 
-            for (int row = 0; row < topRows; row++)
+            void RectangularPlacement(int topRow, int rightColumn, int bottomRow, int leftColumn)
             {
-                for (int col = 0; col < canvasColumns; col++)
-                {
-                    CreateAndPlacePiece(row, col);
-                }
-            }
+                int columnCount = 1 + rightColumn - leftColumn;
+                int lastColumnIndex = canvasColumns - 1;
+                bool oddColumns = 1 == (columnCount % 2) ;
 
-            // Bottom Rows 
-            for (int row = 0; row < bottomRows; ++row)
-            {
-                for (int col = 0; col < canvasColumns; ++col)
+                // Top Row
+                for (int col = leftColumn; col < columnCount / 2; ++col)
                 {
-                    int bottomRow = canvasRows - 1 - row;
+                    CreateAndPlacePiece(topRow, col);
+                    CreateAndPlacePiece(topRow, lastColumnIndex - col);
+                }
+
+                // add middle if needed 
+                if (oddColumns)
+                {
+                    CreateAndPlacePiece(topRow, 1 + columnCount / 2);
+                }
+
+                // middle rows 
+                for (int row = 1 + topRow; row < bottomRow; row++)
+                {
+                    CreateAndPlacePiece(row, leftColumn);
+                    CreateAndPlacePiece(row, rightColumn);
+                }
+
+                // Bottom Row
+                for (int col = leftColumn; col < columnCount / 2; ++col)
+                {
                     CreateAndPlacePiece(bottomRow, col);
+                    CreateAndPlacePiece(bottomRow, lastColumnIndex - col);
+                }
+
+                // add middle if needed 
+                if (oddColumns)
+                {
+                    CreateAndPlacePiece(topRow, 1 + columnCount / 2);
                 }
             }
 
-            // Left Rows
-            for (int row = topRows; row < topRows + partialRows; ++row)
-            {
-                for (int col = 0; col < leftPieces; ++col)
-                {
-                    CreateAndPlacePiece(row, col);
-                }
-            }
+            Debugger.Break();
 
-            // Right Rows
-            for (int row = topRows; row < topRows + partialRows; ++row)
+            int top = 0;
+            int right = canvasColumns- 1;
+            int bottom = canvasRows - 1; 
+            int left = 0;
+
+            while (bottom > top )
             {
-                for (int col = 0; col < rightPieces; ++col)
+                RectangularPlacement(top, right, bottom, left);
+                if (pieceIndex >= pieceCount)
                 {
-                    int canvasCol = canvasColumns - 1 - col;
-                    CreateAndPlacePiece(row, canvasCol);
+                    break; 
                 }
-            }
+
+                ++ top ;
+                --bottom;
+                ++left;
+                --right;
+            } 
 
             if (pieceIndex < pieceCount)
             {
@@ -141,8 +155,8 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
         }
         else
         {
-            double xOffset = pieceSizeWithOverlap / 2.0;
-            double yOffset = pieceSizeWithOverlap;
+            xOffset = pieceSizeWithOverlap / 2.0;
+            yOffset = pieceSizeWithOverlap;
 
             foreach (Piece piece in this.Puzzle.Pieces)
             {

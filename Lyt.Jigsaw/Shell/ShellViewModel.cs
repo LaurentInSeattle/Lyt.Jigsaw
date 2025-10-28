@@ -130,7 +130,7 @@ public sealed partial class ShellViewModel
         var counts = puzzle.PieceCounts;
         var vm = App.GetRequiredService<PuzzleViewModel>();
         // vm.Start(image, counts[counts.Count - 10], rotationSteps: 2, randomize: true);
-        vm.Start(image, counts[counts.Count - 2 ], rotationSteps: 0);
+        vm.Start(image, counts[counts.Count - 8 ], rotationSteps: 0, randomize: true);
         // vm.Start(image, counts[0], rotationSteps: 6);
     }
 
