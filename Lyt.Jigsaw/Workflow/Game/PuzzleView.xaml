@@ -22,12 +22,11 @@
 	-->
 	<Grid
 		x:Name="OuterGrid"
-		Background="Transparent"
+		Background="#80101010"
 		>
 		<panzoom:PanZoomControl
 			x:Name="PanAndZoom"
 			Grid.Column="1" Grid.Row="1" 
-			Background="#80101010"
 			ZoomFactor="{Binding ZoomFactor}"
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			>

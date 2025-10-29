@@ -28,8 +28,8 @@
 		/>
 	<Path
 		Stroke="DarkGray"
-		StrokeThickness="2.0"
-		Opacity="0.2"
+		StrokeThickness="3.5"
+		Opacity="1.0"
 		Data ="{Binding ClipGeometry}"
 		RenderTransform="{Binding PathRotationTransform}"
 		IsVisible="{Binding PathIsVisible}"
