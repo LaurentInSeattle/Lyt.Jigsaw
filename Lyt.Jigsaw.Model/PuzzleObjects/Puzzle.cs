@@ -2,6 +2,12 @@
 
 public sealed class Puzzle
 {
+#if DEBUG
+    public const int MaxPieceCount = 444;
+#else
+    public const int MaxPieceCount = 666;
+#endif
+
     private readonly Dictionary<int, PuzzleSetup> puzzleSetups;
 
     internal readonly Randomizer Randomizer;
@@ -117,8 +123,6 @@ public sealed class Puzzle
                             // Bug: this should never happen ! 
                             // If we have found a piece we MUST have a placement 
                             if (Debugger.IsAttached) { Debugger.Break(); }
-
-                            // Prevent the crash on invoking placement.Opposite()
                             return false;
                         }
 
@@ -152,8 +156,6 @@ public sealed class Puzzle
                 // Bug: this should never happen ! 
                 // If we have found a piece we MUST have a placement 
                 if (Debugger.IsAttached) { Debugger.Break(); }
-
-                // Prevent the crash on invoking placement.Opposite()
                 return false;
             }
 
@@ -224,20 +226,28 @@ public sealed class Puzzle
                     continue;
                 }
 
-                // pieces should share one side  
-                if (!piece.IsSharingOneSideWith(targetPiece, out placement))
+                // Pieces should share one side.
+                // Do not overwrite the placement we may have already calculated and
+                // want to return. 
+                if (!piece.IsSharingOneSideWith(targetPiece, out Placement sidePlacement))
+                {
+                    continue;
+                }
+
+                if (sidePlacement == Placement.Unknown)
                 {
                     continue;
                 }
 
                 // Not enough: Should share closest sides 
-                var location = piece.SnapLocation(placement);
+                var location = piece.SnapLocation(sidePlacement);
                 double moveDistance = Location.Distance(location, targetPiece.Location);
                 if (moveDistance > this.PieceSnapDistance * 10)
                 {
                     continue;
                 }
 
+                placement = sidePlacement;
                 closestPiece = piece;
             }
         }
@@ -253,6 +263,11 @@ public sealed class Puzzle
         {
             var setup = new PuzzleSetup(pieceSize, this.ImageSize);
             int pieceCount = setup.Rows * setup.Columns;
+            if ( pieceCount > Puzzle.MaxPieceCount)
+            {
+                continue; 
+            }
+
             this.puzzleSetups.TryAdd(pieceCount, setup);
         }
     }
@@ -312,7 +327,7 @@ public sealed class Puzzle
                 location.X < -this.PieceSize ||
                 location.Y < -this.PieceSize)
             {
-                if (Debugger.IsAttached) { Debugger.Break(); break;  }
+                if (Debugger.IsAttached) { Debugger.Break(); break; }
             }
         }
     }

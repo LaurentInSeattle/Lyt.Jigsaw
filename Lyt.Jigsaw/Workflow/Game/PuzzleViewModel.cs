@@ -221,7 +221,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
         {
             var pieceViewModel = this.GetViewModelFromPiece(piece);
             pieceViewModel.View.MoveTo(piece.Location);
-            pieceViewModel.RotationTransform = new RotateTransform(piece.RotationAngle);
+            pieceViewModel.Rotate();
         }
 
         if (this.Puzzle.IsComplete)

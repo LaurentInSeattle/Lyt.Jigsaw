@@ -54,6 +54,7 @@
   <ItemGroup>
     <None Remove="Resources\Images\Kauai.jpg" />
     <None Remove="Resources\Images\Seraph-of-the-Scales.jpg" />
+    <None Remove="Resources\Images\ZhangDaqiang.jpg" />
     <None Remove="Workflow\Game\PieceView.xaml" />
     <None Remove="Workflow\Game\PuzzleView.xaml" />
   </ItemGroup>
@@ -71,6 +72,7 @@
     <EmbeddedResource Include="Resources\Images\Bonheur_Matisse.jpg" />
     <EmbeddedResource Include="Resources\Images\Kauai.jpg" />
     <EmbeddedResource Include="Resources\Images\Seraph-of-the-Scales.jpg" />
+    <EmbeddedResource Include="Resources\Images\ZhangDaqiang.jpg" />
   </ItemGroup>
 
   <ItemGroup>

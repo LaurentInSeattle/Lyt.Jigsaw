@@ -2,7 +2,7 @@
 
 using static Messaging.ApplicationMessagingExtensions;
 
-public sealed partial class ShellViewModel 
+public sealed partial class ShellViewModel
     : ViewModel<ShellView>,
     IRecipient<ToolbarCommandMessage>,
     IRecipient<LanguageChangedMessage>
@@ -39,11 +39,11 @@ public sealed partial class ShellViewModel
         this.Subscribe<LanguageChangedMessage>();
     }
 
-    public void Receive(LanguageChangedMessage _) 
+    public void Receive(LanguageChangedMessage _)
     {
     }
 
-    public void Receive(ToolbarCommandMessage _) { } 
+    public void Receive(ToolbarCommandMessage _) { }
 
     public override void OnViewLoaded()
     {
@@ -121,16 +121,21 @@ public sealed partial class ShellViewModel
     {
         ResourcesUtilities.SetResourcesPath("Lyt.Jigsaw.Resources");
         ResourcesUtilities.SetExecutingAssembly(Assembly.GetExecutingAssembly());
-        byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Bonheur_Matisse.jpg", out string? _);        
+
+        byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("ZhangDaqiang.jpg", out string? _);
+        // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Bonheur_Matisse.jpg", out string? _);
         // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Kauai.jpg", out string? _);
         // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Seraph-of-the-Scales.jpg", out string? _);
-        var image = WriteableBitmap.DecodeToWidth(new MemoryStream(imageBytes), 1200, BitmapInterpolationMode.HighQuality);
-
+        var baseImage = WriteableBitmap.Decode(new MemoryStream(imageBytes));
+        int decodeToWidth = (int)(baseImage.PixelSize.Width * 1.5);
+        var image = 
+            WriteableBitmap.DecodeToWidth(
+                new MemoryStream(imageBytes), decodeToWidth, BitmapInterpolationMode.HighQuality);
         var puzzle = new Puzzle(this.Logger, image.PixelSize.Height, image.PixelSize.Width, 0);
         var counts = puzzle.PieceCounts;
         var vm = App.GetRequiredService<PuzzleViewModel>();
         // vm.Start(image, counts[counts.Count - 10], rotationSteps: 2, randomize: true);
-        vm.Start(image, counts[20 /*counts.Count - 21 */ ], rotationSteps: 0, randomize: true);
+        vm.Start(image, counts[30 /*counts.Count - 21 */ ], rotationSteps: 2, randomize: true);
         // vm.Start(image, counts[0], rotationSteps: 6);
     }
 
@@ -203,7 +208,7 @@ public sealed partial class ShellViewModel
         if (newViewModel is not null)
         {
             bool mainToolbarIsHidden = false;
-                // this.astroPicModel.IsFirstRun || newViewModel is IntroViewModel;
+            // this.astroPicModel.IsFirstRun || newViewModel is IntroViewModel;
             this.MainToolbarIsVisible = !mainToolbarIsHidden;
             if (this.isFirstActivation)
             {

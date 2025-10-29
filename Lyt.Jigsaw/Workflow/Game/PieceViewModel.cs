@@ -11,7 +11,10 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
     private Geometry clipGeometry;
 
     [ObservableProperty]
-    private Transform rotationTransform;
+    private Transform? imageRotationTransform;
+
+    [ObservableProperty]
+    private Transform? pathRotationTransform;
 
     [ObservableProperty]
     private bool pathIsVisible;
@@ -53,8 +56,8 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
                 IntPointList.DummyPoints.ToScaledPoints(scale));
         this.ClipGeometry = GeometryGenerator.InvertedClip(outerGeometry, innerGeometry);
 
-        this.RotationTransform = new RotateTransform(this.piece.RotationAngle);
-        this.PathIsVisible = true; 
+        this.Rotate();
+        this.PathIsVisible = true;
     }
 
     public void OnComplete ()
@@ -76,7 +79,7 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
         else
         {
             this.piece.Rotate(isCCW: isRightClick);
-            this.RotationTransform = new RotateTransform(this.piece.RotationAngle);
+            this.Rotate();
         }
     }
 
@@ -120,6 +123,12 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
                 pieceView.BringToTop();
             }
         }
+    }
+
+    internal void Rotate()
+    {
+        this.ImageRotationTransform = new RotateTransform(this.piece.RotationAngle);
+        this.PathRotationTransform = new RotateTransform(this.piece.RotationAngle);
     }
 }
 
