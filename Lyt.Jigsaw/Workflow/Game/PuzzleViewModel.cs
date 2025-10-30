@@ -65,7 +65,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
             canvasRows = (int)(this.CanvasHeight / pieceDistance);
             canvasColumns = (int)(this.CanvasWidth / pieceDistance);
             xOffset = 0;
-            yOffset = -pieceDistance / 10.0;
+            yOffset = pieceDistance / 10.0;
 
             // Duplicate the list and shuffle the copy 
             var pieces = this.Puzzle.Pieces.Shuffle().ToList();

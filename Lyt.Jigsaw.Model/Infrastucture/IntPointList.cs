@@ -46,14 +46,14 @@ public sealed class IntPointList : List<IntPoint> , IList<IntPoint>
         bool randX2 = randomizer.NextBool();
         int x2 = randX2 ? p2.X + randomizer.Next(-40, 40) : p2.X;
         bool randY2 = randomizer.NextBool();
-        int y2 = randY2 ? p2.Y + randomizer.Next(-80, 10) : p2.Y;
+        int y2 = randY2 ? p2.Y + randomizer.Next(-70, 10) : p2.Y;
         points.Add(new IntPoint(x2, y2));
 
         IntPoint p3 = HorizontalBasePoints[3];
         bool randX3 = randomizer.NextBool();
         int x3 = randX3 ? p3.X + randomizer.Next(-40, 40) : p3.X;
         bool randY3 = randomizer.NextBool();
-        int y3 = randY3 ? p3.Y + randomizer.Next(-80, 10) : p3.Y;
+        int y3 = randY3 ? p3.Y + randomizer.Next(-70, 10) : p3.Y;
         points.Add(new IntPoint(x3, y3));
 
         IntPoint p4 = HorizontalBasePoints[4];

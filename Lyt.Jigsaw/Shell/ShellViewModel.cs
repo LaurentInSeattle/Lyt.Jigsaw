@@ -122,12 +122,12 @@ public sealed partial class ShellViewModel
         ResourcesUtilities.SetResourcesPath("Lyt.Jigsaw.Resources");
         ResourcesUtilities.SetExecutingAssembly(Assembly.GetExecutingAssembly());
 
-        byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("ZhangDaqiang.jpg", out string? _);
-        // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Bonheur_Matisse.jpg", out string? _);
+        // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("ZhangDaqiang.jpg", out string? _);
+        byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Bonheur_Matisse.jpg", out string? _);
         // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Kauai.jpg", out string? _);
         // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Seraph-of-the-Scales.jpg", out string? _);
         var baseImage = WriteableBitmap.Decode(new MemoryStream(imageBytes));
-        int decodeToWidth = (int)(baseImage.PixelSize.Width * 1.5);
+        int decodeToWidth = 1024 + 256; // (int)(baseImage.PixelSize.Width * 1.5);
         var image = 
             WriteableBitmap.DecodeToWidth(
                 new MemoryStream(imageBytes), decodeToWidth, BitmapInterpolationMode.HighQuality);
@@ -135,7 +135,7 @@ public sealed partial class ShellViewModel
         var counts = puzzle.PieceCounts;
         var vm = App.GetRequiredService<PuzzleViewModel>();
         // vm.Start(image, counts[counts.Count - 10], rotationSteps: 2, randomize: true);
-        vm.Start(image, counts[22 /*counts.Count - 21 */ ], rotationSteps: 2, randomize: true);
+        vm.Start(image, counts[10 /*counts.Count - 21 */ ], rotationSteps: 2, randomize: true);
         // vm.Start(image, counts[0], rotationSteps: 6);
     }
 
