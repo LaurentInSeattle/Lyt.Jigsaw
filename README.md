@@ -1,5 +1,6 @@
 # Jigsaw
 The classic jigsaw puzzle game.
 
-# Just Started ~ Nothing Works Just Yet 
+# Just Started ~ Barely playable 
+Figure out how to get it started...
 
