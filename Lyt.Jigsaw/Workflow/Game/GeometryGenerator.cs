@@ -82,7 +82,7 @@ public static class GeometryGenerator
 
     #region Unused - Keep for now 
 
-    public static PathGeometry CatmullRom(IList<Point> points, bool isFilled = false, bool isClosed = false)
+    public static PathGeometry CatmullRom(IList<Point> points, bool isClosed = false)
     {
         if (points == null || points.Count < 2)
         {

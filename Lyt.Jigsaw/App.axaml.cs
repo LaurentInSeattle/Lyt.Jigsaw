@@ -23,9 +23,8 @@ public partial class App : ApplicationBase
            // Singletons
            typeof(ShellViewModel),
            typeof(PuzzleViewModel),
-           //typeof(GalleryToolbarViewModel),
-           //typeof(CollectionViewModel),
-           //typeof(CollectionToolbarViewModel),
+           typeof(CollectionViewModel),
+           typeof(CollectionToolbarViewModel),
            //typeof(SettingsViewModel),
            //typeof(SettingsToolbarViewModel),
            //typeof(IntroViewModel),

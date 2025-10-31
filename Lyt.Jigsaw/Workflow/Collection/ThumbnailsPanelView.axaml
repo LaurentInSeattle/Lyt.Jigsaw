@@ -1,0 +1,90 @@
+<UserControl 
+	x:Class="Lyt.Jigsaw.Workflow.Collection.ThumbnailsPanelView"
+	xmlns:vm="clr-namespace:Lyt.Jigsaw.Workflow.Collection"
+	x:DataType="vm:ThumbnailsPanelViewModel" 
+
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+
+	xmlns:controls="clr-namespace:Lyt.Avalonia.AstroPic.Controls"
+	xmlns:glyphs="clr-namespace:Lyt.Avalonia.Controls.Glyphs;assembly=Lyt.Avalonia.Controls"
+	xmlns:toggle="clr-namespace:Lyt.Avalonia.Controls.Toggle;assembly=Lyt.Avalonia.Controls"
+	xmlns:panels="clr-namespace:Lyt.Avalonia.Controls.Panels;assembly=Lyt.Avalonia.Controls"
+	xmlns:shared="clr-namespace:Lyt.Jigsaw.Workflow.Shared"
+	>
+	<Grid
+		Background="Transparent"
+		>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="72" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<StackPanel
+			Orientation="Horizontal"
+			Margin="0 0 0 0"
+			HorizontalAlignment="Left"
+			Height="72"
+			>
+			<Rectangle
+				Fill="#70000020"
+				HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+				/>
+			<TextBlock
+				Grid.Row="1"
+				Margin="6 0 0 0"
+				Text="{DynamicResource Collection.Thumbs.WebService}"
+				Theme="{StaticResource H3}"
+				/>
+			<ComboBox
+				Width="250"
+				Margin="6 0 6 0"
+				HorizontalAlignment="Center" VerticalAlignment="Center"
+				ItemsSource="{Binding ProviderNames}"
+				SelectedIndex="{Binding ProvidersSelectedIndex}"
+				Foreground="{StaticResource LightAqua_1_100}"
+				FontSize="16"
+				> 				
+			</ComboBox>
+			<toggle:ToggleSwitch
+				x:Name="ShowMruSwitch"
+				Margin="4 0 8 0"
+				Style="{StaticResource StandardToggleSwitch}"
+				TrueText="{DynamicResource Collection.Thumbs.Recent}"
+				FalseText="{DynamicResource Collection.Thumbs.All}"
+				Height="30" Width="220"
+				HorizontalAlignment="Center" VerticalAlignment="Center"
+				Value="{Binding ShowMru}"
+				/>
+		</StackPanel>
+
+		<ScrollViewer
+			Grid.Row="1"
+			Background="Transparent"
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+			ScrollViewer.VerticalScrollBarVisibility="Auto"
+				>
+			<ItemsControl
+				x:Name="TemplatesItemControl"
+				ItemsSource="{Binding Thumbnails}"
+				Margin="0 0 24 0"
+				>
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<panels:MultiColumnStackPanel ColumnMaxWidth="290"/>
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<shared:ThumbnailView 
+							Margin="6"
+							/>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
+	</Grid>
+</UserControl>

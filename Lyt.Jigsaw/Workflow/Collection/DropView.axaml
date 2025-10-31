@@ -1,0 +1,51 @@
+<UserControl 
+	x:Class="Lyt.Jigsaw.Workflow.Collection.DropView"
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+	xmlns:controls="clr-namespace:Lyt.Avalonia.AstroPic.Controls"
+	xmlns:panzoom="using:Lyt.Avalonia.Controls.PanZoom"
+	xmlns:interactions="using:Lyt.Avalonia.Mvvm.Behaviors"
+	xmlns:vm="clr-namespace:Lyt.Jigsaw.Workflow.Collection"
+	x:DataType="vm:DropViewModel" 
+	>
+	<Grid
+		Background="Transparent"
+		>
+		<Border
+			x:Name="DropBorder"
+			Margin="10 10 0 10"
+			Background="#20808080"
+			Width="400" Height="180"
+			BorderThickness="0"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			DragDrop.AllowDrop="True"
+			>
+			<Grid>
+				<Rectangle 				
+					x:Name="DropRectangle"
+					StrokeDashArray="5, 2" 
+					Stroke="{StaticResource LightAqua_1_100}" 
+					StrokeThickness="4" 
+					RadiusX="8" RadiusY="8"  
+					Fill="#20808080"
+					/>
+				<TextBlock
+					Margin="0 10 0 0"
+					Text="{DynamicResource Collection.DropZone}"
+					Theme="{StaticResource H2}"
+					TextAlignment="Center"
+					VerticalAlignment="Top"
+					/>
+				<TextBlock
+					Margin="8 0 8 16"
+					Text="{DynamicResource Collection.DropZoneHelp}"
+					Theme="{StaticResource Large}"
+					VerticalAlignment="Bottom"
+					/>
+			</Grid>
+		</Border>
+	</Grid>
+</UserControl>

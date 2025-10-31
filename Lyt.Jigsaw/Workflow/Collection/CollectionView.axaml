@@ -1,0 +1,66 @@
+<UserControl 
+	x:Class="Lyt.Jigsaw.Workflow.Collection.CollectionView"
+	xmlns:vm="clr-namespace:Lyt.Jigsaw.Workflow.Collection"
+	x:DataType="vm:CollectionViewModel" 
+
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+
+	xmlns:controls="clr-namespace:Lyt.Jigsaw.Controls"
+	xmlns:panzoom="using:Lyt.Avalonia.Controls.PanZoom"
+	xmlns:interactions="using:Lyt.Avalonia.Mvvm.Behaviors"
+	xmlns:shared="clr-namespace:Lyt.Jigsaw.Workflow.Shared"
+	>
+	<Grid
+		x:Name="InnerGrid"
+		Background="Transparent"
+		>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="10" />
+			<ColumnDefinition Width="640" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="2" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="1" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="1" />
+		</Grid.RowDefinitions>
+		<Grid
+			x:Name="SideBar"
+			Grid.Column="1" Grid.Row="1" Grid.RowSpan="1"
+			>
+			<vm:ThumbnailsPanelView
+				DataContext="{Binding ThumbnailsPanelViewModel}"
+				/>
+		</Grid>
+		<Grid
+			x:Name="MainArea"
+			Grid.Column="2" Grid.Row="1"
+			>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="200" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+			<Grid
+				Grid.Column="2" Grid.Row="0"
+				>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="20"/>
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<vm:DropView
+					DataContext="{Binding DropViewModel}"
+					/>
+			</Grid>
+			<shared:PictureView
+				Grid.Column="2" Grid.Row="1" 
+				DataContext="{Binding PictureViewModel}"
+				/>
+			</Grid>
+	</Grid>
+</UserControl>
