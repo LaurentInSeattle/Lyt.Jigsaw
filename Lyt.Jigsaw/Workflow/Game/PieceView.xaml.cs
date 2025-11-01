@@ -8,7 +8,7 @@ public sealed partial class PieceView : View
 
     public void AttachBehavior(Canvas canvas)
     {
-        this.dragMovable = new DragMovable(canvas);
+        this.dragMovable = new DragMovable(canvas, adjustPosition: true);
         this.dragMovable.Attach(this);
     }
 
@@ -17,13 +17,13 @@ public sealed partial class PieceView : View
         this.dragMovable?.Detach();
     }
 
-    public void MoveTo(Location location)
+    internal void MoveTo(Location location)
     {
         this.SetValue(Canvas.LeftProperty, location.X);
         this.SetValue(Canvas.TopProperty, location.Y);
     }
 
-    public void MovePieceToLocation(Piece piece)
+    internal void MovePieceToLocation(Piece piece)
     {
         this.SetValue(Canvas.LeftProperty, piece.Location.X);
         this.SetValue(Canvas.TopProperty, piece.Location.Y);

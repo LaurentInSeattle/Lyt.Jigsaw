@@ -1,8 +1,5 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Game;
 
-using Lyt.Jigsaw.Model.PuzzleObjects;
-using System.IO.Pipelines;
-
 public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<ZoomRequestMessage>
 {
     public Puzzle? Puzzle;
