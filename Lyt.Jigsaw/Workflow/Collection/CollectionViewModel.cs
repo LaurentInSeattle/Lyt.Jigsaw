@@ -79,6 +79,10 @@ public sealed partial class CollectionViewModel :
     {
         switch (message.Command)
         {
+            case ToolbarCommandMessage.ToolbarCommand.Play:
+                
+                break;
+
             case ToolbarCommandMessage.ToolbarCommand.RemoveFromCollection:
                 this.PictureViewModel.RemoveFromCollection();
                 break;
@@ -91,6 +95,25 @@ public sealed partial class CollectionViewModel :
             default:
                 break;
         }
+    }
+
+    internal bool OnImageDrop(string path, byte[] imageBytes)
+    {
+        ApplicationMessagingExtensions.Select(ActivatedView.Puzzle);
+
+        int decodeToWidth = 1024 + 512;
+        var image =
+            WriteableBitmap.DecodeToWidth(
+                new MemoryStream(imageBytes), decodeToWidth, BitmapInterpolationMode.HighQuality);
+        var puzzle = new Puzzle(this.Logger, image.PixelSize.Height, image.PixelSize.Width, 0);
+        var counts = puzzle.PieceCounts;
+
+        var vm = App.GetRequiredService<PuzzleViewModel>();
+        // vm.Start(image, counts[counts.Count - 10], rotationSteps: 2, randomize: true);
+        vm.Start(image, counts[16 /*counts.Count - 21 */ ], rotationSteps: 0, randomize: true);
+        // vm.Start(image, counts[0], rotationSteps: 6);
+
+        return true ;
     }
 
     internal void Select(PictureMetadata pictureMetadata, byte[] _)

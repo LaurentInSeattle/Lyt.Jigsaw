@@ -17,7 +17,12 @@ public sealed partial class DropViewModel : ViewModel<DropView>
             if (bitmap is not null)
             {
                 var collectionViewModel = App.GetRequiredService<CollectionViewModel>(); 
-                return collectionViewModel.Select(path, imageBytes);
+                if( collectionViewModel.OnImageDrop(path, imageBytes))
+                {
+                    return true; 
+                }
+
+                throw new Exception("Failed to initialize puzzle with image: " + path);
             }
 
             throw new Exception("Failed to load image: " + path); 

@@ -1,5 +1,7 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Game;
 
+using Lyt.Avalonia.Mvvm;
+
 public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<ZoomRequestMessage>
 {
     public Puzzle? Puzzle;
@@ -30,6 +32,8 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
     {
         this.Profiler.StartTiming();
 
+        this.ZoomFactor = 2.0;
+        this.View.InnerCanvas.Children.Clear();
         this.pieceViewModels.Clear();
         this.Image = image;
         PixelSize imagePixelSize = image.PixelSize;
@@ -171,6 +175,18 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
         // For 1400 pieces, in DEBUG build:  *****Creating pieces - Timing: 432,5 ms.  
         this.Logger.Info(string.Format("Piece Count: {0}", this.Puzzle.PieceCount));
         this.Profiler.EndTiming("Creating pieces");
+
+        Schedule.OnUiThread(50, () =>
+        {
+            this.View.InvalidateVisual();
+            this.ZoomFactor = 2.0;
+            Schedule.OnUiThread(100, () =>
+            {
+                this.View.InvalidateVisual();
+                this.ZoomFactor = 1.0;
+            }, DispatcherPriority.Background);
+        }, DispatcherPriority.Background);
+
     }
 
     public PieceView GetViewFromPiece(Piece piece)

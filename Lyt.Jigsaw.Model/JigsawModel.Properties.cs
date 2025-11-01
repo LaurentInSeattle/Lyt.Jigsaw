@@ -27,9 +27,6 @@ public sealed partial class JigsawModel : ModelBase
     //public Dictionary<string, Picture> Pictures { get; set; } = [];
 
     //[JsonRequired]
-    //public List<Provider> Providers { get; set; } = [];
-
-    //[JsonRequired]
     //public Dictionary<ImageProviderKey, PictureMetadata> LastUpdate { get; set; } = [];
 
     #endregion Serialized -  No model changed event
@@ -37,14 +34,11 @@ public sealed partial class JigsawModel : ModelBase
 
     #region Not serialized - No model changed event
 
-    //[JsonIgnore]
-    //public WallpaperInfo WallpaperInfo { get; set; } = new();
-
-    //[JsonIgnore]
-    //public Statistics Statistics { get; set; } = new();
+    [JsonIgnore]
+    public Puzzle? MaybePuzzle { get; set; } 
 
     [JsonIgnore]
-    internal HashSet<string> MruWallpapers { get; set; } = [];
+    public Puzzle Puzzle { get; set; }
 
     [JsonIgnore]
     public Dictionary<string, byte[]> ThumbnailCache { get; set; } = [];

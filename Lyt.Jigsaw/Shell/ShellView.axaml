@@ -112,22 +112,22 @@ Background="Transparent"
                 >
                     <glyphs:SelectionGroup x:Name="SelectionGroup" />
                     <glyphs:GlyphButton
-                    x:Name="TodayButton"
-                    Style="{StaticResource NavigationIconButton}"
-                    GlyphSource="calendar_today"
-                    GlyphStrokeThickness="0"
-                    Text="{DynamicResource Shell.Today}"
-                    IsSelected="True"
-                    Command="{Binding OnToday}"
-                    Group="{Binding ElementName=SelectionGroup}"
-                    />
-                    <glyphs:GlyphButton
                     x:Name="CollectionButton"
                     Style="{StaticResource NavigationIconButton}"
                     GlyphSource="collections"
                     GlyphStrokeThickness="0"
                     Text="{DynamicResource Shell.Collection}"
                     Command="{Binding OnCollection}"
+                    Group="{Binding ElementName=SelectionGroup}"
+                    />
+                    <glyphs:GlyphButton
+                    x:Name="TodayButton"
+                    Style="{StaticResource NavigationIconButton}"
+                    GlyphSource="puzzle_piece"
+                    GlyphStrokeThickness="0"
+                    Text="{DynamicResource Shell.Play}"
+                    IsSelected="True"
+                    Command="{Binding OnToday}"
                     Group="{Binding ElementName=SelectionGroup}"
                     />
                     <glyphs:GlyphButton

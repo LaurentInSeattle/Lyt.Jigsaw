@@ -95,7 +95,6 @@ public sealed partial class JigsawModel : ModelBase
 
             //this.ValidateCollection();
             //this.CleanupCollection();
-
             // Load the thumbnails
             // Task.Run(this.LoadThumbnailCache);
 

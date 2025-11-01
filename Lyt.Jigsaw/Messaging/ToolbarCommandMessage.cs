@@ -20,7 +20,7 @@ public sealed record class ToolbarCommandMessage(
         AddToCollection,        // Gallery Only
 
         // Collection toolbars 
-        CollectionSetWallpaper,
+        Play,
         CollectionSaveToDesktop,
         RemoveFromCollection,   // Collection Only
 

@@ -82,13 +82,11 @@ public sealed partial class ShellViewModel
         Schedule.OnUiThread(100, this.ActivateInitialView, DispatcherPriority.Background);
 
         this.Logger.Debug("OnViewLoaded complete");
-
-        // Schedule.OnUiThread(100, this.TestPoints, DispatcherPriority.Background);
     }
 
     private async void ActivateInitialView()
     {
-        Select(ActivatedView.Puzzle);
+        Select(ActivatedView.Collection);
         this.TestStart();
 
         //this.isFirstActivation = true;
@@ -121,22 +119,10 @@ public sealed partial class ShellViewModel
     {
         ResourcesUtilities.SetResourcesPath("Lyt.Jigsaw.Resources");
         ResourcesUtilities.SetExecutingAssembly(Assembly.GetExecutingAssembly());
-
         byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("ZhangDaqiang.jpg", out string? _);
         // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Bonheur_Matisse.jpg", out string? _);
         // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Kauai.jpg", out string? _);
         // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Seraph-of-the-Scales.jpg", out string? _);
-        var baseImage = WriteableBitmap.Decode(new MemoryStream(imageBytes));
-        int decodeToWidth = 1024 + 512; // (int)(baseImage.PixelSize.Width * 1.5);
-        var image = 
-            WriteableBitmap.DecodeToWidth(
-                new MemoryStream(imageBytes), decodeToWidth, BitmapInterpolationMode.HighQuality);
-        var puzzle = new Puzzle(this.Logger, image.PixelSize.Height, image.PixelSize.Width, 0);
-        var counts = puzzle.PieceCounts;
-        var vm = App.GetRequiredService<PuzzleViewModel>();
-        // vm.Start(image, counts[counts.Count - 10], rotationSteps: 2, randomize: true);
-        vm.Start(image, counts[20 /*counts.Count - 21 */ ], rotationSteps: 0, randomize: true);
-        // vm.Start(image, counts[0], rotationSteps: 6);
     }
 
     private void SetupWorkflow()
@@ -175,8 +161,8 @@ public sealed partial class ShellViewModel
 
         SetupNoToolbar<PuzzleViewModel, PuzzleView>(ActivatedView.Puzzle, view.TodayButton);
 
-        //Setup<CollectionViewModel, CollectionView, CollectionToolbarViewModel, CollectionToolbarView>(
-        //    ActivatedView.Collection, view.CollectionButton);
+        Setup<CollectionViewModel, CollectionView, CollectionToolbarViewModel, CollectionToolbarView>(
+            ActivatedView.Collection, view.CollectionButton);
 
         //Setup<IntroViewModel, IntroView, IntroToolbarViewModel, IntroToolbarView>(
         //    ActivatedView.Intro, view.IntroButton);
