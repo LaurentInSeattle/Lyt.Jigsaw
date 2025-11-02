@@ -20,13 +20,6 @@
 		>
 		<glyphs:GlyphButton
 			Style="{StaticResource AppToolbarIconButton}"
-			GlyphSource="puzzle_piece"
-			Text="{DynamicResource Collection.Play}"
-			Command="{Binding OnPlay}"
-			GlyphStrokeThickness="0"
-			/>
-		<glyphs:GlyphButton
-			Style="{StaticResource AppToolbarIconButton}"
 			GlyphSource="delete"
 			Text="{DynamicResource Collection.Remove}"
 			Command="{Binding OnRemoveFromCollection}"
@@ -37,6 +30,13 @@
 			GlyphSource="save"
 			Text="{DynamicResource Collection.SaveToDesktop}"
 			Command="{Binding OnSaveToDesktop}"
+			GlyphStrokeThickness="0"
+			/>
+		<glyphs:GlyphButton
+			Style="{StaticResource AppToolbarIconButton}"
+			GlyphSource="puzzle_piece"
+			Text="{DynamicResource Shell.Play}"
+			Command="{Binding OnPlay}"
 			GlyphStrokeThickness="0"
 			/>
 	</StackPanel>

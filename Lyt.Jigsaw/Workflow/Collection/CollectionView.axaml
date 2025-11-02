@@ -10,9 +10,7 @@
 	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 
 	xmlns:controls="clr-namespace:Lyt.Jigsaw.Controls"
-	xmlns:panzoom="using:Lyt.Avalonia.Controls.PanZoom"
 	xmlns:interactions="using:Lyt.Avalonia.Mvvm.Behaviors"
-	xmlns:shared="clr-namespace:Lyt.Jigsaw.Workflow.Shared"
 	>
 	<Grid
 		x:Name="InnerGrid"
@@ -42,7 +40,8 @@
 			Grid.Column="2" Grid.Row="1"
 			>
 			<Grid.RowDefinitions>
-				<RowDefinition Height="200" />
+				<RowDefinition Height="240" />
+				<RowDefinition Height="240" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 			<Grid
@@ -56,10 +55,52 @@
 				<vm:DropView
 					DataContext="{Binding DropViewModel}"
 					/>
+				<Grid
+					IsVisible="{Binding ParametersVisible}"
+					Grid.Column="2"
+					> 
+					<Grid.RowDefinitions>
+						<RowDefinition Height="80" />
+						<RowDefinition Height="80" />
+						<RowDefinition Height="*" />
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="140"/>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="100" />
+					</Grid.ColumnDefinitions>
+					<TextBlock
+						Grid.Row="0" Grid.Column="0" 
+						Margin="4"
+						Theme="{StaticResource H3}"
+						HorizontalAlignment="Right"
+						Text="Piece Count: "
+						/>
+					<Slider 
+						Grid.Row="0" Grid.Column="1" 
+						Margin="4 8 4 4 "
+						VerticalAlignment="Center" HorizontalAlignment="Stretch"
+						TickFrequency="1.0"
+						TickPlacement="None"
+						IsSnapToTickEnabled="True"
+						SmallChange="1" LargeChange="5"
+						Minimum="{Binding PieceCountMin}"
+						Maximum="{Binding PieceCountMax}"
+						Value="{Binding PieceCountSliderValue}"
+						/>
+					<TextBlock
+						Grid.Row="0" Grid.Column="2" 
+						Margin="4"
+						Theme="{StaticResource H3}"
+						HorizontalAlignment="Left"
+						Text="{Binding PieceCountString}"
+						/>
+				</Grid>
 			</Grid>
-			<shared:PictureView
-				Grid.Column="2" Grid.Row="1" 
-				DataContext="{Binding PictureViewModel}"
+			<Image
+				Grid.Column="2" Grid.Row="2" 
+				Margin="8"
+				Source="{Binding PuzzleImage}"
 				/>
 			</Grid>
 	</Grid>

@@ -1,6 +1,6 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Collection;
 
-public sealed partial class CollectionViewModel : 
+public sealed partial class CollectionViewModel :
     ViewModel<CollectionView>,
     IRecipient<ToolbarCommandMessage>,
     IRecipient<ModelLoadedMessage>,
@@ -15,23 +15,41 @@ public sealed partial class CollectionViewModel :
     private DropViewModel dropViewModel;
 
     [ObservableProperty]
-    private PictureViewModel pictureViewModel;
+    private WriteableBitmap? puzzleImage;
+    private int pieceCount;
+
+    [ObservableProperty]
+    private string pieceCountString;
+
+    [ObservableProperty]
+    private int pieceCountMin;
+
+    [ObservableProperty]
+    private int pieceCountMax;
+
+    [ObservableProperty]
+    private double pieceCountSliderValue;
+
+    [ObservableProperty]
+    private bool parametersVisible;
 
     private bool loaded;
+    private List<int> pieceCounts;
     private List<Tuple<Picture, byte[]>>? collectionThumbnails;
 
     public CollectionViewModel(JigsawModel jigsawModel)
     {
         this.jigsawModel = jigsawModel;
-        this.PictureViewModel = new PictureViewModel(this);
+        this.pieceCounts = [];
         this.DropViewModel = new DropViewModel();
         this.ThumbnailsPanelViewModel = new ThumbnailsPanelViewModel(this);
+        this.ParametersVisible = false;
         this.Subscribe<ToolbarCommandMessage>();
         this.Subscribe<ModelLoadedMessage>();
         this.Subscribe<CollectionChangedMessage>();
     }
 
-    public override void Activate(object? activationParameters) 
+    public override void Activate(object? activationParameters)
     {
         base.Activate(activationParameters);
         if (this.loaded)
@@ -63,32 +81,32 @@ public sealed partial class CollectionViewModel :
     }
 
     private void UpdateSelection()
-        =>  Schedule.OnUiThread(
+        => Schedule.OnUiThread(
                 200,
-                () => 
+                () =>
                 {
                     this.ThumbnailsPanelViewModel.UpdateSelection();
-                    if ( this.ThumbnailsPanelViewModel.SelectedThumbnail is ThumbnailViewModel thumbnailViewModel)
+                    if (this.ThumbnailsPanelViewModel.SelectedThumbnail is ThumbnailViewModel thumbnailViewModel)
                     {
-                           this.Select(thumbnailViewModel.Metadata, thumbnailViewModel.ImageBytes);
+                        this.Select(thumbnailViewModel.Metadata, thumbnailViewModel.ImageBytes);
                     }
                 },
                 DispatcherPriority.Background);
 
-    public void Receive(ToolbarCommandMessage message) 
+    public void Receive(ToolbarCommandMessage message)
     {
         switch (message.Command)
         {
             case ToolbarCommandMessage.ToolbarCommand.Play:
-                
+                this.StartGame();
                 break;
 
             case ToolbarCommandMessage.ToolbarCommand.RemoveFromCollection:
-                this.PictureViewModel.RemoveFromCollection();
+                // this.PictureViewModel.RemoveFromCollection();
                 break;
 
             case ToolbarCommandMessage.ToolbarCommand.CollectionSaveToDesktop:
-                this.PictureViewModel.SaveToDesktop();
+                // this.PictureViewModel.SaveToDesktop();
                 break;
 
             // Ignore all other commands 
@@ -97,29 +115,70 @@ public sealed partial class CollectionViewModel :
         }
     }
 
+    private void StartGame()
+    {
+        if ((this.PuzzleImage is null) || (this.pieceCount == 0))
+        {
+            return;
+        }
+
+        var vm = App.GetRequiredService<PuzzleViewModel>();
+        //vm.Start(this.PuzzleImage, this.pieceCount, rotationSteps: 2, randomize: true);
+        //vm.Start(this.PuzzleImage, this.pieceCount, rotationSteps: 0, randomize: true);
+        vm.Start(this.PuzzleImage, this.pieceCount, rotationSteps: 6);
+        ApplicationMessagingExtensions.Select(ActivatedView.Puzzle);
+    }
+
+    public void UpdateSliderLabel()
+        => this.PieceCountString = string.Format("{0:D}", this.pieceCount);
+
+    partial void OnPieceCountSliderValueChanged(double value)
+    {
+        if (this.pieceCounts.Count == 0)
+        {
+            return;
+        }
+
+        int closest = 0;
+        double minDistance = double.MaxValue;
+        foreach (int count in this.pieceCounts)
+        {
+            double distance = Math.Abs(value - count);
+            if (distance < minDistance)
+            {
+                closest = count;
+                minDistance = distance;
+            }
+        }
+
+        this.pieceCount = closest;
+        this.UpdateSliderLabel();
+    }
+
     internal bool OnImageDrop(string path, byte[] imageBytes)
     {
-        ApplicationMessagingExtensions.Select(ActivatedView.Puzzle);
-
         int decodeToWidth = 1920; //  1024 + 512;
         var image =
             WriteableBitmap.DecodeToWidth(
                 new MemoryStream(imageBytes), decodeToWidth, BitmapInterpolationMode.HighQuality);
+
+        this.PuzzleImage = image;
+
         var puzzle = new Puzzle(this.Logger, image.PixelSize.Height, image.PixelSize.Width, 0);
         var counts = puzzle.PieceCounts;
+        int max = counts[0];
+        int min = counts[^1];
+        this.pieceCounts = counts;
+        this.PieceCountMin = min;
+        this.PieceCountMax = max;
+        this.ParametersVisible = true;
 
-        var vm = App.GetRequiredService<PuzzleViewModel>();
-        // vm.Start(image, counts[counts.Count - 10], rotationSteps: 2, randomize: true);
-        vm.Start(image, counts[counts.Count - 4 ], rotationSteps: 0, randomize: true);
-        // vm.Start(image, counts[0], rotationSteps: 6);
-
-        return true ;
+        return true;
     }
 
     internal void Select(PictureMetadata pictureMetadata, byte[] _)
     {
         // We receive the bytes of the thumbnail so we need to load the full image 
-        bool showBadPicture = true;
         try
         {
             string? url = pictureMetadata.Url;
@@ -147,11 +206,6 @@ public sealed partial class CollectionViewModel :
         {
             Debug.WriteLine(ex);
         }
-
-        if (showBadPicture)
-        {
-            this.ShowBadPicture();
-        }
     }
 
     internal bool Select(string path, byte[] imageBytes)
@@ -159,28 +213,20 @@ public sealed partial class CollectionViewModel :
         // Here we receive the bytes of the image dropped in the drop zone 
         try
         {
-            PictureMetadata pictureMetadata = new ()
+            PictureMetadata pictureMetadata = new()
             {
                 Date = DateTime.Now.Date,
                 Url = path,
             };
 
-            this.PictureViewModel.Select(pictureMetadata, imageBytes);
-            this.PictureViewModel.AddToCollection();
+            // this.PictureViewModel.AddToCollection();
             return true;
         }
         catch (Exception ex)
         {
             Debug.WriteLine(ex);
-            this.ShowBadPicture();
         }
 
         return false;
-    }
-
-    private void ShowBadPicture()
-    {
-        this.PictureViewModel.Title = this.Localize("Collection.BadPicture") ;
-        this.Logger.Warning("Collection: Bad picture!"); 
     }
 }

@@ -30,7 +30,6 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
     {
         this.Profiler.StartTiming();
 
-        this.ZoomFactor = 2.0;
         this.View.InnerCanvas.Children.Clear();
         this.pieceViewModels.Clear();
         this.Image = image;
@@ -61,7 +60,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
             int canvasRows = 2 + this.Puzzle.Rows;
             int canvasColumns = 2 + this.Puzzle.Columns;
             xOffset = - pieceDistance / 2.0 + pieceDistance / 14.0; 
-            yOffset = - pieceDistance / 2.0 + pieceDistance / 14.0;
+            yOffset = - pieceDistance / 2.0 + pieceDistance / 10.0;
 
             // Duplicate the list and shuffle the copy 
             var pieces = this.Puzzle.Pieces.Shuffle().ToList();
@@ -174,7 +173,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
         Schedule.OnUiThread(50, () =>
         {
             this.View.InvalidateVisual();
-            this.ZoomFactor = 2.0;
+            this.ZoomFactor = 1.01;
             Schedule.OnUiThread(100, () =>
             {
                 this.View.InvalidateVisual();

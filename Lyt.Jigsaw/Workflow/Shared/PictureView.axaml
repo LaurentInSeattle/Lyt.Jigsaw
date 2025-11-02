@@ -15,61 +15,6 @@
 	<Grid
 		Background="Transparent"
 		>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="60" />
-			<RowDefinition Height="*" />
-			<RowDefinition Height="{Binding DescriptionHeight}" />
-		</Grid.RowDefinitions>
-		<TextBlock
-			Grid.Row="0"
-			Text="{Binding Title}"
-			HorizontalAlignment="Center" VerticalAlignment="Center"
-			Theme="{StaticResource H1}"
-			Margin="0 -12 0 0"
-			/>
-		<TextBlock
-			Grid.Row="0" 
-			Text="{Binding Provider}"
-			HorizontalAlignment="Left" VerticalAlignment="Bottom"
-			Margin="8 0 0 0"
-			Theme="{StaticResource Small}"
-			/>
-		<TextBlock
-			Grid.Row="0"
-			Text="{Binding Copyright}"
-			HorizontalAlignment="Right" VerticalAlignment="Bottom"
-			Theme="{StaticResource Small}"
-			Margin="0 0 8 0"
-			/>
-		<panzoom:PanZoomControl
-			x:Name="PanAndZoom"
-			Grid.Column="1" Grid.Row="1"
-			Background="Transparent"
-			ZoomFactor="{Binding ZoomFactor}"
-			ShiftToDrag="False"
-			>
-			<panzoom:PanZoomControl.ZoomableContent>
-				<Canvas
-					x:Name="Canvas"
-					RenderOptions.BitmapInterpolationMode="LowQuality"
-					Background="Transparent"
-					VerticalAlignment="Top" HorizontalAlignment="Left"
-					>
-				</Canvas>
-			</panzoom:PanZoomControl.ZoomableContent>
-		</panzoom:PanZoomControl>
-		<controls:ZoomController
-			x:Name="ZoomController"
-			Grid.Column="1" Grid.Row="1"
-			VerticalAlignment="Top" HorizontalAlignment="Right"
-			Margin="0 20 20 20"
-			/>
-		<TextBlock
-			Grid.Row="2"
-			Text="{Binding Description}"
-			HorizontalAlignment="Center" VerticalAlignment="Center"
-			Margin="8 0 16 0"
-			Theme="{StaticResource H3}"
-			/>
+
 	</Grid>
 </UserControl>
