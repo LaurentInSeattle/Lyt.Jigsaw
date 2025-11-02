@@ -1,7 +1,5 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Game;
 
-using Lyt.Avalonia.Mvvm;
-
 public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<ZoomRequestMessage>
 {
     public Puzzle? Puzzle;
@@ -41,10 +39,9 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
         this.Puzzle.Setup(pieceCount, rotationSteps);
         int pieceSize = this.Puzzle.PieceSize;
         int pieceSizeWithOverlap = pieceSize + 2 * this.Puzzle.PieceOverlap;
-        int canvasRows = 1 + this.Puzzle.Rows;
-        int canvasColumns = 3 + this.Puzzle.Columns;
-        this.CanvasWidth = pieceSizeWithOverlap * canvasColumns;
-        this.CanvasHeight = pieceSizeWithOverlap * canvasRows;
+        double pieceDistance = pieceSizeWithOverlap * 0.78;
+        this.CanvasWidth = 1.10 * pieceDistance * ( 1 + this.Puzzle.Columns ) ;
+        this.CanvasHeight = 1.10 * pieceDistance * ( 1 + this.Puzzle.Rows) ;
 
         PieceView CreatePieceView(Piece piece)
         {
@@ -61,12 +58,10 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
 
         if (randomize)
         {
-            // Recalculate to take into account the reduced spacing 
-            double pieceDistance = pieceSizeWithOverlap * 0.85;
-            canvasRows = (int)(this.CanvasHeight / pieceDistance);
-            canvasColumns = (int)(this.CanvasWidth / pieceDistance);
-            xOffset = 0;
-            yOffset = pieceDistance / 10.0;
+            int canvasRows = 2 + this.Puzzle.Rows;
+            int canvasColumns = 2 + this.Puzzle.Columns;
+            xOffset = - pieceDistance / 2.0 + pieceDistance / 14.0; 
+            yOffset = - pieceDistance / 2.0 + pieceDistance / 14.0;
 
             // Duplicate the list and shuffle the copy 
             var pieces = this.Puzzle.Pieces.Shuffle().ToList();

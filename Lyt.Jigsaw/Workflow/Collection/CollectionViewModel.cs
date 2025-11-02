@@ -101,7 +101,7 @@ public sealed partial class CollectionViewModel :
     {
         ApplicationMessagingExtensions.Select(ActivatedView.Puzzle);
 
-        int decodeToWidth = 1024 + 512;
+        int decodeToWidth = 1920; //  1024 + 512;
         var image =
             WriteableBitmap.DecodeToWidth(
                 new MemoryStream(imageBytes), decodeToWidth, BitmapInterpolationMode.HighQuality);
@@ -110,7 +110,7 @@ public sealed partial class CollectionViewModel :
 
         var vm = App.GetRequiredService<PuzzleViewModel>();
         // vm.Start(image, counts[counts.Count - 10], rotationSteps: 2, randomize: true);
-        vm.Start(image, counts[16 /*counts.Count - 21 */ ], rotationSteps: 0, randomize: true);
+        vm.Start(image, counts[counts.Count - 4 ], rotationSteps: 0, randomize: true);
         // vm.Start(image, counts[0], rotationSteps: 6);
 
         return true ;

@@ -7,10 +7,10 @@
     <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
     <Application.Styles>
         <FluentTheme />
-        <StyleInclude Source="avares://Lyt.Jigsaw/Assets/Icons/Icons.axaml" />
-        <StyleInclude Source="avares://Lyt.Jigsaw/Assets/Palette/DeepBluePalette.axaml" />
-        <StyleInclude Source="avares://Lyt.Jigsaw/Assets/Theme/TextBoxStyles.axaml" />
-        <StyleInclude Source="avares://Lyt.Jigsaw/Assets/Theme/AutoCompleteBoxStyles.axaml" />
+        <StyleInclude Source="/Assets/Icons/Icons.axaml" />
+        <StyleInclude Source="/Assets/Palette/DeepBluePalette.axaml" />
+        <StyleInclude Source="/Assets/Theme/TextBoxStyles.axaml" />
+        <StyleInclude Source="/Assets/Theme/AutoCompleteBoxStyles.axaml" />
         <StyleInclude Source="/Assets/Theme/Sliders.axaml"/>
         <!--
         <StyleInclude Source="avares://TextoCopier/Assets/Theme/ListBoxStyles.axaml" />

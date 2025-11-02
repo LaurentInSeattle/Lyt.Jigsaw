@@ -11,7 +11,7 @@
 
     <system:String x:Key="Shell.About">Altro su...</system:String>
 
-    <system:String x:Key="Shell.Today">Oggi</system:String>
+	<system:String x:Key="Shell.Play">Giochi</system:String>
 
     <system:String x:Key="Shell.Collection">Collezione</system:String>
 
