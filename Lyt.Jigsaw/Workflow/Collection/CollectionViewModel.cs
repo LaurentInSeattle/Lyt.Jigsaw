@@ -50,7 +50,7 @@ public sealed partial class CollectionViewModel :
         this.pieceCounts = [];
         this.DropViewModel = new DropViewModel();
         this.ThumbnailsPanelViewModel = new ThumbnailsPanelViewModel(this);
-        this.rotations = 0;
+        this.rotations = 1;
         this.ParametersVisible = false;
         this.Subscribe<ToolbarCommandMessage>();
         this.Subscribe<ModelLoadedMessage>();
@@ -164,7 +164,7 @@ public sealed partial class CollectionViewModel :
     {
         this.rotations = (int)value ;
         this.RotationsString =
-            this.rotations == 0 ? 
+            this.rotations <= 1 ? 
                 "None" :
                 string.Format("{0:D}", this.rotations);
     }
@@ -185,6 +185,7 @@ public sealed partial class CollectionViewModel :
         this.pieceCounts = counts;
         this.PieceCountMin = min;
         this.PieceCountMax = max;
+        this.OnRotationsSliderValueChanged(1.0); 
         this.ParametersVisible = true;
 
         return true;

@@ -110,7 +110,7 @@
 						TickPlacement="None"
 						IsSnapToTickEnabled="True"
 						SmallChange="1" LargeChange="1"
-						Minimum="0"
+						Minimum="1"
 						Maximum="6"
 						Value="{Binding RotationsSliderValue}"
 						/>
