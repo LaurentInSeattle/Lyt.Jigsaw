@@ -36,11 +36,18 @@ public sealed partial class CollectionViewModel :
     private double rotationsSliderValue;
 
     [ObservableProperty]
+    private string snapString;
+
+    [ObservableProperty]
+    private double snapSliderValue;
+
+    [ObservableProperty]
     private bool parametersVisible;
 
     private bool loaded;
     private int pieceCount;
     private int rotations;
+    private int snap;
     private List<int> pieceCounts;
     private List<Tuple<Picture, byte[]>>? collectionThumbnails;
 
@@ -51,6 +58,7 @@ public sealed partial class CollectionViewModel :
         this.DropViewModel = new DropViewModel();
         this.ThumbnailsPanelViewModel = new ThumbnailsPanelViewModel(this);
         this.rotations = 1;
+        this.snap = 0;
         this.ParametersVisible = false;
         this.Subscribe<ToolbarCommandMessage>();
         this.Subscribe<ModelLoadedMessage>();
@@ -60,8 +68,8 @@ public sealed partial class CollectionViewModel :
     public override void Activate(object? activationParameters)
     {
         base.Activate(activationParameters);
-        this.OnRotationsSliderValueChanged(0.0); 
-        
+        this.OnRotationsSliderValueChanged(0.0);
+        this.OnSnapSliderValueChanged(0);
         if (this.loaded)
         {
             this.UpdateSelection();
@@ -133,7 +141,7 @@ public sealed partial class CollectionViewModel :
         }
 
         var vm = App.GetRequiredService<PuzzleViewModel>();
-        vm.Start(this.PuzzleImage, this.pieceCount, rotationSteps: this.rotations);
+        vm.Start(this.PuzzleImage, this.pieceCount, this.rotations, this.snap);
         ApplicationMessagingExtensions.Select(ActivatedView.Puzzle);
     }
 
@@ -167,6 +175,18 @@ public sealed partial class CollectionViewModel :
             this.rotations <= 1 ? 
                 "None" :
                 string.Format("{0:D}", this.rotations);
+    }
+
+    partial void OnSnapSliderValueChanged(double value)
+    {
+        this.snap = (int)value;
+        this.SnapString =
+            this.snap == 0 ?
+                "Mighty" :
+                this.snap == 1 ?
+                    "Strong" :
+                    this.snap == 2 ?
+                        "Normal" : "Weak";
     }
 
     internal bool OnImageDrop(string path, byte[] imageBytes)

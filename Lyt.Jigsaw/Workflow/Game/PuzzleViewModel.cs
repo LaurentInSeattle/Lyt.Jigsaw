@@ -26,7 +26,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
     public void Receive(ZoomRequestMessage message)
         => this.ZoomFactor = message.ZoomFactor;
 
-    public void Start(WriteableBitmap image, int pieceCount, int rotationSteps, bool randomize = true)
+    public void Start(WriteableBitmap image, int pieceCount, int rotationSteps, int snap, bool randomize = true)
     {
         this.Profiler.StartTiming();
 
@@ -35,7 +35,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
         this.Image = image;
         PixelSize imagePixelSize = image.PixelSize;
         this.Puzzle = new Puzzle(this.Logger, imagePixelSize.Height, imagePixelSize.Width, rotationSteps);
-        this.Puzzle.Setup(pieceCount, rotationSteps);
+        this.Puzzle.Setup(pieceCount, rotationSteps, snap);
         int pieceSize = this.Puzzle.PieceSize;
         int pieceSizeWithOverlap = pieceSize + 2 * this.Puzzle.PieceOverlap;
         double pieceDistance = pieceSizeWithOverlap * 0.78;

@@ -21,7 +21,6 @@ public sealed class Puzzle
         this.Randomizer = new Randomizer();
         this.profiler = new Profiler(logger);
         this.puzzleSetups = [];
-        this.PieceSnapDistance = 20.0;
         this.GenerateSetups();
     }
 
@@ -60,9 +59,14 @@ public sealed class Puzzle
 
     public List<Piece> GetMoves() => this.Moves;
 
-    public bool Setup(int pieceCount, int rotationSteps)
+    public bool Setup(int pieceCount, int rotationSteps, int snap)
     {
         if ((rotationSteps < 0) || (rotationSteps > 6))
+        {
+            return false;
+        }
+
+        if ((snap < 0) || (snap> 3))
         {
             return false;
         }
@@ -85,6 +89,9 @@ public sealed class Puzzle
         {
             this.RotationStepAngle = 360 / rotationSteps;
         }
+
+        int snapReverse = 3 - snap; 
+        this.PieceSnapDistance = this.PieceOverlap / 3.2 + snapReverse * this.PieceOverlap / 4.2;
 
         this.CreatePieces();
         return true;
