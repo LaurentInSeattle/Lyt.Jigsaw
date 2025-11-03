@@ -3,9 +3,9 @@
 public sealed class Puzzle
 {
 #if DEBUG
-    public const int MaxPieceCount = 400;
+    public const int MaxPieceCount = 420;
 #else
-    public const int MaxPieceCount = 500;
+    public const int MaxPieceCount = 560;
 #endif
 
     private readonly Dictionary<int, PuzzleSetup> puzzleSetups;
