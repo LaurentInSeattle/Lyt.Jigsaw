@@ -16,7 +16,6 @@ public sealed partial class CollectionViewModel :
 
     [ObservableProperty]
     private WriteableBitmap? puzzleImage;
-    private int pieceCount;
 
     [ObservableProperty]
     private string pieceCountString;
@@ -31,9 +30,17 @@ public sealed partial class CollectionViewModel :
     private double pieceCountSliderValue;
 
     [ObservableProperty]
+    private string rotationsString;
+
+    [ObservableProperty]
+    private double rotationsSliderValue;
+
+    [ObservableProperty]
     private bool parametersVisible;
 
     private bool loaded;
+    private int pieceCount;
+    private int rotations;
     private List<int> pieceCounts;
     private List<Tuple<Picture, byte[]>>? collectionThumbnails;
 
@@ -43,6 +50,7 @@ public sealed partial class CollectionViewModel :
         this.pieceCounts = [];
         this.DropViewModel = new DropViewModel();
         this.ThumbnailsPanelViewModel = new ThumbnailsPanelViewModel(this);
+        this.rotations = 0;
         this.ParametersVisible = false;
         this.Subscribe<ToolbarCommandMessage>();
         this.Subscribe<ModelLoadedMessage>();
@@ -52,6 +60,8 @@ public sealed partial class CollectionViewModel :
     public override void Activate(object? activationParameters)
     {
         base.Activate(activationParameters);
+        this.OnRotationsSliderValueChanged(0.0); 
+        
         if (this.loaded)
         {
             this.UpdateSelection();
@@ -123,14 +133,9 @@ public sealed partial class CollectionViewModel :
         }
 
         var vm = App.GetRequiredService<PuzzleViewModel>();
-        //vm.Start(this.PuzzleImage, this.pieceCount, rotationSteps: 2, randomize: true);
-        //vm.Start(this.PuzzleImage, this.pieceCount, rotationSteps: 0, randomize: true);
-        vm.Start(this.PuzzleImage, this.pieceCount, rotationSteps: 6);
+        vm.Start(this.PuzzleImage, this.pieceCount, rotationSteps: this.rotations);
         ApplicationMessagingExtensions.Select(ActivatedView.Puzzle);
     }
-
-    public void UpdateSliderLabel()
-        => this.PieceCountString = string.Format("{0:D}", this.pieceCount);
 
     partial void OnPieceCountSliderValueChanged(double value)
     {
@@ -152,7 +157,16 @@ public sealed partial class CollectionViewModel :
         }
 
         this.pieceCount = closest;
-        this.UpdateSliderLabel();
+        this.PieceCountString = string.Format("{0:D}", this.pieceCount);
+    }
+
+    partial void OnRotationsSliderValueChanged(double value)
+    {
+        this.rotations = (int)value ;
+        this.RotationsString =
+            this.rotations == 0 ? 
+                "None" :
+                string.Format("{0:D}", this.rotations);
     }
 
     internal bool OnImageDrop(string path, byte[] imageBytes)

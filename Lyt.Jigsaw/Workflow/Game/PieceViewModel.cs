@@ -87,7 +87,7 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
     {
         double distance = 
             Location.Distance(new Location(fromPoint.X, fromPoint.Y), this.piece.Center);
-        return distance < this.piece.Puzzle.ApparentPieceSize * 1.7;
+        return distance < this.piece.Puzzle.ApparentPieceSize * 1.9;
     }
 
     public void OnEndMove(Point fromPoint, Point toPoint)
