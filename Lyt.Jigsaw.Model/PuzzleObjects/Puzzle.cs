@@ -24,6 +24,8 @@ public sealed class Puzzle
         this.GenerateSetups();
     }
 
+    public double Background { get; internal set; }
+
     public List<int> PieceCounts => [.. this.puzzleSetups.Keys];
 
     public List<Piece> Pieces { get; private set; } = [];

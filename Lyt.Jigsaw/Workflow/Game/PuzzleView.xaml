@@ -22,7 +22,7 @@
 	-->
 	<Grid
 		x:Name="OuterGrid"
-		Background="#80101010"
+		Background="{Binding BackgroundBrush}"
 		>
 		<panzoom:PanZoomControl
 			x:Name="PanAndZoom"

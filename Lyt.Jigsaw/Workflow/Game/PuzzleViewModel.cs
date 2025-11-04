@@ -1,7 +1,11 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Game;
 
-public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<ZoomRequestMessage>
+public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
+    IRecipient<ZoomRequestMessage>,
+    IRecipient<PuzzleChangedMessage>
 {
+    private readonly JigsawModel jigsawModel;
+
     public Puzzle? Puzzle;
 
     public WriteableBitmap? Image;
@@ -15,16 +19,51 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
     [ObservableProperty]
     private double zoomFactor;
 
+    [ObservableProperty]
+    private double backgroundOpacity;
+
+    [ObservableProperty]
+    private SolidColorBrush backgroundBrush;
+
     private readonly Dictionary<Piece, PieceViewModel> pieceViewModels;
 
-    public PuzzleViewModel()
+    public PuzzleViewModel(JigsawModel jigsawModel)
     {
+        this.jigsawModel = jigsawModel;
+
         this.Subscribe<ZoomRequestMessage>();
+        this.Subscribe<PuzzleChangedMessage>();
         this.pieceViewModels = [];
+        this.backgroundBrush = new SolidColorBrush(Colors.Transparent);
+    }
+
+    ~PuzzleViewModel()
+    {
+        this.Unregister<ZoomRequestMessage>();
+        this.Unregister<PuzzleChangedMessage>();
     }
 
     public void Receive(ZoomRequestMessage message)
         => this.ZoomFactor = message.ZoomFactor;
+
+    public void Receive(PuzzleChangedMessage message)
+    {
+        switch (message.Change)
+        {
+            default:
+            case PuzzleChange.None:
+                return;
+
+            case PuzzleChange.Background:
+                if (this.Puzzle is null)
+                {
+                    return;
+                }
+
+                this.UpdateBackground(this.Puzzle.Background);
+                break;
+        }
+    }
 
     public void Start(WriteableBitmap image, int pieceCount, int rotationSteps, int snap, bool randomize = true)
     {
@@ -36,6 +75,8 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
         PixelSize imagePixelSize = image.PixelSize;
         this.Puzzle = new Puzzle(this.Logger, imagePixelSize.Height, imagePixelSize.Width, rotationSteps);
         this.Puzzle.Setup(pieceCount, rotationSteps, snap);
+        this.jigsawModel.SetPuzzle(this.Puzzle);
+
         int pieceSize = this.Puzzle.PieceSize;
         int pieceSizeWithOverlap = pieceSize + 2 * this.Puzzle.PieceOverlap;
         double pieceDistance = pieceSizeWithOverlap * 0.78;
@@ -183,7 +224,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
 
     }
 
-    public PieceView GetViewFromPiece(Piece piece)
+    internal PieceView GetViewFromPiece(Piece piece)
     {
         if (this.pieceViewModels is null || this.pieceViewModels.Count == 0)
         {
@@ -201,7 +242,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
         throw new Exception("pieceViewModels has no view for this piece.");
     }
 
-    public PieceViewModel GetViewModelFromPiece(Piece piece)
+    internal PieceViewModel GetViewModelFromPiece(Piece piece)
     {
         if (this.pieceViewModels is null || this.pieceViewModels.Count == 0)
         {
@@ -216,7 +257,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
         throw new Exception("pieceViewModels has no view model for this piece.");
     }
 
-    internal void Update()
+    internal void UpdateLocationsAfterSnap()
     {
         if (this.Puzzle is null)
         {
@@ -243,6 +284,24 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
         }
 
     }
+
+    private void UpdateBackground(double background)
+    {
+        if (background < 0)
+        {
+            background = 0;
+        }
+
+        if (background > 1.0)
+        {
+            background = 1.0;
+        }
+
+        byte gray = (byte)(background * 255);
+        var brush = new SolidColorBrush(new Color(gray, gray, gray, gray));
+        this.BackgroundBrush = brush; 
+    }
+
 
     //Dispatch.OnUiThread(() =>
     //{

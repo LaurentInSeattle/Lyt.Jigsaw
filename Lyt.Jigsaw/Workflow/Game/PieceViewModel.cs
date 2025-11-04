@@ -74,7 +74,7 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
         if (this.piece.IsGrouped)
         {
             this.piece.Group.Rotate(this.piece, isCCW: isRightClick);
-            this.puzzleViewModel.Update(); 
+            this.puzzleViewModel.UpdateLocationsAfterSnap(); 
         }
         else
         {
@@ -99,7 +99,7 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
         var puzzle = this.piece.Puzzle; 
         if (puzzle.CheckForSnaps(this.piece))
         {
-            this.puzzleViewModel.Update(); 
+            this.puzzleViewModel.UpdateLocationsAfterSnap(); 
         }
     }
 

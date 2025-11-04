@@ -230,4 +230,23 @@ public sealed partial class JigsawModel : ModelBase
             }
         }
     }
+
+    public bool SetPuzzle(Puzzle puzzle)
+    {
+        // TODO: Validate puzzle object 
+        this.Puzzle = puzzle;
+        return true;
+    }
+
+    public bool SetPuzzleBackground(double value)
+    {
+        if (this.Puzzle is null)
+        {
+            return false;
+        }
+
+        this.Puzzle.Background = value;
+        new PuzzleChangedMessage(PuzzleChange.Background).Publish();
+        return true;
+    }
 }
