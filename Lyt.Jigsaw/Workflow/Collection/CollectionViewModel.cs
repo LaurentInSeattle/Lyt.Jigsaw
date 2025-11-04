@@ -44,11 +44,14 @@ public sealed partial class CollectionViewModel :
     [ObservableProperty]
     private bool parametersVisible;
 
+
     private bool loaded;
     private int pieceCount;
     private int rotations;
     private int snap;
     private List<int> pieceCounts;
+
+    // TODO 
     private List<Tuple<Picture, byte[]>>? collectionThumbnails;
 
     public CollectionViewModel(JigsawModel jigsawModel)
@@ -59,6 +62,9 @@ public sealed partial class CollectionViewModel :
         this.ThumbnailsPanelViewModel = new ThumbnailsPanelViewModel(this);
         this.rotations = 1;
         this.snap = 0;
+        this.PieceCountString = string.Empty;
+        this.RotationsString = string.Empty;
+        this.SnapString = string.Empty;
         this.ParametersVisible = false;
         this.Subscribe<ToolbarCommandMessage>();
         this.Subscribe<ModelLoadedMessage>();

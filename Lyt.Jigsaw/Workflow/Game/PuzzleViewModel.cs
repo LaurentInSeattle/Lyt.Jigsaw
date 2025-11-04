@@ -39,8 +39,8 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
         int pieceSize = this.Puzzle.PieceSize;
         int pieceSizeWithOverlap = pieceSize + 2 * this.Puzzle.PieceOverlap;
         double pieceDistance = pieceSizeWithOverlap * 0.78;
-        this.CanvasWidth = 1.10 * pieceDistance * ( 1 + this.Puzzle.Columns ) ;
-        this.CanvasHeight = 1.10 * pieceDistance * ( 1 + this.Puzzle.Rows) ;
+        this.CanvasWidth = 1.10 * pieceDistance * (1 + this.Puzzle.Columns);
+        this.CanvasHeight = 1.10 * pieceDistance * (1 + this.Puzzle.Rows);
 
         PieceView CreatePieceView(Piece piece)
         {
@@ -59,8 +59,8 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
         {
             int canvasRows = 2 + this.Puzzle.Rows;
             int canvasColumns = 2 + this.Puzzle.Columns;
-            xOffset = - pieceDistance / 2.0 + pieceDistance / 14.0; 
-            yOffset = - pieceDistance / 2.0 + pieceDistance / 10.0;
+            xOffset = -pieceDistance / 12.0;
+            yOffset = -pieceDistance / 12.0;
 
             // Duplicate the list and shuffle the copy 
             var pieces = this.Puzzle.Pieces.Shuffle().ToList();
@@ -93,7 +93,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
                 // Top Row
                 for (int count = 0; count < halfColumnCount; ++count)
                 {
-                    CreateAndPlacePiece(topRow, leftColumn + count );
+                    CreateAndPlacePiece(topRow, leftColumn + count);
                     CreateAndPlacePiece(topRow, rightColumn - count);
                 }
 
@@ -125,27 +125,27 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>, IRecipient<
             }
 
             int top = 0;
-            int right = canvasColumns- 1;
-            int bottom = canvasRows - 1; 
+            int right = canvasColumns - 1;
+            int bottom = canvasRows - 1;
             int left = 0;
 
-            while (bottom > top )
+            while (bottom > top)
             {
                 RectangularPlacement(top, right, bottom, left);
                 if (pieceIndex >= pieceCount)
                 {
-                    break; 
+                    break;
                 }
 
-                ++ top ;
+                ++top;
                 --bottom;
                 ++left;
                 --right;
-            } 
+            }
 
             if (pieceIndex < pieceCount)
             {
-                if (Debugger.IsAttached) { Debugger.Break(); } 
+                if (Debugger.IsAttached) { Debugger.Break(); }
             }
         }
         else

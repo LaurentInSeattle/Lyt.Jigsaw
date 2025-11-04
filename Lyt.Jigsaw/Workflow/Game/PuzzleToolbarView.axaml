@@ -1,0 +1,46 @@
+﻿<UserControl 
+	x:Class="Lyt.Jigsaw.Workflow.Game.PuzzleToolbarView"
+	xmlns:vm="clr-namespace:Lyt.Jigsaw.Workflow.Game"
+	x:DataType="vm:PuzzleToolbarViewModel" 
+
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+
+	xmlns:glyphs="using:Lyt.Avalonia.Controls.Glyphs"	
+	xmlns:controls="clr-namespace:Lyt.Jigsaw.Controls"
+	>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="72" />
+			<RowDefinition Height="16" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<!--  -->
+			<ColumnDefinition Width="124" />
+			<!-- Spacer -->
+			<ColumnDefinition Width="20" />
+			<!-- Randomize Button -->
+			<ColumnDefinition Width="124" />
+		</Grid.ColumnDefinitions>
+		<glyphs:SelectionGroup x:Name="SelectionGroup" />
+
+		<glyphs:GlyphButton
+			Grid.Column="10"
+			Style="{StaticResource AppToolbarIconButton}"
+			GlyphSource="lightbulb_filament"
+			GlyphStrokeThickness="0.1"
+			Text="{DynamicResource Design.Toolbar.Randomize}"
+			Command="{Binding OnRandomize}"
+			/>
+
+		<controls:ExtendedTextBlock
+			Grid.Column="10" Grid.ColumnSpan="1" Grid.Row="1"
+			Text=" ¯\_(ツ)_/¯ "
+			Typography="{StaticResource Medium}"
+            Foreground="{StaticResource PastelOrchid_0_080}"
+			/>
+	</Grid>
+</UserControl>

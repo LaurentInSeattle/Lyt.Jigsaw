@@ -121,13 +121,6 @@
 						HorizontalAlignment="Left"
 						Text="{Binding RotationsString}"
 						/>
-					<TextBlock
-						Grid.Row="2" Grid.Column="0" 
-						Margin="4"
-						Theme="{StaticResource H3}"
-						HorizontalAlignment="Right"
-						Text="Snap Strength: "
-						/>
 					<Slider 
 						Grid.Row="2" Grid.Column="1" 
 						Margin="4 8 4 4 "
@@ -146,6 +139,14 @@
 						Theme="{StaticResource H2}"
 						HorizontalAlignment="Left"
 						Text="{Binding SnapString}"
+						/>
+					<TextBlock
+						Grid.Row="2" Grid.Column="0" 
+						Margin="4"
+						Theme="{StaticResource H3}"
+						Text="Snap Strength: "
+						HorizontalAlignment="Right"
+						VerticalAlignment="Center"
 						/>
 				</Grid>
 			</Grid>

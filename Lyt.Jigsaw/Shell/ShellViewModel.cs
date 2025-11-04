@@ -159,7 +159,8 @@ public sealed partial class ShellViewModel
             selectableViews.Add(new SelectableView<ActivatedView>(activatedView, vm));
         }
 
-        SetupNoToolbar<PuzzleViewModel, PuzzleView>(ActivatedView.Puzzle, view.TodayButton);
+        Setup<PuzzleViewModel, PuzzleView, PuzzleToolbarViewModel, PuzzleToolbarView>(
+            ActivatedView.Puzzle, view.TodayButton);
 
         Setup<CollectionViewModel, CollectionView, CollectionToolbarViewModel, CollectionToolbarView>(
             ActivatedView.Collection, view.CollectionButton);

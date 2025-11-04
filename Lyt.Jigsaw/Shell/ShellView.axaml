@@ -19,9 +19,9 @@ Background="Transparent"
     </Design.DataContext>
 
     <Border
-    BorderBrush="#80000020"
-    BorderThickness="1"
-    >
+        BorderBrush="#80000020"
+        BorderThickness="1"
+        >
         <Grid>
             <!-- Extra row for eventually using it merged with the chrome -->
             <Grid.RowDefinitions>
@@ -38,7 +38,7 @@ Background="Transparent"
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="74"/>
+                    <RowDefinition Height="94"/>
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Image
