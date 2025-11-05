@@ -204,7 +204,7 @@ public sealed partial class CollectionViewModel :
 
         this.PuzzleImage = image;
 
-        var puzzle = new Puzzle(this.Logger, image.PixelSize.Height, image.PixelSize.Width, 0);
+        var puzzle = new Puzzle(this.Logger, image.PixelSize.Height, image.PixelSize.Width);
         var counts = puzzle.PieceCounts;
         int max = counts[0];
         int min = counts[^1];

@@ -73,7 +73,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.pieceViewModels.Clear();
         this.Image = image;
         PixelSize imagePixelSize = image.PixelSize;
-        this.Puzzle = new Puzzle(this.Logger, imagePixelSize.Height, imagePixelSize.Width, rotationSteps);
+        this.Puzzle = new Puzzle(this.Logger, imagePixelSize.Height, imagePixelSize.Width);
         this.Puzzle.Setup(pieceCount, rotationSteps, snap);
         this.jigsawModel.SetPuzzle(this.Puzzle);
 
@@ -205,7 +205,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
             }
         }
 
-        this.Puzzle.Save();
+        this.jigsawModel.SavePuzzle();
 
         // For 1400 pieces, in DEBUG build:  *****Creating pieces - Timing: 432,5 ms.  
         this.Logger.Info(string.Format("Piece Count: {0}", this.Puzzle.PieceCount));

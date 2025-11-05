@@ -1,9 +1,17 @@
 ﻿namespace Lyt.Jigsaw.Model.PuzzleObjects;
 
+using System.Collections.Generic;
+
 public sealed class Group
 {
+#pragma warning disable CS8618 
+    // Non-nullable field must contain a non-null value when exiting constructor.
+    public Group() { /* For serialization */ }
+#pragma warning restore CS8618 
+
     internal Group(Group group1, Group group2)
     {
+        this.Id = group1.Id;
         this.AddGroup(group1);
         this.AddGroup(group2);
     }
@@ -16,13 +24,21 @@ public sealed class Group
             throw new ArgumentException("Cannot add twice the same piece");
         }
 
+        this.Id = first.Id;
         this.AddPiece(first);
         this.AddPiece(last);
     }
 
-    public List<Piece> Pieces { get; set; } = [];
+    #region Serialized Properties 
 
-    internal Dictionary<int, Piece> PieceDictionary { get; private set; } = [];
+    public int Id { get; set; }
+
+    public HashSet<int> PieceIds { get; set; } = [];
+
+    #endregion Serialized Properties 
+
+    [JsonIgnore]
+    public List<Piece> Pieces { get; set; } = [];
 
     public void Rotate(Piece piece, bool isCCW)
     {
@@ -94,8 +110,9 @@ public sealed class Group
         } 
 
         piece.Group = this;
+        piece.GroupId = this.Id; 
+        this.PieceIds.Add(piece.Id);
         this.Pieces.Add(piece);
-        this.PieceDictionary.Add(piece.Id, piece);
         return true;
     }
 
@@ -113,7 +130,7 @@ public sealed class Group
         }
 
         group.Pieces.Clear();
-        group.PieceDictionary.Clear();
+        group.PieceIds.Clear();
         return true;
     }
 
@@ -130,7 +147,7 @@ public sealed class Group
         }
     }
 
-    private bool HasPiece(Piece piece) => this.PieceDictionary.ContainsKey(piece.Id);
+    private bool HasPiece(Piece piece) => this.PieceIds.Contains(piece.Id);
 
     /// <summary> Single piece merging into this group </summary>
     private bool CanAddPiece(Piece piece)

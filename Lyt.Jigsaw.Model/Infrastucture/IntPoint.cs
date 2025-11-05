@@ -2,8 +2,8 @@
 
 public struct IntPoint(int x, int y)
 {
-    public int X { get; private set; } = x;
+    public int X { get; set; } = x;
 
-    public int Y { get; private set; } = y;
+    public int Y { get; set; } = y;
 }
 

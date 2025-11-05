@@ -249,4 +249,29 @@ public sealed partial class JigsawModel : ModelBase
         new PuzzleChangedMessage(PuzzleChange.Background).Publish();
         return true;
     }
+
+    public bool SavePuzzle()
+    {
+        if (this.Puzzle is null)
+        {
+            return false;
+        }
+
+        try
+        {
+            // Serialize and save to disk 
+            var fileId = new FileId(Area.Desktop, Kind.Text, "Puzzle");
+            string serialized = this.fileManager.Serialize<Puzzle>(this.Puzzle);
+            this.fileManager.Save(fileId, serialized);
+
+            Debug.WriteLine("Saved");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("Save, Exception thrown: " + ex);
+            return false;
+        }
+    }
+
 }

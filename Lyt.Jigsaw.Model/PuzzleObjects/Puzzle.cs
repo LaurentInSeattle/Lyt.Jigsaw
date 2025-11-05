@@ -14,50 +14,57 @@ public sealed class Puzzle
 
     private readonly Profiler profiler;
 
-    public Puzzle(ILogger logger, int height, int width, int rotationSteps)
+    public Puzzle(ILogger logger, int height, int width)
     {
         this.ImageSize = new(height, width);
-        this.RotationSteps = rotationSteps;
         this.Randomizer = new Randomizer();
         this.profiler = new Profiler(logger);
         this.puzzleSetups = [];
         this.GenerateSetups();
     }
 
-    public double Background { get; internal set; }
+    #region Serialized Properties 
 
+    public double Background { get; set; }
+
+    public int PieceCount { get; set; }
+
+    public int Rows { get; set; }
+
+    public int Columns { get; set; }
+
+    public int PieceSize { get; set; }
+
+    public int PieceOverlap { get; set; }
+
+    public int RotationSteps { get; set; }
+
+    public double PieceSnapDistance { get; set; }
+
+    public List<Piece> Pieces { get; set; } = [];
+
+    internal List<Group> Groups { get; set; } = [];
+
+    #endregion // Serialized Properties 
+
+    [JsonIgnore]
     public List<int> PieceCounts => [.. this.puzzleSetups.Keys];
 
-    public List<Piece> Pieces { get; private set; } = [];
+    [JsonIgnore]
+    internal Dictionary<int, Piece> PieceDictionary { get; private set; } = [];
 
-    public int PieceCount { get; private set; }
+    [JsonIgnore]
+    internal List<Piece> Moves { get; private set; } = [];
 
     public bool IsComplete
         => this.Groups.Count == 1 && this.Groups[0].Pieces.Count == this.PieceCount;
 
-    public int Rows { get; private set; }
-
-    public int Columns { get; private set; }
-
-    public int PieceSize { get; set; }
-
-    public int PieceOverlap { get; private set; }
-
     public int ApparentPieceSize => this.PieceSize - 2 * this.PieceOverlap;
 
-    internal int RotationSteps { get; private set; }
+    internal int RotationStepAngle => this.RotationSteps <= 1 ?  0 : 360 / this.RotationSteps;
 
-    internal int RotationStepAngle { get; private set; }
-
-    internal List<Group> Groups { get; private set; } = [];
-
-    internal Dictionary<int, Piece> PieceDictionary { get; private set; } = [];
-
-    internal List<Piece> Moves { get; private set; } = [];
-
+    [JsonIgnore]
     private IntSize ImageSize { get; set; }
-
-    private double PieceSnapDistance { get; set; }
 
     public List<Piece> GetMoves() => this.Moves;
 
@@ -78,33 +85,17 @@ public sealed class Puzzle
             return false;
         }
 
+        this.RotationSteps = rotationSteps;
         this.Rows = setup.Rows;
         this.Columns = setup.Columns;
         this.PieceSize = setup.PieceSize;
         this.PieceOverlap = setup.PieceSize / 4;
         this.PieceCount = pieceCount;
-        if (rotationSteps == 0)
-        {
-            this.RotationStepAngle = 0;
-        }
-        else
-        {
-            this.RotationStepAngle = 360 / rotationSteps;
-        }
-
         int snapReverse = 3 - snap; 
         this.PieceSnapDistance = this.PieceOverlap / 3.2 + snapReverse * this.PieceOverlap / 4.2;
 
         this.CreatePieces();
         return true;
-    }
-
-    public void Save()
-    {
-        // TODO 
-        Debug.WriteLine("Save: TODO!");
-        // Serialize and save to disk 
-        Debug.WriteLine("Saved");
     }
 
     public bool CheckForSnaps(Piece movingPiece)
@@ -226,6 +217,11 @@ public sealed class Puzzle
 
             // distance should be equal to piece size + or - the snap visual distance 
             double distance = Location.Distance(piece.Center, targetPiece.Center);
+            //Debug.WriteLine(
+            //    string.Format("Current: {0}  {1}", piece.Position.Row, piece.Position.Column));
+            //Debug.WriteLine(
+            //    string.Format("Target: {0}  {1}", targetPiece.Position.Row, targetPiece.Position.Column));
+            //Debug.WriteLine("Distance: " + distance.ToString("F1")); 
             if (distance < minDistance)
             {
                 minDistance = distance;

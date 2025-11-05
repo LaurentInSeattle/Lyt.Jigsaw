@@ -4,6 +4,11 @@ public sealed class Piece
 {
     public readonly Puzzle Puzzle;
 
+#pragma warning disable CS8618 
+    // Non-nullable field must contain a non-null value when exiting constructor.
+    public Piece()  { /* For serialization */ }
+#pragma warning restore CS8618 
+
     public Piece(Puzzle puzzle, int row, int col)
     {
         this.Puzzle = puzzle;
@@ -33,12 +38,27 @@ public sealed class Piece
         this.Rotate();
     }
 
+    #region Serialized Properties 
+
+    public int Id { get; set; }
+
+    public int GroupId { get; set; }
+
+    public int SnapPieceId { get; set; }
+
+    public int TopId { get; set; }
+
+    public int BottomId { get; set; }
+
+    public int LeftId { get; set; }
+
+    public int RightId { get; set; }
+
     public Location Location { get; set; }
 
-    public Location Center =>
-        new(this.Location.X + this.Puzzle.PieceSize / 2, this.Location.Y + this.Puzzle.PieceSize / 2);
+    public IntPosition Position { get; set; }
 
-    public IntPosition Position { get; private set; }
+    public int RotationSteps { get; set; }
 
     public int RotationAngle { get; set; }
 
@@ -50,39 +70,25 @@ public sealed class Piece
 
     public IntPointList RightPoints { get; private set; } = [];
 
-    internal int RotationSteps { get; set; }
+    #endregion // Serialized Properties 
 
-    internal int Id { get; private set; }
+    public Location Center =>
+        new(this.Location.X + this.Puzzle.PieceSize / 2, this.Location.Y + this.Puzzle.PieceSize / 2);
 
-    internal int TopId { get; private set; }
-
-    internal int BottomId { get; private set; }
-
-    internal int LeftId { get; private set; }
-
-    internal int RightId { get; private set; }
-
-    private SideKind TopSide { get; set; }
-
-    private SideKind BottomSide { get; set; }
-
-    private SideKind LeftSide { get; set; }
-
-    private SideKind RightSide { get; set; }
-
+    [JsonIgnore]
     internal Group? MaybeGroup { get; private set; }
 
+    [JsonIgnore]
     public Group Group
     {
-        get => this.MaybeGroup is not null ?
-            this.MaybeGroup :
-            throw new Exception("Should have checked 'IsGrouped'.");
+        get => 
+            this.MaybeGroup is not null ?
+                this.MaybeGroup :
+                throw new Exception("Should have checked 'IsGrouped'.");
         set => this.MaybeGroup = value;
     }
 
-    public bool IsGrouped => this.MaybeGroup is not null;
-
-    internal void UnGroup() => this.MaybeGroup = null; 
+    public bool IsGrouped => this.GroupId > 0 && this.MaybeGroup is not null;
 
     private bool IsTop => this.Position.Row == 0;
 
@@ -92,18 +98,31 @@ public sealed class Piece
 
     private bool IsRight => this.Position.Column == this.Puzzle.Columns - 1;
 
-    private Placement SnapPlacement { get; set; } = Placement.Unknown;
-
+    [JsonIgnore]
     public Piece? MaybeSnapPiece { get; private set; }
 
-    public bool IsSnapped => this.MaybeSnapPiece is not null && this.SnapPlacement != Placement.Unknown;
-
+    [JsonIgnore]
     public Piece SnapPiece
     {
         get => this.MaybeSnapPiece is not null ?
                 this.SnapPiece :
                 throw new Exception("Should have checked 'IsSnapped'.");
-        set => this.MaybeSnapPiece = value;
+        set
+        {
+            this.SnapPieceId = value.Id;
+            this.MaybeSnapPiece = value;
+        } 
+    }
+
+    public bool IsSnapped
+        => this.SnapPieceId > 0 && this.MaybeSnapPiece is not null && this.SnapPlacement != Placement.Unknown;
+
+    private Placement SnapPlacement { get; set; } = Placement.Unknown;
+
+    internal void UnGroup()
+    {
+        this.GroupId = -1;
+        this.MaybeGroup = null;
     }
 
     internal Piece GetTop()
@@ -170,12 +189,10 @@ public sealed class Piece
     {
         if (this.IsTop)
         {
-            this.TopSide = SideKind.Flat;
             this.TopPoints = IntPointList.FlatPoints.Offset(200, 200);
         }
         else
         {
-            this.TopSide = SideKind.Curved;
             var top = this.GetTop();
             var points = top.BottomPoints.ReverseOrder();
             this.TopPoints = points.Offset(0, -800);
@@ -183,39 +200,24 @@ public sealed class Piece
 
         if (this.IsLeft)
         {
-            this.LeftSide = SideKind.Flat;
             this.LeftPoints = IntPointList.FlatPoints.Swap().Offset(200, 200).ReverseOrder();
         }
         else
         {
-            this.LeftSide = SideKind.Curved;
             var left = this.GetLeft();
             var points = left.RightPoints.ReverseOrder();
             this.LeftPoints = points.Offset(-800, 0);
         }
 
-        if (this.IsBottom)
-        {
-            this.BottomSide = SideKind.Flat;
-            this.BottomPoints = IntPointList.FlatPoints.Offset(200, 1000).ReverseOrder();
-        }
-        else
-        {
-            this.BottomSide = SideKind.Curved;
-            this.BottomPoints = IntPointList.RandomizeBasePoints().Offset(200, 1000).ReverseOrder();
-        }
-
-        if (this.IsRight)
-        {
-            this.RightSide = SideKind.Flat;
-            this.RightPoints = IntPointList.FlatPoints.Swap().Offset(1000, 200);
-        }
-        else
-        {
-            this.RightSide = SideKind.Curved;
-            this.RightPoints = IntPointList.RandomizeBasePoints().Swap().Offset(1000, 200);
-        }
-    }
+        this.BottomPoints =
+            this.IsBottom ?
+                IntPointList.FlatPoints.Offset(200, 1000).ReverseOrder() :
+                IntPointList.RandomizeBasePoints().Offset(200, 1000).ReverseOrder();
+        this.RightPoints =
+            this.IsRight ?
+                IntPointList.FlatPoints.Swap().Offset(1000, 200) :
+                IntPointList.RandomizeBasePoints().Swap().Offset(1000, 200);
+    } 
 
     public void Rotate(bool isCCW = true)
     {
@@ -367,9 +369,5 @@ public sealed class Piece
         this.TopPoints.Count == 0 ||
         this.BottomPoints.Count == 0 ||
         this.LeftPoints.Count == 0 ||
-        this.RightPoints.Count == 0 ||
-        this.TopSide == SideKind.Unknown ||
-        this.BottomSide == SideKind.Unknown ||
-        this.LeftSide == SideKind.Unknown ||
-        this.RightSide == SideKind.Unknown;
+        this.RightPoints.Count == 0; 
 }

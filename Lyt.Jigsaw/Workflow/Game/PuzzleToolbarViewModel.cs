@@ -10,14 +10,9 @@ public sealed partial class PuzzleToolbarViewModel : ViewModel<PuzzleToolbarView
     [ObservableProperty]
     private double backgroundSliderValue;
 
-    public PuzzleToolbarViewModel(JigsawModel jigsawModel)
-    {
-        this.jigsawModel = jigsawModel;
-    }
+    public PuzzleToolbarViewModel(JigsawModel jigsawModel) => this.jigsawModel = jigsawModel;
 
     partial void OnBackgroundSliderValueChanged(double value)
-    {
-        Debug.WriteLine("Background: " + value.ToString("F2"));
-        _ = this.jigsawModel.SetPuzzleBackground (value);
-    }
+        // Debug.WriteLine("Background: " + value.ToString("F2"));
+        => this.jigsawModel.SetPuzzleBackground (value);
 }
