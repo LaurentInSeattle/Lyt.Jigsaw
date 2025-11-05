@@ -164,4 +164,14 @@ public sealed class Group
 
         return true;
     }
+
+    internal void FinalizeAfterDeserialization(Puzzle puzzle)
+    {
+        // Rebuild the list of pieces
+        foreach (int pieceId in this.PieceIds)
+        {
+            Piece piece = puzzle.PieceDictionary[pieceId];
+            this.Pieces.Add(piece);
+        }
+    }
 }

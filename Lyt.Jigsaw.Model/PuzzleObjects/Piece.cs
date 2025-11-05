@@ -2,11 +2,9 @@
 
 public sealed class Piece
 {
-    public readonly Puzzle Puzzle;
-
 #pragma warning disable CS8618 
     // Non-nullable field must contain a non-null value when exiting constructor.
-    public Piece()  { /* For serialization */ }
+    public Piece() { /* For serialization */ }
 #pragma warning restore CS8618 
 
     public Piece(Puzzle puzzle, int row, int col)
@@ -72,6 +70,9 @@ public sealed class Piece
 
     #endregion // Serialized Properties 
 
+    // Not serialized 
+    public Puzzle Puzzle { get; private set; }
+
     public Location Center =>
         new(this.Location.X + this.Puzzle.PieceSize / 2, this.Location.Y + this.Puzzle.PieceSize / 2);
 
@@ -81,22 +82,12 @@ public sealed class Piece
     [JsonIgnore]
     public Group Group
     {
-        get => 
+        get =>
             this.MaybeGroup is not null ?
                 this.MaybeGroup :
                 throw new Exception("Should have checked 'IsGrouped'.");
         set => this.MaybeGroup = value;
     }
-
-    public bool IsGrouped => this.GroupId > 0 && this.MaybeGroup is not null;
-
-    private bool IsTop => this.Position.Row == 0;
-
-    private bool IsBottom => this.Position.Row == this.Puzzle.Rows - 1;
-
-    private bool IsLeft => this.Position.Column == 0;
-
-    private bool IsRight => this.Position.Column == this.Puzzle.Columns - 1;
 
     [JsonIgnore]
     public Piece? MaybeSnapPiece { get; private set; }
@@ -111,13 +102,23 @@ public sealed class Piece
         {
             this.SnapPieceId = value.Id;
             this.MaybeSnapPiece = value;
-        } 
+        }
     }
 
     public bool IsSnapped
         => this.SnapPieceId > 0 && this.MaybeSnapPiece is not null && this.SnapPlacement != Placement.Unknown;
 
     private Placement SnapPlacement { get; set; } = Placement.Unknown;
+
+    public bool IsGrouped => this.GroupId > 0 && this.MaybeGroup is not null;
+
+    private bool IsTop => this.Position.Row == 0;
+
+    private bool IsBottom => this.Position.Row == this.Puzzle.Rows - 1;
+
+    private bool IsLeft => this.Position.Column == 0;
+
+    private bool IsRight => this.Position.Column == this.Puzzle.Columns - 1;
 
     internal void UnGroup()
     {
@@ -217,7 +218,7 @@ public sealed class Piece
             this.IsRight ?
                 IntPointList.FlatPoints.Swap().Offset(1000, 200) :
                 IntPointList.RandomizeBasePoints().Swap().Offset(1000, 200);
-    } 
+    }
 
     public void Rotate(bool isCCW = true)
     {
@@ -290,11 +291,11 @@ public sealed class Piece
 
     internal void SnapTargetToThis(Piece targetPiece, Placement placement)
     {
-        if (placement== Placement.Unknown)
+        if (placement == Placement.Unknown)
         {
             // Randomly crashes here  :( 
-            if ( Debugger.IsAttached ) {  Debugger.Break(); }
-            return; 
+            if (Debugger.IsAttached) { Debugger.Break(); }
+            return;
         }
 
         this.Puzzle.Moves.Add(targetPiece);
@@ -307,11 +308,11 @@ public sealed class Piece
             this.SnapPiece = targetPiece;
             this.SnapPlacement = placement.Opposite();
         }
-    } 
+    }
 
-    internal void ManageGroups (Piece targetPiece)
+    internal void ManageGroups(Piece targetPiece)
     {
-        var groups = this.Puzzle.Groups; 
+        var groups = this.Puzzle.Groups;
         if (this.IsGrouped && targetPiece.IsGrouped)
         {
             // two groups are merging into one 
@@ -365,9 +366,27 @@ public sealed class Piece
         return new(x, y);
     }
 
+    internal void FinalizeAfterDeserialization(Puzzle puzzle)
+    {
+        this.Puzzle = puzzle;
+
+        if (this.SnapPieceId > 0)
+        {
+            var snapPiece = this.Puzzle.PieceDictionary[this.SnapPieceId];
+            this.SnapPiece = snapPiece;
+        }
+
+        if (this.GroupId > 0)
+        {
+            var group = this.Puzzle.Groups.Where(group => group.Id == this.GroupId).FirstOrDefault();
+            this.Group = group;
+
+        }
+    }
+
     internal bool AnySideUnknown =>
         this.TopPoints.Count == 0 ||
         this.BottomPoints.Count == 0 ||
         this.LeftPoints.Count == 0 ||
-        this.RightPoints.Count == 0; 
+        this.RightPoints.Count == 0;
 }

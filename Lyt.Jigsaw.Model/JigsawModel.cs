@@ -274,4 +274,28 @@ public sealed partial class JigsawModel : ModelBase
         }
     }
 
+    public bool LoadPuzzle()
+    {
+        if (this.Puzzle is null)
+        {
+            return false;
+        }
+
+        try
+        {
+            // load from disk and deserialize 
+            var fileId = new FileId(Area.Desktop, Kind.Text, "Puzzle");
+            Puzzle puzzle = this.fileManager.Load<Puzzle>(fileId);
+            puzzle.FinalizeAfterDeserialization(); 
+
+            Debug.WriteLine("Loaded");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("Load, Exception thrown: " + ex);
+            return false;
+        }
+    }
+
 }

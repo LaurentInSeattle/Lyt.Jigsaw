@@ -14,6 +14,12 @@ public sealed class Puzzle
 
     private readonly Profiler profiler;
 
+    public Puzzle( )
+    {
+        this.Randomizer = new Randomizer();
+        this.puzzleSetups = [];
+    }
+
     public Puzzle(ILogger logger, int height, int width)
     {
         this.ImageSize = new(height, width);
@@ -48,6 +54,9 @@ public sealed class Puzzle
     #endregion // Serialized Properties 
 
     [JsonIgnore]
+    private IntSize ImageSize { get; set; }
+
+    [JsonIgnore]
     public List<int> PieceCounts => [.. this.puzzleSetups.Keys];
 
     [JsonIgnore]
@@ -62,9 +71,6 @@ public sealed class Puzzle
     public int ApparentPieceSize => this.PieceSize - 2 * this.PieceOverlap;
 
     internal int RotationStepAngle => this.RotationSteps <= 1 ?  0 : 360 / this.RotationSteps;
-
-    [JsonIgnore]
-    private IntSize ImageSize { get; set; }
 
     public List<Piece> GetMoves() => this.Moves;
 
@@ -304,6 +310,7 @@ public sealed class Puzzle
         // Measured at less of 35 ms in debug build for 1920 pieces 
         this.profiler.EndTiming(string.Format("Creating point lists - Piece Count: {0}", this.PieceCount));
 
+#if DEBUG
         for (int row = 0; row < this.Rows; ++row)
         {
             for (int col = 0; col < this.Columns; ++col)
@@ -315,6 +322,7 @@ public sealed class Puzzle
                 }
             }
         }
+#endif
     }
 
     private Piece FromId(int id)
@@ -334,6 +342,27 @@ public sealed class Puzzle
             {
                 if (Debugger.IsAttached) { Debugger.Break(); break; }
             }
+        }
+    }
+
+    internal void FinalizeAfterDeserialization()
+    {
+        // recreate the piece dictionary 
+        foreach (var piece in this.Pieces)
+        {
+            this.PieceDictionary.Add(piece.Id, piece);
+        }
+
+        // finalize all pieces 
+        foreach (Piece piece in this.Pieces)
+        {
+            piece.FinalizeAfterDeserialization(this);
+        }
+
+        // finalize all groups  
+        foreach (Group group in this.Groups)
+        {
+            group.FinalizeAfterDeserialization(this);
         }
     }
 }
