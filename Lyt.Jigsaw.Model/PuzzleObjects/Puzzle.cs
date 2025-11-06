@@ -49,7 +49,7 @@ public sealed class Puzzle
 
     public List<Piece> Pieces { get; set; } = [];
 
-    internal List<Group> Groups { get; set; } = [];
+    public List<Group> Groups { get; set; } = [];
 
     #endregion // Serialized Properties 
 

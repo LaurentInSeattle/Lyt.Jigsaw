@@ -1,5 +1,6 @@
 ﻿namespace Lyt.Jigsaw.Model;
 
+using Lyt.Jigsaw.Model.Utilities;
 using static Lyt.Persistence.FileManagerModel;
 
 public sealed partial class JigsawModel : ModelBase
@@ -32,6 +33,7 @@ public sealed partial class JigsawModel : ModelBase
     private readonly ILocalizer localizer;
     private readonly Lock lockObject = new();
     private readonly FileId modelFileId;
+    private readonly TimeoutTimer timeoutTimer; 
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
@@ -55,6 +57,7 @@ public sealed partial class JigsawModel : ModelBase
         this.translatorService = translatorService;
         this.localizer = localizer;
         this.modelFileId = new FileId(Area.User, Kind.Json, JigsawModel.JigsawModelFilename);
+        this.timeoutTimer = new TimeoutTimer(this.OnSavePuzzle, timeoutMilliseconds: 20_000);
         this.ShouldAutoSave = true;
     }
 

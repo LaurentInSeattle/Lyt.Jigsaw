@@ -4,24 +4,18 @@ using static Lyt.Persistence.FileManagerModel;
 
 public sealed partial class JigsawModel : ModelBase
 {
+    public bool IsPuzzleDirty { get; private set; }
+
     public bool SetPuzzle(Puzzle puzzle)
     {
         // TODO: Validate puzzle object 
         this.Puzzle = puzzle;
+
+        this.timeoutTimer.Start();
         return true;
     }
 
-    public bool SetPuzzleBackground(double value)
-    {
-        if (this.Puzzle is null)
-        {
-            return false;
-        }
-
-        this.Puzzle.Background = value;
-        new PuzzleChangedMessage(PuzzleChange.Background, value).Publish();
-        return true;
-    }
+    public void PuzzleIsActive() => this.timeoutTimer.ResetTimeout();
 
     public bool IsPuzzleComplete()
     {
@@ -30,48 +24,52 @@ public sealed partial class JigsawModel : ModelBase
             return false;
         }
 
-        return this.Puzzle.IsComplete;
+        bool isComplete = this.Puzzle.IsComplete;
+        if (isComplete)
+        {
+            this.SavePuzzle();
+            this.timeoutTimer.Stop();
+        }
+
+        return isComplete;
     }
 
-    public bool CheckForPuzzleSnaps(Piece piece)
-    {
-        if (this.Puzzle is null)
+    public bool SetPuzzleBackground(double value) =>
+        this.ActionPuzzle(puzzle =>
         {
-            return false;
-        }
+            puzzle.Background = value;
+            new PuzzleChangedMessage(PuzzleChange.Background, value).Publish();
+            return true;
+        });
 
-        return this.Puzzle.CheckForSnaps(piece);
-    }
-
-    public bool RotatePuzzlePiece(Piece piece, bool isCCW)
-    {
-        if (this.Puzzle is null)
+    public bool CheckForPuzzleSnaps(Piece piece) => 
+        this.ActionPuzzle(puzzle =>
         {
-            return false;
-        }
+            bool hasMoves = puzzle.CheckForSnaps(piece);
+            this.IsPuzzleDirty = hasMoves || this.IsPuzzleDirty;
+            return hasMoves;
+        });
 
-        if (piece.IsGrouped)
+    public bool RotatePuzzlePiece(Piece piece, bool isCCW) =>
+        this.ActionPuzzle(puzzle =>
         {
-            piece.Group.Rotate(piece, isCCW);
-        }
-        else
+            if (piece.IsGrouped)
+            {
+                piece.Group.Rotate(piece, isCCW);
+            }
+            else
+            {
+                piece.Rotate(isCCW);
+            }
+            return true;
+        });
+
+    public bool MovePuzzlePieceTo(Piece piece, double x, double y) =>
+        this.ActionPuzzle(puzzle =>
         {
-            piece.Rotate(isCCW);
-        }
-
-        return true;
-    }
-
-    public bool MovePuzzlePieceTo(Piece piece, double x, double y)
-    {
-        if (this.Puzzle is null)
-        {
-            return false;
-        }
-
-        piece.MoveTo(x, y);
-        return true;
-    }
+            piece.MoveTo(x, y);
+            return true;
+        });
 
     public List<Piece> GetPuzzleMoves()
     {
@@ -92,11 +90,15 @@ public sealed partial class JigsawModel : ModelBase
 
         try
         {
-            // Serialize and save to disk 
-            var fileId = new FileId(Area.Desktop, Kind.Json, "Puzzle");
-            this.fileManager.Save(fileId, this.Puzzle);
+            lock (this.Puzzle)
+            {
+                // Serialize and save to disk 
+                var fileId = new FileId(Area.Desktop, Kind.Json, "Puzzle");
+                this.fileManager.Save(fileId, this.Puzzle);
+                this.IsPuzzleDirty = false;
+            }
 
-            Debug.WriteLine("Saved");
+            Debug.WriteLine("Puzzle Saved");
             return true;
         }
         catch (Exception ex)
@@ -108,11 +110,6 @@ public sealed partial class JigsawModel : ModelBase
 
     public bool LoadPuzzle()
     {
-        //if (this.Puzzle is not null)
-        //{
-        //    return false;
-        //}
-
         try
         {
             // load from disk and deserialize 
@@ -127,6 +124,36 @@ public sealed partial class JigsawModel : ModelBase
         {
             Debug.WriteLine("Load, Exception thrown: " + ex);
             return false;
+        }
+    }
+
+    private void OnSavePuzzle()
+    {
+        if (this.Puzzle is null)
+        {
+            return;
+        }
+
+        if (!this.IsPuzzleDirty)
+        {
+            return;
+        }
+
+        this.SavePuzzle();
+    }
+
+    private bool ActionPuzzle(Func<Puzzle, bool> action)
+    {
+        if (this.Puzzle is null)
+        {
+            return false;
+        }
+
+        this.IsPuzzleDirty = true;
+        this.timeoutTimer.ResetTimeout();
+        lock (this.Puzzle)
+        {
+            return action(this.Puzzle);
         }
     }
 }
