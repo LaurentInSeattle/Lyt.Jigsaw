@@ -36,7 +36,7 @@ public sealed class Piece
         this.Rotate();
     }
 
-    #region Serialized Properties 
+    #region Serialized Properties ( Must all be public for both get and set ) 
 
     // Can be zero
     public int Id { get; set; }
@@ -63,13 +63,13 @@ public sealed class Piece
 
     public int RotationAngle { get; set; }
 
-    public IntPointList TopPoints { get; private set; } = [];
+    public IntPointList TopPoints { get; set; } = [];
 
-    public IntPointList BottomPoints { get; private set; } = [];
+    public IntPointList BottomPoints { get; set; } = [];
 
-    public IntPointList LeftPoints { get; private set; } = [];
+    public IntPointList LeftPoints { get; set; } = [];
 
-    public IntPointList RightPoints { get; private set; } = [];
+    public IntPointList RightPoints { get; set; } = [];
 
     #endregion // Serialized Properties 
 

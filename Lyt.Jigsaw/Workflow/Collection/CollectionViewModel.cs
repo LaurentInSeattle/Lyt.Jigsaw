@@ -122,10 +122,11 @@ public sealed partial class CollectionViewModel :
         switch (message.Command)
         {
             case ToolbarCommandMessage.ToolbarCommand.Play:
-                this.StartGame();
+                this.StartNewGameFromDropppedImage();
                 break;
 
             case ToolbarCommandMessage.ToolbarCommand.RemoveFromCollection:
+                this.ResumeSavedGame();
                 // this.PictureViewModel.RemoveFromCollection();
                 break;
 
@@ -139,7 +140,37 @@ public sealed partial class CollectionViewModel :
         }
     }
 
-    private void StartGame()
+    private void ResumeSavedGame()
+    {
+        try
+        {
+            string path = "C:\\Users\\Laurent\\Desktop\\Fontana_di_Trevi.JPG";
+            byte[] imageBytes = File.ReadAllBytes(path);
+            if ((imageBytes is null) || (imageBytes.Length < 256))
+            {
+                throw new Exception("Failed to read image from disk: " + path);
+            }
+
+            int decodeToWidth = 1920; //  1024 + 512;
+            var image =
+                WriteableBitmap.DecodeToWidth(
+                    new MemoryStream(imageBytes), decodeToWidth, BitmapInterpolationMode.HighQuality);
+            this.PuzzleImage = image;
+            bool loaded = this.jigsawModel.LoadPuzzle();
+            if (loaded && this.jigsawModel.Puzzle is not null)
+            {
+                var vm = App.GetRequiredService<PuzzleViewModel>();
+                vm.ResumePuzzle(this.jigsawModel.Puzzle, this.PuzzleImage);
+                ApplicationMessagingExtensions.Select(ActivatedView.Puzzle);
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.ToString());
+        } 
+    }
+
+    private void StartNewGameFromDropppedImage()
     {
         if ((this.PuzzleImage is null) || (this.pieceCount == 0))
         {
@@ -147,7 +178,7 @@ public sealed partial class CollectionViewModel :
         }
 
         var vm = App.GetRequiredService<PuzzleViewModel>();
-        vm.Start(this.PuzzleImage, this.pieceCount, this.rotations, this.snap);
+        vm.StartNewPuzzle(this.PuzzleImage, this.pieceCount, this.rotations, this.snap);
         ApplicationMessagingExtensions.Select(ActivatedView.Puzzle);
     }
 

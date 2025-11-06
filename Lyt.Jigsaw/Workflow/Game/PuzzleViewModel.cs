@@ -65,7 +65,27 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         }
     }
 
-    public void Start(WriteableBitmap image, int pieceCount, int rotationSteps, int snap, bool randomize = true)
+    internal void ResumePuzzle(Puzzle puzzle, WriteableBitmap image)
+    {
+        this.View.InnerCanvas.Children.Clear();
+        this.pieceViewModels.Clear();
+        this.Image = image;
+        PixelSize imagePixelSize = image.PixelSize;
+        this.Puzzle = puzzle;
+        this.jigsawModel.SetPuzzle(this.Puzzle);
+
+        int pieceSizeWithOverlap = this.SetupCanvas(this.Puzzle); 
+
+        foreach (Piece piece in this.Puzzle.Pieces)
+        {
+            var view = this.CreatePieceView(piece);
+            view.MovePieceToLocation(piece);
+        }
+
+        this.HackViewReset();
+    }
+
+    public void StartNewPuzzle(WriteableBitmap image, int pieceCount, int rotationSteps, int snap, bool randomize = true)
     {
         this.Profiler.StartTiming();
 
@@ -77,21 +97,8 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.Puzzle.Setup(pieceCount, rotationSteps, snap);
         this.jigsawModel.SetPuzzle(this.Puzzle);
 
-        int pieceSize = this.Puzzle.PieceSize;
-        int pieceSizeWithOverlap = pieceSize + 2 * this.Puzzle.PieceOverlap;
+        int pieceSizeWithOverlap = this.SetupCanvas(this.Puzzle);
         double pieceDistance = pieceSizeWithOverlap * 0.78;
-        this.CanvasWidth = 1.10 * pieceDistance * (1 + this.Puzzle.Columns);
-        this.CanvasHeight = 1.10 * pieceDistance * (1 + this.Puzzle.Rows);
-
-        PieceView CreatePieceView(Piece piece)
-        {
-            var vm = new PieceViewModel(this, piece);
-            this.pieceViewModels.Add(piece, vm);
-            PieceView view = vm.CreateViewAndBind();
-            view.AttachBehavior(this.View.InnerCanvas);
-            this.View.InnerCanvas.Children.Add(view);
-            return view;
-        }
 
         double xOffset;
         double yOffset;
@@ -112,7 +119,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
                 if (pieceIndex < pieceCount)
                 {
                     Piece piece = pieces[pieceIndex];
-                    var view = CreatePieceView(piece);
+                    var view = this.CreatePieceView(piece);
                     double x = canvasCol * pieceDistance;
                     double y = canvasRow * pieceDistance;
                     piece.MoveTo(x + xOffset, y + yOffset);
@@ -196,7 +203,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
 
             foreach (Piece piece in this.Puzzle.Pieces)
             {
-                var view = CreatePieceView(piece);
+                var view = this.CreatePieceView(piece);
                 var position = piece.Position;
                 double x = (double)position.Column * pieceSizeWithOverlap;
                 double y = (double)position.Row * pieceSizeWithOverlap;
@@ -211,6 +218,31 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.Logger.Info(string.Format("Piece Count: {0}", this.Puzzle.PieceCount));
         this.Profiler.EndTiming("Creating pieces");
 
+        this.HackViewReset(); 
+    }
+
+    private PieceView CreatePieceView(Piece piece)
+    {
+        var vm = new PieceViewModel(this, piece);
+        this.pieceViewModels.Add(piece, vm);
+        PieceView view = vm.CreateViewAndBind();
+        view.AttachBehavior(this.View.InnerCanvas);
+        this.View.InnerCanvas.Children.Add(view);
+        return view;
+    }
+
+    private int SetupCanvas(Puzzle puzzle)
+    {
+        int pieceSize = puzzle.PieceSize;
+        int pieceSizeWithOverlap = pieceSize + 2 * puzzle.PieceOverlap;
+        double pieceDistance = pieceSizeWithOverlap * 0.78;
+        this.CanvasWidth = 1.10 * pieceDistance * (1 + puzzle.Columns);
+        this.CanvasHeight = 1.10 * pieceDistance * (1 + puzzle.Rows);
+        return pieceSizeWithOverlap;
+    }
+
+    private void HackViewReset()
+    {  
         Schedule.OnUiThread(50, () =>
         {
             this.View.InvalidateVisual();
@@ -301,7 +333,6 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         var brush = new SolidColorBrush(new Color(gray, gray, gray, gray));
         this.BackgroundBrush = brush; 
     }
-
 
     //Dispatch.OnUiThread(() =>
     //{

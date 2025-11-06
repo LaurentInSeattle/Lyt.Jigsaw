@@ -260,9 +260,8 @@ public sealed partial class JigsawModel : ModelBase
         try
         {
             // Serialize and save to disk 
-            var fileId = new FileId(Area.Desktop, Kind.Text, "Puzzle");
-            string serialized = this.fileManager.Serialize<Puzzle>(this.Puzzle);
-            this.fileManager.Save(fileId, serialized);
+            var fileId = new FileId(Area.Desktop, Kind.Json, "Puzzle");
+            this.fileManager.Save(fileId, this.Puzzle);
 
             Debug.WriteLine("Saved");
             return true;
@@ -276,18 +275,18 @@ public sealed partial class JigsawModel : ModelBase
 
     public bool LoadPuzzle()
     {
-        if (this.Puzzle is null)
-        {
-            return false;
-        }
+        //if (this.Puzzle is not null)
+        //{
+        //    return false;
+        //}
 
         try
         {
             // load from disk and deserialize 
-            var fileId = new FileId(Area.Desktop, Kind.Text, "Puzzle");
+            var fileId = new FileId(Area.Desktop, Kind.Json, "Puzzle");
             Puzzle puzzle = this.fileManager.Load<Puzzle>(fileId);
-            puzzle.FinalizeAfterDeserialization(); 
-
+            puzzle.FinalizeAfterDeserialization();
+            this.Puzzle = puzzle; 
             Debug.WriteLine("Loaded");
             return true;
         }

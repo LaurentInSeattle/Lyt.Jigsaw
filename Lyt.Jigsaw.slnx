@@ -3,6 +3,9 @@
     <Project Path="../Lyt.Avalonia/Lyt.Avalonia.Controls/Lyt.Avalonia.Controls.csproj" />
     <Project Path="../Lyt.Avalonia/Lyt.Avalonia.Mvvm/Lyt.Avalonia.Mvvm.csproj" />
   </Folder>
+  <Folder Name="/Framework/">
+    <Project Path="../Lyt.Framework/Lyt.Persistence/Lyt.Persistence.csproj" />
+  </Folder>
   <Folder Name="/SolutionItems/">
     <File Path="README.md" />
   </Folder>
