@@ -6,4 +6,4 @@ public enum PuzzleChange
     Background,
 }
 
-public sealed record class PuzzleChangedMessage(PuzzleChange Change); 
+public sealed record class PuzzleChangedMessage(PuzzleChange Change, double Parameter = 0.0); 

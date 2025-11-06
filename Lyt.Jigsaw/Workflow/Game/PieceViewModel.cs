@@ -19,11 +19,11 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
     [ObservableProperty]
     private bool pathIsVisible;
 
+    private readonly JigsawModel jigsawModel;
     private readonly PuzzleViewModel puzzleViewModel;
-
     private readonly Piece piece;
 
-    public PieceViewModel(PuzzleViewModel puzzleViewModel, Piece piece)
+    public PieceViewModel(JigsawModel jigsawModel, PuzzleViewModel puzzleViewModel, Piece piece)
     {
         if (puzzleViewModel.Image is null)
         {
@@ -31,6 +31,7 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
         }
 
         this.puzzleViewModel = puzzleViewModel;
+        this.jigsawModel = jigsawModel;
         this.piece = piece;
         var puzzle = piece.Puzzle;
 
@@ -71,14 +72,14 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
 
     public void OnClicked(bool isRightClick)
     {
+        this.jigsawModel.RotatePuzzlePiece(this.piece, isCCW: isRightClick); 
+
         if (this.piece.IsGrouped)
         {
-            this.piece.Group.Rotate(this.piece, isCCW: isRightClick);
             this.puzzleViewModel.UpdateLocationsAfterSnap(); 
         }
         else
         {
-            this.piece.Rotate(isCCW: isRightClick);
             this.Rotate();
         }
     }
@@ -92,12 +93,11 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
 
     public void OnEndMove(Point fromPoint, Point toPoint)
     {
-        // TODO: Make sure toPoint is inside the canvas 
+        // No need to make sure toPoint is inside the canvas 
         this.OnMove(fromPoint, toPoint);
 
         // Check for any snaps
-        var puzzle = this.piece.Puzzle; 
-        if (puzzle.CheckForSnaps(this.piece))
+        if (this.jigsawModel.CheckForPuzzleSnaps(this.piece))
         {
             this.puzzleViewModel.UpdateLocationsAfterSnap(); 
         }
@@ -105,7 +105,7 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
 
     public void OnMove(Point fromPoint, Point toPoint)
     {
-        // TODO: Make sure toPoint is inside the canvas 
+        // No need to make sure toPoint is inside the canvas 
         this.piece.MoveTo(toPoint.X, toPoint.Y);
 
         if (this.piece.IsGrouped)

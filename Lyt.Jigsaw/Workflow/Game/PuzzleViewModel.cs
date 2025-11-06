@@ -6,8 +6,6 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
 {
     private readonly JigsawModel jigsawModel;
 
-    public Puzzle? Puzzle;
-
     public WriteableBitmap? Image;
 
     [ObservableProperty]
@@ -55,12 +53,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
                 return;
 
             case PuzzleChange.Background:
-                if (this.Puzzle is null)
-                {
-                    return;
-                }
-
-                this.UpdateBackground(this.Puzzle.Background);
+                this.UpdateBackground(message.Parameter);
                 break;
         }
     }
@@ -71,12 +64,11 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.pieceViewModels.Clear();
         this.Image = image;
         PixelSize imagePixelSize = image.PixelSize;
-        this.Puzzle = puzzle;
-        this.jigsawModel.SetPuzzle(this.Puzzle);
+        this.jigsawModel.SetPuzzle(puzzle);
 
-        int pieceSizeWithOverlap = this.SetupCanvas(this.Puzzle); 
+        int pieceSizeWithOverlap = this.SetupCanvas(puzzle); 
 
-        foreach (Piece piece in this.Puzzle.Pieces)
+        foreach (Piece piece in puzzle.Pieces)
         {
             var view = this.CreatePieceView(piece);
             view.MovePieceToLocation(piece);
@@ -93,11 +85,11 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.pieceViewModels.Clear();
         this.Image = image;
         PixelSize imagePixelSize = image.PixelSize;
-        this.Puzzle = new Puzzle(this.Logger, imagePixelSize.Height, imagePixelSize.Width);
-        this.Puzzle.Setup(pieceCount, rotationSteps, snap);
-        this.jigsawModel.SetPuzzle(this.Puzzle);
+        var puzzle = new Puzzle(this.Logger, imagePixelSize.Height, imagePixelSize.Width);
+        puzzle.Setup(pieceCount, rotationSteps, snap);
+        this.jigsawModel.SetPuzzle(puzzle);
 
-        int pieceSizeWithOverlap = this.SetupCanvas(this.Puzzle);
+        int pieceSizeWithOverlap = this.SetupCanvas(puzzle);
         double pieceDistance = pieceSizeWithOverlap * 0.78;
 
         double xOffset;
@@ -105,13 +97,13 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
 
         if (randomize)
         {
-            int canvasRows = 2 + this.Puzzle.Rows;
-            int canvasColumns = 2 + this.Puzzle.Columns;
+            int canvasRows = 2 + puzzle.Rows;
+            int canvasColumns = 2 + puzzle.Columns;
             xOffset = -pieceDistance / 12.0;
             yOffset = -pieceDistance / 12.0;
 
             // Duplicate the list and shuffle the copy 
-            var pieces = this.Puzzle.Pieces.Shuffle().ToList();
+            var pieces = puzzle.Pieces.Shuffle().ToList();
             int pieceIndex = 0;
 
             void CreateAndPlacePiece(int canvasRow, int canvasCol)
@@ -201,7 +193,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
             xOffset = pieceSizeWithOverlap / 2.0;
             yOffset = pieceSizeWithOverlap;
 
-            foreach (Piece piece in this.Puzzle.Pieces)
+            foreach (Piece piece in puzzle.Pieces)
             {
                 var view = this.CreatePieceView(piece);
                 var position = piece.Position;
@@ -215,7 +207,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.jigsawModel.SavePuzzle();
 
         // For 1400 pieces, in DEBUG build:  *****Creating pieces - Timing: 432,5 ms.  
-        this.Logger.Info(string.Format("Piece Count: {0}", this.Puzzle.PieceCount));
+        this.Logger.Info(string.Format("Piece Count: {0}", puzzle.PieceCount));
         this.Profiler.EndTiming("Creating pieces");
 
         this.HackViewReset(); 
@@ -223,7 +215,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
 
     private PieceView CreatePieceView(Piece piece)
     {
-        var vm = new PieceViewModel(this, piece);
+        var vm = new PieceViewModel(this.jigsawModel, this, piece);
         this.pieceViewModels.Add(piece, vm);
         PieceView view = vm.CreateViewAndBind();
         view.AttachBehavior(this.View.InnerCanvas);
@@ -291,12 +283,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
 
     internal void UpdateLocationsAfterSnap()
     {
-        if (this.Puzzle is null)
-        {
-            throw new Exception("Puzzle is null ");
-        }
-
-        List<Piece> movedPieces = this.Puzzle.GetMoves();
+        List<Piece> movedPieces = this.jigsawModel.GetPuzzleMoves();
         foreach (Piece piece in movedPieces)
         {
             var pieceViewModel = this.GetViewModelFromPiece(piece);
@@ -304,7 +291,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
             pieceViewModel.Rotate();
         }
 
-        if (this.Puzzle.IsComplete)
+        if (this.jigsawModel.IsPuzzleComplete())
         {
             if (this.pieceViewModels is not null)
             {
@@ -314,7 +301,6 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
                 }
             }
         }
-
     }
 
     private void UpdateBackground(double background)
