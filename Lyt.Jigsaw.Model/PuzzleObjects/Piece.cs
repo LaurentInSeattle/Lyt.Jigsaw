@@ -38,10 +38,13 @@ public sealed class Piece
 
     #region Serialized Properties 
 
+    // Can be zero
     public int Id { get; set; }
 
+    // CANNOT be zero
     public int GroupId { get; set; }
 
+    // Can be zero
     public int SnapPieceId { get; set; }
 
     public int TopId { get; set; }
@@ -325,23 +328,33 @@ public sealed class Piece
             // would delete the newly created one
             groups.Remove(groupToRemove1);
             groups.Remove(groupToRemove2);
+
+            // Debug.WriteLine("Groups merging");
         }
         else if (this.IsGrouped && !targetPiece.IsGrouped)
         {
             // target piece is joining the group this piece belongs to
             this.Group.AddPiece(targetPiece);
+            
+            // Debug.WriteLine("Group growing");
         }
         else if (!this.IsGrouped && targetPiece.IsGrouped)
         {
             // group of target piece is joining with this piece
             // similar as above reversing roles of this piece and target piece 
             targetPiece.Group.AddPiece(this);
+            
+            // Debug.WriteLine("Group growing");
         }
         else
         {
             // two non-grouped pieces creating the first group 
             groups.Add(new Group(this, targetPiece));
+            
+            // Debug.WriteLine("New Group");
         }
+
+        // Debug.WriteLine("Groups: " + groups.Count);
     }
 
     internal Location SnapLocation(Placement placement)

@@ -365,4 +365,9 @@ public sealed class Puzzle
             group.FinalizeAfterDeserialization(this);
         }
     }
+
+    internal void AddGroup (Group group)
+    {
+        this.Groups.Add(group);
+    }
 }

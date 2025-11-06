@@ -24,7 +24,8 @@ public sealed class Group
             throw new ArgumentException("Cannot add twice the same piece");
         }
 
-        this.Id = first.Id;
+        // Group ID cannot be zero 
+        this.Id = 1 + first.Id;
         this.AddPiece(first);
         this.AddPiece(last);
     }
