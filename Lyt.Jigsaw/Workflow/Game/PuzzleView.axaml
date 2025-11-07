@@ -18,8 +18,6 @@
 	
 	Background="Transparent"
 	>
-	<!-- 
-	-->
 	<Grid
 		x:Name="OuterGrid"
 		Background="{Binding BackgroundBrush}"
@@ -35,7 +33,6 @@
 				<Canvas
 					x:Name="InnerCanvas"
 					ClipToBounds="False"
-					Background="Transparent"
 					RenderOptions.BitmapInterpolationMode="LowQuality"
 					Width="{Binding CanvasWidth}" 
 					Height="{Binding CanvasHeight}"
