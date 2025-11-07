@@ -16,6 +16,6 @@ internal class Program
         => AppBuilder.Configure<Lyt.Jigsaw.App>()
             .UsePlatformDetect()
             .WithInterFont()
-            .LogToTrace();
-            //.WithDeveloperTools();
+            .LogToTrace()
+            .WithDeveloperTools();
 }
