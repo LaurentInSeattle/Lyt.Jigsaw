@@ -91,11 +91,12 @@ global using Lyt.Utilities.Randomizing;
 global using Lyt.Translator.Service;
 
 global using Lyt.Jigsaw.Model;
-global using Lyt.Jigsaw.Model.Utilities;
+global using Lyt.Jigsaw.Model.GameObjects;
 global using Lyt.Jigsaw.Model.Infrastucture;
+global using Lyt.Jigsaw.Model.Messaging;
 global using Lyt.Jigsaw.Model.PictureObjects;
 global using Lyt.Jigsaw.Model.PuzzleObjects;
-global using Lyt.Jigsaw.Model.Messaging;
+global using Lyt.Jigsaw.Model.Utilities;
 
 global using Lyt.Jigsaw.Interfaces;
 global using Lyt.Jigsaw.Messaging;

@@ -1,11 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <TargetFramework>net10.0</TargetFramework>
-    <LangVersion>latest</LangVersion>
     <RootNamespace>Lyt.Jigsaw</RootNamespace>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
   </PropertyGroup>
@@ -23,49 +21,13 @@
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.7" />
     <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.7" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.3" />
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.7" />
     <PackageReference Include="SkiaSharp" Version="3.119.0" />
   </ItemGroup>
 
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
     <AvaloniaResource Include="Assets\Languages\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AvaloniaXaml Remove="Assets\Icons\FluentSvgResourceDictionary.axaml" />
-    <AvaloniaXaml Remove="Assets\Icons\Icons.axaml" />
-    <AvaloniaXaml Remove="Assets\Icons\PathResourceDictionary.axaml" />
-    <AvaloniaXaml Remove="Assets\Icons\Unused_FluentSvgResourceDictionaryCopy.axaml" />
-    <AvaloniaXaml Remove="Assets\Languages\Lang_en-US.axaml" />
-    <AvaloniaXaml Remove="Assets\Languages\Lang_fr-FR.axaml" />
-    <AvaloniaXaml Remove="Assets\Languages\Lang_it-IT.axaml" />
-    <AvaloniaXaml Remove="Assets\Palette\DeepBluePalette.axaml" />
-    <AvaloniaXaml Remove="Assets\Theme\AutoCompleteBoxStyles.axaml" />
-    <AvaloniaXaml Remove="Assets\Theme\Buttons.axaml" />
-    <AvaloniaXaml Remove="Assets\Theme\ListBoxItemStyles.axaml" />
-    <AvaloniaXaml Remove="Assets\Theme\ListBoxStyles.axaml" />
-    <AvaloniaXaml Remove="Assets\Theme\Sliders.axaml" />
-    <AvaloniaXaml Remove="Assets\Theme\TextBoxStyles.axaml" />
-    <AvaloniaXaml Remove="Assets\Theme\Toggles.axaml" />
-    <AvaloniaXaml Remove="Assets\Theme\Typography.axaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Resources\Images\Kauai.jpg" />
-    <None Remove="Resources\Images\Seraph-of-the-Scales.jpg" />
-    <None Remove="Resources\Images\ZhangDaqiang.jpg" />
-    <None Remove="Workflow\Game\PieceView.xaml" />
-    <None Remove="Workflow\Game\PuzzleView.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AvaloniaXaml Include="Workflow\Game\PieceView.xaml">
-      <Generator></Generator>
-    </AvaloniaXaml>
-    <AvaloniaXaml Include="Workflow\Game\PuzzleView.xaml">
-      <Generator></Generator>
-    </AvaloniaXaml>
   </ItemGroup>
 
   <ItemGroup>
