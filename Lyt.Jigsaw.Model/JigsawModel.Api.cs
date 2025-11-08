@@ -7,7 +7,7 @@ public sealed partial class JigsawModel : ModelBase
     public bool IsPuzzleDirty { get; private set; }
 
     public Game? NewGame(
-        byte[] imageBytes,
+        byte[] imageBytes, byte[] thumbnailBytes,
         int imagePixelHeight, int imagePixelWidth,
         int pieceCount, int rotationSteps, int snap)
     {
@@ -18,7 +18,7 @@ public sealed partial class JigsawModel : ModelBase
             var game = new Game(puzzle);
             this.SetGameAndPuzzle(game, puzzle);
             this.SavePuzzle();
-            this.SaveImage(imageBytes);
+            this.SaveImages(imageBytes, thumbnailBytes);
             this.SaveGame();
             return game;
         }
@@ -164,7 +164,7 @@ public sealed partial class JigsawModel : ModelBase
         }
     }
 
-    private bool SaveImage(byte[] imageBytes)
+    private bool SaveImages(byte[] imageBytes, byte[] thumbnailBytes)
     {
         if ((this.Game is null) || (this.Puzzle is null))
         {
@@ -174,10 +174,12 @@ public sealed partial class JigsawModel : ModelBase
         try
         {
             // Save to disk 
-            var fileId = new FileId(Area.User, Kind.Binary, this.Game.ImageName);
-            this.fileManager.Save(fileId, imageBytes);
+            var fileIdImage = new FileId(Area.User, Kind.Binary, this.Game.ImageName);
+            this.fileManager.Save(fileIdImage, imageBytes);
+            var fileIdThumbnail = new FileId(Area.User, Kind.Binary, this.Game.ThumbnailName);
+            this.fileManager.Save(fileIdThumbnail, thumbnailBytes);
 
-            Debug.WriteLine("Image Saved");
+            Debug.WriteLine("Images Saved");
             return true;
         }
         catch (Exception ex)

@@ -78,7 +78,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
     }
 
     public void StartNewGame(
-        byte[] imageBytes, WriteableBitmap image, 
+        byte[] imageBytes, byte[] thumbnailBytes, WriteableBitmap image, 
         int pieceCount, int rotationSteps, int snap, 
         bool randomize = true)
     {
@@ -90,7 +90,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         PixelSize imagePixelSize = image.PixelSize;
 
         var game = this.jigsawModel.NewGame(
-            imageBytes , 
+            imageBytes , thumbnailBytes,
             imagePixelSize.Height, imagePixelSize.Width,
             pieceCount, rotationSteps, snap);
 

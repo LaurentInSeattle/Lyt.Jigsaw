@@ -50,7 +50,7 @@ public sealed partial class CollectionViewModel :
     private int rotations;
     private int snap;
     private List<int> pieceCounts;
-    private byte[]? imageBytes ;
+    private byte[]? imageBytes;
 
     // TODO 
     private List<Tuple<Picture, byte[]>>? collectionThumbnails;
@@ -168,22 +168,34 @@ public sealed partial class CollectionViewModel :
         catch (Exception ex)
         {
             Debug.WriteLine(ex.ToString());
-        } 
+        }
     }
 
     private void StartNewGameFromDropppedImage()
     {
-        if ((this.PuzzleImage is null) || 
-            (this.imageBytes == null ) || (this.imageBytes.Length == 0) || 
+        if ((this.PuzzleImage is null) ||
+            (this.imageBytes == null) || (this.imageBytes.Length == 0) ||
             (this.pieceCount == 0))
         {
             return;
         }
 
-        var vm = App.GetRequiredService<PuzzleViewModel>();
-        vm.StartNewGame(
-            this.imageBytes, this.PuzzleImage, this.pieceCount, this.rotations, this.snap);
-        ApplicationMessagingExtensions.Select(ActivatedView.Puzzle);
+        try
+        {
+            int decodeToWidthThumbnail = 260;
+            var writeableBitmap =
+                WriteableBitmap.DecodeToWidth(new MemoryStream(this.imageBytes), decodeToWidthThumbnail);
+            byte[] thumbnailBytes = writeableBitmap.EncodeToJpeg();
+            var vm = App.GetRequiredService<PuzzleViewModel>();
+            vm.StartNewGame(
+                this.imageBytes, thumbnailBytes, this.PuzzleImage, 
+                this.pieceCount, this.rotations, this.snap);
+            ApplicationMessagingExtensions.Select(ActivatedView.Puzzle);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.ToString());
+        }
     }
 
     partial void OnPieceCountSliderValueChanged(double value)
@@ -211,9 +223,9 @@ public sealed partial class CollectionViewModel :
 
     partial void OnRotationsSliderValueChanged(double value)
     {
-        this.rotations = (int)value ;
+        this.rotations = (int)value;
         this.RotationsString =
-            this.rotations <= 1 ? 
+            this.rotations <= 1 ?
                 "None" :
                 string.Format("{0:D}", this.rotations);
     }
@@ -247,7 +259,7 @@ public sealed partial class CollectionViewModel :
         this.pieceCounts = counts;
         this.PieceCountMin = min;
         this.PieceCountMax = max;
-        this.OnRotationsSliderValueChanged(1.0); 
+        this.OnRotationsSliderValueChanged(1.0);
         this.ParametersVisible = true;
 
         return true;

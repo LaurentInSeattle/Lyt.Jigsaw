@@ -34,9 +34,11 @@ public sealed class Game
     [JsonIgnore]
     public Puzzle Puzzle { get; set; }
 
-    public string GameName => string.Concat("Game_", this.Name, ".json");
+    public string GameName => string.Concat("Game_", this.Name);
 
-    public string PuzzleName => string.Concat("Puzzle_" , this.Name, ".json"); 
+    public string PuzzleName => string.Concat("Puzzle_" , this.Name); 
 
-    public string ImageName => string.Concat("Image_", this.Name, ".jpg");
+    public string ImageName => string.Concat("Image_", this.Name);
+
+    public string ThumbnailName => string.Concat("Thumbnail_", this.Name);
 }
