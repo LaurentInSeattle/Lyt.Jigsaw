@@ -50,6 +50,7 @@ public sealed partial class CollectionViewModel :
     private int rotations;
     private int snap;
     private List<int> pieceCounts;
+    private byte[]? imageBytes ;
 
     // TODO 
     private List<Tuple<Picture, byte[]>>? collectionThumbnails;
@@ -172,13 +173,16 @@ public sealed partial class CollectionViewModel :
 
     private void StartNewGameFromDropppedImage()
     {
-        if ((this.PuzzleImage is null) || (this.pieceCount == 0))
+        if ((this.PuzzleImage is null) || 
+            (this.imageBytes == null ) || (this.imageBytes.Length == 0) || 
+            (this.pieceCount == 0))
         {
             return;
         }
 
         var vm = App.GetRequiredService<PuzzleViewModel>();
-        vm.StartNewPuzzle(this.PuzzleImage, this.pieceCount, this.rotations, this.snap);
+        vm.StartNewGame(
+            this.imageBytes, this.PuzzleImage, this.pieceCount, this.rotations, this.snap);
         ApplicationMessagingExtensions.Select(ActivatedView.Puzzle);
     }
 
@@ -228,6 +232,7 @@ public sealed partial class CollectionViewModel :
 
     internal bool OnImageDrop(string path, byte[] imageBytes)
     {
+        this.imageBytes = imageBytes;
         int decodeToWidth = 1920; //  1024 + 512;
         var image =
             WriteableBitmap.DecodeToWidth(

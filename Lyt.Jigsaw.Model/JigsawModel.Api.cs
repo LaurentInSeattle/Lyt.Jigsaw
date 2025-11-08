@@ -6,9 +6,39 @@ public sealed partial class JigsawModel : ModelBase
 {
     public bool IsPuzzleDirty { get; private set; }
 
-    public bool SetPuzzle(Puzzle puzzle)
+    public Game? NewGame(
+        byte[] imageBytes,
+        int imagePixelHeight, int imagePixelWidth,
+        int pieceCount, int rotationSteps, int snap)
     {
-        // TODO: Validate puzzle object 
+        try
+        {
+            var puzzle = new Puzzle(this.Logger, imagePixelHeight, imagePixelWidth);
+            puzzle.Setup(pieceCount, rotationSteps, snap);
+            var game = new Game(puzzle);
+            this.SetGameAndPuzzle(game, puzzle);
+            this.SavePuzzle();
+            this.SaveImage(imageBytes);
+            this.SaveGame();
+            return game;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("Save, Exception thrown: " + ex);
+            return null;
+        }
+    }
+
+    public bool LoadGame()
+    {
+        return true;
+    }
+
+
+    public bool SetGameAndPuzzle(Game game, Puzzle puzzle)
+    {
+        // TODO: Validate objects, needed ? 
+        this.Game = game;
         this.Puzzle = puzzle;
 
         this.timeoutTimer.Start();
@@ -19,7 +49,7 @@ public sealed partial class JigsawModel : ModelBase
 
     public bool IsPuzzleComplete()
     {
-        if (this.Puzzle is null)
+        if ((this.Game is null) || (this.Puzzle is null))
         {
             return false;
         }
@@ -42,7 +72,7 @@ public sealed partial class JigsawModel : ModelBase
             return true;
         });
 
-    public bool CheckForPuzzleSnaps(Piece piece) => 
+    public bool CheckForPuzzleSnaps(Piece piece) =>
         this.ActionPuzzle(puzzle =>
         {
             bool hasMoves = puzzle.CheckForSnaps(piece);
@@ -73,7 +103,7 @@ public sealed partial class JigsawModel : ModelBase
 
     public List<Piece> GetPuzzleMoves()
     {
-        if (this.Puzzle is null)
+        if ((this.Game is null) || (this.Puzzle is null))
         {
             return [];
         }
@@ -81,9 +111,35 @@ public sealed partial class JigsawModel : ModelBase
         return this.Puzzle.GetMoves();
     }
 
+    public bool SaveGame()
+    {
+        if ((this.Game is null) || (this.Puzzle is null))
+        {
+            return false;
+        }
+
+        try
+        {
+            lock (this.Game)
+            {
+                // Serialize and save to disk
+                var fileId = new FileId(Area.User, Kind.Json, this.Game.GameName);
+                this.fileManager.Save(fileId, this.Game);
+            }
+
+            Debug.WriteLine("Game Saved");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("Save, Exception thrown: " + ex);
+            return false;
+        }
+    }
+
     public bool SavePuzzle()
     {
-        if (this.Puzzle is null)
+        if ((this.Game is null) || (this.Puzzle is null))
         {
             return false;
         }
@@ -92,8 +148,8 @@ public sealed partial class JigsawModel : ModelBase
         {
             lock (this.Puzzle)
             {
-                // Serialize and save to disk 
-                var fileId = new FileId(Area.Desktop, Kind.Json, "Puzzle");
+                // Serialize and save to disk, puzzle is NOT dirty 
+                var fileId = new FileId(Area.User, Kind.Json, this.Game.PuzzleName);
                 this.fileManager.Save(fileId, this.Puzzle);
                 this.IsPuzzleDirty = false;
             }
@@ -107,6 +163,30 @@ public sealed partial class JigsawModel : ModelBase
             return false;
         }
     }
+
+    private bool SaveImage(byte[] imageBytes)
+    {
+        if ((this.Game is null) || (this.Puzzle is null))
+        {
+            return false;
+        }
+
+        try
+        {
+            // Save to disk 
+            var fileId = new FileId(Area.User, Kind.Binary, this.Game.ImageName);
+            this.fileManager.Save(fileId, imageBytes);
+
+            Debug.WriteLine("Image Saved");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("Save, Exception thrown: " + ex);
+            return false;
+        }
+    }
+
 
     public bool LoadPuzzle()
     {
@@ -129,7 +209,7 @@ public sealed partial class JigsawModel : ModelBase
 
     private void OnSavePuzzle()
     {
-        if (this.Puzzle is null)
+        if ((this.Game is null) || (this.Puzzle is null))
         {
             return;
         }
@@ -144,7 +224,7 @@ public sealed partial class JigsawModel : ModelBase
 
     private bool ActionPuzzle(Func<Puzzle, bool> action)
     {
-        if (this.Puzzle is null)
+        if ((this.Game is null) || (this.Puzzle is null))
         {
             return false;
         }

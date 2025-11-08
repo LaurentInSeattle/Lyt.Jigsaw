@@ -35,6 +35,9 @@ public sealed partial class JigsawModel : ModelBase
     #region Not serialized - No model changed event
 
     [JsonIgnore]
+    public Game? Game { get; set; }
+
+    [JsonIgnore]
     public Puzzle? Puzzle { get; set; }
 
     [JsonIgnore]

@@ -14,7 +14,7 @@ public sealed class Puzzle
 
     private readonly Profiler profiler;
 
-    public Puzzle( )
+    public Puzzle()
     {
         this.Randomizer = new Randomizer();
         this.puzzleSetups = [];
@@ -70,7 +70,7 @@ public sealed class Puzzle
 
     public int ApparentPieceSize => this.PieceSize - 2 * this.PieceOverlap;
 
-    internal int RotationStepAngle => this.RotationSteps <= 1 ?  0 : 360 / this.RotationSteps;
+    internal int RotationStepAngle => this.RotationSteps <= 1 ? 0 : 360 / this.RotationSteps;
 
     public List<Piece> GetMoves() => this.Moves;
 
@@ -81,7 +81,7 @@ public sealed class Puzzle
             return false;
         }
 
-        if ((snap < 0) || (snap> 3))
+        if ((snap < 0) || (snap > 3))
         {
             return false;
         }
@@ -97,7 +97,7 @@ public sealed class Puzzle
         this.PieceSize = setup.PieceSize;
         this.PieceOverlap = setup.PieceSize / 4;
         this.PieceCount = pieceCount;
-        int snapReverse = 3 - snap; 
+        int snapReverse = 3 - snap;
         this.PieceSnapDistance = this.PieceOverlap / 3.2 + snapReverse * this.PieceOverlap / 4.2;
 
         this.CreatePieces();
@@ -274,9 +274,9 @@ public sealed class Puzzle
         {
             var setup = new PuzzleSetup(pieceSize, this.ImageSize);
             int pieceCount = setup.Rows * setup.Columns;
-            if ( pieceCount > Puzzle.MaxPieceCount)
+            if (pieceCount > Puzzle.MaxPieceCount)
             {
-                continue; 
+                continue;
             }
 
             this.puzzleSetups.TryAdd(pieceCount, setup);
@@ -366,7 +366,7 @@ public sealed class Puzzle
         }
     }
 
-    internal void AddGroup (Group group)
+    internal void AddGroup(Group group)
     {
         this.Groups.Add(group);
     }

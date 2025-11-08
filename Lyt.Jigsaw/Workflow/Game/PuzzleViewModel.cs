@@ -60,24 +60,27 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
 
     internal void ResumePuzzle(Puzzle puzzle, WriteableBitmap image)
     {
-        this.View.InnerCanvas.Children.Clear();
-        this.pieceViewModels.Clear();
-        this.Image = image;
-        PixelSize imagePixelSize = image.PixelSize;
-        this.jigsawModel.SetPuzzle(puzzle);
+        //this.View.InnerCanvas.Children.Clear();
+        //this.pieceViewModels.Clear();
+        //this.Image = image;
+        //PixelSize imagePixelSize = image.PixelSize;
+        //this.jigsawModel.SetGameAndPuzzle(puzzle);
 
-        int pieceSizeWithOverlap = this.SetupCanvas(puzzle); 
+        //int pieceSizeWithOverlap = this.SetupCanvas(puzzle); 
 
-        foreach (Piece piece in puzzle.Pieces)
-        {
-            var view = this.CreatePieceView(piece);
-            view.MovePieceToLocation(piece);
-        }
+        //foreach (Piece piece in puzzle.Pieces)
+        //{
+        //    var view = this.CreatePieceView(piece);
+        //    view.MovePieceToLocation(piece);
+        //}
 
-        this.HackViewReset();
+        //this.HackViewReset();
     }
 
-    public void StartNewPuzzle(WriteableBitmap image, int pieceCount, int rotationSteps, int snap, bool randomize = true)
+    public void StartNewGame(
+        byte[] imageBytes, WriteableBitmap image, 
+        int pieceCount, int rotationSteps, int snap, 
+        bool randomize = true)
     {
         this.Profiler.StartTiming();
 
@@ -85,10 +88,13 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.pieceViewModels.Clear();
         this.Image = image;
         PixelSize imagePixelSize = image.PixelSize;
-        var puzzle = new Puzzle(this.Logger, imagePixelSize.Height, imagePixelSize.Width);
-        puzzle.Setup(pieceCount, rotationSteps, snap);
-        this.jigsawModel.SetPuzzle(puzzle);
 
+        var game = this.jigsawModel.NewGame(
+            imageBytes , 
+            imagePixelSize.Height, imagePixelSize.Width,
+            pieceCount, rotationSteps, snap);
+
+        var puzzle = game.Puzzle; 
         int pieceSizeWithOverlap = this.SetupCanvas(puzzle);
         double pieceDistance = pieceSizeWithOverlap * 0.78;
 
