@@ -145,20 +145,19 @@ public sealed partial class CollectionViewModel :
     {
         try
         {
-            string path = "C:\\Users\\Laurent\\Desktop\\Fontana_di_Trevi.JPG";
-            byte[] imageBytes = File.ReadAllBytes(path);
-            if ((imageBytes is null) || (imageBytes.Length < 256))
+            string gameKey = "25_11_08_12_44_22";
+            byte[]? imageBytes = this.jigsawModel.LoadGame(gameKey);
+            if (imageBytes is null)
             {
-                throw new Exception("Failed to read image from disk: " + path);
-            }
+                return ;
+            } 
 
             int decodeToWidth = 1920; //  1024 + 512;
             var image =
                 WriteableBitmap.DecodeToWidth(
                     new MemoryStream(imageBytes), decodeToWidth, BitmapInterpolationMode.HighQuality);
             this.PuzzleImage = image;
-            bool loaded = this.jigsawModel.LoadPuzzle();
-            if (loaded && this.jigsawModel.Puzzle is not null)
+            if (this.jigsawModel.Puzzle is not null)
             {
                 var vm = App.GetRequiredService<PuzzleViewModel>();
                 vm.ResumePuzzle(this.jigsawModel.Puzzle, this.PuzzleImage);

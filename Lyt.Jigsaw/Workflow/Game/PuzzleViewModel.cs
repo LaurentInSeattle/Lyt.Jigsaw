@@ -60,21 +60,18 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
 
     internal void ResumePuzzle(Puzzle puzzle, WriteableBitmap image)
     {
-        //this.View.InnerCanvas.Children.Clear();
-        //this.pieceViewModels.Clear();
-        //this.Image = image;
-        //PixelSize imagePixelSize = image.PixelSize;
-        //this.jigsawModel.SetGameAndPuzzle(puzzle);
+        this.View.InnerCanvas.Children.Clear();
+        this.pieceViewModels.Clear();
+        this.Image = image;
+        _ = this.SetupCanvas(puzzle);
 
-        //int pieceSizeWithOverlap = this.SetupCanvas(puzzle); 
+        foreach (Piece piece in puzzle.Pieces)
+        {
+            var view = this.CreatePieceView(piece);
+            view.MovePieceToLocation(piece);
+        }
 
-        //foreach (Piece piece in puzzle.Pieces)
-        //{
-        //    var view = this.CreatePieceView(piece);
-        //    view.MovePieceToLocation(piece);
-        //}
-
-        //this.HackViewReset();
+        this.HackViewReset();
     }
 
     public void StartNewGame(

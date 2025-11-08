@@ -1,5 +1,7 @@
 ﻿namespace Lyt.Jigsaw.Model.GameObjects;
 
+using System.Security.Cryptography;
+
 public sealed class Game
 {
 #pragma warning disable CS8618 
@@ -9,7 +11,7 @@ public sealed class Game
 
     public Game(Puzzle puzzle)
     {
-        this.Name = FileManagerModel.TimestampString(); 
+        this.Name = FileManagerModel.TimestampString();
         this.IsCompleted = false;
         this.Started = DateTime.Now;
         this.LastPlayed = DateTime.Now;
@@ -34,9 +36,11 @@ public sealed class Game
     [JsonIgnore]
     public Puzzle Puzzle { get; set; }
 
+    public static string GameNameFromKey(string key) => string.Concat("Game_", key);
+
     public string GameName => string.Concat("Game_", this.Name);
 
-    public string PuzzleName => string.Concat("Puzzle_" , this.Name); 
+    public string PuzzleName => string.Concat("Puzzle_", this.Name);
 
     public string ImageName => string.Concat("Image_", this.Name);
 
