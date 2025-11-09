@@ -41,6 +41,13 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.Unregister<PuzzleChangedMessage>();
     }
 
+    public override void Deactivate()
+    {
+        // Force a full save on deactivation
+        this.jigsawModel.SavePuzzle();
+        this.jigsawModel.SaveGame();
+    }
+
     public void Receive(ZoomRequestMessage message)
         => this.ZoomFactor = message.ZoomFactor;
 

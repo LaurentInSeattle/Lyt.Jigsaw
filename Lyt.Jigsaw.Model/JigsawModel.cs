@@ -76,6 +76,10 @@ public sealed partial class JigsawModel : ModelBase
 
     public override async Task Shutdown()
     {
+        // Force a save on shutdown 
+        this.SavePuzzle();
+        this.SaveGame();
+
         if (this.IsDirty)
         {
             await this.Save();

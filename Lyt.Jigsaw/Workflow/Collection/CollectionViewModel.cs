@@ -42,6 +42,12 @@ public sealed partial class CollectionViewModel :
     private double snapSliderValue;
 
     [ObservableProperty]
+    private string contrastString;
+
+    [ObservableProperty]
+    private double contrastSliderValue;
+
+    [ObservableProperty]
     private bool parametersVisible;
 
 
@@ -49,6 +55,7 @@ public sealed partial class CollectionViewModel :
     private int pieceCount;
     private int rotations;
     private int snap;
+    private int contrast;
     private List<int> pieceCounts;
     private byte[]? imageBytes;
 
@@ -63,9 +70,11 @@ public sealed partial class CollectionViewModel :
         this.ThumbnailsPanelViewModel = new ThumbnailsPanelViewModel(this);
         this.rotations = 1;
         this.snap = 0;
+        this.contrast = 0;
         this.PieceCountString = string.Empty;
         this.RotationsString = string.Empty;
         this.SnapString = string.Empty;
+        this.ContrastString = string.Empty;
         this.ParametersVisible = false;
         this.Subscribe<ToolbarCommandMessage>();
         this.Subscribe<ModelLoadedMessage>();
@@ -75,8 +84,11 @@ public sealed partial class CollectionViewModel :
     public override void Activate(object? activationParameters)
     {
         base.Activate(activationParameters);
+
+        // TODO : Set up properly sliders 
         this.OnRotationsSliderValueChanged(0.0);
         this.OnSnapSliderValueChanged(0);
+        this.OnContrastSliderValueChanged(0);
         if (this.loaded)
         {
             this.UpdateSelection();
@@ -239,6 +251,18 @@ public sealed partial class CollectionViewModel :
                     "Strong" :
                     this.snap == 2 ?
                         "Normal" : "Weak";
+    }
+
+    partial void OnContrastSliderValueChanged(double value)
+    {
+        this.contrast = (int)value;
+        this.ContrastString =
+            this.contrast == 0 ?
+                "Heavy" :
+                this.contrast == 1 ?
+                    "Strong" :
+                    this.contrast == 2 ?
+                        "Weak" : "Normal";
     }
 
     internal bool OnImageDrop(string path, byte[] imageBytes)
