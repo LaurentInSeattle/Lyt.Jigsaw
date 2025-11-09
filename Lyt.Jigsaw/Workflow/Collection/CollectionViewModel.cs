@@ -145,7 +145,7 @@ public sealed partial class CollectionViewModel :
     {
         try
         {
-            string gameKey = "25_11_08_12_44_22";
+            string gameKey = "25_11_08_16_29_38";
             byte[]? imageBytes = this.jigsawModel.LoadGame(gameKey);
             if (imageBytes is null)
             {
