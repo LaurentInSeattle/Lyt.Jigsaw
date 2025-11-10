@@ -2,6 +2,7 @@
 
 public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
     IRecipient<ZoomRequestMessage>,
+    IRecipient<ShowPuzzleImageMessage>,
     IRecipient<PuzzleChangedMessage>
 {
     private readonly JigsawModel jigsawModel;
@@ -23,6 +24,12 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
     [ObservableProperty]
     private SolidColorBrush backgroundBrush;
 
+    [ObservableProperty]
+    private WriteableBitmap? puzzleImage;
+
+    [ObservableProperty]
+    private bool puzzleImageIsVisible;
+
     private readonly Dictionary<Piece, PieceViewModel> pieceViewModels;
 
     public PuzzleViewModel(JigsawModel jigsawModel)
@@ -30,6 +37,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.jigsawModel = jigsawModel;
 
         this.Subscribe<ZoomRequestMessage>();
+        this.Subscribe<ShowPuzzleImageMessage>();
         this.Subscribe<PuzzleChangedMessage>();
         this.pieceViewModels = [];
         this.backgroundBrush = new SolidColorBrush(Colors.Transparent);
@@ -51,6 +59,9 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
     public void Receive(ZoomRequestMessage message)
         => this.ZoomFactor = message.ZoomFactor;
 
+    public void Receive(ShowPuzzleImageMessage message)
+        => this.PuzzleImageIsVisible = message.show;
+
     public void Receive(PuzzleChangedMessage message)
     {
         switch (message.Change)
@@ -67,9 +78,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
 
     internal void ResumePuzzle(Puzzle puzzle, WriteableBitmap image)
     {
-        this.View.InnerCanvas.Children.Clear();
-        this.pieceViewModels.Clear();
-        this.Image = image;
+        this.SetupView(image);
         _ = this.SetupCanvas(puzzle);
 
         foreach (Piece piece in puzzle.Pieces)
@@ -86,18 +95,20 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         int pieceCount, int rotationSteps, int snap, 
         bool randomize = true)
     {
-        this.Profiler.StartTiming();
-
-        this.View.InnerCanvas.Children.Clear();
-        this.pieceViewModels.Clear();
-        this.Image = image;
         PixelSize imagePixelSize = image.PixelSize;
-
         var game = this.jigsawModel.NewGame(
             imageBytes , thumbnailBytes,
             imagePixelSize.Height, imagePixelSize.Width,
             pieceCount, rotationSteps, snap);
+        if ( game is null )
+        {
+            this.Logger.Info("Failed Creating new game" );
+            return;
+        }
 
+        this.Profiler.StartTiming();
+
+        this.SetupView(image);
         var puzzle = game.Puzzle; 
         int pieceSizeWithOverlap = this.SetupCanvas(puzzle);
         double pieceDistance = pieceSizeWithOverlap * 0.78;
@@ -241,6 +252,15 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.CanvasWidth = 1.10 * pieceDistance * (1 + puzzle.Columns);
         this.CanvasHeight = 1.10 * pieceDistance * (1 + puzzle.Rows);
         return pieceSizeWithOverlap;
+    }
+
+    private void SetupView(WriteableBitmap image)
+    {
+        this.View.InnerCanvas.Children.Clear();
+        this.pieceViewModels.Clear();
+        this.Image = image;
+        this.PuzzleImage = image;
+        this.PuzzleImageIsVisible = false;
     }
 
     private void HackViewReset()

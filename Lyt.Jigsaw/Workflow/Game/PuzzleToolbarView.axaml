@@ -20,12 +20,13 @@
 		<Grid.ColumnDefinitions>
 			<!-- Background -->
 			<ColumnDefinition Width="60" />
-			<ColumnDefinition Width="180" />
+			<ColumnDefinition Width="140" />
 			<ColumnDefinition Width="60" />
 			<!-- Spacer -->
 			<ColumnDefinition Width="20" />
-			<!-- Randomize Button -->
-			<ColumnDefinition Width="124" />
+			<!-- Buttons -->
+			<ColumnDefinition Width="80" />
+			<ColumnDefinition Width="80" />
 		</Grid.ColumnDefinitions>
 
 		<TextBlock
@@ -33,7 +34,7 @@
 			Margin="4"
 			Theme="{StaticResource H4}"
 			HorizontalAlignment="Right" VerticalAlignment="Center"
-            Foreground="{StaticResource PastelOrchid_0_080}"
+			Foreground="{StaticResource PastelOrchid_0_080}"
 			Text="Dark"
 			/>
 		<Slider 
@@ -42,7 +43,7 @@
 			VerticalAlignment="Center" HorizontalAlignment="Stretch"
 			TickFrequency="0.05"
 			TickPlacement="None"
-			IsSnapToTickEnabled="True"
+			IsSnapToTickEnabled="False"
 			SmallChange="0.05" LargeChange="2.0"
 			Minimum="0.0"
 			Maximum="1.0"
@@ -53,30 +54,38 @@
 			Margin="4"
 			Theme="{StaticResource H4}"
 			HorizontalAlignment="Left" VerticalAlignment="Center"
-            Foreground="{StaticResource PastelOrchid_0_080}"
+			Foreground="{StaticResource PastelOrchid_0_080}"
 			Text="Light"
 			/>
 		<controls:ExtendedTextBlock
 			Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1"
 			Text="Background"
 			Typography="{StaticResource Medium}"
-            Foreground="{StaticResource PastelOrchid_0_080}"
+			Foreground="{StaticResource PastelOrchid_0_080}"
 			/>
 
 		<glyphs:GlyphButton
-			Grid.Column="10"
+			Grid.Column="4"
+			Style="{StaticResource AppToolbarIconButton}"
+			Behaviour="Continuous"
+			GlyphSource="wallpaper"
+			GlyphStrokeThickness="0.1"
+			Text="Show Image"
+			Command="{Binding OnShowImage}"
+			/>
+		<glyphs:GlyphButton
+			Grid.Column="5"
 			Style="{StaticResource AppToolbarIconButton}"
 			GlyphSource="lightbulb_filament"
 			GlyphStrokeThickness="0.1"
-			Text="{DynamicResource Design.Toolbar.Randomize}"
+			Text="Hint"
 			Command="{Binding OnRandomize}"
 			/>
-
 		<controls:ExtendedTextBlock
-			Grid.Column="10" Grid.ColumnSpan="1" Grid.Row="1"
+			Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="1"
 			Text=" ¯\_(ツ)_/¯ "
 			Typography="{StaticResource Medium}"
-            Foreground="{StaticResource PastelOrchid_0_080}"
+			Foreground="{StaticResource PastelOrchid_0_080}"
 			/>
 	</Grid>
 </UserControl>

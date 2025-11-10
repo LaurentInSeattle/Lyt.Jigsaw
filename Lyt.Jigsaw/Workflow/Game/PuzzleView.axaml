@@ -47,5 +47,12 @@
 			Min="1.0" Max="2.0"
 			Margin="0 12 12 12"
 			/>
+		<Image
+			Grid.Column="0" Grid.Row="0" 
+			Margin="8"
+			Source="{Binding PuzzleImage}"
+			IsVisible="{Binding PuzzleImageIsVisible}"
+			/>
+
 	</Grid>
 </UserControl>
