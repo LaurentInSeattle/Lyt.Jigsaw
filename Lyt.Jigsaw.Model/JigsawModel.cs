@@ -1,6 +1,7 @@
 ﻿namespace Lyt.Jigsaw.Model;
 
 using Lyt.Jigsaw.Model.Utilities;
+using Lyt.Utilities.Parallel;
 using static Lyt.Persistence.FileManagerModel;
 
 public sealed partial class JigsawModel : ModelBase
@@ -17,15 +18,6 @@ public sealed partial class JigsawModel : ModelBase
             MaxStorageMB = 64,
             MaxImageWidth = 3840,
             ShouldAutoCleanup = true,
-            //Providers =
-            //[
-            //    new Provider(ImageProviderKey.Personal, "Model.Provider.Personal") { IsSelected = false},
-            //    new Provider(ImageProviderKey.Epic, "Nasa EPIC"),
-            //    new Provider(ImageProviderKey.Nasa, "Nasa APOD"),
-            //    new Provider(ImageProviderKey.Bing, "Bing Wallpaper"),
-            //    new Provider(ImageProviderKey.EarthView, "Google Earth View"),
-            //    new Provider(ImageProviderKey.OpenVerse, "OpenVerse.Org"),
-            //]
         };
 
     private readonly FileManagerModel fileManager;
@@ -33,7 +25,7 @@ public sealed partial class JigsawModel : ModelBase
     private readonly ILocalizer localizer;
     private readonly Lock lockObject = new();
     private readonly FileId modelFileId;
-    private readonly TimeoutTimer timeoutTimer; 
+    private readonly TimeoutTimer timeoutTimer;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
@@ -100,10 +92,12 @@ public sealed partial class JigsawModel : ModelBase
             // Copy all properties with attribute [JsonRequired]
             base.CopyJSonRequiredProperties<JigsawModel>(model);
 
+            // TODO
             //this.ValidateCollection();
             //this.CleanupCollection();
-            // Load the thumbnails
-            // Task.Run(this.LoadThumbnailCache);
+
+            // Load the saved games and their thumbnails
+            Task.Run(this.LoadSavedGames);
 
             // Check Internet by send a fire and forget ping request to Azure 
             this.IsInternetConnected = false;
@@ -118,6 +112,37 @@ public sealed partial class JigsawModel : ModelBase
             this.Logger.Fatal(msg);
             throw new Exception("", ex);
         }
+    }
+
+    private void LoadSavedGames()
+    {
+        void LoadSavedGame(string file, int _)
+        {
+            try
+            {
+                // load game from disk and deserialize 
+                var fileId = new FileId(Area.User, Kind.Json, file);
+                Game game = this.fileManager.Load<Game>(fileId);
+
+                // load game image thumbnail 
+                var fileIdThumbnail = new FileId(Area.User, Kind.Binary, game.ThumbnailName);
+                byte[] thumbnailBytes = this.fileManager.Load<byte[]>(fileIdThumbnail);
+                lock (this.SavedGames)
+                {
+                    this.SavedGames.Add(game.Name, game);
+                    this.ThumbnailCache.Add(game.Name, thumbnailBytes);
+                }
+
+                Debug.WriteLine("Game and thumbnail loaded" + game.Name);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Game Load, Exception thrown: " + ex);
+            }
+        }
+
+        var files = this.fileManager.Enumerate(Area.User, Kind.Json, "Game_");
+        Parallelize.ForEach(files, LoadSavedGame);
     }
 
     public override Task Save()
