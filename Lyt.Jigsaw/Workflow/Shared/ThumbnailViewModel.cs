@@ -2,26 +2,14 @@
 
 public sealed partial class ThumbnailViewModel : ViewModel<ThumbnailView>, IRecipient<LanguageChangedMessage>
 {
-    public const double LargeFontSize = 24.0;
-    public const double SmallFontSize = 16.0;
-
     public const double LargeBorderHeight = 260;
-    public const double SmallBorderHeight = 212;
-
     public const double LargeImageHeight = 200;
-    public const double SmallImageHeight = 160;
-
     public const int LargeThumbnailWidth = 360;
-    public const int SmallThumbnailWidth = 240;
 
-    public readonly PictureMetadata Metadata;
+    public readonly Model.GameObjects.Game Game;
     public readonly byte[] ImageBytes;
 
     private readonly ISelectListener parent;
-    private readonly bool isLarge;
-
-    [ObservableProperty]
-    private double fontSize;
 
     [ObservableProperty]
     private double borderHeight;
@@ -30,36 +18,26 @@ public sealed partial class ThumbnailViewModel : ViewModel<ThumbnailView>, IReci
     private double imageHeight;
 
     [ObservableProperty]
-    private string provider;
+    private string title;
+
+    [ObservableProperty]
+    private string details;
 
     [ObservableProperty]
     private WriteableBitmap thumbnail;
 
-    /// <summary> 
-    /// Creates a thumbnail from a full (large) image - use for downloads 
-    /// - OR - 
-    /// Creates a thumbnail from a small (thumbnail) image - use for collection 
-    /// </summary>
-    public ThumbnailViewModel(
-        ISelectListener parent, 
-        PictureMetadata metadata, byte[] imageBytes, bool isLarge = true )        
+    /// <summary>  Creates a thumbnail view model </summary>
+    public ThumbnailViewModel(ISelectListener parent, Model.GameObjects.Game game, byte[] imageBytes)        
     {
         this.parent = parent;
-        this.Metadata = metadata;
+        this.Game = game;
         this.ImageBytes = imageBytes;
-        this.isLarge = isLarge; 
-        this.BorderHeight = isLarge ? LargeBorderHeight : SmallBorderHeight;
-        this.ImageHeight = isLarge ? LargeImageHeight : SmallImageHeight;
-        this.FontSize = isLarge ? LargeFontSize : SmallFontSize;
-        this.Provider = string.Empty;
+        this.BorderHeight = LargeBorderHeight ;
+        this.ImageHeight = LargeImageHeight;
+        this.Title = string.Empty;
+        this.Details = string.Empty;
         this.SetThumbnailTitle(); 
-        var bitmap =
-            isLarge  ?
-                WriteableBitmap.DecodeToWidth(
-                    new MemoryStream(imageBytes), 
-                    isLarge ? LargeThumbnailWidth : SmallThumbnailWidth) :
-                WriteableBitmap.Decode(new MemoryStream(imageBytes));
-        this.Thumbnail = bitmap;
+        this.Thumbnail = WriteableBitmap.Decode(new MemoryStream(imageBytes));
         this.Subscribe<LanguageChangedMessage>();
     }
 
@@ -68,9 +46,9 @@ public sealed partial class ThumbnailViewModel : ViewModel<ThumbnailView>, IReci
 
     internal void OnSelect() => this.parent.OnSelect(this);
 
-    internal void ShowDeselected(PictureMetadata metadata)
+    internal void ShowDeselected(Model.GameObjects.Game game)
     {
-        if (this.Metadata == metadata)
+        if (this.Game == game)
         {
             return;
         }
@@ -91,7 +69,6 @@ public sealed partial class ThumbnailViewModel : ViewModel<ThumbnailView>, IReci
 
     private void SetThumbnailTitle()
     {
-        var model = App.GetRequiredService<JigsawModel>();
         string? currentLanguage = this.Localizer.CurrentLanguage;
         if (!string.IsNullOrEmpty(currentLanguage))
         {
@@ -99,15 +76,7 @@ public sealed partial class ThumbnailViewModel : ViewModel<ThumbnailView>, IReci
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(currentLanguage);
         }
 
-        string dateString = this.Metadata.Date.ToShortDateString();
-
-        // TODO 
-        //
-        //string providerName = model.ProviderName(this.Metadata.Provider);
-        //string providerLocalized = this.Localize(providerName, failSilently: true);
-        //this.Provider =
-        //    this.isLarge ?
-        //        providerLocalized :
-        //        string.Concat(providerLocalized, "  ~  ", dateString );
+        string dateString = this.Game.Started.Date.ToShortDateString();
+        this.Title = dateString;
     }
 }

@@ -143,6 +143,9 @@ public sealed partial class JigsawModel : ModelBase
 
         var files = this.fileManager.Enumerate(Area.User, Kind.Json, "Game_");
         Parallelize.ForEach(files, LoadSavedGame);
+
+        this.ThumbnailsLoaded = true; 
+        this.NotifyModelLoaded();
     }
 
     public override Task Save()
@@ -262,5 +265,4 @@ public sealed partial class JigsawModel : ModelBase
             }
         }
     }
-
 }

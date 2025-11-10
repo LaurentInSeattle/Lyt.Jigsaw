@@ -100,9 +100,7 @@ public sealed partial class CollectionViewModel :
         if (!this.loaded)
         {
             this.loaded = true;
-            // TODO 
-            // this.collectionThumbnails = this.jigsawModel.LoadCollectionThumbnails();
-            this.ThumbnailsPanelViewModel.LoadThumnails(this.collectionThumbnails);
+            this.ThumbnailsPanelViewModel.LoadThumnails();
         }
         else
         {
@@ -122,11 +120,11 @@ public sealed partial class CollectionViewModel :
                 200,
                 () =>
                 {
-                    this.ThumbnailsPanelViewModel.UpdateSelection();
-                    if (this.ThumbnailsPanelViewModel.SelectedThumbnail is ThumbnailViewModel thumbnailViewModel)
-                    {
-                        this.Select(thumbnailViewModel.Metadata, thumbnailViewModel.ImageBytes);
-                    }
+                    //this.ThumbnailsPanelViewModel.UpdateSelection();
+                    //if (this.ThumbnailsPanelViewModel.SelectedThumbnail is ThumbnailViewModel thumbnailViewModel)
+                    //{
+                    //    this.Select(thumbnailViewModel.Metadata, thumbnailViewModel.ImageBytes);
+                    //}
                 },
                 DispatcherPriority.Background);
 

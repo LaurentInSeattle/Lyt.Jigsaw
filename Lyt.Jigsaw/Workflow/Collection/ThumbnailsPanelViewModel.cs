@@ -1,8 +1,8 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Collection;
 
-public sealed partial class ThumbnailsPanelViewModel : 
-    ViewModel<ThumbnailsPanelView>, 
-    ISelectListener, 
+public sealed partial class ThumbnailsPanelViewModel :
+    ViewModel<ThumbnailsPanelView>,
+    ISelectListener,
     IRecipient<LanguageChangedMessage>
 {
     private readonly JigsawModel jigsawModel;
@@ -18,10 +18,9 @@ public sealed partial class ThumbnailsPanelViewModel :
     private List<string> providerNames;
 
     [ObservableProperty]
-    private int providersSelectedIndex; 
-        
-    private PictureMetadata? selectedMetadata;
-    private ThumbnailViewModel? selectedThumbnail; 
+    private int providersSelectedIndex;
+
+    private ThumbnailViewModel? selectedThumbnail;
     private List<ThumbnailViewModel>? allThumbnails;
     private List<ThumbnailViewModel>? filteredThumbnails;
 
@@ -30,7 +29,7 @@ public sealed partial class ThumbnailsPanelViewModel :
         this.jigsawModel = App.GetRequiredService<JigsawModel>();
         this.collectionViewModel = collectionViewModel;
         this.Thumbnails = [];
-        this.ProviderNames = [];
+        // this.ProviderNames = [];
 
         // TODO 
         //this.providers =
@@ -38,55 +37,68 @@ public sealed partial class ThumbnailsPanelViewModel :
         //      orderby provider.Name
         //      select provider )];
         this.ShowMru = this.jigsawModel.ShowRecentImages;
-        this.PopulateComboBox();
+        //this.PopulateComboBox();
         this.Subscribe<LanguageChangedMessage>();
     }
 
-    public void Receive(LanguageChangedMessage _) => this.PopulateComboBox();
+    public void Receive(LanguageChangedMessage _) { } //  => this.PopulateComboBox();
 
-    private void PopulateComboBox ()
+    //private void PopulateComboBox ()
+    //{
+    //    var list = new List<string>
+    //    {
+    //        this.Localize ( "Collection.Thumbs.AllServices")
+    //    };
+
+    //    //foreach (Provider provider in this.providers)
+    //    //{
+    //    //    string providerNameLocalized = this.Localize(provider.Name, failSilently: true);
+    //    //    list.Add(providerNameLocalized);
+    //    //}
+
+    //    this.ProviderNames = list;
+    //    this.ProvidersSelectedIndex = 0; // all
+    //}
+
+    internal void LoadThumnails()
     {
-        var list = new List<string>
+        var games = this.jigsawModel.SavedGames.Values;
+        var sortedGames = (from game in games orderby game.Started descending select game).ToList();
+        this.allThumbnails = new(sortedGames.Count);
+        foreach (var game in sortedGames)
         {
-            this.Localize ( "Collection.Thumbs.AllServices")
-        };
+            if ( !this.jigsawModel.ThumbnailCache.TryGetValue(game.Name, out byte[]? thumbnailBytes))
+            {
+                continue; 
+            }
 
-        //foreach (Provider provider in this.providers)
-        //{
-        //    string providerNameLocalized = this.Localize(provider.Name, failSilently: true);
-        //    list.Add(providerNameLocalized);
-        //}
+            if (thumbnailBytes is null || thumbnailBytes.Length == 0)
+            {
+                continue;
+            }
 
-        this.ProviderNames = list;
-        this.ProvidersSelectedIndex = 0; // all
-    }
-
-    internal void LoadThumnails(List<Tuple<Picture, byte[]>> thumbnailsCollection)
-    {
-        this.allThumbnails = new(thumbnailsCollection.Count);
-        foreach (var tuple in thumbnailsCollection)
-        {
-            this.allThumbnails.Add(
-                new ThumbnailViewModel(
-                    this, tuple.Item1.PictureMetadata, tuple.Item2, isLarge: false));
+            // TODO: Make sure the game image is still present on disk 
+            this.allThumbnails.Add(new ThumbnailViewModel(this, game, thumbnailBytes));
         }
 
-        this.Filter();
+        // this.Filter();
+        this.Thumbnails = [.. this.allThumbnails]; // For Now
+
     }
 
-    public ThumbnailViewModel? SelectedThumbnail => this.selectedThumbnail; 
+    public ThumbnailViewModel? SelectedThumbnail => this.selectedThumbnail;
 
     public void OnSelect(object selectedObject)
     {
         if (selectedObject is ThumbnailViewModel thumbnailViewModel)
         {
-            this.selectedThumbnail = thumbnailViewModel; 
-            var pictureMetadata = thumbnailViewModel.Metadata;
-            if (this.selectedMetadata is null || this.selectedMetadata != pictureMetadata)
-            {
-                this.selectedMetadata = pictureMetadata;
-                this.collectionViewModel.Select(pictureMetadata, thumbnailViewModel.ImageBytes);
-            }
+            //this.selectedThumbnail = thumbnailViewModel;
+            //var pictureMetadata = thumbnailViewModel.Metadata;
+            //if (this.selectedMetadata is null || this.selectedMetadata != pictureMetadata)
+            //{
+            //    this.selectedMetadata = pictureMetadata;
+            //    this.collectionViewModel.Select(pictureMetadata, thumbnailViewModel.ImageBytes);
+            //}
 
             this.UpdateSelection();
         }
@@ -94,20 +106,20 @@ public sealed partial class ThumbnailsPanelViewModel :
 
     internal void UpdateSelection()
     {
-        if (this.selectedMetadata is not null)
-        {
-            foreach (ThumbnailViewModel thumbnailViewModel in this.Thumbnails)
-            {
-                if (thumbnailViewModel.Metadata == this.selectedMetadata)
-                {
-                    thumbnailViewModel.ShowSelected();
-                }
-                else
-                {
-                    thumbnailViewModel.ShowDeselected(this.selectedMetadata);
-                }
-            }
-        }
+        //if (this.selectedMetadata is not null)
+        //{
+        //    foreach (ThumbnailViewModel thumbnailViewModel in this.Thumbnails)
+        //    {
+        //        if (thumbnailViewModel.Metadata == this.selectedMetadata)
+        //        {
+        //            thumbnailViewModel.ShowSelected();
+        //        }
+        //        else
+        //        {
+        //            thumbnailViewModel.ShowDeselected(this.selectedMetadata);
+        //        }
+        //    }
+        //}
     }
 
     private void Filter()
@@ -117,7 +129,7 @@ public sealed partial class ThumbnailsPanelViewModel :
             if (this.ProvidersSelectedIndex < 0)
             {
                 // Temporarily without a selection : do nothing
-                return; 
+                return;
             }
             else if (this.ProvidersSelectedIndex == 0)
             {
@@ -158,20 +170,20 @@ public sealed partial class ThumbnailsPanelViewModel :
 
         if (this.filteredThumbnails is not null && this.filteredThumbnails.Count > 0)
         {
-            this.Thumbnails = [.. this.filteredThumbnails];
-            this.selectedMetadata = this.filteredThumbnails[0].Metadata;
-            this.OnSelect(this.Thumbnails[0]);
+            //this.Thumbnails = [.. this.filteredThumbnails];
+            //this.selectedMetadata = this.filteredThumbnails[0].Metadata;
+            //this.OnSelect(this.Thumbnails[0]);
         }
         else
         {
-            this.Thumbnails = [];
-            this.selectedMetadata = null;
+            //this.Thumbnails = [];
+            //this.selectedMetadata = null;
         }
     }
 
     partial void OnProvidersSelectedIndexChanged(int value) => this.Filter();
 
-    partial void OnShowMruChanged (bool value)
+    partial void OnShowMruChanged(bool value)
     {
         this.jigsawModel.ShowRecentImages = value;
         this.Filter();
