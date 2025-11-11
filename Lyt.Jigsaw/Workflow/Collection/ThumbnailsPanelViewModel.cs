@@ -15,9 +15,6 @@ public sealed partial class ThumbnailsPanelViewModel :
     private ObservableCollection<ThumbnailViewModel> thumbnails;
 
     [ObservableProperty]
-    private List<string> providerNames;
-
-    [ObservableProperty]
     private int providersSelectedIndex;
 
     private ThumbnailViewModel? selectedThumbnail;

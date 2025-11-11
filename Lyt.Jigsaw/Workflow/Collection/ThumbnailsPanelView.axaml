@@ -32,6 +32,7 @@
 				Fill="#70000020"
 				HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
 				/>
+      <!--
 			<TextBlock
 				Grid.Row="1"
 				Margin="6 0 0 0"
@@ -46,8 +47,9 @@
 				SelectedIndex="{Binding ProvidersSelectedIndex}"
 				Foreground="{StaticResource LightAqua_1_100}"
 				FontSize="16"
-				> 				
+				>       
 			</ComboBox>
+      -->
 			<toggle:ToggleSwitch
 				x:Name="ShowMruSwitch"
 				Margin="4 0 8 0"

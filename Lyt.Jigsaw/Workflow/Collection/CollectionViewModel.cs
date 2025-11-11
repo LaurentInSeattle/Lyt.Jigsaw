@@ -254,7 +254,7 @@ public sealed partial class CollectionViewModel :
 
         try
         {
-            int decodeToWidthThumbnail = 260;
+            int decodeToWidthThumbnail = 360;
             var writeableBitmap =
                 WriteableBitmap.DecodeToWidth(new MemoryStream(this.imageBytes), decodeToWidthThumbnail);
             byte[] thumbnailBytes = writeableBitmap.EncodeToJpeg();
