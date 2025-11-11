@@ -21,6 +21,7 @@ public sealed partial class ThumbnailsPanelViewModel :
     private int providersSelectedIndex;
 
     private ThumbnailViewModel? selectedThumbnail;
+    private Model.GameObjects.Game? selectedGame;
     private List<ThumbnailViewModel>? allThumbnails;
     private List<ThumbnailViewModel>? filteredThumbnails;
 
@@ -92,19 +93,19 @@ public sealed partial class ThumbnailsPanelViewModel :
     {
         if (selectedObject is ThumbnailViewModel thumbnailViewModel)
         {
-            //this.selectedThumbnail = thumbnailViewModel;
-            //var pictureMetadata = thumbnailViewModel.Metadata;
-            //if (this.selectedMetadata is null || this.selectedMetadata != pictureMetadata)
-            //{
-            //    this.selectedMetadata = pictureMetadata;
-            //    this.collectionViewModel.Select(pictureMetadata, thumbnailViewModel.ImageBytes);
-            //}
+            this.selectedThumbnail = thumbnailViewModel;
+            var game = thumbnailViewModel.Game;
+            if (this.selectedGame is null || this.selectedGame != game)
+            {
+                this.selectedGame = game;
+                this.collectionViewModel.Select(game);
+            }
 
-            this.UpdateSelection();
+            this.UpdateVisualSelection();
         }
     }
 
-    internal void UpdateSelection()
+    internal void UpdateVisualSelection()
     {
         //if (this.selectedMetadata is not null)
         //{

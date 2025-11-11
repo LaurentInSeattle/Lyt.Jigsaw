@@ -6,6 +6,13 @@ public sealed partial class CollectionViewModel :
     IRecipient<ModelLoadedMessage>,
     IRecipient<CollectionChangedMessage>
 {
+    private enum PlayStatus
+    {
+        Unprepared, 
+        ReadyForRestart, 
+        ReadyForNew, 
+    } 
+
     private readonly JigsawModel jigsawModel;
 
     [ObservableProperty]
@@ -50,8 +57,8 @@ public sealed partial class CollectionViewModel :
     [ObservableProperty]
     private bool parametersVisible;
 
-
     private bool loaded;
+    private PlayStatus state;
     private int pieceCount;
     private int rotations;
     private int snap;
@@ -68,6 +75,7 @@ public sealed partial class CollectionViewModel :
         this.pieceCounts = [];
         this.DropViewModel = new DropViewModel();
         this.ThumbnailsPanelViewModel = new ThumbnailsPanelViewModel(this);
+        this.state = PlayStatus.Unprepared; 
         this.rotations = 1;
         this.snap = 0;
         this.contrast = 0;
@@ -133,11 +141,18 @@ public sealed partial class CollectionViewModel :
         switch (message.Command)
         {
             case ToolbarCommandMessage.ToolbarCommand.Play:
-                this.StartNewGameFromDropppedImage();
+                if ( this.state == PlayStatus.ReadyForNew)
+                {
+                    this.StartNewGameFromDropppedImage();
+                }
+                else if (this.state == PlayStatus.ReadyForRestart)
+                {
+                    this.ResumeSavedGame();
+                }
+                // else: Not ready: do nothing 
                 break;
 
             case ToolbarCommandMessage.ToolbarCommand.RemoveFromCollection:
-                this.ResumeSavedGame();
                 // this.PictureViewModel.RemoveFromCollection();
                 break;
 
@@ -151,61 +166,7 @@ public sealed partial class CollectionViewModel :
         }
     }
 
-    private void ResumeSavedGame()
-    {
-        try
-        {
-            string gameKey = "25_11_08_16_29_38";
-            byte[]? imageBytes = this.jigsawModel.LoadGame(gameKey);
-            if (imageBytes is null)
-            {
-                return ;
-            } 
-
-            int decodeToWidth = 1920; //  1024 + 512;
-            var image =
-                WriteableBitmap.DecodeToWidth(
-                    new MemoryStream(imageBytes), decodeToWidth, BitmapInterpolationMode.HighQuality);
-            this.PuzzleImage = image;
-            if (this.jigsawModel.Puzzle is not null)
-            {
-                var vm = App.GetRequiredService<PuzzleViewModel>();
-                vm.ResumePuzzle(this.jigsawModel.Puzzle, this.PuzzleImage);
-                ApplicationMessagingExtensions.Select(ActivatedView.Puzzle);
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex.ToString());
-        }
-    }
-
-    private void StartNewGameFromDropppedImage()
-    {
-        if ((this.PuzzleImage is null) ||
-            (this.imageBytes == null) || (this.imageBytes.Length == 0) ||
-            (this.pieceCount == 0))
-        {
-            return;
-        }
-
-        try
-        {
-            int decodeToWidthThumbnail = 260;
-            var writeableBitmap =
-                WriteableBitmap.DecodeToWidth(new MemoryStream(this.imageBytes), decodeToWidthThumbnail);
-            byte[] thumbnailBytes = writeableBitmap.EncodeToJpeg();
-            var vm = App.GetRequiredService<PuzzleViewModel>();
-            vm.StartNewGame(
-                this.imageBytes, thumbnailBytes, this.PuzzleImage, 
-                this.pieceCount, this.rotations, this.snap);
-            ApplicationMessagingExtensions.Select(ActivatedView.Puzzle);
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex.ToString());
-        }
-    }
+    #region Game Parameters 
 
     partial void OnPieceCountSliderValueChanged(double value)
     {
@@ -263,6 +224,52 @@ public sealed partial class CollectionViewModel :
                         "Weak" : "Normal";
     }
 
+    #endregion Game Parameters 
+
+    private void ResumeSavedGame()
+    {
+        try
+        {
+            if ((this.jigsawModel.Puzzle is not null) && (this.PuzzleImage is not null))
+            {
+                var vm = App.GetRequiredService<PuzzleViewModel>();
+                vm.ResumePuzzle(this.jigsawModel.Puzzle, this.PuzzleImage);
+                ApplicationMessagingExtensions.Select(ActivatedView.Puzzle);
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.ToString());
+        }
+    }
+
+    private void StartNewGameFromDropppedImage()
+    {
+        if ((this.PuzzleImage is null) ||
+            (this.imageBytes == null) || (this.imageBytes.Length == 0) ||
+            (this.pieceCount == 0))
+        {
+            return;
+        }
+
+        try
+        {
+            int decodeToWidthThumbnail = 260;
+            var writeableBitmap =
+                WriteableBitmap.DecodeToWidth(new MemoryStream(this.imageBytes), decodeToWidthThumbnail);
+            byte[] thumbnailBytes = writeableBitmap.EncodeToJpeg();
+            var vm = App.GetRequiredService<PuzzleViewModel>();
+            vm.StartNewGame(
+                this.imageBytes, thumbnailBytes, this.PuzzleImage, 
+                this.pieceCount, this.rotations, this.snap);
+            ApplicationMessagingExtensions.Select(ActivatedView.Puzzle);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.ToString());
+        }
+    }
+
     internal bool OnImageDrop(string path, byte[] imageBytes)
     {
         this.imageBytes = imageBytes;
@@ -283,60 +290,32 @@ public sealed partial class CollectionViewModel :
         this.OnRotationsSliderValueChanged(1.0);
         this.ParametersVisible = true;
 
+        this.state = PlayStatus.ReadyForNew;
         return true;
     }
 
-    internal void Select(PictureMetadata pictureMetadata, byte[] _)
+    internal void Select(Model.GameObjects.Game game)
     {
-        // We receive the bytes of the thumbnail so we need to load the full image 
         try
         {
-            string? url = pictureMetadata.Url;
-            // TODO 
-            //
-            //if (!string.IsNullOrEmpty(url) &&
-            //    this.jigsawModel.Pictures.TryGetValue(url, out Picture? maybePicture) &&
-            //    maybePicture is Picture picture)
-            //{
-            //    var fileManager = App.GetRequiredService<FileManagerModel>();
-            //    var fileId = new FileId(FileManagerModel.Area.User, FileManagerModel.Kind.BinaryNoExtension, picture.ImageFilePath);
-            //    if (fileManager.Exists(fileId))
-            //    {
-            //        // Consider caching some of the images ? 
-            //        byte[] imageBytes = fileManager.Load<byte[]>(fileId);
-            //        if ((imageBytes != null) && (imageBytes.Length > 256))
-            //        {
-            //            this.PictureViewModel.Select(pictureMetadata, imageBytes);
-            //            showBadPicture = false;
-            //        }
-            //    }
-            //}
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex);
-        }
-    }
-
-    internal bool Select(string path, byte[] imageBytes)
-    {
-        // Here we receive the bytes of the image dropped in the drop zone 
-        try
-        {
-            PictureMetadata pictureMetadata = new()
+            string gameKey = game.Name;
+            byte[]? imageBytes = this.jigsawModel.LoadGame(gameKey);
+            if (imageBytes is null)
             {
-                Date = DateTime.Now.Date,
-                Url = path,
-            };
+                return;
+            }
 
-            // this.PictureViewModel.AddToCollection();
-            return true;
+            int decodeToWidth = 1920; //  1024 + 512;
+            var image =
+                WriteableBitmap.DecodeToWidth(
+                    new MemoryStream(imageBytes), decodeToWidth, BitmapInterpolationMode.HighQuality);
+            this.PuzzleImage = image;
+
+            this.state = PlayStatus.ReadyForRestart;
         }
         catch (Exception ex)
         {
             Debug.WriteLine(ex);
         }
-
-        return false;
     }
 }

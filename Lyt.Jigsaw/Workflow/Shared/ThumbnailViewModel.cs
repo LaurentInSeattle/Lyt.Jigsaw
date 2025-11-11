@@ -7,6 +7,7 @@ public sealed partial class ThumbnailViewModel : ViewModel<ThumbnailView>, IReci
     public const int LargeThumbnailWidth = 360;
 
     public readonly Model.GameObjects.Game Game;
+
     public readonly byte[] ImageBytes;
 
     private readonly ISelectListener parent;
