@@ -7,50 +7,39 @@
 	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 	xmlns:glyphs="clr-namespace:Lyt.Avalonia.Controls.Glyphs;assembly=Lyt.Avalonia.Controls"
 	>
-	<Border
-		BorderThickness="1.0"
-		BorderBrush="{StaticResource LightAqua_1_100}"
-		Background="#80181010"
-		CornerRadius="8"
-		Width="56" Height="260"
-		Opacity="1.0"
-		>
-		<StackPanel 
-			Orientation="Vertical"
-			Margin="0 8 0 8"
-			>
-			<glyphs:GlyphButton
+  <Grid>
+		<Grid.ColumnDefinitions>
+      <ColumnDefinition Width="60"/>
+      <ColumnDefinition Width="140"/>
+      <ColumnDefinition Width="60"/>
+    </Grid.ColumnDefinitions>
+    <glyphs:GlyphButton
+				x:Name="minButton"
+				Grid.Column="0"
+				Style="{StaticResource AppToolbarIconButton}"
+				Click="OnButtonMinClick"
+				GlyphSource="zoom_fit"
+				GlyphStrokeThickness="0.1"
+				Text="Fit"
+				/>
+    <glyphs:GlyphButton
 				x:Name="maxButton"
-				Style="{StaticResource IconButton}"
-				Margin="0 0 0 8"
-				Padding="0"
-				Width="36" Height="36"
-				FontSize="13"
+				Grid.Column="2"
+				Style="{StaticResource AppToolbarIconButton}"
 				Click="OnButtonMaxClick"
-				HorizontalAlignment="Center"
 				GlyphSource="zoom_in"
+				GlyphStrokeThickness="0.1"
+				Text="Max"
 				/>
 			<Slider
 				x:Name="Slider"
-				Orientation="Vertical"
-				HorizontalAlignment="Center"
-				Margin="0 2 0 2"
-				Height="150" 
+				Grid.Column="1"
+				Orientation="Horizontal"
+				HorizontalAlignment="Stretch" VerticalAlignment="Center"
 				ValueChanged="OnSliderValueChanged"
 				TickPlacement="None"
-				IsSnapToTickEnabled="True"
+				IsSnapToTickEnabled="False"
+        Margin="0 -2 0 0"
 				/>
-			<glyphs:GlyphButton
-				x:Name="minButton"
-				Style="{StaticResource IconButton}"
-				FontSize="13"
-				Margin="0 8 0 0"
-				Padding="0"
-				Width="36" Height="36"
-				Click="OnButtonMinClick"
-				HorizontalAlignment="Center"
-				GlyphSource="zoom_fit"
-				/>
-		</StackPanel>
-	</Border>
+  </Grid>
 </UserControl>

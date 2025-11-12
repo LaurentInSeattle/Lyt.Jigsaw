@@ -91,31 +91,32 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
     }
 
     public void StartNewGame(
-        byte[] imageBytes, byte[] thumbnailBytes, WriteableBitmap image, 
-        int pieceCount, int rotationSteps, int snap, 
+        byte[] imageBytes, byte[] thumbnailBytes, WriteableBitmap image,
+        PuzzleSetup setup, int rotationSteps, int snap,
         bool randomize = true)
     {
         PixelSize imagePixelSize = image.PixelSize;
         var game = this.jigsawModel.NewGame(
-            imageBytes , thumbnailBytes,
+            imageBytes, thumbnailBytes,
             imagePixelSize.Height, imagePixelSize.Width,
-            pieceCount, rotationSteps, snap);
-        if ( game is null )
+            setup, rotationSteps, snap);
+        if (game is null)
         {
-            this.Logger.Info("Failed Creating new game" );
+            this.Logger.Info("Failed Creating new game");
             return;
         }
 
         this.Profiler.StartTiming();
 
         this.SetupView(image);
-        var puzzle = game.Puzzle; 
+        var puzzle = game.Puzzle;
         int pieceSizeWithOverlap = this.SetupCanvas(puzzle);
         double pieceDistance = pieceSizeWithOverlap * 0.78;
 
         double xOffset;
         double yOffset;
 
+        int pieceCount = setup.PieceCount;
         if (randomize)
         {
             int canvasRows = 2 + puzzle.Rows;
@@ -231,7 +232,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.Logger.Info(string.Format("Piece Count: {0}", puzzle.PieceCount));
         this.Profiler.EndTiming("Creating pieces");
 
-        this.HackViewReset(); 
+        this.HackViewReset();
     }
 
     private PieceView CreatePieceView(Piece piece)
@@ -264,7 +265,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
     }
 
     private void HackViewReset()
-    {  
+    {
         Schedule.OnUiThread(50, () =>
         {
             this.View.InvalidateVisual();
@@ -347,7 +348,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
 
         byte gray = (byte)(background * 255);
         var brush = new SolidColorBrush(new Color(gray, gray, gray, gray));
-        this.BackgroundBrush = brush; 
+        this.BackgroundBrush = brush;
     }
 
     //Dispatch.OnUiThread(() =>

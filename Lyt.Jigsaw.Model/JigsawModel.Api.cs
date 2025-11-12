@@ -9,12 +9,12 @@ public sealed partial class JigsawModel : ModelBase
     public Game? NewGame(
         byte[] imageBytes, byte[] thumbnailBytes,
         int imagePixelHeight, int imagePixelWidth,
-        int pieceCount, int rotationSteps, int snap)
+        PuzzleSetup setup, int rotationSteps, int snap)
     {
         try
         {
-            var puzzle = new Puzzle(this.Logger, imagePixelHeight, imagePixelWidth);
-            puzzle.Setup(pieceCount, rotationSteps, snap);
+            var puzzle = new Puzzle(this.Logger);
+            puzzle.Setup(setup, rotationSteps, snap);
             var game = new Game(puzzle);
             this.Game = game;
             this.Puzzle = puzzle;
@@ -96,6 +96,11 @@ public sealed partial class JigsawModel : ModelBase
         {
             bool hasMoves = puzzle.CheckForSnaps(piece);
             this.IsPuzzleDirty = hasMoves || this.IsPuzzleDirty;
+            if (hasMoves)
+            {
+                new PuzzleChangedMessage(PuzzleChange.Progress, puzzle.Progress()).Publish();
+            } 
+
             return hasMoves;
         });
 
@@ -128,6 +133,16 @@ public sealed partial class JigsawModel : ModelBase
         }
 
         return this.Puzzle.GetMoves();
+    }
+
+    public int GetPuzzleProgress()
+    {
+        if ((this.Game is null) || (this.Puzzle is null))
+        {
+            return 0;
+        }
+
+        return this.Puzzle.Progress();
     }
 
     #endregion In-Game Puzzle Actions 

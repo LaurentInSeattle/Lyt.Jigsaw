@@ -27,7 +27,15 @@
 			<!-- Buttons -->
 			<ColumnDefinition Width="80" />
 			<ColumnDefinition Width="80" />
-		</Grid.ColumnDefinitions>
+      <!-- Spacer -->
+      <ColumnDefinition Width="20" />
+      <!-- Progress -->
+      <ColumnDefinition Width="140" />
+      <!-- Spacer -->
+      <ColumnDefinition Width="20" />
+      <!-- Zoom -->
+      <ColumnDefinition Width="300" />
+    </Grid.ColumnDefinitions>
 
 		<TextBlock
 			Grid.Row="0" Grid.Column="0" 
@@ -87,5 +95,32 @@
 			Typography="{StaticResource Medium}"
 			Foreground="{StaticResource PastelOrchid_0_080}"
 			/>
-	</Grid>
+    <TextBlock
+			Grid.Row="0" Grid.Column="7"
+			Margin="4"
+			Theme="{StaticResource H2}"
+			HorizontalAlignment="Center" VerticalAlignment="Center"      
+			Foreground="{StaticResource PastelOrchid_0_080}"
+			Text="{Binding Progress}"
+			/>
+    <controls:ExtendedTextBlock
+			Grid.Column="7" Grid.ColumnSpan="1" Grid.Row="1"
+			Text="Progress"
+			Typography="{StaticResource Medium}"
+			Foreground="{StaticResource PastelOrchid_0_080}"
+			/>
+
+    <controls:ZoomController
+			x:Name="ZoomController"
+			Grid.Column="9" Grid.Row="0"
+			VerticalAlignment="Center" HorizontalAlignment="Center"
+			Min="1.0" Max="2.0"
+			/>
+    <controls:ExtendedTextBlock
+			Grid.Column="9" Grid.ColumnSpan="1" Grid.Row="1"
+			Text="Zoom"
+			Typography="{StaticResource Medium}"
+			Foreground="{StaticResource PastelOrchid_0_080}"
+			/>
+  </Grid>
 </UserControl>

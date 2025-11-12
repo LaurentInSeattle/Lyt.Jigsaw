@@ -1,5 +1,7 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Collection;
 
+using System.Net.WebSockets;
+
 public sealed partial class CollectionViewModel :
     ViewModel<CollectionView>,
     IRecipient<ToolbarCommandMessage>,
@@ -8,10 +10,10 @@ public sealed partial class CollectionViewModel :
 {
     private enum PlayStatus
     {
-        Unprepared, 
-        ReadyForRestart, 
-        ReadyForNew, 
-    } 
+        Unprepared,
+        ReadyForRestart,
+        ReadyForNew,
+    }
 
     private readonly JigsawModel jigsawModel;
 
@@ -63,6 +65,7 @@ public sealed partial class CollectionViewModel :
     private int rotations;
     private int snap;
     private int contrast;
+    private Dictionary<int, PuzzleSetup> setups; 
     private List<int> pieceCounts;
     private byte[]? imageBytes;
 
@@ -72,10 +75,16 @@ public sealed partial class CollectionViewModel :
     public CollectionViewModel(JigsawModel jigsawModel)
     {
         this.jigsawModel = jigsawModel;
+        this.setups = []; 
         this.pieceCounts = [];
         this.DropViewModel = new DropViewModel();
         this.ThumbnailsPanelViewModel = new ThumbnailsPanelViewModel(this);
-        this.state = PlayStatus.Unprepared; 
+        this.state = PlayStatus.Unprepared;
+        this.Subscribe<ToolbarCommandMessage>();
+        this.Subscribe<ModelLoadedMessage>();
+        this.Subscribe<CollectionChangedMessage>();
+
+        // Setup UI 
         this.rotations = 1;
         this.snap = 0;
         this.contrast = 0;
@@ -84,9 +93,6 @@ public sealed partial class CollectionViewModel :
         this.SnapString = string.Empty;
         this.ContrastString = string.Empty;
         this.ParametersVisible = false;
-        this.Subscribe<ToolbarCommandMessage>();
-        this.Subscribe<ModelLoadedMessage>();
-        this.Subscribe<CollectionChangedMessage>();
     }
 
     public override void Activate(object? activationParameters)
@@ -141,7 +147,7 @@ public sealed partial class CollectionViewModel :
         switch (message.Command)
         {
             case ToolbarCommandMessage.ToolbarCommand.Play:
-                if ( this.state == PlayStatus.ReadyForNew)
+                if (this.state == PlayStatus.ReadyForNew)
                 {
                     this.StartNewGameFromDropppedImage();
                 }
@@ -254,14 +260,15 @@ public sealed partial class CollectionViewModel :
 
         try
         {
+            var setup = this.setups[this.pieceCount]; 
             int decodeToWidthThumbnail = 360;
             var writeableBitmap =
                 WriteableBitmap.DecodeToWidth(new MemoryStream(this.imageBytes), decodeToWidthThumbnail);
             byte[] thumbnailBytes = writeableBitmap.EncodeToJpeg();
             var vm = App.GetRequiredService<PuzzleViewModel>();
             vm.StartNewGame(
-                this.imageBytes, thumbnailBytes, this.PuzzleImage, 
-                this.pieceCount, this.rotations, this.snap);
+                this.imageBytes, thumbnailBytes, this.PuzzleImage,
+                setup, this.rotations, this.snap);
             ApplicationMessagingExtensions.Select(ActivatedView.Puzzle);
         }
         catch (Exception ex)
@@ -270,7 +277,7 @@ public sealed partial class CollectionViewModel :
         }
     }
 
-    internal bool OnImageDrop(string path, byte[] imageBytes)
+    internal bool OnImageDrop(byte[] imageBytes)
     {
         this.imageBytes = imageBytes;
         int decodeToWidth = 1920; //  1024 + 512;
@@ -278,16 +285,29 @@ public sealed partial class CollectionViewModel :
             WriteableBitmap.DecodeToWidth(
                 new MemoryStream(imageBytes), decodeToWidth, BitmapInterpolationMode.HighQuality);
 
-        this.PuzzleImage = image;
+        var imageSize = new IntSize(image.PixelSize.Height, image.PixelSize.Width);
+        var maybeSetups = Puzzle.GenerateSetups(imageSize);
+        var counts = (from count in maybeSetups.Keys orderby count descending select count).ToList();
+        if (counts.Count < 3)
+        {
+            // Failed ? 
+            this.state = PlayStatus.Unprepared;
+            this.ParametersVisible = false;
 
-        var puzzle = new Puzzle(this.Logger, image.PixelSize.Height, image.PixelSize.Width);
-        var counts = puzzle.PieceCounts;
+            // TODO: Message
+            return false; 
+        }
+
         int max = counts[0];
         int min = counts[^1];
+        this.setups = maybeSetups;
         this.pieceCounts = counts;
+
+        // UI update 
+        this.OnRotationsSliderValueChanged(1.0);
         this.PieceCountMin = min;
         this.PieceCountMax = max;
-        this.OnRotationsSliderValueChanged(1.0);
+        this.PuzzleImage = image;
         this.ParametersVisible = true;
 
         this.state = PlayStatus.ReadyForNew;

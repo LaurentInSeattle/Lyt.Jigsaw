@@ -22,4 +22,6 @@ public sealed class PuzzleSetup
     public int Rows { get; private set; }
 
     public int Columns { get; private set; }
+
+    public int PieceCount => this.Rows * this.Columns;
 }

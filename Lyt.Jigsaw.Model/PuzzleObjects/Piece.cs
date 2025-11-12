@@ -392,8 +392,10 @@ public sealed class Piece
         if (this.GroupId > 0)
         {
             var group = this.Puzzle.Groups.Where(group => group.Id == this.GroupId).FirstOrDefault();
-            this.Group = group;
-
+            if (group is not null)
+            {
+                this.Group = group;
+            }
         }
     }
 

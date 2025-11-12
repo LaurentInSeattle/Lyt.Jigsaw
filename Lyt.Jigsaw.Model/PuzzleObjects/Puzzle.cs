@@ -8,25 +8,39 @@ public sealed class Puzzle
     public const int MaxPieceCount = 666;
 #endif
 
-    private readonly Dictionary<int, PuzzleSetup> puzzleSetups;
-
     internal readonly Randomizer Randomizer;
 
     private readonly Profiler profiler;
 
-    public Puzzle()
+    public static Dictionary<int, PuzzleSetup> GenerateSetups(IntSize imageSize)
     {
-        this.Randomizer = new Randomizer();
-        this.puzzleSetups = [];
+        Dictionary<int, PuzzleSetup> puzzleSetups = [];
+        int minDimension = Math.Min(imageSize.Width, imageSize.Height);
+        int maxPieceSize = minDimension / 3;
+        for (int pieceSize = 32; pieceSize <= maxPieceSize; pieceSize += 4)
+        {
+            var setup = new PuzzleSetup(pieceSize, imageSize);
+            int pieceCount = setup.Rows * setup.Columns;
+            if (pieceCount > Puzzle.MaxPieceCount)
+            {
+                continue;
+            }
+
+            puzzleSetups.TryAdd(pieceCount, setup);
+        }
+
+        return puzzleSetups;
     }
 
-    public Puzzle(ILogger logger, int height, int width)
+#pragma warning disable CS8618 
+    // Non-nullable field must contain a non-null value when exiting constructor.
+    public Puzzle() { /* Required for deserialization */ }
+#pragma warning restore CS8618 
+
+    public Puzzle(ILogger logger)
     {
-        this.ImageSize = new(height, width);
         this.Randomizer = new Randomizer();
         this.profiler = new Profiler(logger);
-        this.puzzleSetups = [];
-        this.GenerateSetups();
     }
 
     #region Serialized Properties 
@@ -54,16 +68,20 @@ public sealed class Puzzle
     #endregion // Serialized Properties 
 
     [JsonIgnore]
-    private IntSize ImageSize { get; set; }
-
-    [JsonIgnore]
-    public List<int> PieceCounts => [.. this.puzzleSetups.Keys];
-
-    [JsonIgnore]
     internal Dictionary<int, Piece> PieceDictionary { get; private set; } = [];
 
     [JsonIgnore]
     internal List<Piece> Moves { get; private set; } = [];
+
+    public int Progress ()
+    {
+        int groupedPiecesCount = 
+            this.Groups.Count <= 0 ? 
+                0 : 
+                (from grp in this.Groups select grp.Pieces.Count).Sum(); 
+        double ratio = groupedPiecesCount / (double) this.PieceCount;
+        return (int) Math.Round(100.0 * ratio);
+    }
 
     public bool IsComplete
         => this.Groups.Count == 1 && this.Groups[0].Pieces.Count == this.PieceCount;
@@ -74,7 +92,7 @@ public sealed class Puzzle
 
     public List<Piece> GetMoves() => this.Moves;
 
-    public bool Setup(int pieceCount, int rotationSteps, int snap)
+    public bool Setup(PuzzleSetup setup, int rotationSteps, int snap)
     {
         if ((rotationSteps < 0) || (rotationSteps > 6))
         {
@@ -86,17 +104,12 @@ public sealed class Puzzle
             return false;
         }
 
-        if (!this.puzzleSetups.TryGetValue(pieceCount, out var setup) || setup is null)
-        {
-            return false;
-        }
-
         this.RotationSteps = rotationSteps;
         this.Rows = setup.Rows;
         this.Columns = setup.Columns;
         this.PieceSize = setup.PieceSize;
         this.PieceOverlap = setup.PieceSize / 4;
-        this.PieceCount = pieceCount;
+        this.PieceCount = this.Rows * this.Columns;
         int snapReverse = 3 - snap;
         this.PieceSnapDistance = this.PieceOverlap / 3.2 + snapReverse * this.PieceOverlap / 4.2;
 
@@ -266,23 +279,6 @@ public sealed class Puzzle
         return closestPiece;
     }
 
-    private void GenerateSetups()
-    {
-        int minDimension = Math.Min(this.ImageSize.Width, this.ImageSize.Height);
-        int maxPieceSize = minDimension / 3;
-        for (int pieceSize = 32; pieceSize <= maxPieceSize; pieceSize += 4)
-        {
-            var setup = new PuzzleSetup(pieceSize, this.ImageSize);
-            int pieceCount = setup.Rows * setup.Columns;
-            if (pieceCount > Puzzle.MaxPieceCount)
-            {
-                continue;
-            }
-
-            this.puzzleSetups.TryAdd(pieceCount, setup);
-        }
-    }
-
     private void CreatePieces()
     {
         this.profiler.StartTiming();
@@ -364,10 +360,5 @@ public sealed class Puzzle
         {
             group.FinalizeAfterDeserialization(this);
         }
-    }
-
-    internal void AddGroup(Group group)
-    {
-        this.Groups.Add(group);
     }
 }
