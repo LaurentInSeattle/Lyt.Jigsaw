@@ -17,6 +17,7 @@
 	xmlns:progress="clr-namespace:Lyt.Avalonia.Controls.Progress;assembly=Lyt.Avalonia.Controls"
 	
 	Background="Transparent"
+  Focusable="True"
 	>
 	<Grid
 		x:Name="OuterGrid"

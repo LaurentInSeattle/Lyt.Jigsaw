@@ -2,8 +2,9 @@
 
 public sealed partial class PuzzleToolbarViewModel: ViewModel<PuzzleToolbarView>, IRecipient<PuzzleChangedMessage>
 {
-    private readonly JigsawModel jigsawModel;
+    // full_screen_zoom
 
+    private readonly JigsawModel jigsawModel;
     [ObservableProperty]
     private double backgroundSliderValue;
 
@@ -30,7 +31,11 @@ public sealed partial class PuzzleToolbarViewModel: ViewModel<PuzzleToolbarView>
     }
 
     [RelayCommand]
-    public void OnRandomize() { }
+    public void OnRandomize() 
+    {
+        // Use for full screen for now 
+        new ToolbarCommandMessage(ToolbarCommandMessage.ToolbarCommand.PlayFullscreen).Publish(); 
+    }
 
     [RelayCommand]
     public void OnShowImage(ButtonTag buttonTag) 

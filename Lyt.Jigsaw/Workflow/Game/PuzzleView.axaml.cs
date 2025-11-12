@@ -2,10 +2,14 @@
 
 public sealed partial class PuzzleView: View
 {
-    //protected override void OnLoaded(object? sender, RoutedEventArgs e)
-    //{
-    //    base.OnLoaded(sender, e);
-    //    var animator = App.GetRequiredService<IAnimationService>();
-    //    new AppearsOnMouseOverBehavior(animator).Attach(this.ZoomController);
-    //}
+    protected override void OnKeyDown(KeyEventArgs e)
+    {
+        if (e.Key == Key.Escape)
+        {
+            e.Handled = true;
+            new ToolbarCommandMessage(ToolbarCommandMessage.ToolbarCommand.PlayWindowed).Publish();
+        } 
+
+        base.OnKeyDown(e);
+    }
 }

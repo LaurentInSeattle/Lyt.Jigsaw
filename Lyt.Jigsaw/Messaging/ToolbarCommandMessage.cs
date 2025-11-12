@@ -14,10 +14,8 @@ public sealed record class ToolbarCommandMessage(
         // Right - Main toolbar in Shell view  
         Close,
 
-        // Gallery toolbar
-        GallerySetWallpaper,
-        GallerySaveToDesktop,
-        AddToCollection,        // Gallery Only
+        // Play toolbar
+        PlayFullscreen,
 
         // Collection toolbars 
         Play,
@@ -26,5 +24,6 @@ public sealed record class ToolbarCommandMessage(
 
         // Settings toolbars 
         Cleanup,
+        PlayWindowed,
     }
 }

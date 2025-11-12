@@ -1,5 +1,7 @@
 ﻿namespace Lyt.Jigsaw.Shell;
 
+using Lyt.Mvvm;
+
 using static Messaging.ApplicationMessagingExtensions;
 
 public sealed partial class ShellViewModel
@@ -10,6 +12,7 @@ public sealed partial class ShellViewModel
     private const int MinutesToMillisecs = 60 * 1_000;
 
     private readonly JigsawModel jigsawModel;
+    private readonly Fullscreen fullscreen;
     private readonly IToaster toaster;
 
     [ObservableProperty]
@@ -33,6 +36,7 @@ public sealed partial class ShellViewModel
     {
         this.jigsawModel = astroPicModel;
         this.toaster = toaster;
+        this.fullscreen = new Fullscreen(App.MainWindow);
 
         //this.Messenger.Subscribe<ViewActivationMessage>(this.OnViewActivation);
         this.Subscribe<ToolbarCommandMessage>();
@@ -43,7 +47,18 @@ public sealed partial class ShellViewModel
     {
     }
 
-    public void Receive(ToolbarCommandMessage _) { }
+    public void Receive(ToolbarCommandMessage message) 
+    { 
+        if ( message.Command == ToolbarCommandMessage.ToolbarCommand.PlayFullscreen)
+        {
+            var vm = App.GetRequiredService<PuzzleViewModel>();
+            this.fullscreen.GoFullscreen(this.View.ShellViewContent, vm.View);
+        }
+        else if (message.Command == ToolbarCommandMessage.ToolbarCommand.PlayWindowed)
+        {
+            this.fullscreen.Return();
+        }
+    }
 
     public override void OnViewLoaded()
     {
