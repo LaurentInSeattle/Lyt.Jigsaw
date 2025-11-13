@@ -33,8 +33,7 @@ public sealed partial class PuzzleToolbarViewModel: ViewModel<PuzzleToolbarView>
     [RelayCommand]
     public void OnRandomize() 
     {
-        // Use for full screen for now 
-        new ToolbarCommandMessage(ToolbarCommandMessage.ToolbarCommand.PlayFullscreen).Publish(); 
+        // Later
     }
 
     [RelayCommand]
@@ -45,6 +44,12 @@ public sealed partial class PuzzleToolbarViewModel: ViewModel<PuzzleToolbarView>
             bool show = buttonTag == ButtonTag.CountinuousBegin;
             new ShowPuzzleImageMessage(show).Publish();
         } 
+    }
+
+    public void OnFullscreen()
+    {
+        // Use for full screen for now 
+        new ToolbarCommandMessage(ToolbarCommandMessage.ToolbarCommand.PlayFullscreen).Publish();
     }
 
     partial void OnBackgroundSliderValueChanged(double value)

@@ -29,10 +29,10 @@ Background="Transparent"
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid
-            x:Name="InnerGrid"
-            Grid.Row="1"
-            Background="Transparent"
-            >
+                x:Name="InnerGrid"
+                Grid.Row="1"
+                Background="Transparent"
+                >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="*" />
@@ -104,22 +104,22 @@ Background="Transparent"
                 />
                 <!-- View Selector - Main toolbar - Vertical left -->
                 <StackPanel
-                IsVisible="{Binding MainToolbarIsVisible}"
-                Orientation="Vertical"
-                Grid.Column="0" Grid.Row="0" Grid.RowSpan="999"
-                Margin="0 80 0 0"
-                HorizontalAlignment="Center"
-                >
+                    IsVisible="{Binding MainToolbarIsVisible}"
+                    Orientation="Vertical"
+                    Grid.Column="0" Grid.Row="0" Grid.RowSpan="999"
+                    Margin="0 92 0 0"
+                    HorizontalAlignment="Center"
+                    >
                     <glyphs:SelectionGroup x:Name="SelectionGroup" />
                     <glyphs:GlyphButton
-                    x:Name="CollectionButton"
-                    Style="{StaticResource NavigationIconButton}"
-                    GlyphSource="collections"
-                    GlyphStrokeThickness="0"
-                    Text="{DynamicResource Shell.Collection}"
-                    Command="{Binding OnCollection}"
-                    Group="{Binding ElementName=SelectionGroup}"
-                    />
+                        x:Name="CollectionButton"
+                        Style="{StaticResource NavigationIconButton}"
+                        GlyphSource="collections"
+                        GlyphStrokeThickness="0"
+                        Text="{DynamicResource Shell.Collection}"
+                        Command="{Binding OnCollection}"
+                        Group="{Binding ElementName=SelectionGroup}"
+                        />
                     <glyphs:GlyphButton
                     x:Name="TodayButton"
                     Style="{StaticResource NavigationIconButton}"
@@ -176,11 +176,11 @@ Background="Transparent"
                         />
                 </StackPanel>
 
-                <!-- View Specific toolbar - Aligned Center -->
+                <!-- View Specific toolbar - Aligned Left -->
                 <Grid
                     x:Name="ShellViewToolbar"
                     Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="999" Grid.RowSpan="1"
-                    Margin="500 0 0 0"
+                    Margin="360 0 0 0"
                     VerticalAlignment="Stretch" HorizontalAlignment="Left"
                     />
                 <!-- Do not add rows and/or columns to the toaster host-->

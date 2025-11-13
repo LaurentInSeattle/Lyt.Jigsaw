@@ -23,18 +23,22 @@
 			<ColumnDefinition Width="140" />
 			<ColumnDefinition Width="60" />
 			<!-- Spacer -->
-			<ColumnDefinition Width="20" />
+			<ColumnDefinition Width="10" />
 			<!-- Buttons -->
 			<ColumnDefinition Width="80" />
 			<ColumnDefinition Width="80" />
-      <!-- Spacer -->
-      <ColumnDefinition Width="20" />
-      <!-- Progress -->
-      <ColumnDefinition Width="140" />
-      <!-- Spacer -->
-      <ColumnDefinition Width="20" />
-      <!-- Zoom -->
-      <ColumnDefinition Width="300" />
+		  <!-- Spacer -->
+		  <ColumnDefinition Width="10" />
+		  <!-- Progress -->
+		  <ColumnDefinition Width="120" />
+		  <!-- Spacer -->
+		  <ColumnDefinition Width="10" />
+		  <!-- Zoom -->
+		  <ColumnDefinition Width="280" />
+		  <!-- Spacer -->
+		  <ColumnDefinition Width="10" />
+		  <!-- Fullscreen -->
+		  <ColumnDefinition Width="120" />
     </Grid.ColumnDefinitions>
 
 		<TextBlock
@@ -98,7 +102,7 @@
     <TextBlock
 			Grid.Row="0" Grid.Column="7"
 			Margin="4"
-			Theme="{StaticResource H2}"
+			Theme="{StaticResource H1}"
 			HorizontalAlignment="Center" VerticalAlignment="Center"      
 			Foreground="{StaticResource PastelOrchid_0_080}"
 			Text="{Binding Progress}"
@@ -119,6 +123,20 @@
     <controls:ExtendedTextBlock
 			Grid.Column="9" Grid.ColumnSpan="1" Grid.Row="1"
 			Text="Zoom"
+			Typography="{StaticResource Medium}"
+			Foreground="{StaticResource PastelOrchid_0_080}"
+			/>
+		<glyphs:GlyphButton
+			Grid.Column="11"
+			Style="{StaticResource AppToolbarIconButton}"
+			GlyphSource="full_screen_maximize"
+			GlyphStrokeThickness="0.1"
+			Text="Full Screen"
+			Command="{Binding OnFullscreen}"
+			/>
+		<controls:ExtendedTextBlock
+			Grid.Column="11" Grid.ColumnSpan="2" Grid.Row="1"
+			Text="Esc to Return"
 			Typography="{StaticResource Medium}"
 			Foreground="{StaticResource PastelOrchid_0_080}"
 			/>

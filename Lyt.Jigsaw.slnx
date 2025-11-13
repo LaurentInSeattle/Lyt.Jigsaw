@@ -6,6 +6,7 @@
   </Folder>
   <Folder Name="/Framework/">
     <Project Path="../Lyt.Framework/Lyt.Persistence/Lyt.Persistence.csproj" />
+    <Project Path="../Lyt.Framework/Lyt.Translator.Service/Lyt.Translator.Service.csproj" />
   </Folder>
   <Folder Name="/SolutionItems/">
     <File Path="README.md" />
