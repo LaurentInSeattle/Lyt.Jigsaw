@@ -21,6 +21,8 @@ public sealed class Fullscreen(Window mainWindow)
         this.fullscreenView = view;
         this.fullscreenWindow = new Window()
         {
+            // Make sure the fullscreen window is focusable so that the content view can receive
+            // keyboard input, most notably for the esc key used to return to normal.
             Focusable = true,
             CanMaximize = true,
             Content = view,
