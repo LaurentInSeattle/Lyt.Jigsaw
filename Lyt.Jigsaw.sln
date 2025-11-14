@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		PublishCLI.bat = PublishCLI.bat
 		README.md = README.md
-		Lyt.Jigsaw\Assets\Icons\Unused_FluentSvgResourceDictionaryCopy.axaml = Lyt.Jigsaw\Assets\Icons\Unused_FluentSvgResourceDictionaryCopy.axaml
+		Unused_FluentSvgResourceDictionaryCopy.axaml = Unused_FluentSvgResourceDictionaryCopy.axaml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lyt.Model", "..\Lyt.Framework\Lyt.Model\Lyt.Model.csproj", "{A0D8AE2B-913F-3689-2813-B7CBC49CCDE4}"

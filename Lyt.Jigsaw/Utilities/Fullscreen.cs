@@ -36,12 +36,13 @@ public sealed class Fullscreen(Window mainWindow)
             ShowInTaskbar = false,
             SystemDecorations = SystemDecorations.None,
             Topmost = true,
+            // Provide an icon for the fullscreen window, reuse the main window icon if available.
+            Icon = this.mainWindow.Icon,
             // We need to set the position before going fullscreen to ensure it appears
             // on the correct screen.
             // LATER => WindowState = WindowState.FullScreen,
         };
 
-        this.mainWindow.ShowInTaskbar = false;
         this.mainWindow.Hide();
 
         if (currentScreen is not null)
@@ -54,6 +55,9 @@ public sealed class Fullscreen(Window mainWindow)
         this.fullscreenWindow.Show();
         this.fullscreenWindow.Focus();
         this.fullscreenWindow.ShowInTaskbar = true;
+
+        // Needs to be done after showing the fullscreen window or else we'll have two taskbar entries.
+        this.mainWindow.ShowInTaskbar = false;
         this.IsFullscreen = true;
     }
 
