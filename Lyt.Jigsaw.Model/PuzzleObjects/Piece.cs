@@ -4,7 +4,7 @@ public sealed class Piece
 {
 #pragma warning disable CS8618 
     // Non-nullable field must contain a non-null value when exiting constructor.
-    public Piece() { /* For serialization */ }
+    public Piece()  { /* For serialization */ }
 #pragma warning restore CS8618 
 
     public Piece(Puzzle puzzle, int row, int col)
@@ -34,6 +34,7 @@ public sealed class Piece
 
         this.RotationSteps = puzzle.Randomizer.Next(puzzle.RotationSteps);
         this.Rotate();
+        this.IsVisible = true;
     }
 
     #region Serialized Properties ( Must all be public for both get and set ) 
@@ -80,6 +81,9 @@ public sealed class Piece
         new(this.Location.X + this.Puzzle.PieceSize / 2, this.Location.Y + this.Puzzle.PieceSize / 2);
 
     [JsonIgnore]
+    public bool IsVisible { get; private set; }
+
+    [JsonIgnore]
     internal Group? MaybeGroup { get; private set; }
 
     [JsonIgnore]
@@ -114,6 +118,8 @@ public sealed class Piece
     private Placement SnapPlacement { get; set; } = Placement.Unknown;
 
     public bool IsGrouped => this.GroupId > 0 && this.MaybeGroup is not null;
+
+    public bool IsEdge => this.IsTop || this.IsLeft || this.IsRight || this.IsBottom;
 
     private bool IsTop => this.Position.Row == 0;
 
@@ -382,6 +388,7 @@ public sealed class Piece
     internal void FinalizeAfterDeserialization(Puzzle puzzle)
     {
         this.Puzzle = puzzle;
+        this.IsVisible = true;
 
         if (this.SnapPieceId > 0)
         {

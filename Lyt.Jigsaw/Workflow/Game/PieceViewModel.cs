@@ -2,7 +2,7 @@
 
 using Location = Model.Infrastucture.Location;
 
-public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableViewModel
+public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableViewModel, IRecipient<ShowEdgesMessage>
 {
     [ObservableProperty]
     private CroppedBitmap croppedBitmap;
@@ -17,7 +17,13 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
     private Transform? pathRotationTransform;
 
     [ObservableProperty]
+    private bool isHitTestVisible; 
+
+    [ObservableProperty]
     private bool pathIsVisible;
+
+    [ObservableProperty]
+    private bool isVisible;
 
     private readonly JigsawModel jigsawModel;
     private readonly PuzzleViewModel puzzleViewModel;
@@ -58,7 +64,26 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
         this.ClipGeometry = GeometryGenerator.InvertedClip(outerGeometry, innerGeometry);
 
         this.Rotate();
+        this.IsHitTestVisible = true;
+        this.IsVisible = true;
         this.PathIsVisible = true;
+        this.Subscribe<ShowEdgesMessage>();
+    }
+
+    public void Receive(ShowEdgesMessage message)
+    {
+        bool showEdges = message.Show;
+        if ( ! showEdges)
+        {
+            this.IsVisible = true;
+        }
+        else
+        {
+            this.IsVisible = this.piece.IsGrouped || this.piece.IsEdge;
+        }
+
+        this.IsHitTestVisible = this.IsVisible;
+        this.PathIsVisible = this.IsVisible;
     }
 
     public void OnComplete ()

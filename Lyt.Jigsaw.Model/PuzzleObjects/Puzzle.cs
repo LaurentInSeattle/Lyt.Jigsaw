@@ -214,7 +214,14 @@ public sealed class Puzzle
         Group? targetPieceGroup = targetPiece.MaybeGroup;
         foreach (Piece piece in this.Pieces)
         {
+            // Ignore self
             if (targetPiece == piece)
+            {
+                continue;
+            }
+
+            // Ignore invisible pieces
+            if (!piece.IsVisible)
             {
                 continue;
             }

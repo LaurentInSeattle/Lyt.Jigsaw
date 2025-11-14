@@ -60,7 +60,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         => this.ZoomFactor = message.ZoomFactor;
 
     public void Receive(ShowPuzzleImageMessage message)
-        => this.PuzzleImageIsVisible = message.show;
+        => this.PuzzleImageIsVisible = message.Show;
 
     public void Receive(PuzzleChangedMessage message)
     {

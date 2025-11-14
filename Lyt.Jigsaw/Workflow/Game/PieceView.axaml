@@ -16,23 +16,25 @@
 	xmlns:progress="clr-namespace:Lyt.Avalonia.Controls.Progress;assembly=Lyt.Avalonia.Controls"
 	
 	Background="Transparent"
+	IsHitTestVisible="{Binding IsHitTestVisible}"
 	>
 	<Grid
 		ClipToBounds="False"
+		IsVisible="{Binding IsVisible}"
 		>    
-	<Image
-		x:Name="Image"
-		Source="{Binding CroppedBitmap}"
-		Clip="{Binding ClipGeometry}"
-		RenderTransform="{Binding ImageRotationTransform}"
-		/>
-	<Path
-		Stroke="DarkGray"
-		StrokeThickness="2.0"
-		Opacity="0.7"
-		Data ="{Binding ClipGeometry}"
-		RenderTransform="{Binding PathRotationTransform}"
-		IsVisible="{Binding PathIsVisible}"
-		/>
+		<Image
+			x:Name="Image"
+			Source="{Binding CroppedBitmap}"
+			Clip="{Binding ClipGeometry}"
+			RenderTransform="{Binding ImageRotationTransform}"
+			/>
+		<Path
+			Stroke="DarkGray"
+			StrokeThickness="2.0"
+			Opacity="0.7"
+			Data ="{Binding ClipGeometry}"
+			RenderTransform="{Binding PathRotationTransform}"
+			IsVisible="{Binding PathIsVisible}"
+			/>
 	</Grid>
 </UserControl>

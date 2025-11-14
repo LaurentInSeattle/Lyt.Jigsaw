@@ -1,5 +1,20 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+<!--  border_all  -->
+<DrawingGroup x:Key = "border_allDrawingGroup">
+<DrawingGroup>
+    <DrawingGroup.ClipGeometry>
+      <RectangleGeometry Rect="0,0,24,24" />
+    </DrawingGroup.ClipGeometry>
+    <GeometryDrawing Brush="#FF212121" >
+      <GeometryDrawing.Geometry>
+        <PathGeometry FillRule="NonZero" Figures="M3,5.75C3,4.2312,4.2312,3,5.75,3L18.25,3C19.7688,3,21,4.2312,21,5.75L21,18.25C21,19.7688,19.7688,21,18.25,21L5.75,21C4.2312,21,3,19.7688,3,18.25L3,5.75z M12.75,19.5L18.25,19.5C18.9404,19.5,19.5,18.9404,19.5,18.25L19.5,12.75 12.75,12.75 12.75,19.5z M11.25,12.75L4.5,12.75 4.5,18.25C4.5,18.9404,5.0596,19.5,5.75,19.5L11.25,19.5 11.25,12.75z M12.75,11.25L19.5,11.25 19.5,5.75C19.5,5.0596,18.9404,4.5,18.25,4.5L12.75,4.5 12.75,11.25z M11.25,4.5L5.75,4.5C5.0596,4.5,4.5,5.0596,4.5,5.75L4.5,11.25 11.25,11.25 11.25,4.5z" />
+      </GeometryDrawing.Geometry>
+    </GeometryDrawing>
+  </DrawingGroup>
+</DrawingGroup>
+<DrawingImage x:Key="border_all" Drawing="{StaticResource border_allDrawingGroup}" />
+
 <!--  full_screen_maximize  -->
 <DrawingGroup x:Key = "full_screen_maximizeDrawingGroup">
 <DrawingGroup>

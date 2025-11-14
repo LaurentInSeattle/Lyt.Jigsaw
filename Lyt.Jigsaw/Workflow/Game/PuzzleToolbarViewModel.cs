@@ -2,9 +2,10 @@
 
 public sealed partial class PuzzleToolbarViewModel: ViewModel<PuzzleToolbarView>, IRecipient<PuzzleChangedMessage>
 {
-    // full_screen_zoom
-
     private readonly JigsawModel jigsawModel;
+
+    private bool showEdges;
+
     [ObservableProperty]
     private double backgroundSliderValue;
 
@@ -28,6 +29,13 @@ public sealed partial class PuzzleToolbarViewModel: ViewModel<PuzzleToolbarView>
                 this.Progress = string.Format( "{0:D} %", (int) message.Parameter);
                 break;
         }
+    }
+
+    [RelayCommand]
+    public void OnShowEdges()
+    {
+        this.showEdges = !this.showEdges;
+        new ShowEdgesMessage(this.showEdges).Publish();
     }
 
     [RelayCommand]

@@ -1,3 +1,3 @@
 ﻿namespace Lyt.Jigsaw.Messaging;
 
-public sealed record class ShowPuzzleImageMessage(bool show);
+public sealed record class ShowPuzzleImageMessage(bool Show);

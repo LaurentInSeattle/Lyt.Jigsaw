@@ -24,7 +24,8 @@
 			<ColumnDefinition Width="60" />
 			<!-- Spacer -->
 			<ColumnDefinition Width="10" />
-			<!-- Buttons -->
+			<!-- Help / Hints Buttons -->
+			<ColumnDefinition Width="80" />
 			<ColumnDefinition Width="80" />
 			<ColumnDefinition Width="80" />
 		  <!-- Spacer -->
@@ -85,8 +86,18 @@
 			Text="Show Image"
 			Command="{Binding OnShowImage}"
 			/>
+
 		<glyphs:GlyphButton
 			Grid.Column="5"
+			Style="{StaticResource AppToolbarIconButton}"
+			GlyphSource="border_all"
+			GlyphStrokeThickness="0.1"
+			Text="Toggle Edges"
+			Command="{Binding OnShowEdges}"
+			/>
+
+		<glyphs:GlyphButton
+			Grid.Column="6"
 			Style="{StaticResource AppToolbarIconButton}"
 			GlyphSource="lightbulb_filament"
 			GlyphStrokeThickness="0.1"
@@ -94,13 +105,13 @@
 			Command="{Binding OnRandomize}"
 			/>
 		<controls:ExtendedTextBlock
-			Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="1"
+			Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="1"
 			Text=" ¯\_(ツ)_/¯ "
 			Typography="{StaticResource Medium}"
 			Foreground="{StaticResource PastelOrchid_0_080}"
 			/>
-    <TextBlock
-			Grid.Row="0" Grid.Column="7"
+		<TextBlock
+			Grid.Row="0" Grid.Column="8"
 			Margin="4"
 			Theme="{StaticResource H1}"
 			HorizontalAlignment="Center" VerticalAlignment="Center"      
@@ -108,7 +119,7 @@
 			Text="{Binding Progress}"
 			/>
     <controls:ExtendedTextBlock
-			Grid.Column="7" Grid.ColumnSpan="1" Grid.Row="1"
+			Grid.Column="8" Grid.ColumnSpan="1" Grid.Row="1"
 			Text="Progress"
 			Typography="{StaticResource Medium}"
 			Foreground="{StaticResource PastelOrchid_0_080}"
@@ -116,18 +127,18 @@
 
     <controls:ZoomController
 			x:Name="ZoomController"
-			Grid.Column="9" Grid.Row="0"
+			Grid.Column="10" Grid.Row="0"
 			VerticalAlignment="Center" HorizontalAlignment="Center"
 			Min="1.0" Max="2.0"
 			/>
     <controls:ExtendedTextBlock
-			Grid.Column="9" Grid.ColumnSpan="1" Grid.Row="1"
+			Grid.Column="10" Grid.ColumnSpan="1" Grid.Row="1"
 			Text="Zoom"
 			Typography="{StaticResource Medium}"
 			Foreground="{StaticResource PastelOrchid_0_080}"
 			/>
 		<glyphs:GlyphButton
-			Grid.Column="11"
+			Grid.Column="12"
 			Style="{StaticResource AppToolbarIconButton}"
 			GlyphSource="full_screen_maximize"
 			GlyphStrokeThickness="0.1"
@@ -135,7 +146,7 @@
 			Command="{Binding OnFullscreen}"
 			/>
 		<controls:ExtendedTextBlock
-			Grid.Column="11" Grid.ColumnSpan="2" Grid.Row="1"
+			Grid.Column="12" Grid.ColumnSpan="2" Grid.Row="1"
 			Text="Esc to Return"
 			Typography="{StaticResource Medium}"
 			Foreground="{StaticResource PastelOrchid_0_080}"
