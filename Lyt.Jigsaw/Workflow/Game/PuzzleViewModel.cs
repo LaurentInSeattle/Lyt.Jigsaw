@@ -88,6 +88,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         }
 
         this.HackViewReset();
+        new PuzzleChangedMessage(PuzzleChange.Progress, this.jigsawModel.GetPuzzleProgress()).Publish();
     }
 
     public void StartNewGame(
@@ -233,6 +234,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.Profiler.EndTiming("Creating pieces");
 
         this.HackViewReset();
+        new PuzzleChangedMessage(PuzzleChange.Progress, this.jigsawModel.GetPuzzleProgress()).Publish();
     }
 
     private PieceView CreatePieceView(Piece piece)
