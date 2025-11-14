@@ -56,7 +56,7 @@ public sealed partial class ShellViewModel
         }
         else if (message.Command == ToolbarCommandMessage.ToolbarCommand.PlayWindowed)
         {
-            this.fullscreen.Return();
+            this.fullscreen.ReturnToWindowed();
         }
     }
 

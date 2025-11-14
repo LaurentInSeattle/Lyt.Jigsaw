@@ -19,6 +19,11 @@ public sealed class Fullscreen(Window mainWindow)
 
         this.parentPanel = parentPanel;
         this.fullscreenView = view;
+
+        // Get the screen that the main window is currently on BEFORE we hide it.
+        var screens = this.mainWindow.Screens;
+        var currentScreen = screens.ScreenFromWindow(this.mainWindow);
+
         this.fullscreenWindow = new Window()
         {
             // Make sure the fullscreen window is focusable so that the content view can receive
@@ -31,19 +36,28 @@ public sealed class Fullscreen(Window mainWindow)
             ShowInTaskbar = false,
             SystemDecorations = SystemDecorations.None,
             Topmost = true,
-            WindowState = WindowState.FullScreen,
+            // We need to set the position before going fullscreen to ensure it appears
+            // on the correct screen.
+            // LATER => WindowState = WindowState.FullScreen,
         };
 
         this.mainWindow.ShowInTaskbar = false;
         this.mainWindow.Hide();
 
+        if (currentScreen is not null)
+        {
+            var screenBounds = currentScreen.WorkingArea;
+            this.fullscreenWindow.Position = new PixelPoint(screenBounds.X, screenBounds.Y);
+        }
+
+        this.fullscreenWindow.WindowState = WindowState.FullScreen;
         this.fullscreenWindow.Show();
         this.fullscreenWindow.Focus();
         this.fullscreenWindow.ShowInTaskbar = true;
         this.IsFullscreen = true;
     }
 
-    public void Return()
+    public void ReturnToWindowed()
     {
         if (!this.IsFullscreen)
         {
