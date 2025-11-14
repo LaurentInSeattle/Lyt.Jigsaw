@@ -4,23 +4,20 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <LangVersion>latest</LangVersion>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
   </PropertyGroup>
 
+  <PropertyGroup>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lyt.Jigsaw\Lyt.Jigsaw.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AvaloniaUILicenseKey Include="YOUR_LICENSE_KEY" />
   </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.3.8" />
     <PackageReference Include="Avalonia.Desktop" Version="11.3.8" />
-    <PackageReference Include="AvaloniaUI.DiagnosticsSupport" Version="2.1.0" />
+    <PackageReference Include="AvaloniaUI.DiagnosticsSupport" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
