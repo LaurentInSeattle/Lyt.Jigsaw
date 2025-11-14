@@ -121,13 +121,13 @@ public sealed class Piece
 
     public bool IsEdge => this.IsTop || this.IsLeft || this.IsRight || this.IsBottom;
 
-    private bool IsTop => this.Position.Row == 0;
+    internal bool IsTop => this.Position.Row == 0;
 
-    private bool IsBottom => this.Position.Row == this.Puzzle.Rows - 1;
+    internal bool IsBottom => this.Position.Row == this.Puzzle.Rows - 1;
 
-    private bool IsLeft => this.Position.Column == 0;
+    internal bool IsLeft => this.Position.Column == 0;
 
-    private bool IsRight => this.Position.Column == this.Puzzle.Columns - 1;
+    internal bool IsRight => this.Position.Column == this.Puzzle.Columns - 1;
 
     internal void UnGroup()
     {

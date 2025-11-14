@@ -368,4 +368,75 @@ public sealed class Puzzle
             group.FinalizeAfterDeserialization(this);
         }
     }
+
+    internal List<Piece> GetSnapNeighboursOf (Piece piece)
+    {
+        List<Piece> neighbours = [];
+        Group ? pieceGroup = piece.MaybeGroup;
+        Piece candidate; 
+
+        bool IsValidCandidate()
+        {
+            // Ignore invisible pieces
+            if ( !candidate.IsVisible) 
+            {
+                return false;
+            }
+
+            // pieces should have the same orientation 
+            if (piece.RotationAngle != candidate.RotationAngle)
+            {
+                return false;
+            }
+
+            // pieces should not belong to the same group is there is one 
+            if ((pieceGroup is not null) && (candidate.MaybeGroup is Group candidateGroup))
+            {
+                if (pieceGroup == candidateGroup)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        if (!piece.IsTop)
+        {
+            candidate = piece.GetTop();
+            if (IsValidCandidate())
+            {
+                neighbours.Add(candidate);
+            }
+        }
+
+        if (!piece.IsBottom)
+        {
+            candidate = piece.GetBottom();
+            if (IsValidCandidate())
+            {
+                neighbours.Add(candidate);
+            }
+        }
+
+        if (!piece.IsLeft)
+        {
+            candidate = piece.GetLeft();
+            if (IsValidCandidate())
+            {
+                neighbours.Add(candidate);
+            }
+        }
+
+        if (!piece.IsRight)
+        {
+            candidate = piece.GetRight();
+            if (IsValidCandidate())
+            {
+                neighbours.Add(candidate);
+            }
+        }
+
+        return neighbours;
+    }
 }
