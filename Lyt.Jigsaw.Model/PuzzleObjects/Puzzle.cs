@@ -3,9 +3,9 @@
 public sealed class Puzzle
 {
 #if DEBUG
-    public const int MaxPieceCount = 520;
-#else
     public const int MaxPieceCount = 666;
+#else
+    public const int MaxPieceCount = 1200;
 #endif
 
     internal readonly Randomizer Randomizer;
@@ -73,14 +73,14 @@ public sealed class Puzzle
     [JsonIgnore]
     internal List<Piece> Moves { get; private set; } = [];
 
-    public int Progress ()
+    public int Progress()
     {
-        int groupedPiecesCount = 
-            this.Groups.Count <= 0 ? 
-                0 : 
-                (from grp in this.Groups select grp.Pieces.Count).Sum(); 
-        double ratio = groupedPiecesCount / (double) this.PieceCount;
-        return (int) Math.Round(100.0 * ratio);
+        int groupedPiecesCount =
+            this.Groups.Count <= 0 ?
+                0 :
+                (from grp in this.Groups select grp.Pieces.Count).Sum();
+        double ratio = groupedPiecesCount / (double)this.PieceCount;
+        return (int)Math.Round(100.0 * ratio);
     }
 
     public bool IsComplete
@@ -115,175 +115,6 @@ public sealed class Puzzle
 
         this.CreatePieces();
         return true;
-    }
-
-    public bool CheckForSnaps(Piece movingPiece)
-    {
-        this.Moves.Clear();
-
-        // Find closest piece
-        Piece? closest = this.FindCloseTo(movingPiece, out Placement placement);
-        if (closest is null)
-        {
-            if (movingPiece.IsGrouped)
-            {
-                foreach (var groupPiece in movingPiece.Group.Pieces)
-                {
-                    if (groupPiece == movingPiece)
-                    {
-                        continue;
-                    }
-
-                    closest = this.FindCloseTo(groupPiece, out placement);
-                    if (closest is not null)
-                    {
-                        if (placement == Placement.Unknown)
-                        {
-                            // Bug: this should never happen ! 
-                            // If we have found a piece we MUST have a placement 
-                            if (Debugger.IsAttached) { Debugger.Break(); }
-                            return false;
-                        }
-
-                        // var oldLocation = closest.Location;
-                        groupPiece.SnapTargetToThis(closest, placement.Opposite());
-                        if (closest.IsGrouped)
-                        {
-                            // Moving the piece when snapping will adjust the group as well 
-                            foreach (var closestGroupPiece in closest.Group.Pieces)
-                            {
-                                if (closestGroupPiece == closest)
-                                {
-                                    continue;
-                                }
-
-                                this.Moves.Add(closestGroupPiece);
-                            }
-                        }
-
-                        closest.ManageGroups(groupPiece);
-                        break;
-                    }
-                }
-            }
-        }
-        else
-        {
-            // Found 
-            if (placement == Placement.Unknown)
-            {
-                // Bug: this should never happen ! 
-                // If we have found a piece we MUST have a placement 
-                if (Debugger.IsAttached) { Debugger.Break(); }
-                return false;
-            }
-
-            if (movingPiece.IsGrouped)
-            {
-                movingPiece.SnapTargetToThis(closest, placement.Opposite());
-                if (closest.IsGrouped)
-                {
-                    // Moving the piece when snapping will adjust the group as well 
-                    foreach (var closestGroupPiece in closest.Group.Pieces)
-                    {
-                        if (closestGroupPiece == closest)
-                        {
-                            continue;
-                        }
-
-                        this.Moves.Add(closestGroupPiece);
-                    }
-                }
-            }
-            else
-            {
-                closest.SnapTargetToThis(movingPiece, placement);
-            }
-
-            closest.ManageGroups(movingPiece);
-        }
-
-        return this.Moves.Count > 0;
-    }
-
-    private Piece? FindCloseTo(Piece targetPiece, out Placement placement)
-    {
-        placement = Placement.Unknown;
-        double minDistance = double.MaxValue;
-        Piece? closestPiece = null;
-        Group? targetPieceGroup = targetPiece.MaybeGroup;
-        foreach (Piece piece in this.Pieces)
-        {
-            // Ignore self
-            if (targetPiece == piece)
-            {
-                continue;
-            }
-
-            // Ignore invisible pieces
-            if (!piece.IsVisible)
-            {
-                continue;
-            }
-
-            // pieces should have the same orientation 
-            if (piece.RotationAngle != targetPiece.RotationAngle)
-            {
-                continue;
-            }
-
-            // pieces should not belong to the same group is there is one 
-            if ((targetPieceGroup is not null) && (piece.MaybeGroup is Group pieceGroup))
-            {
-                if (targetPieceGroup == pieceGroup)
-                {
-                    continue;
-                }
-            }
-
-            // distance should be equal to piece size + or - the snap visual distance 
-            double distance = Location.Distance(piece.Center, targetPiece.Center);
-            //Debug.WriteLine(
-            //    string.Format("Current: {0}  {1}", piece.Position.Row, piece.Position.Column));
-            //Debug.WriteLine(
-            //    string.Format("Target: {0}  {1}", targetPiece.Position.Row, targetPiece.Position.Column));
-            //Debug.WriteLine("Distance: " + distance.ToString("F1")); 
-            if (distance < minDistance)
-            {
-                minDistance = distance;
-                double delta = Math.Abs(distance - this.PieceSize);
-                if (delta > this.PieceSnapDistance)
-                {
-                    continue;
-                }
-
-                // Pieces should share one side.
-                // Do not overwrite the placement we may have already calculated and
-                // want to return. 
-                if (!piece.IsSharingOneSideWith(targetPiece, out Placement sidePlacement))
-                {
-                    continue;
-                }
-
-                if (sidePlacement == Placement.Unknown)
-                {
-                    continue;
-                }
-
-                // Not enough: Should share closest sides 
-                var location = piece.SnapLocation(sidePlacement);
-                double moveDistance = Location.Distance(location, targetPiece.Location);
-                if (moveDistance > this.PieceSnapDistance * 10)
-                {
-                    continue;
-                }
-
-                placement = sidePlacement;
-                closestPiece = piece;
-            }
-        }
-
-        return closestPiece;
     }
 
     private void CreatePieces()
@@ -369,22 +200,83 @@ public sealed class Puzzle
         }
     }
 
-    internal List<Piece> GetSnapNeighboursOf (Piece piece)
+    public bool CheckForSnaps(Piece movingPiece)
     {
-        List<Piece> neighbours = [];
-        Group ? pieceGroup = piece.MaybeGroup;
-        Piece candidate; 
+        this.Moves.Clear();
+
+        if (movingPiece.IsGrouped)
+        {
+            // Duplicate the list to avoid exception caused by modification during iteration
+            var piecesToCheck = movingPiece.Group.Pieces.ToList();
+            Piece? pieceToSnapTo = null;
+            foreach (var groupPiece in piecesToCheck)
+            {
+                var candidates = this.GetSnapNeighboursOf(groupPiece);
+                if (candidates.Count == 0)
+                {
+                    continue;
+                }
+
+                // If more than one candidates are valid, pick the first one
+                SnapPiece snapPiece = candidates[0];
+                pieceToSnapTo = snapPiece.Piece;
+                pieceToSnapTo.SnapTargetToThis(groupPiece, snapPiece.Placement.Opposite());
+                pieceToSnapTo.ManageGroups(groupPiece);
+
+                break;
+            }
+
+            if (pieceToSnapTo is not null)
+            {
+                // Moving the piece when snapping will adjust the group as well 
+                // but we need to mark them as moved so that the UI will update accordingly 
+                foreach (var groupPiece in piecesToCheck)
+                {
+                    if (groupPiece == pieceToSnapTo)
+                    {
+                        continue;
+                    }
+
+                    this.Moves.Add(groupPiece);
+                }
+            }
+        }
+        else
+        {
+            var candidates = this.GetSnapNeighboursOf(movingPiece);
+            if (candidates.Count == 0)
+            {
+                return false;
+            }
+
+            // If more than one candidates are valid, pick the first one
+            SnapPiece snapPiece = candidates[0];
+            Piece pieceToSnapTo = snapPiece.Piece;
+
+            // Here we snap the moving piece only, the group (if any) will stay put 
+            pieceToSnapTo.SnapTargetToThis(movingPiece, snapPiece.Placement.Opposite());
+            pieceToSnapTo.ManageGroups(movingPiece);
+        }
+
+        return this.Moves.Count > 0;
+    }
+
+    internal List<SnapPiece> GetSnapNeighboursOf(Piece movingPiece)
+    {
+        List<SnapPiece> neighbours = [];
+        Group? pieceGroup = movingPiece.MaybeGroup;
+        Piece candidate;
 
         bool IsValidCandidate()
         {
             // Ignore invisible pieces
-            if ( !candidate.IsVisible) 
+            if (!candidate.IsVisible)
             {
                 return false;
             }
 
             // pieces should have the same orientation 
-            if (piece.RotationAngle != candidate.RotationAngle)
+            if (movingPiece.RotationAngle != candidate.RotationAngle)
             {
                 return false;
             }
@@ -398,42 +290,50 @@ public sealed class Puzzle
                 }
             }
 
+            // distance should be equal to piece size + or - the snap visual distance 
+            double distance = Location.Distance(movingPiece.Center, candidate.Center);
+            double delta = Math.Abs(distance - this.PieceSize);
+            if (delta > this.PieceSnapDistance)
+            {
+                return false;
+            }
+
             return true;
         }
 
-        if (!piece.IsTop)
+        if (!movingPiece.IsTop)
         {
-            candidate = piece.GetTop();
+            candidate = movingPiece.GetTop();
             if (IsValidCandidate())
             {
-                neighbours.Add(candidate);
+                neighbours.Add(new SnapPiece(candidate, Placement.Top));
             }
         }
 
-        if (!piece.IsBottom)
+        if (!movingPiece.IsBottom)
         {
-            candidate = piece.GetBottom();
+            candidate = movingPiece.GetBottom();
             if (IsValidCandidate())
             {
-                neighbours.Add(candidate);
+                neighbours.Add(new SnapPiece(candidate, Placement.Bottom));
             }
         }
 
-        if (!piece.IsLeft)
+        if (!movingPiece.IsLeft)
         {
-            candidate = piece.GetLeft();
+            candidate = movingPiece.GetLeft();
             if (IsValidCandidate())
             {
-                neighbours.Add(candidate);
+                neighbours.Add(new SnapPiece(candidate, Placement.Left));
             }
         }
 
-        if (!piece.IsRight)
+        if (!movingPiece.IsRight)
         {
-            candidate = piece.GetRight();
+            candidate = movingPiece.GetRight();
             if (IsValidCandidate())
             {
-                neighbours.Add(candidate);
+                neighbours.Add(new SnapPiece(candidate, Placement.Right));
             }
         }
 
