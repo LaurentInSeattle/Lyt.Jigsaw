@@ -108,27 +108,6 @@ public sealed class Piece
         set => this.MaybeGroup = value;
     }
 
-    [JsonIgnore]
-    public Piece? MaybeSnapPiece { get; private set; }
-
-    [JsonIgnore]
-    public Piece SnapPiece
-    {
-        get => this.MaybeSnapPiece is not null ?
-                this.SnapPiece :
-                throw new Exception("Should have checked 'IsSnapped'.");
-        set
-        {
-            this.SnapPieceId = value.Id;
-            this.MaybeSnapPiece = value;
-        }
-    }
-
-    public bool IsSnapped
-        => this.SnapPieceId > 0 && this.MaybeSnapPiece is not null && this.SnapPlacement != Placement.Unknown;
-
-    private Placement SnapPlacement { get; set; } = Placement.Unknown;
-
     public bool IsGrouped => this.GroupId > 0 && this.MaybeGroup is not null;
 
     public bool IsEdge => this.IsTop || this.IsLeft || this.IsRight || this.IsBottom;
@@ -312,23 +291,15 @@ public sealed class Piece
 
     internal void SnapTargetToThis(Piece targetPiece, Placement placement)
     {
-        if (placement == Placement.Unknown)
-        {
-            // Randomly crashes here  :( 
-            if (Debugger.IsAttached) { Debugger.Break(); }
-            return;
-        }
+        //if (placement == Placement.Unknown)
+        //{
+        //    if (Debugger.IsAttached) { Debugger.Break(); }
+        //    return;
+        //}
 
         this.Puzzle.Moves.Add(targetPiece);
         var location = this.SnapLocation(placement);
         targetPiece.MoveTo(location.X, location.Y);
-        targetPiece.SnapPiece = this;
-        targetPiece.SnapPlacement = placement;
-        if (!this.IsSnapped)
-        {
-            this.SnapPiece = targetPiece;
-            this.SnapPlacement = placement.Opposite();
-        }
     }
 
     internal void ManageGroups(Piece targetPiece)
@@ -401,13 +372,6 @@ public sealed class Piece
     {
         this.Puzzle = puzzle;
         this.IsVisible = true;
-
-        if (this.SnapPieceId > 0)
-        {
-            var snapPiece = this.Puzzle.PieceDictionary[this.SnapPieceId];
-            this.SnapPiece = snapPiece;
-        }
-
         if (this.GroupId > 0)
         {
             var group = this.Puzzle.Groups.Where(group => group.Id == this.GroupId).FirstOrDefault();
