@@ -5,7 +5,7 @@ public sealed class Puzzle
 #if DEBUG
     public const int MaxPieceCount = 666;
 #else
-    public const int MaxPieceCount = 1200;
+    public const int MaxPieceCount = 666 * 2;
 #endif
 
     internal readonly Randomizer Randomizer;
@@ -117,53 +117,6 @@ public sealed class Puzzle
         return true;
     }
 
-    private void CreatePieces()
-    {
-        this.profiler.StartTiming();
-
-        for (int row = 0; row < this.Rows; ++row)
-        {
-            for (int col = 0; col < this.Columns; ++col)
-            {
-                var piece = new Piece(this, row, col);
-                this.Pieces.Add(piece);
-                this.PieceDictionary.Add(piece.Id, piece);
-            }
-        }
-
-        for (int row = 0; row < this.Rows; ++row)
-        {
-            for (int col = 0; col < this.Columns; ++col)
-            {
-                var piece = this.FromId(this.ToId(row, col));
-                piece.UpdateSides();
-            }
-        }
-
-        // Measured at less of 12 ms in debug build for 180 pieces 
-        // Measured at less of 35 ms in debug build for 1920 pieces 
-        this.profiler.EndTiming(string.Format("Creating point lists - Piece Count: {0}", this.PieceCount));
-
-#if DEBUG
-        for (int row = 0; row < this.Rows; ++row)
-        {
-            for (int col = 0; col < this.Columns; ++col)
-            {
-                var piece = this.FromId(this.ToId(row, col));
-                if (piece.AnySideUnknown)
-                {
-                    throw new Exception("Failed to calculate sides");
-                }
-            }
-        }
-#endif
-    }
-
-    private Piece FromId(int id)
-        => this.PieceDictionary.TryGetValue(id, out Piece? piece) && piece is not null ?
-                piece :
-                throw new ArgumentException("No such Piece Id ");
-
     public void VerifyLostPieces(double canvasWidth, double canvasHeight)
     {
         foreach (Piece piece in this.Pieces)
@@ -249,7 +202,7 @@ public sealed class Puzzle
                 return false;
             }
 
-            // If more than one candidates are valid, pick the first one
+            // If more than one candidates are valid, pick the first one because they are sorted by distance
             SnapPiece snapPiece = candidates[0];
             Piece pieceToSnapTo = snapPiece.Piece;
 
@@ -261,7 +214,7 @@ public sealed class Puzzle
         return this.Moves.Count > 0;
     }
 
-    internal List<SnapPiece> GetSnapNeighboursOf(Piece movingPiece)
+    private List<SnapPiece> GetSnapNeighboursOf(Piece movingPiece)
     {
         List<SnapPiece> neighbours = [];
         Group? pieceGroup = movingPiece.MaybeGroup;
@@ -306,7 +259,11 @@ public sealed class Puzzle
             candidate = movingPiece.GetTop();
             if (IsValidCandidate())
             {
-                neighbours.Add(new SnapPiece(candidate, Placement.Top));
+                double distance = Location.Distance(movingPiece.CenterTop, candidate.CenterBottom);
+                if (distance < this.PieceSnapDistance)
+                {
+                    neighbours.Add(new SnapPiece(candidate, Placement.Top, distance));
+                }
             }
         }
 
@@ -315,7 +272,11 @@ public sealed class Puzzle
             candidate = movingPiece.GetBottom();
             if (IsValidCandidate())
             {
-                neighbours.Add(new SnapPiece(candidate, Placement.Bottom));
+                double distance = Location.Distance(movingPiece.CenterBottom, candidate.CenterTop);
+                if (distance < this.PieceSnapDistance)
+                {
+                    neighbours.Add(new SnapPiece(candidate, Placement.Bottom, distance));
+                }
             }
         }
 
@@ -324,7 +285,11 @@ public sealed class Puzzle
             candidate = movingPiece.GetLeft();
             if (IsValidCandidate())
             {
-                neighbours.Add(new SnapPiece(candidate, Placement.Left));
+                double distance = Location.Distance(movingPiece.CenterLeft, candidate.CenterRight);
+                if (distance < this.PieceSnapDistance)
+                {
+                    neighbours.Add(new SnapPiece(candidate, Placement.Left, distance));
+                }
             }
         }
 
@@ -333,10 +298,67 @@ public sealed class Puzzle
             candidate = movingPiece.GetRight();
             if (IsValidCandidate())
             {
-                neighbours.Add(new SnapPiece(candidate, Placement.Right));
+                double distance = Location.Distance(movingPiece.CenterRight, candidate.CenterLeft);
+                if (distance < this.PieceSnapDistance)
+                {
+                    neighbours.Add(new SnapPiece(candidate, Placement.Right, distance));
+                }
             }
+        }
+
+        if ( neighbours.Count >= 2)
+        {
+            neighbours.Sort((a, b) => a.Distance.CompareTo(b.Distance));
         }
 
         return neighbours;
     }
+
+    private void CreatePieces()
+    {
+        this.profiler.StartTiming();
+
+        for (int row = 0; row < this.Rows; ++row)
+        {
+            for (int col = 0; col < this.Columns; ++col)
+            {
+                var piece = new Piece(this, row, col);
+                this.Pieces.Add(piece);
+                this.PieceDictionary.Add(piece.Id, piece);
+            }
+        }
+
+        for (int row = 0; row < this.Rows; ++row)
+        {
+            for (int col = 0; col < this.Columns; ++col)
+            {
+                var piece = this.FromId(this.ToId(row, col));
+                piece.UpdateSides();
+            }
+        }
+
+        // Measured at less of 12 ms in debug build for 180 pieces 
+        // Measured at less of 35 ms in debug build for 1920 pieces 
+        this.profiler.EndTiming(string.Format("Creating point lists - Piece Count: {0}", this.PieceCount));
+
+#if DEBUG
+        for (int row = 0; row < this.Rows; ++row)
+        {
+            for (int col = 0; col < this.Columns; ++col)
+            {
+                var piece = this.FromId(this.ToId(row, col));
+                if (piece.AnySideUnknown)
+                {
+                    throw new Exception("Failed to calculate sides");
+                }
+            }
+        }
+#endif
+    }
+
+    private Piece FromId(int id)
+        => this.PieceDictionary.TryGetValue(id, out Piece? piece) && piece is not null ?
+                piece :
+                throw new ArgumentException("No such Piece Id ");
+
 }

@@ -80,6 +80,18 @@ public sealed class Piece
     public Location Center =>
         new(this.Location.X + this.Puzzle.PieceSize / 2, this.Location.Y + this.Puzzle.PieceSize / 2);
 
+    public Location CenterTop =>
+        new(this.Location.X + this.Puzzle.PieceSize / 2, this.Location.Y );
+
+    public Location CenterBottom =>
+        new(this.Location.X + this.Puzzle.PieceSize / 2, this.Location.Y + this.Puzzle.PieceSize);
+
+    public Location CenterLeft =>
+        new(this.Location.X , this.Location.Y + this.Puzzle.PieceSize / 2);
+
+    public Location CenterRight =>
+        new(this.Location.X + this.Puzzle.PieceSize, this.Location.Y + this.Puzzle.PieceSize / 2);
+
     [JsonIgnore]
     public bool IsVisible { get; private set; }
 
