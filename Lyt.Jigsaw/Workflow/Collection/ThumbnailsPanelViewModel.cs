@@ -1,5 +1,7 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Collection;
 
+using Lyt.Jigsaw.Model.GameObjects;
+
 using static Lyt.Persistence.FileManagerModel;
 
 public sealed partial class ThumbnailsPanelViewModel :
@@ -121,13 +123,18 @@ public sealed partial class ThumbnailsPanelViewModel :
         if (this.filteredThumbnails is not null && this.filteredThumbnails.Count > 0)
         {
             this.Thumbnails = [.. this.filteredThumbnails];
-            this.selectedGame = this.filteredThumbnails[0].Game;
+
+            // Clear selection: the selected game is not in the filtered list
+            // Force select on the first one so that it will show up in the main area
+            this.selectedGame = null;
             this.OnSelect(this.Thumbnails[0]);
         }
         else
         {
+            // Empty list, Clear selection in main area too
             this.Thumbnails = [];
             this.selectedGame = null;
+            this.collectionViewModel.ClearSelection(); 
         }
     }
 

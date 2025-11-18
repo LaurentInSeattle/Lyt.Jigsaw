@@ -59,6 +59,9 @@ public sealed partial class CollectionViewModel :
     [ObservableProperty]
     private bool parametersVisible;
 
+    [ObservableProperty]
+    private bool parametersEnabled;
+
     private bool loaded;
     private PlayStatus state;
     private int pieceCount;
@@ -68,9 +71,6 @@ public sealed partial class CollectionViewModel :
     private Dictionary<int, PuzzleSetup> setups; 
     private List<int> pieceCounts;
     private byte[]? imageBytes;
-
-    // TODO 
-    private List<Tuple<Picture, byte[]>>? collectionThumbnails;
 
     public CollectionViewModel(JigsawModel jigsawModel)
     {
@@ -314,24 +314,46 @@ public sealed partial class CollectionViewModel :
         return true;
     }
 
+    internal void ClearSelection ()
+    {
+        this.ParametersVisible = false;
+        this.PuzzleImage = null;
+        this.state = PlayStatus.Unprepared;
+    }
+
     internal void Select(Model.GameObjects.Game game)
     {
+        // TODO: Load game parameters into the UI 
+        this.ParametersVisible = true;
+
+        // Load the puzzle image regardless of completion status
+        string gameKey = game.Name;
+        byte[]? imageBytes = this.jigsawModel.LoadGame(gameKey);
+        if (imageBytes is null)
+        {
+            return;
+        }
+
+        int decodeToWidth = 1920; //  1024 + 512;
+        var image =
+            WriteableBitmap.DecodeToWidth(
+                new MemoryStream(imageBytes), decodeToWidth, BitmapInterpolationMode.HighQuality);
+        this.PuzzleImage = image;
+
         try
         {
-            string gameKey = game.Name;
-            byte[]? imageBytes = this.jigsawModel.LoadGame(gameKey);
-            if (imageBytes is null)
+            if (game.IsCompleted)
             {
-                return;
+                // Completed game: allow to redo it with different parameters
+                // Show settings 
+                this.state = PlayStatus.ReadyForNew;
             }
+            else
+            {
 
-            int decodeToWidth = 1920; //  1024 + 512;
-            var image =
-                WriteableBitmap.DecodeToWidth(
-                    new MemoryStream(imageBytes), decodeToWidth, BitmapInterpolationMode.HighQuality);
-            this.PuzzleImage = image;
 
-            this.state = PlayStatus.ReadyForRestart;
+                this.state = PlayStatus.ReadyForRestart;
+            } 
         }
         catch (Exception ex)
         {

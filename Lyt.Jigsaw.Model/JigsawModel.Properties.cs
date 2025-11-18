@@ -55,7 +55,7 @@ public sealed partial class JigsawModel : ModelBase
     public bool ModelLoadedNotified { get; set; } = false;
 
     [JsonIgnore]
-    public bool ShowInProgress { get; set; } = false;
+    public bool ShowInProgress { get; set; } = true;
 
     #endregion Not serialized - No model changed event
 
