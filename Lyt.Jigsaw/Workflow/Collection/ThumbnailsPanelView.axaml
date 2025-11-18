@@ -32,33 +32,21 @@
 				Fill="#70000020"
 				HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
 				/>
-      <!--
 			<TextBlock
 				Grid.Row="1"
 				Margin="6 0 0 0"
-				Text="{DynamicResource Collection.Thumbs.WebService}"
+				Text="{DynamicResource Collection.Thumbs.ShowOnly}"
 				Theme="{StaticResource H3}"
 				/>
-			<ComboBox
-				Width="250"
-				Margin="6 0 6 0"
-				HorizontalAlignment="Center" VerticalAlignment="Center"
-				ItemsSource="{Binding ProviderNames}"
-				SelectedIndex="{Binding ProvidersSelectedIndex}"
-				Foreground="{StaticResource LightAqua_1_100}"
-				FontSize="16"
-				>       
-			</ComboBox>
-      -->
 			<toggle:ToggleSwitch
-				x:Name="ShowMruSwitch"
+				x:Name="ShowInProgressSwitch"
 				Margin="4 0 8 0"
 				Style="{StaticResource StandardToggleSwitch}"
-				TrueText="{DynamicResource Collection.Thumbs.Recent}"
-				FalseText="{DynamicResource Collection.Thumbs.All}"
-				Height="30" Width="220"
+				TrueText="{DynamicResource Collection.Thumbs.InProgress}"
+				FalseText="{DynamicResource Collection.Thumbs.Completed}"
+				Height="30" Width="320"
 				HorizontalAlignment="Center" VerticalAlignment="Center"
-				Value="{Binding ShowMru}"
+				Value="{Binding ShowInProgress}"
 				/>
 		</StackPanel>
 

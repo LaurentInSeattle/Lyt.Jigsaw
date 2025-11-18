@@ -156,30 +156,30 @@ public sealed partial class JigsawModel : ModelBase
         if (this.fileManager is not null)
         {
 #if DEBUG 
-            if (this.fileManager.Exists(this.modelFileId))
-            {
-                this.fileManager.Duplicate(this.modelFileId);
-            }
+            //if (this.fileManager.Exists(this.modelFileId))
+            //{
+            //    this.fileManager.Duplicate(this.modelFileId);
+            //}
 #endif // DEBUG 
 
             this.fileManager.Save(this.modelFileId, this);
 
 #if DEBUG 
-            try
-            {
-                string path = this.fileManager.MakePath(this.modelFileId);
-                var fileInfo = new FileInfo(path);
-                if (fileInfo.Length < 1024)
-                {
-                    // if (Debugger.IsAttached) { Debugger.Break(); }
-                    this.Logger.Warning("Model file is too small!");
-                }
-            }
-            catch (Exception ex)
-            {
-                if (Debugger.IsAttached) { Debugger.Break(); }
-                Debug.WriteLine(ex);
-            }
+            //try
+            //{
+            //    string path = this.fileManager.MakePath(this.modelFileId);
+            //    var fileInfo = new FileInfo(path);
+            //    if (fileInfo.Length < 1024)
+            //    {
+            //        // if (Debugger.IsAttached) { Debugger.Break(); }
+            //        this.Logger.Warning("Model file is too small!");
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    if (Debugger.IsAttached) { Debugger.Break(); }
+            //    Debug.WriteLine(ex);
+            //}
 #endif // DEBUG 
 
             base.Save();

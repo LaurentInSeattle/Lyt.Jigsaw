@@ -1,7 +1,5 @@
 ﻿namespace Lyt.Jigsaw.Model.GameObjects;
 
-using System.Security.Cryptography;
-
 public sealed class Game
 {
 #pragma warning disable CS8618 

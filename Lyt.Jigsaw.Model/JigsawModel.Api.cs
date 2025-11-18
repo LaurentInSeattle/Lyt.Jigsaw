@@ -158,6 +158,10 @@ public sealed partial class JigsawModel : ModelBase
         {
             lock (this.Game)
             {
+                // Replicate the puzzle completion state to the game so that we have it 
+                // to show in game lists without loading the entire puzzle
+                this.Game.IsCompleted = this.Puzzle.IsComplete;
+
                 // Serialize and save to disk
                 var fileId = new FileId(Area.User, Kind.Json, this.Game.GameName);
                 this.fileManager.Save(fileId, this.Game);
@@ -184,6 +188,10 @@ public sealed partial class JigsawModel : ModelBase
         {
             lock (this.Puzzle)
             {
+                // Replicate the puzzle completion state to the game so that we have it 
+                // to show in game lists without loading the entire puzzle
+                this.Game.IsCompleted = this.Puzzle.IsComplete;
+
                 // Serialize and save to disk, puzzle is NOT dirty 
                 var fileId = new FileId(Area.User, Kind.Json, this.Game.PuzzleName);
                 this.fileManager.Save(fileId, this.Puzzle);

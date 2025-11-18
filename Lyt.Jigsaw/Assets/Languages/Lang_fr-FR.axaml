@@ -53,31 +53,13 @@
 
     <system:String x:Key="Collection.Stats.AvailableDiskSpaceFormat">Espace disponible sur le disque: {0:F1} GB</system:String>
 
-    <system:String x:Key="Collection.Thumbs.WebService">Service Web:</system:String>
+	<system:String x:Key="Collection.Thumbs.ShowOnly">Montrer:</system:String>
 
-    <system:String x:Key="Collection.Thumbs.AllServices">Tous les services.</system:String>
+	<system:String x:Key="Collection.Thumbs.InProgress">Jeux En Cours</system:String>
+	
+    <system:String x:Key="Collection.Thumbs.Completed">Jeux Terminés</system:String>
 
-    <system:String x:Key="Collection.Thumbs.All">Tout</system:String>
 
-    <system:String x:Key="Collection.Thumbs.Recent">Récent</system:String>
-
-    <system:String x:Key="Gallery.SetWallpaper">En Fond d'Ecran</system:String>
-
-    <system:String x:Key="Gallery.Add">Ajouter</system:String>
-
-    <system:String x:Key="Gallery.SaveToDesktop">Sauv. sur Desktop</system:String>
-
-    <system:String x:Key="Gallery.StartingDownloading">Download en cours</system:String>
-
-    <system:String x:Key="Gallery.CompletedDownloading">Download termine</system:String>
-
-    <system:String x:Key="Gallery.ImageMetadata">metadata de l'image</system:String>
-
-    <system:String x:Key="Gallery.Image">image</system:String>
-
-    <system:String x:Key="Gallery.ForProvider">pour le service</system:String>
-
-    <system:String x:Key="Gallery.DownloadsComplete">Tous les téléchargements sont terminés!</system:String>
 
     <system:String x:Key="Intro.AgreeMIT">J'accepte les termes de la licence MIT, Continuer.</system:String>
 

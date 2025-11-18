@@ -55,7 +55,7 @@ public sealed partial class JigsawModel : ModelBase
     public bool ModelLoadedNotified { get; set; } = false;
 
     [JsonIgnore]
-    public bool ShowRecentImages { get; set; } = false;
+    public bool ShowInProgress { get; set; } = false;
 
     #endregion Not serialized - No model changed event
 
@@ -66,26 +66,6 @@ public sealed partial class JigsawModel : ModelBase
     public bool IsInternetConnected { get => this.Get<bool>(); set => this.Set(value); }
 
     #endregion NOT serialized - WITH model changed event    
-
-    //public Provider? MaybeProviderFromKey(ImageProviderKey key)
-    //     => (from item in this.Providers
-    //         where item.Key == key
-    //         select item).FirstOrDefault();
-
-    //public void UpdateProviderSelected(Provider provider, bool isSelected)
-    //{
-    //    var modelProvider =
-    //        (from item in this.Providers
-    //         where item.Key == provider.Key
-    //         select item).FirstOrDefault();
-    //    if (modelProvider is null)
-    //    {
-    //        return;
-    //    }
-
-    //    provider.IsSelected = isSelected;
-    //    this.IsDirty = true;
-    //}
 
     //public async Task TranslateMetadata(PictureMetadata pictureMetadata, string currentLanguage)
     //{

@@ -1,15 +1,18 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Collection;
 
+using static Lyt.Persistence.FileManagerModel;
+
 public sealed partial class ThumbnailsPanelViewModel :
     ViewModel<ThumbnailsPanelView>,
     ISelectListener,
     IRecipient<LanguageChangedMessage>
 {
     private readonly JigsawModel jigsawModel;
+    private readonly FileManagerModel fileManagerModel;
     private readonly CollectionViewModel collectionViewModel;
 
     [ObservableProperty]
-    private bool showMru;
+    private bool showInProgress;
 
     [ObservableProperty]
     private ObservableCollection<ThumbnailViewModel> thumbnails;
@@ -25,38 +28,14 @@ public sealed partial class ThumbnailsPanelViewModel :
     public ThumbnailsPanelViewModel(CollectionViewModel collectionViewModel)
     {
         this.jigsawModel = App.GetRequiredService<JigsawModel>();
+        this.fileManagerModel = App.GetRequiredService<FileManagerModel>();
         this.collectionViewModel = collectionViewModel;
         this.Thumbnails = [];
-        // this.ProviderNames = [];
-
-        // TODO 
-        //this.providers =
-        //    [.. ( from provider in this.jigsawModel.Providers
-        //      orderby provider.Name
-        //      select provider )];
-        this.ShowMru = this.jigsawModel.ShowRecentImages;
-        //this.PopulateComboBox();
+        this.ShowInProgress = this.jigsawModel.ShowInProgress;
         this.Subscribe<LanguageChangedMessage>();
     }
 
     public void Receive(LanguageChangedMessage _) { } //  => this.PopulateComboBox();
-
-    //private void PopulateComboBox ()
-    //{
-    //    var list = new List<string>
-    //    {
-    //        this.Localize ( "Collection.Thumbs.AllServices")
-    //    };
-
-    //    //foreach (Provider provider in this.providers)
-    //    //{
-    //    //    string providerNameLocalized = this.Localize(provider.Name, failSilently: true);
-    //    //    list.Add(providerNameLocalized);
-    //    //}
-
-    //    this.ProviderNames = list;
-    //    this.ProvidersSelectedIndex = 0; // all
-    //}
 
     internal void LoadThumnails()
     {
@@ -65,9 +44,9 @@ public sealed partial class ThumbnailsPanelViewModel :
         this.allThumbnails = new(sortedGames.Count);
         foreach (var game in sortedGames)
         {
-            if ( !this.jigsawModel.ThumbnailCache.TryGetValue(game.Name, out byte[]? thumbnailBytes))
+            if (!this.jigsawModel.ThumbnailCache.TryGetValue(game.Name, out byte[]? thumbnailBytes))
             {
-                continue; 
+                continue;
             }
 
             if (thumbnailBytes is null || thumbnailBytes.Length == 0)
@@ -75,13 +54,18 @@ public sealed partial class ThumbnailsPanelViewModel :
                 continue;
             }
 
-            // TODO: Make sure the game image is still present on disk 
+            // Make sure the game image is still present on disk 
+            var fileIdImage = new FileId(Area.User, Kind.Binary, game.ImageName);
+            if (!this.fileManagerModel.Exists(fileIdImage))
+            {
+                continue;
+            }
+
             this.allThumbnails.Add(new ThumbnailViewModel(this, game, thumbnailBytes));
         }
 
-        // this.Filter();
-        this.Thumbnails = [.. this.allThumbnails]; // For Now
-
+        this.Filter();
+        Schedule.OnUiThread(66, () => { this.UpdateVisualSelection(); }, DispatcherPriority.Background);
     }
 
     public ThumbnailViewModel? SelectedThumbnail => this.selectedThumbnail;
@@ -92,7 +76,7 @@ public sealed partial class ThumbnailsPanelViewModel :
         {
             this.selectedThumbnail = thumbnailViewModel;
             var game = thumbnailViewModel.Game;
-            if (this.selectedGame is null || this.selectedGame != game)
+            if (this.selectedGame is null || this.selectedGame.Name != game.Name)
             {
                 this.selectedGame = game;
                 this.collectionViewModel.Select(game);
@@ -104,62 +88,30 @@ public sealed partial class ThumbnailsPanelViewModel :
 
     internal void UpdateVisualSelection()
     {
-        //if (this.selectedMetadata is not null)
-        //{
-        //    foreach (ThumbnailViewModel thumbnailViewModel in this.Thumbnails)
-        //    {
-        //        if (thumbnailViewModel.Metadata == this.selectedMetadata)
-        //        {
-        //            thumbnailViewModel.ShowSelected();
-        //        }
-        //        else
-        //        {
-        //            thumbnailViewModel.ShowDeselected(this.selectedMetadata);
-        //        }
-        //    }
-        //}
+        if (this.selectedGame is not null)
+        {
+            foreach (ThumbnailViewModel thumbnailViewModel in this.Thumbnails)
+            {
+                if (thumbnailViewModel.Game == this.selectedGame)
+                {
+                    thumbnailViewModel.ShowSelected();
+                }
+                else
+                {
+                    thumbnailViewModel.ShowDeselected(this.selectedGame);
+                }
+            }
+        }
     }
 
     private void Filter()
     {
         if ((this.allThumbnails is not null) && (this.allThumbnails.Count > 0))
         {
-            if (this.ProvidersSelectedIndex < 0)
-            {
-                // Temporarily without a selection : do nothing
-                return;
-            }
-            else if (this.ProvidersSelectedIndex == 0)
-            {
-                if (this.ShowMru)
-                {
-                    // thumbails are already ordered by date, just take a few 
-                    this.filteredThumbnails = [.. this.allThumbnails.Take(8)];
-                }
-                else
-                {
-                    // Nothing to do: just copy the source list
-                    this.filteredThumbnails = [.. this.allThumbnails];
-                }
-            }
-            else // this.ProvidersSelectedIndex > 0
-            {
-                // TODO 
-                //Service.ImageProviderKey key = this.providers[this.ProvidersSelectedIndex - 1].Key;
-                //var selectedThumbnails =
-                //    (from thumbnail in this.allThumbnails
-                //     where thumbnail.Metadata.Provider == key
-                //     select thumbnail);
-                //if (this.ShowMru)
-                //{
-                //    // thumbnails are already ordered by date, just take a few 
-                //    this.filteredThumbnails = [.. selectedThumbnails.Take(8)];
-                //}
-                //else
-                //{
-                //    this.filteredThumbnails = [.. selectedThumbnails];
-                //}
-            }
+            this.filteredThumbnails =
+                [.. (from thumbnail in this.allThumbnails
+                     where thumbnail.Game.IsCompleted == !this.ShowInProgress
+                     select thumbnail)];
         }
         else
         {
@@ -168,22 +120,23 @@ public sealed partial class ThumbnailsPanelViewModel :
 
         if (this.filteredThumbnails is not null && this.filteredThumbnails.Count > 0)
         {
-            //this.Thumbnails = [.. this.filteredThumbnails];
-            //this.selectedMetadata = this.filteredThumbnails[0].Metadata;
-            //this.OnSelect(this.Thumbnails[0]);
+            this.Thumbnails = [.. this.filteredThumbnails];
+            this.selectedGame = this.filteredThumbnails[0].Game;
+            this.OnSelect(this.Thumbnails[0]);
         }
         else
         {
-            //this.Thumbnails = [];
-            //this.selectedMetadata = null;
+            this.Thumbnails = [];
+            this.selectedGame = null;
         }
     }
 
     partial void OnProvidersSelectedIndexChanged(int value) => this.Filter();
 
-    partial void OnShowMruChanged(bool value)
+    partial void OnShowInProgressChanged(bool value)
     {
-        this.jigsawModel.ShowRecentImages = value;
+        this.jigsawModel.ShowInProgress = value;
         this.Filter();
+        Schedule.OnUiThread(66, () => { this.UpdateVisualSelection(); }, DispatcherPriority.Background);
     }
 }

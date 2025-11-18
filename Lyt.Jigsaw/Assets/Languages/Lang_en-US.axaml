@@ -27,29 +27,9 @@
 	<system:String x:Key="Collection.DropZone">Drag and Drop Zone</system:String>
 	<system:String x:Key="Collection.DropZoneHelp">Drag and drop files here to add them to your wallpaper collection.</system:String>
 
-	<system:String x:Key="Collection.Statistics">Statistics</system:String>
-	<system:String x:Key="Collection.Stats.AlertTextQuota">Too many images in your collection!</system:String>
-	<system:String x:Key="Collection.Stats.AlertTextSpace">Pay attention to the available space on disk!</system:String>
-	<system:String x:Key="Collection.Stats.ImageCountFormat">Images: {0} (All services - Quota: {1})</system:String>
-	<system:String x:Key="Collection.Stats.SizeOnDiskFormat">Estimated disk space usage: {0} MB (Quota: {1} MB)</system:String>
-	<system:String x:Key="Collection.Stats.AvailableDiskSpaceFormat">Available space on disk: {0:F1} GB</system:String>
-
-	<system:String x:Key="Collection.Thumbs.WebService">Web Service:</system:String>
-	<system:String x:Key="Collection.Thumbs.AllServices">All services.</system:String>
-	<system:String x:Key="Collection.Thumbs.All">All</system:String>
-	<system:String x:Key="Collection.Thumbs.Recent">Recent</system:String>
-
-	<!-- Gallery  -->
-	<system:String x:Key="Gallery.SetWallpaper">Use as Wallpaper</system:String>
-	<system:String x:Key="Gallery.Add">Add</system:String>
-	<system:String x:Key="Gallery.SaveToDesktop">Save to Desktop</system:String>
-
-	<system:String x:Key="Gallery.StartingDownloading">Download in progress</system:String>
-	<system:String x:Key="Gallery.CompletedDownloading">Download complete</system:String>
-	<system:String x:Key="Gallery.ImageMetadata">image metadata </system:String>
-	<system:String x:Key="Gallery.Image">image</system:String>
-	<system:String x:Key="Gallery.ForProvider">for service </system:String>
-	<system:String x:Key="Gallery.DownloadsComplete">All downloads complete!</system:String>
+	<system:String x:Key="Collection.Thumbs.ShowOnly">Show Only:</system:String>
+	<system:String x:Key="Collection.Thumbs.InProgress">In Progress</system:String>
+	<system:String x:Key="Collection.Thumbs.Completed">Completed</system:String>
 
 	<!-- Intro  -->
 	<system:String x:Key="Intro.AgreeMIT">I accept the terms of the MIT License, Continue.</system:String>
