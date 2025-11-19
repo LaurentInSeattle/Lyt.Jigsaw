@@ -1,7 +1,5 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Collection;
 
-using System.Net.WebSockets;
-
 public sealed partial class CollectionViewModel :
     ViewModel<CollectionView>,
     IRecipient<ToolbarCommandMessage>,
@@ -284,33 +282,8 @@ public sealed partial class CollectionViewModel :
         var image =
             WriteableBitmap.DecodeToWidth(
                 new MemoryStream(imageBytes), decodeToWidth, BitmapInterpolationMode.HighQuality);
-
-        var imageSize = new IntSize(image.PixelSize.Height, image.PixelSize.Width);
-        var maybeSetups = Puzzle.GenerateSetups(imageSize);
-        var counts = (from count in maybeSetups.Keys orderby count descending select count).ToList();
-        if (counts.Count < 3)
-        {
-            // Failed ? 
-            this.state = PlayStatus.Unprepared;
-            this.ParametersVisible = false;
-
-            // TODO: Message
-            return false; 
-        }
-
-        int max = counts[0];
-        int min = counts[^1];
-        this.setups = maybeSetups;
-        this.pieceCounts = counts;
-
-        // UI update 
-        this.OnRotationsSliderValueChanged(1.0);
-        this.PieceCountMin = min;
-        this.PieceCountMax = max;
         this.PuzzleImage = image;
-        this.ParametersVisible = true;
-
-        this.state = PlayStatus.ReadyForNew;
+        this.SetupUiForNewGame();
         return true;
     }
 
@@ -324,7 +297,6 @@ public sealed partial class CollectionViewModel :
     internal void Select(Model.GameObjects.Game game)
     {
         // TODO: Load game parameters into the UI 
-        this.ParametersVisible = true;
 
         // Load the puzzle image regardless of completion status
         string gameKey = game.Name;
@@ -334,24 +306,23 @@ public sealed partial class CollectionViewModel :
             return;
         }
 
-        int decodeToWidth = 1920; //  1024 + 512;
-        var image =
-            WriteableBitmap.DecodeToWidth(
-                new MemoryStream(imageBytes), decodeToWidth, BitmapInterpolationMode.HighQuality);
-        this.PuzzleImage = image;
 
         try
         {
+            int decodeToWidth = 1920; //  1024 + 512;
+            var image =
+                WriteableBitmap.DecodeToWidth(
+                    new MemoryStream(imageBytes), decodeToWidth, BitmapInterpolationMode.HighQuality);
+            this.PuzzleImage = image;
+            this.ParametersVisible = game.IsCompleted;
             if (game.IsCompleted)
             {
                 // Completed game: allow to redo it with different parameters
                 // Show settings 
-                this.state = PlayStatus.ReadyForNew;
+                this.SetupUiForNewGame();
             }
             else
             {
-
-
                 this.state = PlayStatus.ReadyForRestart;
             } 
         }
@@ -359,5 +330,41 @@ public sealed partial class CollectionViewModel :
         {
             Debug.WriteLine(ex);
         }
+    }
+
+    private bool SetupUiForNewGame()
+    {
+        if ( this.PuzzleImage is null)
+        {
+            return false;
+        }
+
+        var pixelSize = this.PuzzleImage.PixelSize;
+        var maybeSetups = Puzzle.GenerateSetups(new IntSize(pixelSize.Height, pixelSize.Width));
+        var counts = (from count in maybeSetups.Keys orderby count descending select count).ToList();
+        if (counts.Count < 3)
+        {
+            // Failed ? 
+            this.state = PlayStatus.Unprepared;
+            this.ParametersVisible = false;
+
+            // TODO: Message
+            return false;
+        }
+
+        int max = counts[0];
+        int min = counts[^1];
+        this.setups = maybeSetups;
+        this.pieceCounts = counts;
+
+        // UI update 
+        this.OnRotationsSliderValueChanged(1.0);
+        this.PieceCountMin = min;
+        this.PieceCountMax = max;
+        this.ParametersVisible = true;
+        this.ParametersEnabled = true;
+
+        this.state = PlayStatus.ReadyForNew;
+        return true;
     }
 }
