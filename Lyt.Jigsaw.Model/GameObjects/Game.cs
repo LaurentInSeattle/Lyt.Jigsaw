@@ -36,6 +36,8 @@ public sealed class Game
 
     public static string GameNameFromKey(string key) => string.Concat("Game_", key);
 
+    public static string ThumbnailNameFromKey(string key) => string.Concat("Thumbnail_", key);
+
     public string GameName => string.Concat("Game_", this.Name);
 
     public string PuzzleName => string.Concat("Puzzle_", this.Name);

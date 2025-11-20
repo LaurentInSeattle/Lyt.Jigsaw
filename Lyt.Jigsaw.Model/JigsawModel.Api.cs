@@ -36,10 +36,10 @@ public sealed partial class JigsawModel : ModelBase
         try
         {
             // Load from disk and deserialize
-            string gameName = Game.GameNameFromKey(gameKey); 
+            string gameName = Game.GameNameFromKey(gameKey);
             var fileId = new FileId(Area.User, Kind.Json, gameName);
-            var game = 
-                this.fileManager.Load<Game>(fileId) ?? 
+            var game =
+                this.fileManager.Load<Game>(fileId) ??
                 throw new Exception("Failed to deserialize");
 
             this.Game = game;
@@ -99,7 +99,7 @@ public sealed partial class JigsawModel : ModelBase
             if (hasMoves)
             {
                 new PuzzleChangedMessage(PuzzleChange.Progress, puzzle.Progress()).Publish();
-            } 
+            }
 
             return hasMoves;
         });
@@ -165,6 +165,11 @@ public sealed partial class JigsawModel : ModelBase
                 // Serialize and save to disk
                 var fileId = new FileId(Area.User, Kind.Json, this.Game.GameName);
                 this.fileManager.Save(fileId, this.Game);
+
+                if (!this.SavedGames.ContainsKey(this.Game.Name))
+                {
+                    this.SavedGames.Add(this.Game.Name, this.Game);
+                }
             }
 
             Debug.WriteLine("Game Saved");
@@ -244,7 +249,7 @@ public sealed partial class JigsawModel : ModelBase
         {
             // Load from disk 
             var fileIdImage = new FileId(Area.User, Kind.Binary, this.Game.ImageName);
-            byte [] imageBytes = this.fileManager.Load<byte[]>(fileIdImage);
+            byte[] imageBytes = this.fileManager.Load<byte[]>(fileIdImage);
 
             Debug.WriteLine("Image Loaded");
             return imageBytes;
@@ -254,6 +259,30 @@ public sealed partial class JigsawModel : ModelBase
             Debug.WriteLine("Save, Exception thrown: " + ex);
             return null;
         }
+    }
+
+    public byte[]? GetThumbnail(string name)
+    {
+        if (!this.ThumbnailCache.TryGetValue(name, out byte[]? thumbnailBytes))
+        {
+            try
+            {
+                // Load from disk 
+                var fileIdImage = new FileId(Area.User, Kind.Binary, Game.ThumbnailNameFromKey(name));
+                byte[] imageBytes = this.fileManager.Load<byte[]>(fileIdImage);
+
+                Debug.WriteLine("Thumbnail Loaded");
+                this.ThumbnailCache.Add(name, imageBytes); 
+                return imageBytes;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Get Thumbnail, Exception thrown: " + ex);
+                return null;
+            }
+        }
+
+        return thumbnailBytes;
     }
 
     public bool LoadPuzzle()

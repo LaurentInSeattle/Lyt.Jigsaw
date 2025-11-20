@@ -46,11 +46,7 @@ public sealed partial class ThumbnailsPanelViewModel :
         this.allThumbnails = new(sortedGames.Count);
         foreach (var game in sortedGames)
         {
-            if (!this.jigsawModel.ThumbnailCache.TryGetValue(game.Name, out byte[]? thumbnailBytes))
-            {
-                continue;
-            }
-
+            byte[] ? thumbnailBytes = this.jigsawModel.GetThumbnail(game.Name);
             if (thumbnailBytes is null || thumbnailBytes.Length == 0)
             {
                 continue;

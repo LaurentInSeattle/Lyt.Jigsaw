@@ -101,18 +101,16 @@ public sealed partial class CollectionViewModel :
         this.OnRotationsSliderValueChanged(0.0);
         this.OnSnapSliderValueChanged(0);
         this.OnContrastSliderValueChanged(0);
-        if (this.loaded)
-        {
-            this.UpdateSelection();
-        }
+        this.ThumbnailsPanelViewModel.LoadThumnails();
+        this.loaded = true;
     }
 
     public void Receive(ModelLoadedMessage _)
     {
         if (!this.loaded)
         {
-            this.loaded = true;
             this.ThumbnailsPanelViewModel.LoadThumnails();
+            this.loaded = true;
         }
         else
         {
@@ -145,15 +143,7 @@ public sealed partial class CollectionViewModel :
         switch (message.Command)
         {
             case ToolbarCommandMessage.ToolbarCommand.Play:
-                if (this.state == PlayStatus.ReadyForNew)
-                {
-                    this.StartNewGameFromDropppedImage();
-                }
-                else if (this.state == PlayStatus.ReadyForRestart)
-                {
-                    this.ResumeSavedGame();
-                }
-                // else: Not ready: do nothing 
+                this.Play();
                 break;
 
             case ToolbarCommandMessage.ToolbarCommand.RemoveFromCollection:
@@ -230,6 +220,19 @@ public sealed partial class CollectionViewModel :
 
     #endregion Game Parameters 
 
+    private void Play ( )
+    {
+        if (this.state == PlayStatus.ReadyForNew)
+        {
+            this.StartNewGame();
+        }
+        else if (this.state == PlayStatus.ReadyForRestart)
+        {
+            this.ResumeSavedGame();
+        }
+        // else: Not ready: do nothing 
+    }
+
     private void ResumeSavedGame()
     {
         try
@@ -247,7 +250,7 @@ public sealed partial class CollectionViewModel :
         }
     }
 
-    private void StartNewGameFromDropppedImage()
+    private void StartNewGame()
     {
         if ((this.PuzzleImage is null) ||
             (this.imageBytes == null) || (this.imageBytes.Length == 0) ||
@@ -314,6 +317,7 @@ public sealed partial class CollectionViewModel :
                 WriteableBitmap.DecodeToWidth(
                     new MemoryStream(imageBytes), decodeToWidth, BitmapInterpolationMode.HighQuality);
             this.PuzzleImage = image;
+            this.imageBytes = imageBytes; 
             this.ParametersVisible = game.IsCompleted;
             if (game.IsCompleted)
             {
