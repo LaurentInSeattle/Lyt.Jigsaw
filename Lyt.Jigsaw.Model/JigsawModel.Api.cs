@@ -6,6 +6,10 @@ public sealed partial class JigsawModel : ModelBase
 {
     public bool IsPuzzleDirty { get; private set; }
 
+    public bool IsGameActive { get; private set; }
+
+    public void GameIsActive(bool isActive = true) => this.IsGameActive = isActive;
+
     public Game? NewGame(
         byte[] imageBytes, byte[] thumbnailBytes,
         int imagePixelHeight, int imagePixelWidth,
@@ -77,6 +81,7 @@ public sealed partial class JigsawModel : ModelBase
         if (isComplete)
         {
             this.SavePuzzle();
+            this.SaveGame();
             this.timeoutTimer.Stop();
         }
 
@@ -178,6 +183,46 @@ public sealed partial class JigsawModel : ModelBase
         catch (Exception ex)
         {
             Debug.WriteLine("Save, Exception thrown: " + ex);
+            return false;
+        }
+    }
+
+    public bool DeleteGame(string key, out string message)
+    {
+        message = string.Empty;
+        if (this.Game is not null && this.IsGameActive)
+        {
+            if ( this.Game.Name == key)
+            {
+                // Cannot delete the game that is currently loaded
+                message = "Cannot delete the game that is currently loaded."; 
+                return false;
+            }
+        }
+
+        try
+        {
+            // Delete from disk the four files 
+            var fileId = new FileId(Area.User, Kind.Json, Game.GameNameFromKey(key));
+            this.fileManager.Delete(fileId);
+            fileId = new FileId(Area.User, Kind.Json, Game.PuzzleNameFromKey(key));
+            this.fileManager.Delete(fileId);
+            fileId = new FileId(Area.User, Kind.Binary, Game.ImageNameFromKey(key));
+            this.fileManager.Delete(fileId);
+            fileId = new FileId(Area.User, Kind.Binary, Game.ThumbnailNameFromKey(key));
+            this.fileManager.Delete(fileId);
+
+            // Clear in memory data 
+            this.SavedGames.Remove(key);
+            this.ThumbnailCache.Remove(key);
+
+            Debug.WriteLine("Game Deleted");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("Delete, Exception thrown: " + ex);
+            message = "Delete, Exception thrown: " + ex.Message;
             return false;
         }
     }

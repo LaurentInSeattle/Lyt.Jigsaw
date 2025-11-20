@@ -54,6 +54,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         // Force a full save on deactivation
         this.jigsawModel.SavePuzzle();
         this.jigsawModel.SaveGame();
+        this.jigsawModel.GameIsActive(isActive: false);
     }
 
     public void Receive(ZoomRequestMessage message)
@@ -89,6 +90,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
 
         this.HackViewReset();
         new PuzzleChangedMessage(PuzzleChange.Progress, this.jigsawModel.GetPuzzleProgress()).Publish();
+        this.jigsawModel.GameIsActive(); 
     }
 
     public void StartNewGame(
@@ -235,6 +237,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
 
         this.HackViewReset();
         new PuzzleChangedMessage(PuzzleChange.Progress, this.jigsawModel.GetPuzzleProgress()).Publish();
+        this.jigsawModel.GameIsActive();
     }
 
     private PieceView CreatePieceView(Piece piece)

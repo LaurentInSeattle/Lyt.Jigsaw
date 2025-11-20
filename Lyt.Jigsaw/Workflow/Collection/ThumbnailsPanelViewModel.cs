@@ -1,7 +1,5 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Collection;
 
-using Lyt.Jigsaw.Model.GameObjects;
-
 using static Lyt.Persistence.FileManagerModel;
 
 public sealed partial class ThumbnailsPanelViewModel :

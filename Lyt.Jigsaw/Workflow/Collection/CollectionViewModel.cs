@@ -6,6 +6,8 @@ public sealed partial class CollectionViewModel :
     IRecipient<ModelLoadedMessage>,
     IRecipient<CollectionChangedMessage>
 {
+    private const int DecodeToWidthThumbnail = 420;
+
     private enum PlayStatus
     {
         Unprepared,
@@ -114,7 +116,7 @@ public sealed partial class CollectionViewModel :
         }
         else
         {
-            this.UpdateSelection();
+            // this.UpdateSelection();
         }
     }
 
@@ -122,21 +124,22 @@ public sealed partial class CollectionViewModel :
     {
         this.loaded = false;
         this.Receive(new ModelLoadedMessage());
-        this.UpdateSelection();
+        // this.UpdateSelection();
     }
 
-    private void UpdateSelection()
-        => Schedule.OnUiThread(
-                200,
-                () =>
-                {
-                    //this.ThumbnailsPanelViewModel.UpdateSelection();
-                    //if (this.ThumbnailsPanelViewModel.SelectedThumbnail is ThumbnailViewModel thumbnailViewModel)
-                    //{
-                    //    this.Select(thumbnailViewModel.Metadata, thumbnailViewModel.ImageBytes);
-                    //}
-                },
-                DispatcherPriority.Background);
+    // TODO: Figure out if we still need this
+    //private void UpdateSelection()
+    //    => Schedule.OnUiThread(
+    //            200,
+    //            () =>
+    //            {
+    //                //this.ThumbnailsPanelViewModel.UpdateSelection();
+    //                //if (this.ThumbnailsPanelViewModel.SelectedThumbnail is ThumbnailViewModel thumbnailViewModel)
+    //                //{
+    //                //    this.Select(thumbnailViewModel.Metadata, thumbnailViewModel.ImageBytes);
+    //                //}
+    //            },
+    //            DispatcherPriority.Background);
 
     public void Receive(ToolbarCommandMessage message)
     {
@@ -147,10 +150,11 @@ public sealed partial class CollectionViewModel :
                 break;
 
             case ToolbarCommandMessage.ToolbarCommand.RemoveFromCollection:
-                // this.PictureViewModel.RemoveFromCollection();
+                this.DeleteGame(); 
                 break;
 
             case ToolbarCommandMessage.ToolbarCommand.CollectionSaveToDesktop:
+                // TODO : Implement saving puzzle image to desktop
                 // this.PictureViewModel.SaveToDesktop();
                 break;
 
@@ -160,65 +164,21 @@ public sealed partial class CollectionViewModel :
         }
     }
 
-    #region Game Parameters 
-
-    partial void OnPieceCountSliderValueChanged(double value)
+    private void DeleteGame()
     {
-        if (this.pieceCounts.Count == 0)
+        var game = this.jigsawModel.Game; 
+        if (game is null)
         {
-            return;
+            return; 
         }
 
-        int closest = 0;
-        double minDistance = double.MaxValue;
-        foreach (int count in this.pieceCounts)
+        if ( ! this.jigsawModel.DeleteGame(game.Name, out string message))
         {
-            double distance = Math.Abs(value - count);
-            if (distance < minDistance)
-            {
-                closest = count;
-                minDistance = distance;
-            }
+            Debug.WriteLine(message);
         }
 
-        this.pieceCount = closest;
-        this.PieceCountString = string.Format("{0:D}", this.pieceCount);
+        this.ThumbnailsPanelViewModel.LoadThumnails();
     }
-
-    partial void OnRotationsSliderValueChanged(double value)
-    {
-        this.rotations = (int)value;
-        this.RotationsString =
-            this.rotations <= 1 ?
-                "None" :
-                string.Format("{0:D}", this.rotations);
-    }
-
-    partial void OnSnapSliderValueChanged(double value)
-    {
-        this.snap = (int)value;
-        this.SnapString =
-            this.snap == 0 ?
-                "Mighty" :
-                this.snap == 1 ?
-                    "Strong" :
-                    this.snap == 2 ?
-                        "Normal" : "Weak";
-    }
-
-    partial void OnContrastSliderValueChanged(double value)
-    {
-        this.contrast = (int)value;
-        this.ContrastString =
-            this.contrast == 0 ?
-                "Heavy" :
-                this.contrast == 1 ?
-                    "Strong" :
-                    this.contrast == 2 ?
-                        "Weak" : "Normal";
-    }
-
-    #endregion Game Parameters 
 
     private void Play ( )
     {
@@ -262,9 +222,8 @@ public sealed partial class CollectionViewModel :
         try
         {
             var setup = this.setups[this.pieceCount]; 
-            int decodeToWidthThumbnail = 360;
             var writeableBitmap =
-                WriteableBitmap.DecodeToWidth(new MemoryStream(this.imageBytes), decodeToWidthThumbnail);
+                WriteableBitmap.DecodeToWidth(new MemoryStream(this.imageBytes), DecodeToWidthThumbnail);
             byte[] thumbnailBytes = writeableBitmap.EncodeToJpeg();
             var vm = App.GetRequiredService<PuzzleViewModel>();
             vm.StartNewGame(
@@ -335,6 +294,66 @@ public sealed partial class CollectionViewModel :
             Debug.WriteLine(ex);
         }
     }
+
+    #region Game Parameters 
+
+    partial void OnPieceCountSliderValueChanged(double value)
+    {
+        if (this.pieceCounts.Count == 0)
+        {
+            return;
+        }
+
+        int closest = 0;
+        double minDistance = double.MaxValue;
+        foreach (int count in this.pieceCounts)
+        {
+            double distance = Math.Abs(value - count);
+            if (distance < minDistance)
+            {
+                closest = count;
+                minDistance = distance;
+            }
+        }
+
+        this.pieceCount = closest;
+        this.PieceCountString = string.Format("{0:D}", this.pieceCount);
+    }
+
+    partial void OnRotationsSliderValueChanged(double value)
+    {
+        this.rotations = (int)value;
+        this.RotationsString =
+            this.rotations <= 1 ?
+                "None" :
+                string.Format("{0:D}", this.rotations);
+    }
+
+    partial void OnSnapSliderValueChanged(double value)
+    {
+        this.snap = (int)value;
+        this.SnapString =
+            this.snap == 0 ?
+                "Mighty" :
+                this.snap == 1 ?
+                    "Strong" :
+                    this.snap == 2 ?
+                        "Normal" : "Weak";
+    }
+
+    partial void OnContrastSliderValueChanged(double value)
+    {
+        this.contrast = (int)value;
+        this.ContrastString =
+            this.contrast == 0 ?
+                "Heavy" :
+                this.contrast == 1 ?
+                    "Strong" :
+                    this.contrast == 2 ?
+                        "Weak" : "Normal";
+    }
+
+    #endregion Game Parameters 
 
     private bool SetupUiForNewGame()
     {
