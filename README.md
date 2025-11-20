@@ -1,8 +1,10 @@
 # Jigsaw
 The classic jigsaw puzzle game for .Net 10 and Avalonia.
 
-# Work In Progress ~ Somewhat playable 
-With still quite a number of bugs...
+# Work In Progress ~ Playable 
+UI still needs (a lot) more love...
+
+<p align="left"><img src="Screenshots\Screenshot_2025-11-20.png" height="500"/>
 
 # Build your own...
 
