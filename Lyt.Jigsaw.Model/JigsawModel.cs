@@ -1,9 +1,5 @@
 ﻿namespace Lyt.Jigsaw.Model;
 
-using Lyt.Jigsaw.Model.GameObjects;
-using Lyt.Jigsaw.Model.Utilities;
-using Lyt.Utilities.Parallel;
-
 using static Lyt.Persistence.FileManagerModel;
 
 public sealed partial class JigsawModel : ModelBase

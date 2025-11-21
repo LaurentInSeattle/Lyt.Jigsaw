@@ -205,7 +205,7 @@ public sealed partial class JigsawModel : ModelBase
             // Delete from disk the four files 
             var fileId = new FileId(Area.User, Kind.Json, Game.GameNameFromKey(key));
             this.fileManager.Delete(fileId);
-            fileId = new FileId(Area.User, Kind.Json, Game.PuzzleNameFromKey(key));
+            fileId = new FileId(Area.User, Kind.JsonCompressed, Game.PuzzleNameFromKey(key));
             this.fileManager.Delete(fileId);
             fileId = new FileId(Area.User, Kind.Binary, Game.ImageNameFromKey(key));
             this.fileManager.Delete(fileId);
@@ -243,7 +243,7 @@ public sealed partial class JigsawModel : ModelBase
                 this.Game.IsCompleted = this.Puzzle.IsComplete;
 
                 // Serialize and save to disk, puzzle is NOT dirty 
-                var fileId = new FileId(Area.User, Kind.Json, this.Game.PuzzleName);
+                var fileId = new FileId(Area.User, Kind.JsonCompressed, this.Game.PuzzleName);
                 this.fileManager.Save(fileId, this.Puzzle);
                 this.IsPuzzleDirty = false;
             }
@@ -340,7 +340,7 @@ public sealed partial class JigsawModel : ModelBase
         try
         {
             // load from disk and deserialize 
-            var fileId = new FileId(Area.User, Kind.Json, this.Game.PuzzleName);
+            var fileId = new FileId(Area.User, Kind.JsonCompressed, this.Game.PuzzleName);
             Puzzle puzzle = this.fileManager.Load<Puzzle>(fileId);
             puzzle.FinalizeAfterDeserialization();
             this.Puzzle = puzzle;
