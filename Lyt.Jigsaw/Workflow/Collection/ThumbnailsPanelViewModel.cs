@@ -8,7 +8,6 @@ public sealed partial class ThumbnailsPanelViewModel :
     IRecipient<LanguageChangedMessage>
 {
     private readonly JigsawModel jigsawModel;
-    private readonly FileManagerModel fileManagerModel;
     private readonly CollectionViewModel collectionViewModel;
 
     [ObservableProperty]
@@ -25,10 +24,9 @@ public sealed partial class ThumbnailsPanelViewModel :
     private List<ThumbnailViewModel>? allThumbnails;
     private List<ThumbnailViewModel>? filteredThumbnails;
 
-    public ThumbnailsPanelViewModel(CollectionViewModel collectionViewModel)
+    public ThumbnailsPanelViewModel(CollectionViewModel collectionViewModel, JigsawModel jigsawModel)
     {
-        this.jigsawModel = App.GetRequiredService<JigsawModel>();
-        this.fileManagerModel = App.GetRequiredService<FileManagerModel>();
+        this.jigsawModel = jigsawModel;
         this.collectionViewModel = collectionViewModel;
         this.Thumbnails = [];
         this.ShowInProgress = this.jigsawModel.ShowInProgress;
@@ -39,6 +37,8 @@ public sealed partial class ThumbnailsPanelViewModel :
 
     internal void LoadThumnails()
     {
+        var fileManagerModel = App.GetRequiredService<FileManagerModel>();
+
         var games = this.jigsawModel.SavedGames.Values;
         var sortedGames = (from game in games orderby game.Started descending select game).ToList();
         this.allThumbnails = new(sortedGames.Count);
@@ -52,7 +52,7 @@ public sealed partial class ThumbnailsPanelViewModel :
 
             // Make sure the game image is still present on disk 
             var fileIdImage = new FileId(Area.User, Kind.Binary, game.ImageName);
-            if (!this.fileManagerModel.Exists(fileIdImage))
+            if (!fileManagerModel.Exists(fileIdImage))
             {
                 continue;
             }

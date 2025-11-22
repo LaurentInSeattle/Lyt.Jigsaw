@@ -78,7 +78,7 @@ public sealed partial class CollectionViewModel :
         this.setups = []; 
         this.pieceCounts = [];
         this.DropViewModel = new DropViewModel();
-        this.ThumbnailsPanelViewModel = new ThumbnailsPanelViewModel(this);
+        this.ThumbnailsPanelViewModel = new ThumbnailsPanelViewModel(this, jigsawModel);
         this.state = PlayStatus.Unprepared;
         this.Subscribe<ToolbarCommandMessage>();
         this.Subscribe<ModelLoadedMessage>();
