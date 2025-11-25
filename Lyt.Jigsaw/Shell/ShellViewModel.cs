@@ -101,43 +101,9 @@ public sealed partial class ShellViewModel
 
     private async void ActivateInitialView()
     {
-        Select(ActivatedView.Collection);
-        this.TestStart();
-
-        //this.isFirstActivation = true;
-        //if (this.jigsawModel.IsFirstRun)
-        //{
-        //    Select(ActivatedView.Language);
-        //}
-        //else
-        //{
-        //    //int retries = 3;
-        //    //while (retries > 0)
-        //    //{
-        //    //    this.Logger.Debug("ActivateInitialView: Internet connected: " + this.jigsawModel.IsInternetConnected);
-        //    //    if (this.jigsawModel.IsInternetConnected)
-        //    //    {
-        //    //        Select(ActivatedView.Puzzle);
-        //    //        this.Logger.Debug("OnViewLoaded OnViewActivation complete");
-        //    //        return;
-        //    //    }
-
-        //    //    await Task.Delay(100);
-        //    //    --retries;
-        //    //}
-        //}
-
+        this.isFirstActivation = true;
+        Select(this.jigsawModel.IsFirstRun? ActivatedView.Language : ActivatedView.Collection);
         this.Logger.Debug("OnViewLoaded OnViewActivation complete");
-    }
-
-    private void TestStart()
-    {
-        ResourcesUtilities.SetResourcesPath("Lyt.Jigsaw.Resources");
-        ResourcesUtilities.SetExecutingAssembly(Assembly.GetExecutingAssembly());
-        byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("ZhangDaqiang.jpg", out string? _);
-        // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Bonheur_Matisse.jpg", out string? _);
-        // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Kauai.jpg", out string? _);
-        // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Seraph-of-the-Scales.jpg", out string? _);
     }
 
     private void SetupWorkflow()
@@ -164,15 +130,16 @@ public sealed partial class ShellViewModel
                 new SelectableView<ActivatedView>(activatedView, vm, control, vmToolbar));
         }
 
-        void SetupNoToolbar<TViewModel, TControl>(
-                ActivatedView activatedView, Control control)
-            where TViewModel : ViewModel<TControl>
-            where TControl : Control, IView, new()
-        {
-            var vm = App.GetRequiredService<TViewModel>();
-            vm.CreateViewAndBind();
-            selectableViews.Add(new SelectableView<ActivatedView>(activatedView, vm));
-        }
+        // Not used for now 
+        //void SetupNoToolbar<TViewModel, TControl>(
+        //        ActivatedView activatedView, Control control)
+        //    where TViewModel : ViewModel<TControl>
+        //    where TControl : Control, IView, new()
+        //{
+        //    var vm = App.GetRequiredService<TViewModel>();
+        //    vm.CreateViewAndBind();
+        //    selectableViews.Add(new SelectableView<ActivatedView>(activatedView, vm));
+        //}
 
         Setup<PuzzleViewModel, PuzzleView, PuzzleToolbarViewModel, PuzzleToolbarView>(
             ActivatedView.Puzzle, view.TodayButton);

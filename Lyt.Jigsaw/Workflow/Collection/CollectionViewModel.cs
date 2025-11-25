@@ -95,6 +95,16 @@ public sealed partial class CollectionViewModel :
         this.ParametersVisible = false;
     }
 
+    //private void TestStart()
+    //{
+    //    ResourcesUtilities.SetResourcesPath("Lyt.Jigsaw.Resources");
+    //    ResourcesUtilities.SetExecutingAssembly(Assembly.GetExecutingAssembly());
+    //    byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("ZhangDaqiang.jpg", out string? _);
+    //    // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Bonheur_Matisse.jpg", out string? _);
+    //    // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Kauai.jpg", out string? _);
+    //    // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Seraph-of-the-Scales.jpg", out string? _);
+    //}
+
     public override void Activate(object? activationParameters)
     {
         base.Activate(activationParameters);

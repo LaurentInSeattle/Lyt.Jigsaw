@@ -21,8 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		PublishCLI.bat = PublishCLI.bat
 		README.md = README.md
-		Unused_FluentSvgResourceDictionaryCopy.axaml = Unused_FluentSvgResourceDictionaryCopy.axaml
 		Screenshots\Screenshot_2025-11-20.png = Screenshots\Screenshot_2025-11-20.png
+		Unused_FluentSvgResourceDictionaryCopy.axaml = Unused_FluentSvgResourceDictionaryCopy.axaml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lyt.Model", "..\Lyt.Framework\Lyt.Model\Lyt.Model.csproj", "{A0D8AE2B-913F-3689-2813-B7CBC49CCDE4}"
@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lyt.Jigsaw", "Lyt.Jigsaw\Ly
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lyt.Jigsaw.Desktop", "Lyt.Jigsaw.Desktop\Lyt.Jigsaw.Desktop.csproj", "{B65CCB58-16AE-57F3-8677-76642E9250AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lyt.ImageProcessing", "..\Lyt.Framework\Lyt.ImageProcessing\Lyt.ImageProcessing.csproj", "{01403CF8-FC71-FE9D-73D1-6FF122FA52CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -108,6 +110,10 @@ Global
 		{B65CCB58-16AE-57F3-8677-76642E9250AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B65CCB58-16AE-57F3-8677-76642E9250AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B65CCB58-16AE-57F3-8677-76642E9250AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01403CF8-FC71-FE9D-73D1-6FF122FA52CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01403CF8-FC71-FE9D-73D1-6FF122FA52CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01403CF8-FC71-FE9D-73D1-6FF122FA52CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01403CF8-FC71-FE9D-73D1-6FF122FA52CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -124,6 +130,7 @@ Global
 		{40435D35-02F4-B617-93A1-0AD906FD6A75} = {BDD4E426-BA03-441C-981D-2730A1D5D1F7}
 		{787B2A17-12AB-9E30-99F6-5DF18EB6DA99} = {BDD4E426-BA03-441C-981D-2730A1D5D1F7}
 		{BC6D8381-2225-FC48-9C07-EE5C4FCADF7E} = {BDD4E426-BA03-441C-981D-2730A1D5D1F7}
+		{01403CF8-FC71-FE9D-73D1-6FF122FA52CF} = {BDD4E426-BA03-441C-981D-2730A1D5D1F7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AED0F4EC-5FDF-44D9-B68A-EAB9A277FB70}

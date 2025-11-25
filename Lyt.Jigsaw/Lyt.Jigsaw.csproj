@@ -35,8 +35,6 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\Images\Bonheur_Matisse.jpg" />
-    <EmbeddedResource Include="Resources\Images\Kauai.jpg" />
-    <EmbeddedResource Include="Resources\Images\Seraph-of-the-Scales.jpg" />
     <EmbeddedResource Include="Resources\Images\ZhangDaqiang.jpg" />
   </ItemGroup>
 
