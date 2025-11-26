@@ -102,7 +102,8 @@ public sealed partial class ShellViewModel
     private async void ActivateInitialView()
     {
         this.isFirstActivation = true;
-        Select(this.jigsawModel.IsFirstRun? ActivatedView.Language : ActivatedView.Collection);
+        // Select(this.jigsawModel.IsFirstRun ? ActivatedView.Language : ActivatedView.Collection);
+        Select(ActivatedView.Collection);
         this.Logger.Debug("OnViewLoaded OnViewActivation complete");
     }
 
