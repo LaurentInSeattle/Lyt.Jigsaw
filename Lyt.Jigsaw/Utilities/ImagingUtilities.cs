@@ -1,4 +1,6 @@
-﻿using SkiaSharp;
+﻿using Avalonia.Media.Imaging;
+
+using SkiaSharp;
 
 namespace Lyt.Jigsaw.Utilities
 {
@@ -32,7 +34,7 @@ namespace Lyt.Jigsaw.Utilities
                 bitmap.Dpi,
                 bitmap.Format
             );
-            
+
             using (ILockedFramebuffer fb = writeableBitmap.Lock())
             {
                 bitmap.CopyPixels(fb, AlphaFormat.Opaque);
@@ -41,7 +43,65 @@ namespace Lyt.Jigsaw.Utilities
             return writeableBitmap;
         }
 
-        private static readonly Dictionary<PixelFormat, SKColorType> ColorTypeMap = 
+        public static unsafe WriteableBitmap Crop( this WriteableBitmap source, PixelRect roi)
+        {
+            try
+            {
+
+                var format = source.Format ?? throw new InvalidOperationException("Source bitmap has no format");
+                var alphaFormat = source.AlphaFormat ?? throw new InvalidOperationException("Source bitmap has no alpha format");
+                using ILockedFramebuffer fb = source.Lock();
+
+                var size = source.PixelSize;
+                int stride = fb.RowBytes;
+                int minStride = (format.BitsPerPixel * size.Width + 7) / 8;
+                if (minStride > stride)
+                {
+                    throw new Exception(nameof(stride));
+                }
+
+                byte* srcData = (byte*) fb.Address;
+                int bytesPerPixel = format.BitsPerPixel / 8;
+                byte[] destBytes = new byte[roi.Width * roi.Height * format.BitsPerPixel / 8];
+                fixed (byte* dstData = destBytes)
+                {
+                    for (int y = roi.Y; y < roi.Y + roi.Height; ++y)
+                    {
+                        int dstRow = 0; 
+                        for (int x = roi.X; y < roi.X + roi.Width; ++x)
+                        {
+                            int dstCol = 0;
+                            int dstIndex = dstRow * roi.Width * bytesPerPixel + dstCol * bytesPerPixel;
+                            int srcIndex = y * stride + x * bytesPerPixel;
+                            for (int b = 0; b < bytesPerPixel; ++b)
+                            {
+                                dstData[dstIndex + b ] = srcData[srcIndex +b ];
+                            }
+
+                            ++dstCol;
+                        }
+
+                        ++dstRow;
+                    }
+
+                    var bitmap = new WriteableBitmap(
+                        format,
+                        alphaFormat,
+                        (IntPtr)dstData,
+                        source.PixelSize,
+                        source.Dpi,
+                        stride);
+                    return bitmap;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("Failed to crop bitmap", ex);
+            }
+
+        }
+
+        private static readonly Dictionary<PixelFormat, SKColorType> ColorTypeMap =
             new()
             {
                 [PixelFormat.Bgra8888] = SKColorType.Bgra8888
@@ -49,14 +109,14 @@ namespace Lyt.Jigsaw.Utilities
 
         public static byte[] EncodeToJpeg(this Bitmap bitmap, int quality = 80)
         {
-            if ( bitmap is not WriteableBitmap writeableBitmap)
+            if (bitmap is not WriteableBitmap writeableBitmap)
             {
-                writeableBitmap = WriteableFromBitmap(bitmap); 
+                writeableBitmap = WriteableFromBitmap(bitmap);
             }
 
             if (writeableBitmap is null)
             {
-                return []; 
+                return [];
             }
 
             try

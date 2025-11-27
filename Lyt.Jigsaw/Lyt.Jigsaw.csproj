@@ -18,6 +18,7 @@
 
   <PropertyGroup Label="Avalonia">
     <AvaloniaXamlVerboseExceptions>True</AvaloniaXamlVerboseExceptions>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>

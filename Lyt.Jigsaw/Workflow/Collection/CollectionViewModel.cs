@@ -256,6 +256,8 @@ public sealed partial class CollectionViewModel :
                 new MemoryStream(imageBytes), decodeToWidth, BitmapInterpolationMode.HighQuality);
         this.PuzzleImage = image;
         this.SetupUiForNewGame();
+
+        // var cropped = image.Crop(new PixelRect(200, 100, 620, 420));
         return true;
     }
 
