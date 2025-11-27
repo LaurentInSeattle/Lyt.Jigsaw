@@ -1,7 +1,6 @@
-﻿using Avalonia.Media.Imaging;
+﻿using SkiaSharp;
 
-using SkiaSharp;
-
+// Consider moving this into the Avalonia area and create a new library for Avalonia images and media.
 namespace Lyt.Jigsaw.Utilities
 {
     public static class ImagingUtilities
@@ -43,16 +42,15 @@ namespace Lyt.Jigsaw.Utilities
             return writeableBitmap;
         }
 
-        public static unsafe WriteableBitmap Crop( this WriteableBitmap source, PixelRect roi)
+        public static unsafe WriteableBitmap Crop(this WriteableBitmap source, PixelRect roi)
         {
             try
             {
-
+                var size = source.PixelSize;
                 var format = source.Format ?? throw new InvalidOperationException("Source bitmap has no format");
                 var alphaFormat = source.AlphaFormat ?? throw new InvalidOperationException("Source bitmap has no alpha format");
                 using ILockedFramebuffer fb = source.Lock();
 
-                var size = source.PixelSize;
                 int stride = fb.RowBytes;
                 int minStride = (format.BitsPerPixel * size.Width + 7) / 8;
                 if (minStride > stride)
@@ -60,22 +58,22 @@ namespace Lyt.Jigsaw.Utilities
                     throw new Exception(nameof(stride));
                 }
 
-                byte* srcData = (byte*) fb.Address;
+                byte* srcData = (byte*)fb.Address;
                 int bytesPerPixel = format.BitsPerPixel / 8;
                 byte[] destBytes = new byte[roi.Width * roi.Height * format.BitsPerPixel / 8];
                 fixed (byte* dstData = destBytes)
                 {
+                    int dstRow = 0;
                     for (int y = roi.Y; y < roi.Y + roi.Height; ++y)
                     {
-                        int dstRow = 0; 
-                        for (int x = roi.X; y < roi.X + roi.Width; ++x)
+                        int dstCol = 0;
+                        for (int x = roi.X; x < roi.X + roi.Width; ++x)
                         {
-                            int dstCol = 0;
                             int dstIndex = dstRow * roi.Width * bytesPerPixel + dstCol * bytesPerPixel;
-                            int srcIndex = y * stride + x * bytesPerPixel;
-                            for (int b = 0; b < bytesPerPixel; ++b)
+                            int srcIndex = y * size.Width * bytesPerPixel + x * bytesPerPixel;
+                            for (int byteIndex = 0; byteIndex < bytesPerPixel; ++byteIndex)
                             {
-                                dstData[dstIndex + b ] = srcData[srcIndex +b ];
+                                dstData[dstIndex++] = srcData[srcIndex++];
                             }
 
                             ++dstCol;
@@ -84,13 +82,10 @@ namespace Lyt.Jigsaw.Utilities
                         ++dstRow;
                     }
 
-                    var bitmap = new WriteableBitmap(
-                        format,
-                        alphaFormat,
-                        (IntPtr)dstData,
-                        source.PixelSize,
-                        source.Dpi,
-                        stride);
+                    var pixelSize = new PixelSize(roi.Width, roi.Height);
+                    var bitmap = 
+                        new WriteableBitmap(
+                            format, alphaFormat, (IntPtr)dstData, pixelSize, source.Dpi, roi.Width * bytesPerPixel);
                     return bitmap;
                 }
             }
