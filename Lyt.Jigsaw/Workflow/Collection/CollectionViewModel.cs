@@ -1,5 +1,6 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Collection;
 
+
 public sealed partial class CollectionViewModel :
     ViewModel<CollectionView>,
     IRecipient<ToolbarCommandMessage>,
@@ -17,6 +18,9 @@ public sealed partial class CollectionViewModel :
 
     private readonly JigsawModel jigsawModel;
 
+    // NOT cropped and NO contrast applied
+    private WriteableBitmap? sourceImage;
+
     [ObservableProperty]
     private ThumbnailsPanelViewModel thumbnailsPanelViewModel;
 
@@ -24,12 +28,14 @@ public sealed partial class CollectionViewModel :
     private DropViewModel dropViewModel;
 
     [ObservableProperty]
+    // Either copy of sourceImage and possibly cropped and with requested contrast applied
     private WriteableBitmap? puzzleImage;
 
     [ObservableProperty]
     private string pieceCountString;
 
     [ObservableProperty]
+
     private int pieceCountMin;
 
     [ObservableProperty]
@@ -165,7 +171,7 @@ public sealed partial class CollectionViewModel :
 
             case ToolbarCommandMessage.ToolbarCommand.CollectionSaveToDesktop:
                 // TODO : Implement saving puzzle image to desktop
-                // this.PictureViewModel.SaveToDesktop();
+                // this.SaveToDesktop();
                 break;
 
             // Ignore all other commands 
@@ -255,11 +261,10 @@ public sealed partial class CollectionViewModel :
             WriteableBitmap.DecodeToWidth(
                 new MemoryStream(imageBytes), decodeToWidth, BitmapInterpolationMode.HighQuality);
         this.PuzzleImage = image;
+        // Need to duplicate the image 
+        this.sourceImage = image.Duplicate();
         this.SetupUiForNewGame();
 
-        // Testing cropping 
-        //var cropped = image.Crop(new PixelRect(200, 100, 620, 420));
-        //this.PuzzleImage = cropped;
         return true;
     }
 
@@ -295,11 +300,15 @@ public sealed partial class CollectionViewModel :
             if (game.IsCompleted)
             {
                 // Completed game: allow to redo it with different parameters
+                // Need to duplicate the image 
+                this.sourceImage = image.Duplicate(); 
+                
                 // Show settings 
                 this.SetupUiForNewGame();
             }
             else
             {
+                // No need to duplicate the image 
                 this.state = PlayStatus.ReadyForRestart;
             } 
         }
@@ -365,6 +374,25 @@ public sealed partial class CollectionViewModel :
                     "Strong" :
                     this.contrast == 2 ?
                         "Weak" : "Normal";
+        if (this.contrast == 3)
+        {
+            // No contrast adjustment 
+            return;
+        }
+        else
+        {
+            // Crop first 
+
+            // then Apply CLAHE contrast adjustment
+            float clipLimit =
+                this.contrast == 0 ?
+                    5.0f :
+                    this.contrast == 1 ?
+                        3.5f :
+                        this.contrast == 2 ? 2.5f : 0.0f;
+            var clahe = new Clahe(8, 8, clipLimit);
+            //byte[] contrasted = clahe.Process(this.sourceImage, );
+        } 
     }
 
     #endregion Game Parameters 

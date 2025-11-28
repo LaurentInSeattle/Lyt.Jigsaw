@@ -88,6 +88,7 @@ global using Lyt.Utilities.Randomizing;
 
 #endregion Framework 
 
+global using Lyt.ImageProcessing.Algorithms.ContrastEqualization;
 global using Lyt.Translator.Service;
 
 global using Lyt.Jigsaw.Model;

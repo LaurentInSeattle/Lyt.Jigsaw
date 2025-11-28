@@ -42,6 +42,9 @@ namespace Lyt.Jigsaw.Utilities
             return writeableBitmap;
         }
 
+        public static unsafe WriteableBitmap Duplicate(this WriteableBitmap source)
+            => source.Crop(new PixelRect(0, 0, source.PixelSize.Width, source.PixelSize.Height));
+        
         public static unsafe WriteableBitmap Crop(this WriteableBitmap source, PixelRect roi)
         {
             try
