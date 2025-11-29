@@ -269,6 +269,9 @@ public sealed partial class CollectionViewModel :
         {
             // No cropping needed: already multiple of 8
             this.sourceImage = image;
+
+            // image bytes are already loaded
+            this.imageBytes = imageBytes;
         }
         else
         {
@@ -278,8 +281,9 @@ public sealed partial class CollectionViewModel :
             int pixelOffset = remain / 2;
             var cropped = image.Crop(new PixelRect(0, pixelOffset, decodeToWidth, imageHeight));
 
-            // Need to duplicate the image 
-            this.sourceImage = cropped.Duplicate();
+            this.sourceImage = cropped;
+            var temp = cropped.Duplicate();
+            this.imageBytes = temp.EncodeToJpeg(); 
         }
 
         this.PuzzleImage = this.sourceImage;
@@ -428,6 +432,10 @@ public sealed partial class CollectionViewModel :
 
             // Update the puzzle image
             this.PuzzleImage = contrastAjusted;
+
+            // Update the image bytes that will be passed to the puzzle 
+            var temp = contrastAjusted.Duplicate();
+            this.imageBytes = temp.EncodeToJpeg();
         }
     }
 

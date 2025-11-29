@@ -1,4 +1,6 @@
-﻿using SkiaSharp;
+﻿using Lyt.Utilities.Profiling;
+
+using SkiaSharp;
 
 // Consider moving this into the Avalonia area and create a new library for Avalonia images and media.
 namespace Lyt.Jigsaw.Utilities;
@@ -172,7 +174,34 @@ public static class ImagingUtilities
         catch ( Exception ex)
         {
             Debug.WriteLine("Failed: " + ex);
-            throw new InvalidOperationException("Failed to apply Clahe: " +  ex);
+            throw new Exception("Failed to apply Clahe: " +  ex);
+        }
+    }
+
+    public static unsafe byte[] ImageBytes ( this WriteableBitmap sourceBitmap )
+    {
+        try
+        {
+            using ILockedFramebuffer sourceFrameBuffer = sourceBitmap.Lock();
+
+            // Define the source rectangle (e.g., the entire bitmap)
+            int height = sourceFrameBuffer.Size.Height;
+            int width = sourceFrameBuffer.Size.Width;
+            PixelRect sourceRect = new(0, 0, width, height);
+            byte[] imageBuffer = new byte[height * width * 4];
+            fixed (byte* arrayPtr = imageBuffer)
+            {
+                // The 'dataArray' is pinned here, and 'arrayPtr' points to its first element.
+                nint buffer = (nint)arrayPtr;
+                sourceBitmap.CopyPixels(sourceRect, buffer, imageBuffer.Length, sourceFrameBuffer.RowBytes);
+            }
+
+            return imageBuffer;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("ImageBytes Failed: " + ex);
+            throw new Exception("Failed to retrieve ImageBytes: " + ex);
         }
     }
 }
