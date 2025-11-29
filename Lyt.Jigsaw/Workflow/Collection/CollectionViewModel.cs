@@ -118,7 +118,7 @@ public sealed partial class CollectionViewModel :
         // TODO : Set up properly sliders 
         this.OnRotationsSliderValueChanged(0.0);
         this.OnSnapSliderValueChanged(0);
-        this.OnContrastSliderValueChanged(0);
+        this.OnContrastSliderValueChanged(4);
         this.ThumbnailsPanelViewModel.LoadThumnails();
         this.loaded = true;
     }
@@ -263,13 +263,26 @@ public sealed partial class CollectionViewModel :
 
         // Make sure height is multiple of 8 so that CLAHE works properly later
         int imageHeight = image.PixelSize.Height;
-        int div8 = imageHeight >> 3 ;
-        imageHeight = div8 * 8;
-        var cropped = image.Crop(new PixelRect(0, 0, decodeToWidth, imageHeight));
-        this.PuzzleImage = cropped;
+        int remain = imageHeight % 8;
 
-        // Need to duplicate the image 
-        this.sourceImage = cropped.Duplicate();
+        if (remain == 0)
+        {
+            // No cropping needed: already multiple of 8
+            this.sourceImage = image;
+        }
+        else
+        {
+            // Crop equally from top and bottom
+            int div8 = imageHeight >> 3;
+            imageHeight = div8 * 8;
+            int pixelOffset = remain / 2;
+            var cropped = image.Crop(new PixelRect(0, pixelOffset, decodeToWidth, imageHeight));
+
+            // Need to duplicate the image 
+            this.sourceImage = cropped.Duplicate();
+        }
+
+        this.PuzzleImage = this.sourceImage;
         this.SetupUiForNewGame();
 
         return true;
@@ -376,18 +389,19 @@ public sealed partial class CollectionViewModel :
         this.contrast = (int)value;
         this.ContrastString =
             this.contrast == 0 ?
-                "Heavy" :
+                "Extreme" :
                 this.contrast == 1 ?
                     "Strong" :
                     this.contrast == 2 ?
-                        "Weak" : "Normal";
+                        "Medium" :
+                        this.contrast == 3 ? "Weak" : "Normal";
 
         if (this.sourceImage is null || this.setups.Count == 0)
         {
             return;
         }
 
-        if (this.contrast == 3)
+        if (this.contrast == 4)
         {
             // No contrast adjustment 
             this.PuzzleImage = this.sourceImage;
@@ -401,19 +415,16 @@ public sealed partial class CollectionViewModel :
                 return;
             }
 
-            // Crop first 
-            int width = setup.PuzzleSize.Width;
-            int height = setup.PuzzleSize.Height;
-            var cropped = this.sourceImage!.Crop(new PixelRect(0, 0, width, height));
-
-            // then Apply CLAHE contrast adjustment on the cropped image
+            // Apply CLAHE contrast adjustment on the source image
             float clipLimit =
                 this.contrast == 0 ?
-                    8.0f :
+                    7.5f :
                     this.contrast == 1 ?
-                        4.0f :
-                        this.contrast == 2 ? 2.0f : 0.0f;
-            WriteableBitmap contrastAjusted = cropped.Clahe(clipLimit, this.Profiler);
+                        6.0f :
+                        this.contrast == 2 ? 
+                            4.5f :
+                            this.contrast == 3 ? 3.0f : 0.0f;
+            WriteableBitmap contrastAjusted = sourceImage.Clahe(clipLimit, this.Profiler);
 
             // Update the puzzle image
             this.PuzzleImage = contrastAjusted;
