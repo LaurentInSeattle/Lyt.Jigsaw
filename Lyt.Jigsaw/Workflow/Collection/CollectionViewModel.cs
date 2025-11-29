@@ -74,14 +74,14 @@ public sealed partial class CollectionViewModel :
     private int rotations;
     private int snap;
     private int contrast;
-    private Dictionary<int, PuzzleSetup> setups; 
+    private Dictionary<int, PuzzleSetup> setups;
     private List<int> pieceCounts;
     private byte[]? imageBytes;
 
     public CollectionViewModel(JigsawModel jigsawModel)
     {
         this.jigsawModel = jigsawModel;
-        this.setups = []; 
+        this.setups = [];
         this.pieceCounts = [];
         this.DropViewModel = new DropViewModel();
         this.ThumbnailsPanelViewModel = new ThumbnailsPanelViewModel(this, jigsawModel);
@@ -166,7 +166,7 @@ public sealed partial class CollectionViewModel :
                 break;
 
             case ToolbarCommandMessage.ToolbarCommand.RemoveFromCollection:
-                this.DeleteGame(); 
+                this.DeleteGame();
                 break;
 
             case ToolbarCommandMessage.ToolbarCommand.CollectionSaveToDesktop:
@@ -182,13 +182,13 @@ public sealed partial class CollectionViewModel :
 
     private void DeleteGame()
     {
-        var game = this.jigsawModel.Game; 
+        var game = this.jigsawModel.Game;
         if (game is null)
         {
-            return; 
+            return;
         }
 
-        if ( ! this.jigsawModel.DeleteGame(game.Name, out string message))
+        if (!this.jigsawModel.DeleteGame(game.Name, out string message))
         {
             Debug.WriteLine(message);
         }
@@ -196,7 +196,7 @@ public sealed partial class CollectionViewModel :
         this.ThumbnailsPanelViewModel.LoadThumnails();
     }
 
-    private void Play ( )
+    private void Play()
     {
         if (this.state == PlayStatus.ReadyForNew)
         {
@@ -237,7 +237,7 @@ public sealed partial class CollectionViewModel :
 
         try
         {
-            var setup = this.setups[this.pieceCount]; 
+            PuzzleSetup setup = this.setups[this.pieceCount];
             var writeableBitmap =
                 WriteableBitmap.DecodeToWidth(new MemoryStream(this.imageBytes), DecodeToWidthThumbnail);
             byte[] thumbnailBytes = writeableBitmap.EncodeToJpeg();
@@ -260,15 +260,22 @@ public sealed partial class CollectionViewModel :
         var image =
             WriteableBitmap.DecodeToWidth(
                 new MemoryStream(imageBytes), decodeToWidth, BitmapInterpolationMode.HighQuality);
-        this.PuzzleImage = image;
+
+        // Make sure height is multiple of 8 so that CLAHE works properly later
+        int imageHeight = image.PixelSize.Height;
+        int div8 = imageHeight >> 3 ;
+        imageHeight = div8 * 8;
+        var cropped = image.Crop(new PixelRect(0, 0, decodeToWidth, imageHeight));
+        this.PuzzleImage = cropped;
+
         // Need to duplicate the image 
-        this.sourceImage = image.Duplicate();
+        this.sourceImage = cropped.Duplicate();
         this.SetupUiForNewGame();
 
         return true;
     }
 
-    internal void ClearSelection ()
+    internal void ClearSelection()
     {
         this.ParametersVisible = false;
         this.PuzzleImage = null;
@@ -295,14 +302,14 @@ public sealed partial class CollectionViewModel :
                 WriteableBitmap.DecodeToWidth(
                     new MemoryStream(imageBytes), decodeToWidth, BitmapInterpolationMode.HighQuality);
             this.PuzzleImage = image;
-            this.imageBytes = imageBytes; 
+            this.imageBytes = imageBytes;
             this.ParametersVisible = game.IsCompleted;
             if (game.IsCompleted)
             {
                 // Completed game: allow to redo it with different parameters
                 // Need to duplicate the image 
-                this.sourceImage = image.Duplicate(); 
-                
+                this.sourceImage = image.Duplicate();
+
                 // Show settings 
                 this.SetupUiForNewGame();
             }
@@ -310,7 +317,7 @@ public sealed partial class CollectionViewModel :
             {
                 // No need to duplicate the image 
                 this.state = PlayStatus.ReadyForRestart;
-            } 
+            }
         }
         catch (Exception ex)
         {
@@ -374,32 +381,50 @@ public sealed partial class CollectionViewModel :
                     "Strong" :
                     this.contrast == 2 ?
                         "Weak" : "Normal";
+
+        if (this.sourceImage is null || this.setups.Count == 0)
+        {
+            return;
+        }
+
         if (this.contrast == 3)
         {
             // No contrast adjustment 
+            this.PuzzleImage = this.sourceImage;
             return;
         }
         else
         {
-            // Crop first 
+            // Make sure we have a proper setup 
+            if (!this.setups.TryGetValue(this.pieceCount, out PuzzleSetup? setup) || setup is null)
+            {
+                return;
+            }
 
-            // then Apply CLAHE contrast adjustment
+            // Crop first 
+            int width = setup.PuzzleSize.Width;
+            int height = setup.PuzzleSize.Height;
+            var cropped = this.sourceImage!.Crop(new PixelRect(0, 0, width, height));
+
+            // then Apply CLAHE contrast adjustment on the cropped image
             float clipLimit =
                 this.contrast == 0 ?
-                    5.0f :
+                    8.0f :
                     this.contrast == 1 ?
-                        3.5f :
-                        this.contrast == 2 ? 2.5f : 0.0f;
-            var clahe = new Clahe(8, 8, clipLimit);
-            //byte[] contrasted = clahe.Process(this.sourceImage, );
-        } 
+                        4.0f :
+                        this.contrast == 2 ? 2.0f : 0.0f;
+            WriteableBitmap contrastAjusted = cropped.Clahe(clipLimit, this.Profiler);
+
+            // Update the puzzle image
+            this.PuzzleImage = contrastAjusted;
+        }
     }
 
     #endregion Game Parameters 
 
     private bool SetupUiForNewGame()
     {
-        if ( this.PuzzleImage is null)
+        if (this.PuzzleImage is null)
         {
             return false;
         }

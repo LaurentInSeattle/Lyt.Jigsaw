@@ -1,136 +1,178 @@
 ﻿using SkiaSharp;
 
 // Consider moving this into the Avalonia area and create a new library for Avalonia images and media.
-namespace Lyt.Jigsaw.Utilities
+namespace Lyt.Jigsaw.Utilities;
+
+public static class ImagingUtilities
 {
-    public static class ImagingUtilities
+    public static byte[] EncodeThumbnailJpeg(Bitmap bitmap, int width, int height, int quality)
     {
-        public static byte[] EncodeThumbnailJpeg(Bitmap bitmap, int width, int height, int quality)
+        var resized = ThumbnailBitmapFrom(bitmap, width, height);
+        return EncodeToJpeg(resized, quality);
+    }
+
+    public static Bitmap DecodeBitmap(IEnumerable<byte> blob)
+    {
+        using var stream = new MemoryStream([.. blob]);
+        return new Bitmap(stream);
+    }
+
+    public static Bitmap ThumbnailBitmapFrom(Bitmap bitmap, int width, int height)
+    {
+        double scale = Math.Min(width / (double)bitmap.Size.Width, height / (double)bitmap.Size.Height);
+        int scaledWidth = (int)(bitmap.Size.Width * scale);
+        int scaledHeight = (int)(bitmap.Size.Height * scale);
+        var resized = bitmap.CreateScaledBitmap(new PixelSize(scaledWidth, scaledHeight), BitmapInterpolationMode.MediumQuality);
+        return resized;
+    }
+
+    public static WriteableBitmap WriteableFromBitmap(Bitmap bitmap)
+    {
+        var writeableBitmap = new WriteableBitmap(
+            bitmap.PixelSize,
+            bitmap.Dpi,
+            bitmap.Format
+        );
+
+        using (ILockedFramebuffer fb = writeableBitmap.Lock())
         {
-            var resized = ThumbnailBitmapFrom(bitmap, width, height);
-            return EncodeToJpeg(resized, quality);
+            bitmap.CopyPixels(fb, AlphaFormat.Opaque);
         }
 
-        public static Bitmap DecodeBitmap(IEnumerable<byte> blob)
-        {
-            using var stream = new MemoryStream([.. blob]);
-            return new Bitmap(stream);
-        }
+        return writeableBitmap;
+    }
 
-        public static Bitmap ThumbnailBitmapFrom(Bitmap bitmap, int width, int height)
-        {
-            double scale = Math.Min(width / (double)bitmap.Size.Width, height / (double)bitmap.Size.Height);
-            int scaledWidth = (int)(bitmap.Size.Width * scale);
-            int scaledHeight = (int)(bitmap.Size.Height * scale);
-            var resized = bitmap.CreateScaledBitmap(new PixelSize(scaledWidth, scaledHeight), BitmapInterpolationMode.MediumQuality);
-            return resized;
-        }
+    public static unsafe WriteableBitmap Duplicate(this WriteableBitmap source)
+        => source.Crop(new PixelRect(0, 0, source.PixelSize.Width, source.PixelSize.Height));
 
-        public static WriteableBitmap WriteableFromBitmap(Bitmap bitmap)
+    public static unsafe WriteableBitmap Crop(this WriteableBitmap source, PixelRect roi)
+    {
+        try
         {
-            var writeableBitmap = new WriteableBitmap(
-                bitmap.PixelSize,
-                bitmap.Dpi,
-                bitmap.Format
-            );
+            var size = source.PixelSize;
+            var format = source.Format ?? throw new InvalidOperationException("Source bitmap has no format");
+            var alphaFormat = source.AlphaFormat ?? throw new InvalidOperationException("Source bitmap has no alpha format");
+            using ILockedFramebuffer fb = source.Lock();
 
-            using (ILockedFramebuffer fb = writeableBitmap.Lock())
+            int stride = fb.RowBytes;
+            int minStride = (format.BitsPerPixel * size.Width + 7) / 8;
+            if (minStride > stride)
             {
-                bitmap.CopyPixels(fb, AlphaFormat.Opaque);
+                throw new Exception(nameof(stride));
             }
 
-            return writeableBitmap;
-        }
-
-        public static unsafe WriteableBitmap Duplicate(this WriteableBitmap source)
-            => source.Crop(new PixelRect(0, 0, source.PixelSize.Width, source.PixelSize.Height));
-        
-        public static unsafe WriteableBitmap Crop(this WriteableBitmap source, PixelRect roi)
-        {
-            try
+            byte* srcData = (byte*)fb.Address;
+            int bytesPerPixel = format.BitsPerPixel / 8;
+            byte[] destBytes = new byte[roi.Width * roi.Height * format.BitsPerPixel / 8];
+            fixed (byte* dstData = destBytes)
             {
-                var size = source.PixelSize;
-                var format = source.Format ?? throw new InvalidOperationException("Source bitmap has no format");
-                var alphaFormat = source.AlphaFormat ?? throw new InvalidOperationException("Source bitmap has no alpha format");
-                using ILockedFramebuffer fb = source.Lock();
-
-                int stride = fb.RowBytes;
-                int minStride = (format.BitsPerPixel * size.Width + 7) / 8;
-                if (minStride > stride)
+                int dstRow = 0;
+                for (int y = roi.Y; y < roi.Y + roi.Height; ++y)
                 {
-                    throw new Exception(nameof(stride));
-                }
-
-                byte* srcData = (byte*)fb.Address;
-                int bytesPerPixel = format.BitsPerPixel / 8;
-                byte[] destBytes = new byte[roi.Width * roi.Height * format.BitsPerPixel / 8];
-                fixed (byte* dstData = destBytes)
-                {
-                    int dstRow = 0;
-                    for (int y = roi.Y; y < roi.Y + roi.Height; ++y)
+                    int dstCol = 0;
+                    for (int x = roi.X; x < roi.X + roi.Width; ++x)
                     {
-                        int dstCol = 0;
-                        for (int x = roi.X; x < roi.X + roi.Width; ++x)
+                        int dstIndex = dstRow * roi.Width * bytesPerPixel + dstCol * bytesPerPixel;
+                        int srcIndex = y * size.Width * bytesPerPixel + x * bytesPerPixel;
+                        for (int byteIndex = 0; byteIndex < bytesPerPixel; ++byteIndex)
                         {
-                            int dstIndex = dstRow * roi.Width * bytesPerPixel + dstCol * bytesPerPixel;
-                            int srcIndex = y * size.Width * bytesPerPixel + x * bytesPerPixel;
-                            for (int byteIndex = 0; byteIndex < bytesPerPixel; ++byteIndex)
-                            {
-                                dstData[dstIndex++] = srcData[srcIndex++];
-                            }
-
-                            ++dstCol;
+                            dstData[dstIndex++] = srcData[srcIndex++];
                         }
 
-                        ++dstRow;
+                        ++dstCol;
                     }
 
-                    var pixelSize = new PixelSize(roi.Width, roi.Height);
-                    var bitmap = 
-                        new WriteableBitmap(
-                            format, alphaFormat, (IntPtr)dstData, pixelSize, source.Dpi, roi.Width * bytesPerPixel);
-                    return bitmap;
+                    ++dstRow;
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException("Failed to crop bitmap", ex);
-            }
 
+                var pixelSize = new PixelSize(roi.Width, roi.Height);
+                var bitmap =
+                    new WriteableBitmap(
+                        format, alphaFormat, (IntPtr)dstData, pixelSize, source.Dpi, roi.Width * bytesPerPixel);
+                return bitmap;
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException("Failed to crop bitmap", ex);
         }
 
-        private static readonly Dictionary<PixelFormat, SKColorType> ColorTypeMap =
-            new()
-            {
-                [PixelFormat.Bgra8888] = SKColorType.Bgra8888
-            };
+    }
 
-        public static byte[] EncodeToJpeg(this Bitmap bitmap, int quality = 80)
+    private static readonly Dictionary<PixelFormat, SKColorType> ColorTypeMap =
+        new()
         {
-            if (bitmap is not WriteableBitmap writeableBitmap)
+            [PixelFormat.Bgra8888] = SKColorType.Bgra8888
+        };
+
+    public static byte[] EncodeToJpeg(this Bitmap bitmap, int quality = 80)
+    {
+        if (bitmap is not WriteableBitmap writeableBitmap)
+        {
+            writeableBitmap = WriteableFromBitmap(bitmap);
+        }
+
+        if (writeableBitmap is null)
+        {
+            return [];
+        }
+
+        try
+        {
+            using ILockedFramebuffer frameBuffer = writeableBitmap.Lock();
+            SKColorType colorType = ColorTypeMap[bitmap.Format!.Value];
+            var skImageInfo = new SKImageInfo(frameBuffer.Size.Width, frameBuffer.Size.Height, colorType);
+            using var skBitmap = new SKBitmap(skImageInfo);
+            skBitmap.InstallPixels(skImageInfo, frameBuffer.Address, frameBuffer.RowBytes);
+            using var skImage = SKImage.FromBitmap(skBitmap);
+            return skImage.Encode(SKEncodedImageFormat.Jpeg, quality).ToArray();
+        }
+        finally
+        {
+            writeableBitmap.Dispose();
+        }
+    }
+
+    public static unsafe WriteableBitmap Clahe(this WriteableBitmap sourceBitmap, float clipLimit, IProfiler profiler)
+    {
+        try
+        {
+            using ILockedFramebuffer sourceFrameBuffer = sourceBitmap.Lock();
+
+            // Define the source rectangle (e.g., the entire bitmap)
+            int height = sourceFrameBuffer.Size.Height;
+            int width = sourceFrameBuffer.Size.Width;
+            PixelRect sourceRect = new(0, 0, width, height);
+            byte[] imageBuffer = new byte[height * width * 4];
+            fixed (byte* arrayPtr = imageBuffer)
             {
-                writeableBitmap = WriteableFromBitmap(bitmap);
+                // The 'dataArray' is pinned here, and 'arrayPtr' points to its first element.
+                nint buffer = (nint)arrayPtr;
+                sourceBitmap.CopyPixels(sourceRect, buffer, imageBuffer.Length, sourceFrameBuffer.RowBytes);
             }
 
-            if (writeableBitmap is null)
+            byte[] bytes;
+            var clahe = new Clahe(8, 8, clipLimit);
+            bytes = clahe.Process(imageBuffer, height, width, profiler);
+            fixed (byte* arrayPtr = bytes)
             {
-                return [];
-            }
+                // The 'dataArray' is pinned here, and 'arrayPtr' points to its first element.
+                IntPtr data = (IntPtr)arrayPtr;
+                var newBitmap = new WriteableBitmap(
+                    (PixelFormat)sourceBitmap.Format!,
+                    (AlphaFormat)sourceBitmap.AlphaFormat!,
+                    data,
+                    sourceBitmap.PixelSize,
+                    sourceBitmap.Dpi,
+                    sourceFrameBuffer.RowBytes);
 
-            try
-            {
-                using ILockedFramebuffer frameBuffer = writeableBitmap.Lock();
-                SKColorType colorType = ColorTypeMap[bitmap.Format!.Value];
-                var skImageInfo = new SKImageInfo(frameBuffer.Size.Width, frameBuffer.Size.Height, colorType);
-                using var skBitmap = new SKBitmap(skImageInfo);
-                skBitmap.InstallPixels(skImageInfo, frameBuffer.Address, frameBuffer.RowBytes);
-                using var skImage = SKImage.FromBitmap(skBitmap);
-                return skImage.Encode(SKEncodedImageFormat.Jpeg, quality).ToArray();
+                return newBitmap;
             }
-            finally
-            {
-                writeableBitmap.Dispose();
-            }
+        }
+        catch ( Exception ex)
+        {
+            Debug.WriteLine("Failed: " + ex);
+            throw new InvalidOperationException("Failed to apply Clahe: " +  ex);
         }
     }
 }
