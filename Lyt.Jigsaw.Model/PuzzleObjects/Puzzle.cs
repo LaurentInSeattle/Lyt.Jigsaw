@@ -3,9 +3,9 @@
 public sealed class Puzzle
 {
 #if DEBUG
-    public const int MaxPieceCount = 666;
+    public const int MaxPieceCount = 556;
 #else
-    public const int MaxPieceCount = 666 * 2;
+    public const int MaxPieceCount = 1080;
 #endif
 
     internal readonly Randomizer Randomizer;

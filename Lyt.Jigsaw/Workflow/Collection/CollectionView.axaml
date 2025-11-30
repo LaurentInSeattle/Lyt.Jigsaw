@@ -70,7 +70,7 @@
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="160"/>
 						<ColumnDefinition Width="*"/>
-						<ColumnDefinition Width="120" />
+						<ColumnDefinition Width="180" />
 					</Grid.ColumnDefinitions>
 					<TextBlock
 						Grid.Row="0" Grid.Column="0" 
@@ -110,7 +110,7 @@
 						Margin="4 8 4 4 "
 						VerticalAlignment="Center" HorizontalAlignment="Stretch"
 						TickFrequency="1.0"
-						TickPlacement="None"
+						TickPlacement="BottomRight"
 						IsSnapToTickEnabled="True"
 						SmallChange="1" LargeChange="1"
 						Minimum="1"

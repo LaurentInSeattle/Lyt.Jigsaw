@@ -398,7 +398,7 @@ public sealed partial class CollectionViewModel :
                     "Strong" :
                     this.contrast == 2 ?
                         "Medium" :
-                        this.contrast == 3 ? "Weak" : "Normal";
+                        this.contrast == 3 ? "Weak" : "None";
 
         if (this.sourceImage is null || this.setups.Count == 0)
         {

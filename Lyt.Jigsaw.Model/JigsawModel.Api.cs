@@ -103,6 +103,7 @@ public sealed partial class JigsawModel : ModelBase
             this.IsPuzzleDirty = hasMoves || this.IsPuzzleDirty;
             if (hasMoves)
             {
+                this.IsPuzzleComplete ();
                 new PuzzleChangedMessage(PuzzleChange.Progress, puzzle.Progress()).Publish();
             }
 
