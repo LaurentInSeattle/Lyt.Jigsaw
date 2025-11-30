@@ -32,9 +32,6 @@ public partial class App : ApplicationBase
            //typeof(IntroToolbarViewModel),
            //typeof(LanguageViewModel),
            //typeof(LanguageToolbarViewModel),
-
-           typeof(TranslatorService),
-           // typeof(AstroPicService),
         ],
         [
             // Services 

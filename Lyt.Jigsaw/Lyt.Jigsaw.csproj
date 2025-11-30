@@ -49,7 +49,6 @@
     <ProjectReference Include="..\..\Lyt.Framework\Lyt.Model\Lyt.Model.csproj" />
     <ProjectReference Include="..\..\Lyt.Framework\Lyt.Mvvm\Lyt.Mvvm.csproj" />
     <ProjectReference Include="..\..\Lyt.Framework\Lyt.Persistence\Lyt.Persistence.csproj" />
-    <ProjectReference Include="..\..\Lyt.Framework\Lyt.Translator.Service\Lyt.Translator.Service.csproj" />
     <ProjectReference Include="..\..\Lyt.Framework\Lyt.Utilities\Lyt.Utilities.csproj" />
     <ProjectReference Include="..\Lyt.Jigsaw.Model\Lyt.Jigsaw.Model.csproj" />
   </ItemGroup>

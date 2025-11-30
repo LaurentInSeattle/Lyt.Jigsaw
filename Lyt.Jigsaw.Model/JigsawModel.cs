@@ -19,7 +19,6 @@ public sealed partial class JigsawModel : ModelBase
         };
 
     private readonly FileManagerModel fileManager;
-    private readonly TranslatorService translatorService;
     private readonly ILocalizer localizer;
     private readonly Lock lockObject = new();
     private readonly FileId modelFileId;
@@ -39,12 +38,10 @@ public sealed partial class JigsawModel : ModelBase
 
     public JigsawModel(
         FileManagerModel fileManager,
-        TranslatorService translatorService,
         ILocalizer localizer,
         ILogger logger) : base(logger)
     {
         this.fileManager = fileManager;
-        this.translatorService = translatorService;
         this.localizer = localizer;
         this.modelFileId = new FileId(Area.User, Kind.Json, JigsawModel.JigsawModelFilename);
         this.timeoutTimer = new TimeoutTimer(this.OnSavePuzzle, timeoutMilliseconds: 20_000);

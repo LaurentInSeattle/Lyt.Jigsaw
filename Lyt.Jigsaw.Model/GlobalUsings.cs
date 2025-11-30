@@ -23,7 +23,6 @@ global using Lyt.Framework.Interfaces.Modeling;
 global using Lyt.Framework.Interfaces.Messaging;
 global using Lyt.Model;
 global using Lyt.Persistence;
-global using Lyt.Translator.Service;
 global using Lyt.Utilities.Parallel;
 global using Lyt.Utilities.Profiling;
 global using Lyt.Utilities.Randomizing;
@@ -31,7 +30,6 @@ global using Lyt.Utilities.Randomizing;
 global using Lyt.Jigsaw.Model.GameObjects;
 global using Lyt.Jigsaw.Model.Infrastucture;
 global using Lyt.Jigsaw.Model.Messaging;
-global using Lyt.Jigsaw.Model.PictureObjects;
 global using Lyt.Jigsaw.Model.PuzzleObjects;
 global using Lyt.Jigsaw.Model.Utilities;
 

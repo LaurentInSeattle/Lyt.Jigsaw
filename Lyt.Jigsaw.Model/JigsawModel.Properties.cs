@@ -23,12 +23,6 @@ public sealed partial class JigsawModel : ModelBase
     [JsonRequired]
     public bool ShouldAutoCleanup { get => this.Get<bool>(); set => this.Set(value); }
 
-    //[JsonRequired]
-    //public Dictionary<string, Picture> Pictures { get; set; } = [];
-
-    //[JsonRequired]
-    //public Dictionary<ImageProviderKey, PictureMetadata> LastUpdate { get; set; } = [];
-
     #endregion Serialized -  No model changed event
 
     #region Not serialized - No model changed event
