@@ -9,7 +9,12 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <ApplicationIcon>puzzle.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="puzzle.ico" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lyt.Jigsaw\Lyt.Jigsaw.csproj" />
   </ItemGroup>

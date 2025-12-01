@@ -1,8 +1,5 @@
 ﻿namespace Lyt.Jigsaw.Shell;
 
-using Lyt.Jigsaw.Workflow.Settings;
-using Lyt.Mvvm;
-
 using static Messaging.ApplicationMessagingExtensions;
 
 public sealed partial class ShellViewModel
@@ -10,8 +7,6 @@ public sealed partial class ShellViewModel
     IRecipient<ToolbarCommandMessage>,
     IRecipient<LanguageChangedMessage>
 {
-    private const int MinutesToMillisecs = 60 * 1_000;
-
     private readonly JigsawModel jigsawModel;
     private readonly Fullscreen fullscreen;
     private readonly IToaster toaster;
@@ -22,16 +17,16 @@ public sealed partial class ShellViewModel
     private ViewSelector<ActivatedView>? viewSelector;
     public bool isFirstActivation;
 
-    #region To please the XAML viewer 
+//    #region To please the XAML viewer 
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-    // Should never be executed 
-    public ShellViewModel()
-    {
-    }
-#pragma warning restore CS8618 
+//#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+//    // Should never be executed 
+//    public ShellViewModel()
+//    {
+//    }
+//#pragma warning restore CS8618 
 
-    #endregion To please the XAML viewer 
+//    #endregion To please the XAML viewer 
 
     public ShellViewModel(JigsawModel astroPicModel, IToaster toaster)
     {
