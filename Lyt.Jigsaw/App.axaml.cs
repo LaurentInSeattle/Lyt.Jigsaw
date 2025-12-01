@@ -26,12 +26,11 @@ public partial class App : ApplicationBase
            typeof(PuzzleToolbarViewModel),
            typeof(CollectionViewModel),
            typeof(CollectionToolbarViewModel),
-           //typeof(SettingsViewModel),
-           //typeof(SettingsToolbarViewModel),
-           //typeof(IntroViewModel),
-           //typeof(IntroToolbarViewModel),
-           //typeof(LanguageViewModel),
-           //typeof(LanguageToolbarViewModel),
+           typeof(IntroViewModel),
+           typeof(IntroToolbarViewModel),
+           typeof(SettingsViewModel),
+           typeof(LanguageViewModel),
+           typeof(LanguageToolbarViewModel),
         ],
         [
             // Services 

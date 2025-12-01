@@ -1,0 +1,62 @@
+<UserControl 
+	x:Class="Lyt.Jigsaw.Workflow.Intro.IntroView"
+	xmlns:vm="clr-namespace:Lyt.Jigsaw.Workflow.Intro"
+	x:DataType="vm:IntroViewModel" 
+
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+
+	xmlns:shared="clr-namespace:Lyt.Jigsaw.Workflow.Shared"
+	>
+	<ScrollViewer
+		Margin="2"
+		Background="Transparent"
+		VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+		ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+		ScrollViewer.VerticalScrollBarVisibility="Auto"
+		>
+		<WrapPanel
+			Background="Transparent"
+			>
+			<shared:ContainerControl
+				Margin="32"
+				Title="{DynamicResource Intro.LicenseTitle}"
+				Text="{DynamicResource Intro.LicenseSubtitle}"
+				>
+				<shared:ContainerControl.ContainerControlContent>
+					<Grid
+						Width="520" Height="260"
+						>
+						<TextBlock
+							Margin="10 0 0 0"
+							Text="{DynamicResource Intro.LicenseTerms}"
+							Theme="{StaticResource H2}"
+							VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+							/>
+					</Grid>
+				</shared:ContainerControl.ContainerControlContent>
+			</shared:ContainerControl>
+			<shared:ContainerControl
+				Margin="32"
+				Title="{DynamicResource Intro.ReminderTitle}"
+				Text="{DynamicResource Intro.ReminderSubtitle}"
+				>
+				<shared:ContainerControl.ContainerControlContent>
+					<Grid
+						Width="490" Height="260"
+						>
+						<TextBlock
+							Margin="10 0 0 0"
+							Text="{DynamicResource Intro.ReminderText}"
+							Theme="{StaticResource H2}"
+							VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+							/>
+					</Grid>
+				</shared:ContainerControl.ContainerControlContent>
+			</shared:ContainerControl>
+		</WrapPanel>
+	</ScrollViewer>
+</UserControl>

@@ -1,5 +1,6 @@
 ﻿namespace Lyt.Jigsaw.Shell;
 
+using Lyt.Jigsaw.Workflow.Settings;
 using Lyt.Mvvm;
 
 using static Messaging.ApplicationMessagingExtensions;
@@ -102,8 +103,7 @@ public sealed partial class ShellViewModel
     private async void ActivateInitialView()
     {
         this.isFirstActivation = true;
-        // Select(this.jigsawModel.IsFirstRun ? ActivatedView.Language : ActivatedView.Collection);
-        Select(ActivatedView.Collection);
+        Select(this.jigsawModel.IsFirstRun ? ActivatedView.Language : ActivatedView.Collection);
         this.Logger.Debug("OnViewLoaded OnViewActivation complete");
     }
 
@@ -131,16 +131,15 @@ public sealed partial class ShellViewModel
                 new SelectableView<ActivatedView>(activatedView, vm, control, vmToolbar));
         }
 
-        // Not used for now 
-        //void SetupNoToolbar<TViewModel, TControl>(
-        //        ActivatedView activatedView, Control control)
-        //    where TViewModel : ViewModel<TControl>
-        //    where TControl : Control, IView, new()
-        //{
-        //    var vm = App.GetRequiredService<TViewModel>();
-        //    vm.CreateViewAndBind();
-        //    selectableViews.Add(new SelectableView<ActivatedView>(activatedView, vm));
-        //}
+        void SetupNoToolbar<TViewModel, TControl>(
+                ActivatedView activatedView, Control control)
+            where TViewModel : ViewModel<TControl>
+            where TControl : Control, IView, new()
+        {
+            var vm = App.GetRequiredService<TViewModel>();
+            vm.CreateViewAndBind();
+            selectableViews.Add(new SelectableView<ActivatedView>(activatedView, vm));
+        }
 
         Setup<PuzzleViewModel, PuzzleView, PuzzleToolbarViewModel, PuzzleToolbarView>(
             ActivatedView.Puzzle, view.TodayButton);
@@ -148,14 +147,13 @@ public sealed partial class ShellViewModel
         Setup<CollectionViewModel, CollectionView, CollectionToolbarViewModel, CollectionToolbarView>(
             ActivatedView.Collection, view.CollectionButton);
 
-        //Setup<IntroViewModel, IntroView, IntroToolbarViewModel, IntroToolbarView>(
-        //    ActivatedView.Intro, view.IntroButton);
+        Setup<LanguageViewModel, LanguageView, LanguageToolbarViewModel, LanguageToolbarView>(
+            ActivatedView.Language, view.FlagButton);
 
-        //Setup<LanguageViewModel, LanguageView, LanguageToolbarViewModel, LanguageToolbarView>(
-        //    ActivatedView.Language, view.FlagButton);
+        SetupNoToolbar<SettingsViewModel, SettingsView>(ActivatedView.Settings, view.SettingsButton);
 
-        //Setup<SettingsViewModel, SettingsView, SettingsToolbarViewModel, SettingsToolbarView>(
-        //    ActivatedView.Settings, view.SettingsButton);
+        Setup<IntroViewModel, IntroView, IntroToolbarViewModel, IntroToolbarView>(
+            ActivatedView.Intro, view.IntroButton);
 
         // Needs to be kept alive as a class member, or else callbacks will die (and wont work) 
         this.viewSelector =
