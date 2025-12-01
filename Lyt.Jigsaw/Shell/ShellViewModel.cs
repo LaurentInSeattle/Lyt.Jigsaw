@@ -17,17 +17,6 @@ public sealed partial class ShellViewModel
     private ViewSelector<ActivatedView>? viewSelector;
     public bool isFirstActivation;
 
-//    #region To please the XAML viewer 
-
-//#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-//    // Should never be executed 
-//    public ShellViewModel()
-//    {
-//    }
-//#pragma warning restore CS8618 
-
-//    #endregion To please the XAML viewer 
-
     public ShellViewModel(JigsawModel astroPicModel, IToaster toaster)
     {
         this.jigsawModel = astroPicModel;
@@ -81,25 +70,14 @@ public sealed partial class ShellViewModel
 
         // Ready 
         this.toaster.Host = this.View.ToasterHost;
-        if (true)
-        {
-            this.toaster.Show(
-                this.Localize("Shell.Ready"), this.Localize("Shell.Greetings"),
-                1_600, InformationLevel.Info);
-        }
+        this.toaster.Show(
+            this.Localize("Shell.Ready"), this.Localize("Shell.Greetings"),
+            5_000, InformationLevel.Info);
 
-        // Delay a bit the launch of the gallery so that there is time to ping 
-        //this.Logger.Debug("OnViewLoaded: Internet connected: " + this.jigsawModel.IsInternetConnected);
-        Schedule.OnUiThread(100, this.ActivateInitialView, DispatcherPriority.Background);
-
-        this.Logger.Debug("OnViewLoaded complete");
-    }
-
-    private async void ActivateInitialView()
-    {
         this.isFirstActivation = true;
         Select(this.jigsawModel.IsFirstRun ? ActivatedView.Language : ActivatedView.Collection);
-        this.Logger.Debug("OnViewLoaded OnViewActivation complete");
+
+        this.Logger.Debug("OnViewLoaded complete");
     }
 
     private void SetupWorkflow()
@@ -171,12 +149,9 @@ public sealed partial class ShellViewModel
         if (newViewModel is not null)
         {
             bool mainToolbarIsHidden = false;
-            // this.astroPicModel.IsFirstRun || newViewModel is IntroViewModel;
             this.MainToolbarIsVisible = !mainToolbarIsHidden;
-            if (this.isFirstActivation)
-            {
-                this.Profiler.MemorySnapshot(newViewModel.ViewBase!.GetType().Name + ":  Activated");
-            }
+            this.Profiler.MemorySnapshot(
+                newViewModel.ViewBase!.GetType().Name + ":  Activated", withGCCollect: false);
         }
 
         this.isFirstActivation = false;

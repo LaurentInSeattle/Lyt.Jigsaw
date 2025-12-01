@@ -1,5 +1,7 @@
 ﻿namespace Lyt.Jigsaw.Model;
 
+using Lyt.Framework.Interfaces.Profiling;
+
 using static Lyt.Persistence.FileManagerModel;
 
 public sealed partial class JigsawModel : ModelBase
@@ -20,7 +22,7 @@ public sealed partial class JigsawModel : ModelBase
 
     private readonly FileManagerModel fileManager;
     private readonly ILocalizer localizer;
-    private readonly Lock lockObject = new();
+    private readonly IProfiler profiler; 
     private readonly FileId modelFileId;
     private readonly TimeoutTimer timeoutTimer;
 
@@ -39,18 +41,15 @@ public sealed partial class JigsawModel : ModelBase
     public JigsawModel(
         FileManagerModel fileManager,
         ILocalizer localizer,
+        IProfiler profiler,
         ILogger logger) : base(logger)
     {
         this.fileManager = fileManager;
         this.localizer = localizer;
+        this.profiler = profiler;
         this.modelFileId = new FileId(Area.User, Kind.Json, JigsawModel.JigsawModelFilename);
         this.timeoutTimer = new TimeoutTimer(this.OnSavePuzzle, timeoutMilliseconds: 20_000);
         this.ShouldAutoSave = true;
-    }
-
-    ~JigsawModel()
-    {
-        NetworkChange.NetworkAvailabilityChanged -= this.OnNetworkAvailabilityChanged;
     }
 
     public override async Task Initialize()
@@ -66,11 +65,7 @@ public sealed partial class JigsawModel : ModelBase
         // Force a save on shutdown 
         this.SavePuzzle();
         this.SaveGame();
-
-        if (this.IsDirty)
-        {
-            await this.Save();
-        }
+        await this.Save();
     }
 
     public Task Load()
@@ -87,18 +82,10 @@ public sealed partial class JigsawModel : ModelBase
             // Copy all properties with attribute [JsonRequired]
             base.CopyJSonRequiredProperties<JigsawModel>(model);
 
-            // TODO
-            //this.ValidateCollection();
-            //this.CleanupCollection();
-
             // Load the saved games and their thumbnails
+            this.profiler.StartTiming();  
             Task.Run(this.LoadSavedGames);
-
-            // Check Internet by send a fire and forget ping request to Azure 
-            this.IsInternetConnected = false;
-            _ = this.Ping();
-            NetworkChange.NetworkAvailabilityChanged += this.OnNetworkAvailabilityChanged;
-
+            this.profiler.EndTiming("JigsawModel.LoadSavedGames");
             return Task.CompletedTask;
         }
         catch (Exception ex)
@@ -139,8 +126,7 @@ public sealed partial class JigsawModel : ModelBase
         var files = this.fileManager.Enumerate(Area.User, Kind.Json, "Game_");
         Parallelize.ForEach(files, LoadSavedGame);
 
-        this.ThumbnailsLoaded = true; 
-        this.NotifyModelLoaded();
+        new ModelLoadedMessage().Publish();
     }
 
     public override Task Save()
@@ -183,81 +169,9 @@ public sealed partial class JigsawModel : ModelBase
         return Task.CompletedTask;
     }
 
-    private const int PingTimeout = 12_000;
-    private const string PingHost = "www.bing.com";
-
-    private void OnNetworkAvailabilityChanged(object? sender, NetworkAvailabilityEventArgs e)
-        => _ = this.Ping(); // Fire and forget 
-
-    private async Task Ping()
-    {
-        void Trouble(Exception ex)
-        {
-            string message = ex.Message + "\n" + ex.ToString();
-            Debug.WriteLine(message);
-            this.Logger.Warning(message);
-            this.IsInternetConnected = false;
-        }
-
-        try
-        {
-            using Ping ping = new();
-            PingReply reply = await ping.SendPingAsync(PingHost, PingTimeout);
-            this.IsInternetConnected = (reply is { Status: IPStatus.Success });
-            string message = this.IsInternetConnected ? "Service is available." : "No internet or server down";
-            Debug.WriteLine(message);
-            if (this.IsInternetConnected)
-            {
-                this.Logger.Info(message);
-            }
-            else
-            {
-                this.Logger.Warning(message);
-            }
-        }
-        catch (PingException pex)
-        {
-            if (pex.InnerException is SocketException sex)
-            {
-                if (sex.SocketErrorCode == SocketError.NoData)
-                {
-                    // Stupid Azure does not Ping properly, assumes connected in this case
-                    this.IsInternetConnected = true;
-                    string message = "Service is available.";
-                    Debug.WriteLine(message);
-                    this.Logger.Info(message);
-                    return;
-                }
-            }
-
-            Trouble(pex);
-        }
-        catch (Exception ex)
-        {
-            Trouble(ex);
-        }
-        finally
-        {
-            this.PingComplete = true;
-            this.NotifyModelLoaded();
-        }
-    }
-
     public void SelectLanguage(string languageKey)
     {
         this.Language = languageKey;
         this.localizer.SelectLanguage(languageKey);
-    }
-
-    private void NotifyModelLoaded()
-    {
-        lock (this.lockObject)
-        {
-            if (!this.ModelLoadedNotified && this.ThumbnailsLoaded && this.PingComplete)
-            {
-                new ModelLoadedMessage().Publish();
-                this.ModelLoadedNotified = true;
-            }
-        }
     }
 }
