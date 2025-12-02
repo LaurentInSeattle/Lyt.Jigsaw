@@ -174,4 +174,12 @@ public sealed partial class JigsawModel : ModelBase
         this.Language = languageKey;
         this.localizer.SelectLanguage(languageKey);
     }
+
+    public void ClearFirstRun()
+    {
+        this.IsFirstRun = false;
+        this.Save();
+    }
+
+    public bool HasNoSavedGames() => this.SavedGames.Count == 0;
 }

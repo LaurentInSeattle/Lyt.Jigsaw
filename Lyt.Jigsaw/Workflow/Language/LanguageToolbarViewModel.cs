@@ -4,9 +4,15 @@ public sealed partial class LanguageToolbarViewModel : ViewModel<LanguageToolbar
 {
 #pragma warning disable CA1822 // Mark members as static
     [RelayCommand]
-    // FOR NOW 
-    public void OnNext() => ViewSelector<ActivatedView>.Select(ActivatedView.Collection);
-    // LATER 
-    // public void OnNext() => ViewSelector<ActivatedView>.Select(ActivatedView.Intro);
-#pragma warning restore CA1822 
+    public void OnNext()
+    {
+        var model = App.GetRequiredService<JigsawModel>();
+        model.ClearFirstRun();
+        // FOR NOW 
+        ViewSelector<ActivatedView>.Select(ActivatedView.Collection);
+        // LATER 
+        // public void OnNext() => ViewSelector<ActivatedView>.Select(ActivatedView.Intro);
+    }
+
+#pragma warning restore CA1822
 }

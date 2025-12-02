@@ -19,6 +19,9 @@ public sealed partial class ThumbnailsPanelViewModel :
     [ObservableProperty]
     private int providersSelectedIndex;
 
+    [ObservableProperty]
+    private string emptyMessage; 
+
     private ThumbnailViewModel? selectedThumbnail;
     private Model.GameObjects.Game? selectedGame;
     private List<ThumbnailViewModel>? allThumbnails;
@@ -30,6 +33,7 @@ public sealed partial class ThumbnailsPanelViewModel :
         this.collectionViewModel = collectionViewModel;
         this.Thumbnails = [];
         this.ShowInProgress = this.jigsawModel.ShowInProgress;
+        this.EmptyMessage = string.Empty;
         this.Subscribe<LanguageChangedMessage>();
     }
 
@@ -116,6 +120,7 @@ public sealed partial class ThumbnailsPanelViewModel :
 
         if (this.filteredThumbnails is not null && this.filteredThumbnails.Count > 0)
         {
+            this.EmptyMessage = string.Empty;
             this.Thumbnails = [.. this.filteredThumbnails];
 
             // Clear selection: the selected game is not in the filtered list
@@ -125,10 +130,16 @@ public sealed partial class ThumbnailsPanelViewModel :
         }
         else
         {
-            // Empty list, Clear selection in main area too
+            // Null or empty list, Clear selection in main area too
             this.Thumbnails = [];
             this.selectedGame = null;
-            this.collectionViewModel.ClearSelection(); 
+            this.collectionViewModel.ClearSelection();
+
+            // TODO : Localize this message
+            this.EmptyMessage =
+                this.ShowInProgress ?
+                    "There are no games in progress." :
+                    "There are no completed games yet.";
         }
     }
 

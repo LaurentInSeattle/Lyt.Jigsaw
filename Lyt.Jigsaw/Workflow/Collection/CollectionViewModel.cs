@@ -1,11 +1,11 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Collection;
 
+using Lyt.Jigsaw.Model.Utilities;
 
 public sealed partial class CollectionViewModel :
     ViewModel<CollectionView>,
     IRecipient<ToolbarCommandMessage>,
-    IRecipient<ModelLoadedMessage>,
-    IRecipient<CollectionChangedMessage>
+    IRecipient<ModelLoadedMessage>
 {
     private const int DecodeToWidthThumbnail = 420;
 
@@ -88,7 +88,6 @@ public sealed partial class CollectionViewModel :
         this.state = PlayStatus.Unprepared;
         this.Subscribe<ToolbarCommandMessage>();
         this.Subscribe<ModelLoadedMessage>();
-        this.Subscribe<CollectionChangedMessage>();
 
         // Setup UI 
         this.rotations = 1;
@@ -101,16 +100,6 @@ public sealed partial class CollectionViewModel :
         this.ParametersVisible = false;
     }
 
-    //private void TestStart()
-    //{
-    //    ResourcesUtilities.SetResourcesPath("Lyt.Jigsaw.Resources");
-    //    ResourcesUtilities.SetExecutingAssembly(Assembly.GetExecutingAssembly());
-    //    byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("ZhangDaqiang.jpg", out string? _);
-    //    // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Bonheur_Matisse.jpg", out string? _);
-    //    // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Kauai.jpg", out string? _);
-    //    // byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource("Seraph-of-the-Scales.jpg", out string? _);
-    //}
-
     public override void Activate(object? activationParameters)
     {
         base.Activate(activationParameters);
@@ -121,7 +110,27 @@ public sealed partial class CollectionViewModel :
         this.OnContrastSliderValueChanged(4);
         this.ThumbnailsPanelViewModel.LoadThumnails();
         this.loaded = true;
+
+        if  (this.jigsawModel.HasNoSavedGames())
+        {
+            this.SimulateDropImage();
+        }
     }
+
+    private void SimulateDropImage()
+    {
+        var randomizer = App.GetRequiredService<IRandomizer>();
+        bool useFirstImage = randomizer.NextBool();
+        string resourceName =
+            useFirstImage ?
+                "Bonheur_Matisse.jpg" :
+                "ZhangDaqiang.jpg";
+        ResourcesUtilities.SetResourcesPath("Lyt.Jigsaw.Resources");
+        ResourcesUtilities.SetExecutingAssembly(Assembly.GetExecutingAssembly());
+        byte[] imageBytes = ResourcesUtilities.LoadEmbeddedBinaryResource(resourceName, out string? _);
+        this.OnImageDrop(imageBytes);
+    }
+
 
     public void Receive(ModelLoadedMessage _)
     {
@@ -130,32 +139,7 @@ public sealed partial class CollectionViewModel :
             this.ThumbnailsPanelViewModel.LoadThumnails();
             this.loaded = true;
         }
-        else
-        {
-            // this.UpdateSelection();
-        }
     }
-
-    public void Receive(CollectionChangedMessage _)
-    {
-        this.loaded = false;
-        this.Receive(new ModelLoadedMessage());
-        // this.UpdateSelection();
-    }
-
-    // TODO: Figure out if we still need this
-    //private void UpdateSelection()
-    //    => Schedule.OnUiThread(
-    //            200,
-    //            () =>
-    //            {
-    //                //this.ThumbnailsPanelViewModel.UpdateSelection();
-    //                //if (this.ThumbnailsPanelViewModel.SelectedThumbnail is ThumbnailViewModel thumbnailViewModel)
-    //                //{
-    //                //    this.Select(thumbnailViewModel.Metadata, thumbnailViewModel.ImageBytes);
-    //                //}
-    //            },
-    //            DispatcherPriority.Background);
 
     public void Receive(ToolbarCommandMessage message)
     {

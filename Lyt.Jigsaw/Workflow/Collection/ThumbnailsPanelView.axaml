@@ -9,7 +9,6 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 
-	xmlns:controls="clr-namespace:Lyt.Avalonia.AstroPic.Controls"
 	xmlns:glyphs="clr-namespace:Lyt.Avalonia.Controls.Glyphs;assembly=Lyt.Avalonia.Controls"
 	xmlns:toggle="clr-namespace:Lyt.Avalonia.Controls.Toggle;assembly=Lyt.Avalonia.Controls"
 	xmlns:panels="clr-namespace:Lyt.Avalonia.Controls.Panels;assembly=Lyt.Avalonia.Controls"
@@ -49,7 +48,13 @@
 				Value="{Binding ShowInProgress}"
 				/>
 		</StackPanel>
-
+		<TextBlock
+			Grid.Row="1"
+			Margin="6 20 6 6"
+			Text="{Binding EmptyMessage}"
+			Theme="{StaticResource H3}"
+			HorizontalAlignment="Center" VerticalAlignment="Top"
+			/>
 		<ScrollViewer
 			Grid.Row="1"
 			Background="Transparent"
