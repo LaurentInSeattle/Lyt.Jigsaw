@@ -114,11 +114,11 @@ public sealed partial class ShellViewModel
             selectableViews.Add(new SelectableView<ActivatedView>(activatedView, vm));
         }
 
-        Setup<PuzzleViewModel, PuzzleView, PuzzleToolbarViewModel, PuzzleToolbarView>(
-            ActivatedView.Puzzle, view.TodayButton);
-
         Setup<CollectionViewModel, CollectionView, CollectionToolbarViewModel, CollectionToolbarView>(
             ActivatedView.Collection, view.CollectionButton);
+
+        Setup<PuzzleViewModel, PuzzleView, PuzzleToolbarViewModel, PuzzleToolbarView>(
+            ActivatedView.Puzzle, view.TodayButton);
 
         Setup<LanguageViewModel, LanguageView, LanguageToolbarViewModel, LanguageToolbarView>(
             ActivatedView.Language, view.FlagButton);
@@ -136,6 +136,8 @@ public sealed partial class ShellViewModel
                 this.View.SelectionGroup,
                 selectableViews,
                 this.OnViewSelected);
+
+        ViewSelector<ActivatedView>.Disable(ActivatedView.Puzzle); 
     }
 
     private void OnViewSelected(ActivatedView activatedView)

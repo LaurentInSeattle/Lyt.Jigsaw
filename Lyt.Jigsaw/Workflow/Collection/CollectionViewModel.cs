@@ -201,7 +201,7 @@ public sealed partial class CollectionViewModel :
             {
                 var vm = App.GetRequiredService<PuzzleViewModel>();
                 vm.ResumePuzzle(this.jigsawModel.Puzzle, this.PuzzleImage);
-                ApplicationMessagingExtensions.Select(ActivatedView.Puzzle);
+                ActivatePuzzleView();
             }
         }
         catch (Exception ex)
@@ -229,12 +229,18 @@ public sealed partial class CollectionViewModel :
             vm.StartNewGame(
                 this.imageBytes, thumbnailBytes, this.PuzzleImage,
                 setup, this.rotations, this.snap);
-            ApplicationMessagingExtensions.Select(ActivatedView.Puzzle);
+            ActivatePuzzleView(); 
         }
         catch (Exception ex)
         {
             Debug.WriteLine(ex.ToString());
         }
+    }
+
+    private static void ActivatePuzzleView ()
+    {
+        ViewSelector<ActivatedView>.Enable(ActivatedView.Puzzle);
+        ApplicationMessagingExtensions.Select(ActivatedView.Puzzle);
     }
 
     internal bool OnImageDrop(byte[] imageBytes)

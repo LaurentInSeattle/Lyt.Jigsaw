@@ -54,7 +54,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         // Force a full save on deactivation
         this.jigsawModel.SavePuzzle();
         this.jigsawModel.SaveGame();
-        this.jigsawModel.GameIsActive(isActive: false);
+        // this.jigsawModel.GameIsActive(isActive: false);
     }
 
     public void Receive(ZoomRequestMessage message)
