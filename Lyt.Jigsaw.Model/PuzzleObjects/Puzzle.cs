@@ -177,6 +177,8 @@ public sealed class Puzzle
                 pieceToSnapTo.SnapTargetToThis(groupPiece, snapPiece.Placement.Opposite());
                 pieceToSnapTo.ManageGroups(groupPiece);
 
+                this.Moves.Add(pieceToSnapTo);
+
                 break;
             }
 
@@ -208,6 +210,7 @@ public sealed class Puzzle
             Piece pieceToSnapTo = snapPiece.Piece;
 
             // Here we snap the moving piece only, the group (if any) will stay put 
+            this.Moves.Add(movingPiece);
             pieceToSnapTo.SnapTargetToThis(movingPiece, snapPiece.Placement.Opposite());
             pieceToSnapTo.ManageGroups(movingPiece);
         }

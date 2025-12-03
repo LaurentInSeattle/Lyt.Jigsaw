@@ -49,12 +49,15 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.Unregister<PuzzleChangedMessage>();
     }
 
+    public override void Activate(object? _) 
+        => this.jigsawModel.GameIsActive(isActive: true);
+
     public override void Deactivate()
     {
         // Force a full save on deactivation
         this.jigsawModel.SavePuzzle();
         this.jigsawModel.SaveGame();
-        // this.jigsawModel.GameIsActive(isActive: false);
+        this.jigsawModel.GameIsActive(isActive: false);
     }
 
     public void Receive(ZoomRequestMessage message)

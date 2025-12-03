@@ -297,7 +297,6 @@ public sealed class Piece
         //    return;
         //}
 
-        this.Puzzle.Moves.Add(targetPiece);
         var location = this.SnapLocation(placement);
         targetPiece.MoveTo(location.X, location.Y);
     }
