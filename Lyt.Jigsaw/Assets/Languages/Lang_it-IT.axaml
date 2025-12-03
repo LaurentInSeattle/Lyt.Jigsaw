@@ -11,15 +11,13 @@
 
     <system:String x:Key="Shell.About">Altro su...</system:String>
 
-	<system:String x:Key="Shell.Play">Giochi</system:String>
+    <system:String x:Key="Shell.Play">Giochi</system:String>
 
     <system:String x:Key="Shell.Collection">Collezione</system:String>
 
     <system:String x:Key="Shell.Settings">Impostazioni</system:String>
 
     <system:String x:Key="Shell.Language">Lingua</system:String>
-
-    <system:String x:Key="Shell.ToTray">All'icona</system:String>
 
     <system:String x:Key="Shell.Exit">Esci</system:String>
 
@@ -29,55 +27,19 @@
 
     <system:String x:Key="Shell.Greetings">Benvenuto a Gioco di Puzzle!</system:String>
 
-    <system:String x:Key="Collection.SetWallpaper">Imposta Sfondo</system:String>
-
     <system:String x:Key="Collection.Remove">Rimuovi</system:String>
 
     <system:String x:Key="Collection.SaveToDesktop">Salva sul Desktop</system:String>
-
-    <system:String x:Key="Collection.BadPicture">Impossibile caricare l'immagine!</system:String>
 
     <system:String x:Key="Collection.DropZone">Zona di Rilascio</system:String>
 
     <system:String x:Key="Collection.DropZoneHelp">Trascina e rilascia i file qui per aggiungerli alla collezione di sfondi.</system:String>
 
-    <system:String x:Key="Collection.Statistics">Statistiche</system:String>
+    <system:String x:Key="Collection.Thumbs.ShowOnly">Mostra solo:</system:String>
 
-    <system:String x:Key="Collection.Stats.AlertTextQuota">Troppe immagini nella collezione!</system:String>
+    <system:String x:Key="Collection.Thumbs.InProgress">In corso</system:String>
 
-    <system:String x:Key="Collection.Stats.AlertTextSpace">Attento al spazio disponibile su disco!</system:String>
-
-    <system:String x:Key="Collection.Stats.ImageCountFormat">Immagine: {0} (Tutti i servizi - Quota: {1})</system:String>
-
-    <system:String x:Key="Collection.Stats.SizeOnDiskFormat">Dimensione stimata su disco: {0} MB (Quota: {1} MB)</system:String>
-
-    <system:String x:Key="Collection.Stats.AvailableDiskSpaceFormat">Spazio disponibile su disco: {0:F1} GB</system:String>
-
-    <system:String x:Key="Collection.Thumbs.WebService">Servizio Web:</system:String>
-
-    <system:String x:Key="Collection.Thumbs.AllServices">Tutti i servizi.</system:String>
-
-    <system:String x:Key="Collection.Thumbs.All">Tutto</system:String>
-
-    <system:String x:Key="Collection.Thumbs.Recent">Recente</system:String>
-
-    <system:String x:Key="Gallery.SetWallpaper">Imposta Sfondo</system:String>
-
-    <system:String x:Key="Gallery.Add">Aggiungi</system:String>
-
-    <system:String x:Key="Gallery.SaveToDesktop">Salva sul Desktop</system:String>
-
-    <system:String x:Key="Gallery.StartingDownloading">Avvio del download</system:String>
-
-    <system:String x:Key="Gallery.CompletedDownloading">Download completato</system:String>
-
-    <system:String x:Key="Gallery.ImageMetadata">metadati dell'immagine</system:String>
-
-    <system:String x:Key="Gallery.Image">immagine</system:String>
-
-    <system:String x:Key="Gallery.ForProvider">per il servizzio</system:String>
-
-    <system:String x:Key="Gallery.DownloadsComplete">Download completati!</system:String>
+    <system:String x:Key="Collection.Thumbs.Completed">Completato</system:String>
 
     <system:String x:Key="Intro.AgreeMIT">Accetto i termini della licenza MIT, Continua.</system:String>
 
@@ -97,74 +59,14 @@
 
     <system:String x:Key="Settings.CleanupNow">Ripulire Adesso</system:String>
 
-    <system:String x:Key="Settings.Services.Title">Servizi di download di immagini.</system:String>
-
-    <system:String x:Key="Settings.Services.Subtitle">Seleziona i servizi web da cui vuoi scaricare le immagini.</system:String>
-
-    <system:String x:Key="Settings.Services.Downloaded">Scaricamento</system:String>
-
-    <system:String x:Key="Settings.Services.Skip">Ignora e salta.</system:String>
-
-    <system:String x:Key="Settings.Quota.Title">Impostazioni della quota disco</system:String>
-
-    <system:String x:Key="Settings.Quota.Subtitle">Utilizza queste impostazioni per limitare (o forse non limitare) l'utilizzo dello spazio su disco per le immagini nella tua collezione.</system:String>
-
-    <system:String x:Key="Settings.Quota.ImageCount">Numero massimo di immagini:</system:String>
-
-    <system:String x:Key="Settings.Quota.DiskSpace">Quota di spazio (MB) su disco per le immagini:</system:String>
-
-    <system:String x:Key="Settings.Quota.ImageSize">Dimensione per l'archiviazione delle immagini:</system:String>
-
-    <system:String x:Key="Settings.Quota.ImageSize.True">Alta Definizione (HD)</system:String>
-
-    <system:String x:Key="Settings.Quota.ImageSize.False">Ultra Alta Definizione (UHD/4K)</system:String>
-
-    <system:String x:Key="Settings.Quota.Exceeded">Che cosa fare se la quota viene superata?</system:String>
-
-    <system:String x:Key="Settings.Quota.Exceeded.True">Auto. elimina le vecchie immagini.</system:String>
-
-    <system:String x:Key="Settings.Quota.Exceeded.False">Mostra solo un messaggio di avviso.</system:String>
-
-    <system:String x:Key="Settings.Os.Title">Controlli del sistema operativo</system:String>
-
-    <system:String x:Key="Settings.Os.Subtitle">Scegli alcune impostazioni del sistema operativo per gestire le tue immagini.</system:String>
-
-    <system:String x:Key="Settings.Os.Rotate">Ruotare lo sfondo dello schermo?</system:String>
-
-    <system:String x:Key="Settings.Os.Rotate.True">Sì, periodicamente.</system:String>
-
-    <system:String x:Key="Settings.Os.Rotate.False">Non cambiarlo mai.</system:String>
-
-    <system:String x:Key="Settings.Os.Rotate.Minutes">Cambia sfondo dopo questi minuti:</system:String>
-
     <system:String x:Key="Settings.ReminderTitle">Promemoria importante...</system:String>
 
     <system:String x:Key="Settings.ReminderSubtitle">Alcune cose importanti da ricordare sulle immagini scaricate...</system:String>
 
     <system:String x:Key="Settings.ReminderText">Si consiglia di utilizzare le immagini scaricate solo come sfondo del computer. Per qualsiasi altro utilizzo, commerciale o meno, è necessario contattare il titolare del copyright.</system:String>
 
-    <system:String x:Key="Shared.NoImage">Nessuna Immagine</system:String>
-
     <system:String x:Key="Shared.FileErrorTitle">Errore del file system.</system:String>
 
     <system:String x:Key="Shared.FileErrorText">Impossibile salvare il file immagine.</system:String>
-
-    <system:String x:Key="Tray.OpenCollection">Apri la Collezione</system:String>
-
-    <system:String x:Key="Tray.Settings">Impostazioni</system:String>
-
-    <system:String x:Key="Tray.ImageInfo">Informazioni su questa immagine...</system:String>
-
-    <system:String x:Key="Tray.Quit">Esci</system:String>
-
-    <system:String x:Key="Model.AlreadyDownloaded">L'immagine è già stata scaricata.</system:String>
-
-    <system:String x:Key="Model.NoUrl">L'immagine non ha URL.</system:String>
-
-    <system:String x:Key="Model.NotAnImage">L'immagine non è valida.</system:String>
-
-    <system:String x:Key="Model.TodayIsVideo">La foto del giorno è in realtà una clip video.</system:String>
-
-    <system:String x:Key="Model.Provider.Personal">Immagine Personale</system:String>
 
 </ResourceDictionary>

@@ -1,0 +1,72 @@
+
+<ResourceDictionary 
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+    >
+
+    <system:String x:Key="Toast.Dismiss">Közeli</system:String>
+
+    <system:String x:Key="Shell.AppName">Jigsaw Puzzle</system:String>
+
+    <system:String x:Key="Shell.About">Körülbelül...</system:String>
+
+    <system:String x:Key="Shell.Play">Játék</system:String>
+
+    <system:String x:Key="Shell.Collection">Gyűjtemény</system:String>
+
+    <system:String x:Key="Shell.Settings">Beállítások elemre</system:String>
+
+    <system:String x:Key="Shell.Language">Nyelv</system:String>
+
+    <system:String x:Key="Shell.Exit">Kilép</system:String>
+
+    <system:String x:Key="Shell.Close">Közeli</system:String>
+
+    <system:String x:Key="Shell.Ready">Kész.</system:String>
+
+    <system:String x:Key="Shell.Greetings">Üdvözöljük a Jigsaw Puzzle!</system:String>
+
+    <system:String x:Key="Collection.Remove">Távolítsa el</system:String>
+
+    <system:String x:Key="Collection.SaveToDesktop">Mentés az asztalra</system:String>
+
+    <system:String x:Key="Collection.DropZone">Drag and Drop Zone</system:String>
+
+    <system:String x:Key="Collection.DropZoneHelp">Húzzon ide egy képfájlt új rejtvénykép létrehozásához.</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ShowOnly">Csak megjelenítés:</system:String>
+
+    <system:String x:Key="Collection.Thumbs.InProgress">Folyamatban van</system:String>
+
+    <system:String x:Key="Collection.Thumbs.Completed">Befejezve</system:String>
+
+    <system:String x:Key="Intro.AgreeMIT">Elfogadom az MIT Licenc feltételeit, Folytatás.</system:String>
+
+    <system:String x:Key="Intro.LicenseTitle">Licencfeltételek</system:String>
+
+    <system:String x:Key="Intro.LicenseSubtitle">Ezt az alkalmazást az MIT Licenc feltételei alapján biztosítjuk Önnek.</system:String>
+
+    <system:String x:Key="Intro.LicenseTerms">Ezt az alkalmazást az MIT Licenc feltételei alapján biztosítjuk Önnek, és más feltételekkel együtt semmiféle garanciát nem jelent.  A szoftver használatával teljes mértékben elfogadja az MIT licenc feltételeit.</system:String>
+
+    <system:String x:Key="Intro.ReminderTitle">Fontos emlékeztető</system:String>
+
+    <system:String x:Key="Intro.ReminderSubtitle">Néhány fontos szempont, amit érdemes megjegyezni a letöltött képekkel kapcsolatban...</system:String>
+
+    <system:String x:Key="Intro.ReminderText">Javasoljuk, hogy a letöltött képeket csak háttérképként használja.  Bármilyen egyéb, kereskedelmi vagy egyéb felhasználás esetén kérjük, forduljon a szerzői jog tulajdonosához.</system:String>
+
+    <system:String x:Key="Language.Continue">Folytatás</system:String>
+
+    <system:String x:Key="Settings.CleanupNow">Tisztítás most</system:String>
+
+    <system:String x:Key="Settings.ReminderTitle">Fontos emlékeztető</system:String>
+
+    <system:String x:Key="Settings.ReminderSubtitle">Néhány fontos szempont, amit érdemes megjegyezni a letöltött képekkel kapcsolatban...</system:String>
+
+    <system:String x:Key="Settings.ReminderText">Javasoljuk, hogy a letöltött képeket csak háttérképként használja.  Bármilyen egyéb, kereskedelmi vagy egyéb felhasználás esetén kérjük, forduljon a szerzői jog tulajdonosához.</system:String>
+
+    <system:String x:Key="Shared.FileErrorTitle">Fájlrendszer hiba.</system:String>
+
+    <system:String x:Key="Shared.FileErrorText">Nem sikerült menteni a képfájlt.</system:String>
+
+</ResourceDictionary>

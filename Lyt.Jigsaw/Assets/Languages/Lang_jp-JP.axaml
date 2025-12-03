@@ -1,0 +1,72 @@
+
+<ResourceDictionary 
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+    >
+
+    <system:String x:Key="Toast.Dismiss">近い</system:String>
+
+    <system:String x:Key="Shell.AppName">ジグソーパズル</system:String>
+
+    <system:String x:Key="Shell.About">について...</system:String>
+
+    <system:String x:Key="Shell.Play">遊ぶ</system:String>
+
+    <system:String x:Key="Shell.Collection">コレクション</system:String>
+
+    <system:String x:Key="Shell.Settings">設定</system:String>
+
+    <system:String x:Key="Shell.Language">言語</system:String>
+
+    <system:String x:Key="Shell.Exit">やめる</system:String>
+
+    <system:String x:Key="Shell.Close">近い</system:String>
+
+    <system:String x:Key="Shell.Ready">準備ができて。</system:String>
+
+    <system:String x:Key="Shell.Greetings">ジグソーパズルへようこそ！</system:String>
+
+    <system:String x:Key="Collection.Remove">取り除く</system:String>
+
+    <system:String x:Key="Collection.SaveToDesktop">デスクトップに保存</system:String>
+
+    <system:String x:Key="Collection.DropZone">ドラッグ アンド ドロップ ゾーン</system:String>
+
+    <system:String x:Key="Collection.DropZoneHelp">ここに画像ファイルをドラッグ＆ドロップして、新しいパズル絵を作成します。</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ShowOnly">表示のみ:</system:String>
+
+    <system:String x:Key="Collection.Thumbs.InProgress">進行中</system:String>
+
+    <system:String x:Key="Collection.Thumbs.Completed">完了</system:String>
+
+    <system:String x:Key="Intro.AgreeMIT">MIT ライセンスの条項に同意します。続行します。</system:String>
+
+    <system:String x:Key="Intro.LicenseTitle">ライセンス条項</system:String>
+
+    <system:String x:Key="Intro.LicenseSubtitle">このアプリケーションは、MIT ライセンスの条件に基づいて提供されます。</system:String>
+
+    <system:String x:Key="Intro.LicenseTerms">このアプリケーションは MIT ライセンスの条件に基づいて提供されており、他の条件とともに、いかなる種類の保証も意味しません。 このソフトウェアを使用すると、MIT ライセンスの利用規約に完全に同意したものとみなされます。</system:String>
+
+    <system:String x:Key="Intro.ReminderTitle">重要なお知らせ</system:String>
+
+    <system:String x:Key="Intro.ReminderSubtitle">ダウンロードした画像について覚えておくべき重要な点がいくつかあります...</system:String>
+
+    <system:String x:Key="Intro.ReminderText">ダウンロードした画像は壁紙としてのみ使用することをお勧めします。 商業的またはその他の目的でその他の使用を行う場合は、著作権所有者にお問い合わせください。</system:String>
+
+    <system:String x:Key="Language.Continue">続く</system:String>
+
+    <system:String x:Key="Settings.CleanupNow">今すぐクリーンアップ</system:String>
+
+    <system:String x:Key="Settings.ReminderTitle">重要なお知らせ</system:String>
+
+    <system:String x:Key="Settings.ReminderSubtitle">ダウンロードした画像について覚えておくべき重要な点がいくつかあります...</system:String>
+
+    <system:String x:Key="Settings.ReminderText">ダウンロードした画像は壁紙としてのみ使用することをお勧めします。 商業的またはその他の目的でその他の使用を行う場合は、著作権所有者にお問い合わせください。</system:String>
+
+    <system:String x:Key="Shared.FileErrorTitle">ファイルシステムエラー。</system:String>
+
+    <system:String x:Key="Shared.FileErrorText">画像ファイルを保存できませんでした。</system:String>
+
+</ResourceDictionary>

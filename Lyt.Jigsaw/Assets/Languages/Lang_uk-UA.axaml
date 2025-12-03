@@ -1,0 +1,72 @@
+
+<ResourceDictionary 
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+    >
+
+    <system:String x:Key="Toast.Dismiss">Закрити</system:String>
+
+    <system:String x:Key="Shell.AppName">Головоломка</system:String>
+
+    <system:String x:Key="Shell.About">Про...</system:String>
+
+    <system:String x:Key="Shell.Play">грати</system:String>
+
+    <system:String x:Key="Shell.Collection">Колекція</system:String>
+
+    <system:String x:Key="Shell.Settings">Налаштування</system:String>
+
+    <system:String x:Key="Shell.Language">Мова</system:String>
+
+    <system:String x:Key="Shell.Exit">Вийти</system:String>
+
+    <system:String x:Key="Shell.Close">Закрити</system:String>
+
+    <system:String x:Key="Shell.Ready">Готовий.</system:String>
+
+    <system:String x:Key="Shell.Greetings">Ласкаво просимо до Jigsaw Puzzle!</system:String>
+
+    <system:String x:Key="Collection.Remove">видалити</system:String>
+
+    <system:String x:Key="Collection.SaveToDesktop">Зберегти на робочий стіл</system:String>
+
+    <system:String x:Key="Collection.DropZone">Зона перетягування</system:String>
+
+    <system:String x:Key="Collection.DropZoneHelp">Перетягніть сюди файл зображення, щоб створити нову картинку-головоломку.</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ShowOnly">Показати лише:</system:String>
+
+    <system:String x:Key="Collection.Thumbs.InProgress">В роботі</system:String>
+
+    <system:String x:Key="Collection.Thumbs.Completed">Виконано</system:String>
+
+    <system:String x:Key="Intro.AgreeMIT">Я приймаю умови Ліцензії MIT, Продовжити.</system:String>
+
+    <system:String x:Key="Intro.LicenseTitle">Ліцензійні умови</system:String>
+
+    <system:String x:Key="Intro.LicenseSubtitle">Ця програма надається вам згідно з умовами Ліцензії MIT.</system:String>
+
+    <system:String x:Key="Intro.LicenseTerms">Ця програма надається вам згідно з умовами Ліцензії MIT і, разом з іншими умовами, не передбачає жодних гарантій.  Використовуючи це програмне забезпечення, ви повністю погоджуєтеся з умовами Ліцензії MIT.</system:String>
+
+    <system:String x:Key="Intro.ReminderTitle">Важливе нагадування</system:String>
+
+    <system:String x:Key="Intro.ReminderSubtitle">Деякі важливі моменти, про які слід пам’ятати про завантажені зображення...</system:String>
+
+    <system:String x:Key="Intro.ReminderText">Рекомендується використовувати завантажені зображення лише як шпалери.  Для будь-якого іншого використання, комерційного чи іншого, будь ласка, зв’яжіться з власником авторських прав.</system:String>
+
+    <system:String x:Key="Language.Continue">Продовжити</system:String>
+
+    <system:String x:Key="Settings.CleanupNow">Очищення зараз</system:String>
+
+    <system:String x:Key="Settings.ReminderTitle">Важливе нагадування</system:String>
+
+    <system:String x:Key="Settings.ReminderSubtitle">Деякі важливі моменти, про які слід пам’ятати про завантажені зображення...</system:String>
+
+    <system:String x:Key="Settings.ReminderText">Рекомендується використовувати завантажені зображення лише як шпалери.  Для будь-якого іншого використання, комерційного чи іншого, будь ласка, зв’яжіться з власником авторських прав.</system:String>
+
+    <system:String x:Key="Shared.FileErrorTitle">Помилка файлової системи.</system:String>
+
+    <system:String x:Key="Shared.FileErrorText">Не вдалося зберегти файл зображення.</system:String>
+
+</ResourceDictionary>

@@ -1,0 +1,72 @@
+
+<ResourceDictionary 
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+    >
+
+    <system:String x:Key="Toast.Dismiss">বন্ধ</system:String>
+
+    <system:String x:Key="Shell.AppName">জিগস পাজল</system:String>
+
+    <system:String x:Key="Shell.About">সম্পর্কে...</system:String>
+
+    <system:String x:Key="Shell.Play">খেলা</system:String>
+
+    <system:String x:Key="Shell.Collection">সংগ্রহ</system:String>
+
+    <system:String x:Key="Shell.Settings">সেটিংস</system:String>
+
+    <system:String x:Key="Shell.Language">ভাষা</system:String>
+
+    <system:String x:Key="Shell.Exit">প্রস্থান করুন</system:String>
+
+    <system:String x:Key="Shell.Close">বন্ধ</system:String>
+
+    <system:String x:Key="Shell.Ready">প্রস্তুত.</system:String>
+
+    <system:String x:Key="Shell.Greetings">জিগস পাজলে স্বাগতম!</system:String>
+
+    <system:String x:Key="Collection.Remove">সরান</system:String>
+
+    <system:String x:Key="Collection.SaveToDesktop">ডেস্কটপে সংরক্ষণ করুন</system:String>
+
+    <system:String x:Key="Collection.DropZone">টেনে আনুন এবং ড্রপ জোন</system:String>
+
+    <system:String x:Key="Collection.DropZoneHelp">একটি নতুন ধাঁধার ছবি তৈরি করতে এখানে একটি ইমেজ ফাইল টেনে আনুন।</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ShowOnly">শুধুমাত্র দেখান:</system:String>
+
+    <system:String x:Key="Collection.Thumbs.InProgress">চলছে</system:String>
+
+    <system:String x:Key="Collection.Thumbs.Completed">সম্পন্ন</system:String>
+
+    <system:String x:Key="Intro.AgreeMIT">আমি এমআইটি লাইসেন্সের শর্তাবলী স্বীকার করছি, চালিয়ে যান।</system:String>
+
+    <system:String x:Key="Intro.LicenseTitle">লাইসেন্সের শর্তাবলী</system:String>
+
+    <system:String x:Key="Intro.LicenseSubtitle">এই আবেদনটি আপনাকে MIT লাইসেন্সের শর্তাবলীর অধীনে প্রদান করা হয়েছে।</system:String>
+
+    <system:String x:Key="Intro.LicenseTerms">এই আবেদনটি আপনাকে এমআইটি লাইসেন্সের শর্তাবলীর অধীনে সরবরাহ করা হয়েছে এবং অন্যান্য শর্তাবলীর সাথে, কোন প্রকারের কোন ওয়ারেন্টি বোঝায় না।  এই সফ্টওয়্যারটি ব্যবহার করে, আপনি সম্পূর্ণরূপে এমআইটি লাইসেন্সের শর্তাবলীর সাথে সম্মত হন।</system:String>
+
+    <system:String x:Key="Intro.ReminderTitle">গুরুত্বপূর্ণ অনুস্মারক</system:String>
+
+    <system:String x:Key="Intro.ReminderSubtitle">ডাউনলোড করা ছবি সম্পর্কে কিছু গুরুত্বপূর্ণ বিষয় মনে রাখতে হবে...</system:String>
+
+    <system:String x:Key="Intro.ReminderText">আপনাকে শুধুমাত্র ওয়ালপেপার হিসাবে ডাউনলোড করা ছবি ব্যবহার করার পরামর্শ দেওয়া হচ্ছে।  অন্য কোন ব্যবহারের জন্য, বাণিজ্যিক বা অন্যথায়, অনুগ্রহ করে কপিরাইট ধারকের সাথে যোগাযোগ করুন।</system:String>
+
+    <system:String x:Key="Language.Continue">চালিয়ে যান</system:String>
+
+    <system:String x:Key="Settings.CleanupNow">এখনই পরিষ্কার করুন</system:String>
+
+    <system:String x:Key="Settings.ReminderTitle">গুরুত্বপূর্ণ অনুস্মারক</system:String>
+
+    <system:String x:Key="Settings.ReminderSubtitle">ডাউনলোড করা ছবি সম্পর্কে কিছু গুরুত্বপূর্ণ বিষয় মনে রাখতে হবে...</system:String>
+
+    <system:String x:Key="Settings.ReminderText">আপনাকে শুধুমাত্র ওয়ালপেপার হিসাবে ডাউনলোড করা ছবি ব্যবহার করার পরামর্শ দেওয়া হচ্ছে।  অন্য কোন ব্যবহারের জন্য, বাণিজ্যিক বা অন্যথায়, অনুগ্রহ করে কপিরাইট ধারকের সাথে যোগাযোগ করুন।</system:String>
+
+    <system:String x:Key="Shared.FileErrorTitle">ফাইল সিস্টেম ত্রুটি।</system:String>
+
+    <system:String x:Key="Shared.FileErrorText">ছবি ফাইল সংরক্ষণ করা যায়নি.</system:String>
+
+</ResourceDictionary>

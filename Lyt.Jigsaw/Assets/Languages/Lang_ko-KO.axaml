@@ -1,0 +1,72 @@
+
+<ResourceDictionary 
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+    >
+
+    <system:String x:Key="Toast.Dismiss">닫다</system:String>
+
+    <system:String x:Key="Shell.AppName">직소 퍼즐</system:String>
+
+    <system:String x:Key="Shell.About">에 대한...</system:String>
+
+    <system:String x:Key="Shell.Play">놀다</system:String>
+
+    <system:String x:Key="Shell.Collection">수집</system:String>
+
+    <system:String x:Key="Shell.Settings">설정</system:String>
+
+    <system:String x:Key="Shell.Language">언어</system:String>
+
+    <system:String x:Key="Shell.Exit">그만두다</system:String>
+
+    <system:String x:Key="Shell.Close">닫다</system:String>
+
+    <system:String x:Key="Shell.Ready">준비가 된.</system:String>
+
+    <system:String x:Key="Shell.Greetings">직소 퍼즐에 오신 것을 환영합니다!</system:String>
+
+    <system:String x:Key="Collection.Remove">제거하다</system:String>
+
+    <system:String x:Key="Collection.SaveToDesktop">데스크탑에 저장</system:String>
+
+    <system:String x:Key="Collection.DropZone">드래그 앤 드롭 영역</system:String>
+
+    <system:String x:Key="Collection.DropZoneHelp">새로운 퍼즐 그림을 만들려면 이미지 파일을 여기에 끌어다 놓으십시오.</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ShowOnly">표시만:</system:String>
+
+    <system:String x:Key="Collection.Thumbs.InProgress">진행 중</system:String>
+
+    <system:String x:Key="Collection.Thumbs.Completed">완전한</system:String>
+
+    <system:String x:Key="Intro.AgreeMIT">MIT 라이선스 조건에 동의합니다. 계속하세요.</system:String>
+
+    <system:String x:Key="Intro.LicenseTitle">라이센스 조건</system:String>
+
+    <system:String x:Key="Intro.LicenseSubtitle">이 애플리케이션은 MIT 라이선스 조건에 따라 귀하에게 제공됩니다.</system:String>
+
+    <system:String x:Key="Intro.LicenseTerms">이 애플리케이션은 MIT 라이센스 조건에 따라 귀하에게 제공되며 다른 조건과 함께 어떠한 종류의 보증도 의미하지 않습니다.  이 소프트웨어를 사용함으로써 귀하는 MIT 라이센스의 이용 약관에 완전히 동의하게 됩니다.</system:String>
+
+    <system:String x:Key="Intro.ReminderTitle">중요한 알림</system:String>
+
+    <system:String x:Key="Intro.ReminderSubtitle">다운로드한 이미지에 관해 기억해야 할 몇 가지 중요한 사항...</system:String>
+
+    <system:String x:Key="Intro.ReminderText">다운로드한 이미지는 배경화면으로만 사용하는 것이 좋습니다.  상업적 또는 기타 용도로 사용하려면 저작권 소유자에게 문의하세요.</system:String>
+
+    <system:String x:Key="Language.Continue">계속하다</system:String>
+
+    <system:String x:Key="Settings.CleanupNow">지금 정리하세요</system:String>
+
+    <system:String x:Key="Settings.ReminderTitle">중요한 알림</system:String>
+
+    <system:String x:Key="Settings.ReminderSubtitle">다운로드한 이미지에 관해 기억해야 할 몇 가지 중요한 사항...</system:String>
+
+    <system:String x:Key="Settings.ReminderText">다운로드한 이미지는 배경화면으로만 사용하는 것이 좋습니다.  상업적 또는 기타 용도로 사용하려면 저작권 소유자에게 문의하세요.</system:String>
+
+    <system:String x:Key="Shared.FileErrorTitle">파일 시스템 오류입니다.</system:String>
+
+    <system:String x:Key="Shared.FileErrorText">이미지 파일을 저장할 수 없습니다.</system:String>
+
+</ResourceDictionary>

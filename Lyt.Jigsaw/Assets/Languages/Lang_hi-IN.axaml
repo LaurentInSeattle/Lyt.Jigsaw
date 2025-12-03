@@ -1,0 +1,72 @@
+
+<ResourceDictionary 
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+    >
+
+    <system:String x:Key="Toast.Dismiss">बंद करना</system:String>
+
+    <system:String x:Key="Shell.AppName">आरा पहेली</system:String>
+
+    <system:String x:Key="Shell.About">के बारे में...</system:String>
+
+    <system:String x:Key="Shell.Play">खेल</system:String>
+
+    <system:String x:Key="Shell.Collection">संग्रह</system:String>
+
+    <system:String x:Key="Shell.Settings">सेटिंग्स</system:String>
+
+    <system:String x:Key="Shell.Language">भाषा</system:String>
+
+    <system:String x:Key="Shell.Exit">छोड़ना</system:String>
+
+    <system:String x:Key="Shell.Close">बंद करना</system:String>
+
+    <system:String x:Key="Shell.Ready">तैयार।</system:String>
+
+    <system:String x:Key="Shell.Greetings">जिग्सॉ पहेली में आपका स्वागत है!</system:String>
+
+    <system:String x:Key="Collection.Remove">निकालना</system:String>
+
+    <system:String x:Key="Collection.SaveToDesktop">डेस्कटॉप पर सहेजें</system:String>
+
+    <system:String x:Key="Collection.DropZone">खींचें और छोड़ें क्षेत्र</system:String>
+
+    <system:String x:Key="Collection.DropZoneHelp">एक नया पहेली चित्र बनाने के लिए एक छवि फ़ाइल को यहाँ खींचें और छोड़ें।</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ShowOnly">केवल इतना ही दिखाना:</system:String>
+
+    <system:String x:Key="Collection.Thumbs.InProgress">प्रगति पर है</system:String>
+
+    <system:String x:Key="Collection.Thumbs.Completed">पुरा होना।</system:String>
+
+    <system:String x:Key="Intro.AgreeMIT">मैं एमआईटी लाइसेंस की शर्तों को स्वीकार करता हूं, जारी रखें।</system:String>
+
+    <system:String x:Key="Intro.LicenseTitle">लाइसेंस शर्तों</system:String>
+
+    <system:String x:Key="Intro.LicenseSubtitle">यह एप्लिकेशन आपको एमआईटी लाइसेंस की शर्तों के तहत प्रदान किया गया है।</system:String>
+
+    <system:String x:Key="Intro.LicenseTerms">यह एप्लिकेशन आपको एमआईटी लाइसेंस की शर्तों के तहत प्रदान किया गया है और अन्य शर्तों के साथ, इसमें किसी भी प्रकार की कोई वारंटी नहीं है।  इस सॉफ़्टवेयर का उपयोग करके, आप एमआईटी लाइसेंस के नियमों और शर्तों से पूरी तरह सहमत हैं।</system:String>
+
+    <system:String x:Key="Intro.ReminderTitle">महत्वपूर्ण अनुस्मारक</system:String>
+
+    <system:String x:Key="Intro.ReminderSubtitle">डाउनलोड की गई छवियों के बारे में याद रखने योग्य कुछ महत्वपूर्ण बिंदु...</system:String>
+
+    <system:String x:Key="Intro.ReminderText">आपको सलाह दी जाती है कि डाउनलोड की गई छवियों को केवल वॉलपेपर के रूप में उपयोग करें।  किसी भी अन्य उपयोग के लिए, वाणिज्यिक या अन्यथा, कृपया कॉपीराइट धारक से संपर्क करें।</system:String>
+
+    <system:String x:Key="Language.Continue">जारी रखना</system:String>
+
+    <system:String x:Key="Settings.CleanupNow">अभी सफ़ाई करें</system:String>
+
+    <system:String x:Key="Settings.ReminderTitle">महत्वपूर्ण अनुस्मारक</system:String>
+
+    <system:String x:Key="Settings.ReminderSubtitle">डाउनलोड की गई छवियों के बारे में याद रखने योग्य कुछ महत्वपूर्ण बिंदु...</system:String>
+
+    <system:String x:Key="Settings.ReminderText">आपको सलाह दी जाती है कि डाउनलोड की गई छवियों को केवल वॉलपेपर के रूप में उपयोग करें।  किसी भी अन्य उपयोग के लिए, वाणिज्यिक या अन्यथा, कृपया कॉपीराइट धारक से संपर्क करें।</system:String>
+
+    <system:String x:Key="Shared.FileErrorTitle">फ़ाइल सिस्टम त्रुटि.</system:String>
+
+    <system:String x:Key="Shared.FileErrorText">छवि फ़ाइल सहेजी नहीं जा सकी.</system:String>
+
+</ResourceDictionary>

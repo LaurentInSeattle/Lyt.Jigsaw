@@ -1,0 +1,72 @@
+
+<ResourceDictionary 
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+    >
+
+    <system:String x:Key="Toast.Dismiss">затвори</system:String>
+
+    <system:String x:Key="Shell.AppName">Пъзел</system:String>
+
+    <system:String x:Key="Shell.About">Относно...</system:String>
+
+    <system:String x:Key="Shell.Play">Играйте</system:String>
+
+    <system:String x:Key="Shell.Collection">Колекция</system:String>
+
+    <system:String x:Key="Shell.Settings">Настройки</system:String>
+
+    <system:String x:Key="Shell.Language">език</system:String>
+
+    <system:String x:Key="Shell.Exit">Откажете се</system:String>
+
+    <system:String x:Key="Shell.Close">затвори</system:String>
+
+    <system:String x:Key="Shell.Ready">Готови.</system:String>
+
+    <system:String x:Key="Shell.Greetings">Добре дошли в Jigsaw Puzzle!</system:String>
+
+    <system:String x:Key="Collection.Remove">Премахнете</system:String>
+
+    <system:String x:Key="Collection.SaveToDesktop">Запазване на работния плот</system:String>
+
+    <system:String x:Key="Collection.DropZone">Плъзнете и пуснете зона</system:String>
+
+    <system:String x:Key="Collection.DropZoneHelp">Плъзнете и пуснете файл с изображение тук, за да създадете нова картина на пъзел.</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ShowOnly">Показване само:</system:String>
+
+    <system:String x:Key="Collection.Thumbs.InProgress">В ход</system:String>
+
+    <system:String x:Key="Collection.Thumbs.Completed">Завършено</system:String>
+
+    <system:String x:Key="Intro.AgreeMIT">Приемам условията на лиценза на MIT, продължете.</system:String>
+
+    <system:String x:Key="Intro.LicenseTitle">Лицензионни условия</system:String>
+
+    <system:String x:Key="Intro.LicenseSubtitle">Това приложение ви се предоставя съгласно условията на лиценза на MIT.</system:String>
+
+    <system:String x:Key="Intro.LicenseTerms">Това приложение ви се предоставя съгласно условията на лиценза на MIT и, заедно с други условия, не предполага никакви гаранции от какъвто и да е вид.  Използвайки този софтуер, вие напълно се съгласявате с правилата и условията на лиценза на MIT.</system:String>
+
+    <system:String x:Key="Intro.ReminderTitle">Важно напомняне</system:String>
+
+    <system:String x:Key="Intro.ReminderSubtitle">Някои важни точки, които трябва да запомните относно изтеглените изображения...</system:String>
+
+    <system:String x:Key="Intro.ReminderText">Съветваме ви да използвате изтеглените изображения само като тапет.  За всяка друга употреба, търговска или друга, моля, свържете се с притежателя на авторските права.</system:String>
+
+    <system:String x:Key="Language.Continue">Продължи</system:String>
+
+    <system:String x:Key="Settings.CleanupNow">Почистване сега</system:String>
+
+    <system:String x:Key="Settings.ReminderTitle">Важно напомняне</system:String>
+
+    <system:String x:Key="Settings.ReminderSubtitle">Някои важни точки, които трябва да запомните относно изтеглените изображения...</system:String>
+
+    <system:String x:Key="Settings.ReminderText">Съветваме ви да използвате изтеглените изображения само като тапет.  За всяка друга употреба, търговска или друга, моля, свържете се с притежателя на авторските права.</system:String>
+
+    <system:String x:Key="Shared.FileErrorTitle">Грешка във файловата система.</system:String>
+
+    <system:String x:Key="Shared.FileErrorText">Файлът с изображение не можа да бъде запазен.</system:String>
+
+</ResourceDictionary>

@@ -7,25 +7,22 @@
 	<system:String x:Key="Toast.Dismiss">Close</system:String>
 
 	<!-- Shell -->
-	<system:String x:Key="Shell.AppName">Astronomy Pictures</system:String>
+	<system:String x:Key="Shell.AppName">Jigsaw Puzzle</system:String>
 	<system:String x:Key="Shell.About">About...</system:String>
 	<system:String x:Key="Shell.Play">Play</system:String>
 	<system:String x:Key="Shell.Collection">Collection</system:String>
 	<system:String x:Key="Shell.Settings">Settings</system:String>
 	<system:String x:Key="Shell.Language">Language</system:String>
-	<system:String x:Key="Shell.ToTray">To Tray Icon</system:String>
 	<system:String x:Key="Shell.Exit">Quit</system:String>
 	<system:String x:Key="Shell.Close">Close</system:String>
 	<system:String x:Key="Shell.Ready">Ready.</system:String>
-	<system:String x:Key="Shell.Greetings">Welcome to Astronomy Pictures!</system:String>
+	<system:String x:Key="Shell.Greetings">Welcome to Jigsaw Puzzle!</system:String>
 
 	<!-- Collection -->
-	<system:String x:Key="Collection.SetWallpaper">Use as Wallpaper</system:String>
 	<system:String x:Key="Collection.Remove">Remove</system:String>
 	<system:String x:Key="Collection.SaveToDesktop">Save to Desktop</system:String>
-	<system:String x:Key="Collection.BadPicture">Can't download this picture!</system:String>
 	<system:String x:Key="Collection.DropZone">Drag and Drop Zone</system:String>
-	<system:String x:Key="Collection.DropZoneHelp">Drag and drop files here to add them to your wallpaper collection.</system:String>
+	<system:String x:Key="Collection.DropZoneHelp">Drag and drop an image file here to create a new puzzle picture.</system:String>
 
 	<system:String x:Key="Collection.Thumbs.ShowOnly">Show Only:</system:String>
 	<system:String x:Key="Collection.Thumbs.InProgress">In Progress</system:String>
@@ -46,49 +43,15 @@
 	<!-- Settings  -->
 	<system:String x:Key="Settings.CleanupNow">Cleanup Now</system:String>
 
-	<system:String x:Key="Settings.Services.Title">Image download services</system:String>
-	<system:String x:Key="Settings.Services.Subtitle">Select the web services from which you want to download images.</system:String>
-	<system:String x:Key="Settings.Services.Downloaded">Download</system:String>
-	<system:String x:Key="Settings.Services.Skip">Ignore and Skip</system:String>
-
-	<system:String x:Key="Settings.Quota.Title">Disk usage settings</system:String>
-	<system:String x:Key="Settings.Quota.Subtitle">Use this setting to limit (or not limit) the use of space on your disc for the image in your collection.</system:String>
-	<system:String x:Key="Settings.Quota.ImageCount">Maximum count of images:</system:String>
-	<system:String x:Key="Settings.Quota.DiskSpace">Space quota (MB) on the disc for the images:</system:String>
-	<system:String x:Key="Settings.Quota.ImageSize">Dimensions for image archiving:</system:String>
-	<system:String x:Key="Settings.Quota.ImageSize.True">High Definition (HD)</system:String>
-	<system:String x:Key="Settings.Quota.ImageSize.False">Ultra High Definition (UHD/4K)</system:String>
-	<system:String x:Key="Settings.Quota.Exceeded">What should be done when quotas are exceeded:</system:String>
-	<system:String x:Key="Settings.Quota.Exceeded.True">Delete old images.</system:String>
-	<system:String x:Key="Settings.Quota.Exceeded.False">Only show a warning message.</system:String>
-
-	<system:String x:Key="Settings.Os.Title">Operating System Settings</system:String>
-	<system:String x:Key="Settings.Os.Subtitle">Choose some operating system settings to manage your images.</system:String>
-	<system:String x:Key="Settings.Os.Rotate">Rotate desktop screen wallpapers?</system:String>
-	<system:String x:Key="Settings.Os.Rotate.True">Yes, periodically.</system:String>
-	<system:String x:Key="Settings.Os.Rotate.False">Never</system:String>
-	<system:String x:Key="Settings.Os.Rotate.Minutes">Change wallpaper after: (minutes)</system:String>
 
 	<system:String x:Key="Settings.ReminderTitle">Important Reminder</system:String>
 	<system:String x:Key="Settings.ReminderSubtitle">Some important points to remember about downloaded images...</system:String>
 	<system:String x:Key="Settings.ReminderText">You are advised to use the downloaded images only as wallpaper. For any other use, commercial or otherwise, please contact the copyright holder.</system:String>
 
 	<!-- Shared  -->
-	<system:String x:Key="Shared.NoImage">No image</system:String>
 	<system:String x:Key="Shared.FileErrorTitle">File system error.</system:String>
 	<system:String x:Key="Shared.FileErrorText">Could not save the image file.</system:String>
 
-	<!-- Tray  -->
-	<system:String x:Key="Tray.OpenCollection">Open the image collection</system:String>
-	<system:String x:Key="Tray.Settings">Settings</system:String>
-	<system:String x:Key="Tray.ImageInfo">About this image...</system:String>
-	<system:String x:Key="Tray.Quit">Quit</system:String>
-
 	<!-- Model / Service -->
-	<system:String x:Key="Model.AlreadyDownloaded">The image has already been downloaded.</system:String>
-	<system:String x:Key="Model.NoUrl">The image has no URL.</system:String>
-	<system:String x:Key="Model.NotAnImage">The image is not valid.</system:String>
-	<system:String x:Key="Model.TodayIsVideo">The photo of the day is actually a video clip.</system:String>
-	<system:String x:Key="Model.Provider.Personal">Personal Image</system:String>
 	
 </ResourceDictionary>

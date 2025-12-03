@@ -1,0 +1,72 @@
+
+<ResourceDictionary 
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+    >
+
+    <system:String x:Key="Toast.Dismiss">Cerca</system:String>
+
+    <system:String x:Key="Shell.AppName">Rompecabezas</system:String>
+
+    <system:String x:Key="Shell.About">Acerca de...</system:String>
+
+    <system:String x:Key="Shell.Play">Jugar</system:String>
+
+    <system:String x:Key="Shell.Collection">Recopilación</system:String>
+
+    <system:String x:Key="Shell.Settings">Ajustes</system:String>
+
+    <system:String x:Key="Shell.Language">Idioma</system:String>
+
+    <system:String x:Key="Shell.Exit">Abandonar</system:String>
+
+    <system:String x:Key="Shell.Close">Cerca</system:String>
+
+    <system:String x:Key="Shell.Ready">Listo.</system:String>
+
+    <system:String x:Key="Shell.Greetings">¡Bienvenidos a Rompecabezas!</system:String>
+
+    <system:String x:Key="Collection.Remove">Eliminar</system:String>
+
+    <system:String x:Key="Collection.SaveToDesktop">Guardar en el escritorio</system:String>
+
+    <system:String x:Key="Collection.DropZone">Zona de arrastrar y soltar</system:String>
+
+    <system:String x:Key="Collection.DropZoneHelp">Arrastre y suelte un archivo de imagen aquí para crear una nueva imagen de rompecabezas.</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ShowOnly">Mostrar sólo:</system:String>
+
+    <system:String x:Key="Collection.Thumbs.InProgress">En curso</system:String>
+
+    <system:String x:Key="Collection.Thumbs.Completed">Terminado</system:String>
+
+    <system:String x:Key="Intro.AgreeMIT">Acepto los términos de la Licencia MIT, Continuar.</system:String>
+
+    <system:String x:Key="Intro.LicenseTitle">Términos de licencia</system:String>
+
+    <system:String x:Key="Intro.LicenseSubtitle">Esta aplicación se le proporciona según los términos de la licencia MIT.</system:String>
+
+    <system:String x:Key="Intro.LicenseTerms">Esta aplicación se le proporciona según los términos de la Licencia MIT y, junto con otros términos, no implica garantía de ningún tipo.  Al utilizar este software, acepta plenamente los términos y condiciones de la licencia MIT.</system:String>
+
+    <system:String x:Key="Intro.ReminderTitle">Recordatorio importante</system:String>
+
+    <system:String x:Key="Intro.ReminderSubtitle">Algunos puntos importantes para recordar sobre las imágenes descargadas...</system:String>
+
+    <system:String x:Key="Intro.ReminderText">Se recomienda utilizar las imágenes descargadas sólo como fondo de pantalla.  Para cualquier otro uso, comercial o de otro tipo, comuníquese con el titular de los derechos de autor.</system:String>
+
+    <system:String x:Key="Language.Continue">Continuar</system:String>
+
+    <system:String x:Key="Settings.CleanupNow">Limpiar ahora</system:String>
+
+    <system:String x:Key="Settings.ReminderTitle">Recordatorio importante</system:String>
+
+    <system:String x:Key="Settings.ReminderSubtitle">Algunos puntos importantes para recordar sobre las imágenes descargadas...</system:String>
+
+    <system:String x:Key="Settings.ReminderText">Se recomienda utilizar las imágenes descargadas sólo como fondo de pantalla.  Para cualquier otro uso, comercial o de otro tipo, comuníquese con el titular de los derechos de autor.</system:String>
+
+    <system:String x:Key="Shared.FileErrorTitle">Error del sistema de archivos.</system:String>
+
+    <system:String x:Key="Shared.FileErrorText">No se pudo guardar el archivo de imagen.</system:String>
+
+</ResourceDictionary>

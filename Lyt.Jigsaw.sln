@@ -46,6 +46,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lyt.Jigsaw.Desktop", "Lyt.J
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lyt.ImageProcessing", "..\Lyt.Framework\Lyt.ImageProcessing\Lyt.ImageProcessing.csproj", "{01403CF8-FC71-FE9D-73D1-6FF122FA52CF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{EC0125C5-45A9-49B5-AA3C-3523D52C322F}"
+	ProjectSection(SolutionItems) = preProject
+		Tools\JigsawLanguages.json = Tools\JigsawLanguages.json
+		Tools\prebuild.bat = Tools\prebuild.bat
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -1,0 +1,72 @@
+
+<ResourceDictionary 
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+    >
+
+    <system:String x:Key="Toast.Dismiss">Κοντά</system:String>
+
+    <system:String x:Key="Shell.AppName">Παζλ</system:String>
+
+    <system:String x:Key="Shell.About">Για...</system:String>
+
+    <system:String x:Key="Shell.Play">Παιχνίδι</system:String>
+
+    <system:String x:Key="Shell.Collection">Συλλογή</system:String>
+
+    <system:String x:Key="Shell.Settings">Ρυθμίσεις</system:String>
+
+    <system:String x:Key="Shell.Language">Γλώσσα</system:String>
+
+    <system:String x:Key="Shell.Exit">Εγκαταλείπω</system:String>
+
+    <system:String x:Key="Shell.Close">Κοντά</system:String>
+
+    <system:String x:Key="Shell.Ready">Ετοιμος.</system:String>
+
+    <system:String x:Key="Shell.Greetings">Καλώς ήρθατε στο Jigsaw Puzzle!</system:String>
+
+    <system:String x:Key="Collection.Remove">Αφαιρώ</system:String>
+
+    <system:String x:Key="Collection.SaveToDesktop">Αποθήκευση στην επιφάνεια εργασίας</system:String>
+
+    <system:String x:Key="Collection.DropZone">Ζώνη μεταφοράς και απόθεσης</system:String>
+
+    <system:String x:Key="Collection.DropZoneHelp">Σύρετε και αποθέστε ένα αρχείο εικόνας εδώ για να δημιουργήσετε μια νέα εικόνα παζλ.</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ShowOnly">Εμφάνιση μόνο:</system:String>
+
+    <system:String x:Key="Collection.Thumbs.InProgress">Σε εξέλιξη</system:String>
+
+    <system:String x:Key="Collection.Thumbs.Completed">Ολοκληρώθηκε το</system:String>
+
+    <system:String x:Key="Intro.AgreeMIT">Αποδέχομαι τους όρους της άδειας MIT, Συνέχεια.</system:String>
+
+    <system:String x:Key="Intro.LicenseTitle">Όροι άδειας χρήσης</system:String>
+
+    <system:String x:Key="Intro.LicenseSubtitle">Αυτή η εφαρμογή σας παρέχεται σύμφωνα με τους όρους της άδειας MIT.</system:String>
+
+    <system:String x:Key="Intro.LicenseTerms">Αυτή η εφαρμογή παρέχεται σε εσάς σύμφωνα με τους όρους της Άδειας MIT και, μαζί με άλλους όρους, δεν συνεπάγεται καμία εγγύηση κανενός είδους.  Χρησιμοποιώντας αυτό το λογισμικό, συμφωνείτε πλήρως με τους όρους και τις προϋποθέσεις της άδειας MIT.</system:String>
+
+    <system:String x:Key="Intro.ReminderTitle">Σημαντική Υπενθύμιση</system:String>
+
+    <system:String x:Key="Intro.ReminderSubtitle">Μερικά σημαντικά σημεία που πρέπει να θυμάστε σχετικά με τις εικόνες που έχετε κατεβάσει...</system:String>
+
+    <system:String x:Key="Intro.ReminderText">Σας συμβουλεύουμε να χρησιμοποιείτε τις εικόνες που έχετε λάβει μόνο ως ταπετσαρία.  Για οποιαδήποτε άλλη χρήση, εμπορική ή άλλη, επικοινωνήστε με τον κάτοχο των πνευματικών δικαιωμάτων.</system:String>
+
+    <system:String x:Key="Language.Continue">Συνεχίζω</system:String>
+
+    <system:String x:Key="Settings.CleanupNow">Εκκαθάριση τώρα</system:String>
+
+    <system:String x:Key="Settings.ReminderTitle">Σημαντική Υπενθύμιση</system:String>
+
+    <system:String x:Key="Settings.ReminderSubtitle">Μερικά σημαντικά σημεία που πρέπει να θυμάστε σχετικά με τις εικόνες που έχετε κατεβάσει...</system:String>
+
+    <system:String x:Key="Settings.ReminderText">Σας συμβουλεύουμε να χρησιμοποιείτε τις εικόνες που έχετε λάβει μόνο ως ταπετσαρία.  Για οποιαδήποτε άλλη χρήση, εμπορική ή άλλη, επικοινωνήστε με τον κάτοχο των πνευματικών δικαιωμάτων.</system:String>
+
+    <system:String x:Key="Shared.FileErrorTitle">Σφάλμα συστήματος αρχείων.</system:String>
+
+    <system:String x:Key="Shared.FileErrorText">Δεν ήταν δυνατή η αποθήκευση του αρχείου εικόνας.</system:String>
+
+</ResourceDictionary>

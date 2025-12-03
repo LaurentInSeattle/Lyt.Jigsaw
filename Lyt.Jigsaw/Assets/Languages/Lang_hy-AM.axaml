@@ -1,0 +1,72 @@
+
+<ResourceDictionary 
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+    >
+
+    <system:String x:Key="Toast.Dismiss">Փակել</system:String>
+
+    <system:String x:Key="Shell.AppName">Jigsaw Puzzle</system:String>
+
+    <system:String x:Key="Shell.About">Մոտ...</system:String>
+
+    <system:String x:Key="Shell.Play">Խաղալ</system:String>
+
+    <system:String x:Key="Shell.Collection">Հավաքածու</system:String>
+
+    <system:String x:Key="Shell.Settings">Կարգավորումներ</system:String>
+
+    <system:String x:Key="Shell.Language">Լեզու</system:String>
+
+    <system:String x:Key="Shell.Exit">Դուրս գալ</system:String>
+
+    <system:String x:Key="Shell.Close">Փակել</system:String>
+
+    <system:String x:Key="Shell.Ready">Պատրաստ.</system:String>
+
+    <system:String x:Key="Shell.Greetings">Բարի գալուստ Jigsaw Puzzle:</system:String>
+
+    <system:String x:Key="Collection.Remove">Հեռացնել</system:String>
+
+    <system:String x:Key="Collection.SaveToDesktop">Պահել աշխատասեղանին</system:String>
+
+    <system:String x:Key="Collection.DropZone">Քաշել և թողնել գոտի</system:String>
+
+    <system:String x:Key="Collection.DropZoneHelp">Քաշեք և թողեք պատկերի ֆայլ այստեղ՝ նոր գլուխկոտրուկ նկար ստեղծելու համար:</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ShowOnly">Ցույց տալ միայն.</system:String>
+
+    <system:String x:Key="Collection.Thumbs.InProgress">Ընթացքի մեջ</system:String>
+
+    <system:String x:Key="Collection.Thumbs.Completed">Ավարտված է</system:String>
+
+    <system:String x:Key="Intro.AgreeMIT">Ես ընդունում եմ MIT լիցենզիայի պայմանները, շարունակել:</system:String>
+
+    <system:String x:Key="Intro.LicenseTitle">Լիցենզիայի պայմաններ</system:String>
+
+    <system:String x:Key="Intro.LicenseSubtitle">Այս հավելվածը տրամադրվում է ձեզ MIT լիցենզիայի պայմաններով:</system:String>
+
+    <system:String x:Key="Intro.LicenseTerms">Այս հավելվածը տրամադրվում է ձեզ MIT լիցենզիայի պայմաններով և այլ պայմանների հետ միասին չի ենթադրում որևէ երաշխիք:  Օգտագործելով այս ծրագրաշարը, դուք լիովին համաձայնում եք MIT լիցենզիայի պայմաններին:</system:String>
+
+    <system:String x:Key="Intro.ReminderTitle">Կարևոր հիշեցում</system:String>
+
+    <system:String x:Key="Intro.ReminderSubtitle">Ներբեռնված պատկերների մասին հիշելու մի քանի կարևոր կետ...</system:String>
+
+    <system:String x:Key="Intro.ReminderText">Ձեզ խորհուրդ է տրվում օգտագործել ներբեռնված պատկերները միայն որպես պաստառ:  Ցանկացած այլ օգտագործման համար՝ առևտրային կամ այլ կերպ, խնդրում ենք կապվել հեղինակային իրավունքի սեփականատիրոջ հետ:</system:String>
+
+    <system:String x:Key="Language.Continue">Շարունակեք</system:String>
+
+    <system:String x:Key="Settings.CleanupNow">Մաքրում հիմա</system:String>
+
+    <system:String x:Key="Settings.ReminderTitle">Կարևոր հիշեցում</system:String>
+
+    <system:String x:Key="Settings.ReminderSubtitle">Ներբեռնված պատկերների մասին հիշելու մի քանի կարևոր կետ...</system:String>
+
+    <system:String x:Key="Settings.ReminderText">Ձեզ խորհուրդ է տրվում օգտագործել ներբեռնված պատկերները միայն որպես պաստառ:  Ցանկացած այլ օգտագործման համար՝ առևտրային կամ այլ կերպ, խնդրում ենք կապվել հեղինակային իրավունքի սեփականատիրոջ հետ:</system:String>
+
+    <system:String x:Key="Shared.FileErrorTitle">Ֆայլային համակարգի սխալ:</system:String>
+
+    <system:String x:Key="Shared.FileErrorText">Չհաջողվեց պահպանել պատկերի ֆայլը:</system:String>
+
+</ResourceDictionary>

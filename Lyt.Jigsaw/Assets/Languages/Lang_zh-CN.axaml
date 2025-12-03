@@ -1,0 +1,72 @@
+
+<ResourceDictionary 
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+    >
+
+    <system:String x:Key="Toast.Dismiss">关闭</system:String>
+
+    <system:String x:Key="Shell.AppName">拼图游戏</system:String>
+
+    <system:String x:Key="Shell.About">关于...</system:String>
+
+    <system:String x:Key="Shell.Play">玩</system:String>
+
+    <system:String x:Key="Shell.Collection">收藏</system:String>
+
+    <system:String x:Key="Shell.Settings">设置</system:String>
+
+    <system:String x:Key="Shell.Language">语言</system:String>
+
+    <system:String x:Key="Shell.Exit">辞职</system:String>
+
+    <system:String x:Key="Shell.Close">关闭</system:String>
+
+    <system:String x:Key="Shell.Ready">准备好。</system:String>
+
+    <system:String x:Key="Shell.Greetings">欢迎来到拼图游戏！</system:String>
+
+    <system:String x:Key="Collection.Remove">消除</system:String>
+
+    <system:String x:Key="Collection.SaveToDesktop">保存到桌面</system:String>
+
+    <system:String x:Key="Collection.DropZone">拖放区</system:String>
+
+    <system:String x:Key="Collection.DropZoneHelp">将图像文件拖放到此处以创建新的拼图图片。</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ShowOnly">仅显示：</system:String>
+
+    <system:String x:Key="Collection.Thumbs.InProgress">进行中</system:String>
+
+    <system:String x:Key="Collection.Thumbs.Completed">完全的</system:String>
+
+    <system:String x:Key="Intro.AgreeMIT">我接受 MIT 许可证的条款，继续。</system:String>
+
+    <system:String x:Key="Intro.LicenseTitle">许可条款</system:String>
+
+    <system:String x:Key="Intro.LicenseSubtitle">此应用程序是根据 MIT 许可证条款向您提供的。</system:String>
+
+    <system:String x:Key="Intro.LicenseTerms">本应用程序是根据 MIT 许可证的条款向您提供的，与其他条款一起并不意味着任何形式的保证。 使用本软件即表示您完全同意 MIT 许可证的条款和条件。</system:String>
+
+    <system:String x:Key="Intro.ReminderTitle">重要提醒</system:String>
+
+    <system:String x:Key="Intro.ReminderSubtitle">关于下载的图像需要记住的一些重要事项...</system:String>
+
+    <system:String x:Key="Intro.ReminderText">建议您仅使用下载的图像作为壁纸。 对于任何其他用途，无论是商业用途还是其他用途，请联系版权所有者。</system:String>
+
+    <system:String x:Key="Language.Continue">继续</system:String>
+
+    <system:String x:Key="Settings.CleanupNow">立即清理</system:String>
+
+    <system:String x:Key="Settings.ReminderTitle">重要提醒</system:String>
+
+    <system:String x:Key="Settings.ReminderSubtitle">关于下载的图像需要记住的一些重要事项...</system:String>
+
+    <system:String x:Key="Settings.ReminderText">建议您仅使用下载的图像作为壁纸。 对于任何其他用途，无论是商业用途还是其他用途，请联系版权所有者。</system:String>
+
+    <system:String x:Key="Shared.FileErrorTitle">文件系统错误。</system:String>
+
+    <system:String x:Key="Shared.FileErrorText">无法保存图像文件。</system:String>
+
+</ResourceDictionary>

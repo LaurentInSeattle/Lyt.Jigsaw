@@ -33,4 +33,7 @@
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="start /WAIT ..\Tools\prebuild.bat&#xD;&#xA;" />
+  </Target>
 </Project>

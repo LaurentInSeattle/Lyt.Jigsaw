@@ -1,0 +1,72 @@
+
+<ResourceDictionary 
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+    >
+
+    <system:String x:Key="Toast.Dismiss">Schließen</system:String>
+
+    <system:String x:Key="Shell.AppName">Puzzle</system:String>
+
+    <system:String x:Key="Shell.About">Um...</system:String>
+
+    <system:String x:Key="Shell.Play">Spielen</system:String>
+
+    <system:String x:Key="Shell.Collection">Sammlung</system:String>
+
+    <system:String x:Key="Shell.Settings">Einstellungen</system:String>
+
+    <system:String x:Key="Shell.Language">Sprache</system:String>
+
+    <system:String x:Key="Shell.Exit">Aufhören</system:String>
+
+    <system:String x:Key="Shell.Close">Schließen</system:String>
+
+    <system:String x:Key="Shell.Ready">Bereit.</system:String>
+
+    <system:String x:Key="Shell.Greetings">Willkommen bei Jigsaw Puzzle!</system:String>
+
+    <system:String x:Key="Collection.Remove">Entfernen</system:String>
+
+    <system:String x:Key="Collection.SaveToDesktop">Auf dem Desktop speichern</system:String>
+
+    <system:String x:Key="Collection.DropZone">Drag-and-Drop-Zone</system:String>
+
+    <system:String x:Key="Collection.DropZoneHelp">Ziehen Sie eine Bilddatei hierher und legen Sie sie dort ab, um ein neues Puzzlebild zu erstellen.</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ShowOnly">Nur Anzeigen:</system:String>
+
+    <system:String x:Key="Collection.Thumbs.InProgress">Im Gange</system:String>
+
+    <system:String x:Key="Collection.Thumbs.Completed">Vollendet</system:String>
+
+    <system:String x:Key="Intro.AgreeMIT">Ich akzeptiere die Bedingungen der MIT-Lizenz. Fahren Sie fort.</system:String>
+
+    <system:String x:Key="Intro.LicenseTitle">Lizenzbedingungen</system:String>
+
+    <system:String x:Key="Intro.LicenseSubtitle">Diese Anwendung wird Ihnen unter den Bedingungen der MIT-Lizenz zur Verfügung gestellt.</system:String>
+
+    <system:String x:Key="Intro.LicenseTerms">Diese Anwendung wird Ihnen gemäß den Bedingungen der MIT-Lizenz zur Verfügung gestellt und beinhaltet zusammen mit anderen Bedingungen keinerlei Gewährleistung.  Durch die Nutzung dieser Software stimmen Sie den Bedingungen der MIT-Lizenz vollständig zu.</system:String>
+
+    <system:String x:Key="Intro.ReminderTitle">Wichtige Erinnerung</system:String>
+
+    <system:String x:Key="Intro.ReminderSubtitle">Einige wichtige Punkte, die Sie bei heruntergeladenen Bildern beachten sollten ...</system:String>
+
+    <system:String x:Key="Intro.ReminderText">Wir empfehlen Ihnen, die heruntergeladenen Bilder nur als Hintergrundbild zu verwenden.  Für jede andere kommerzielle oder sonstige Nutzung wenden Sie sich bitte an den Urheberrechtsinhaber.</system:String>
+
+    <system:String x:Key="Language.Continue">Weitermachen</system:String>
+
+    <system:String x:Key="Settings.CleanupNow">Jetzt aufräumen</system:String>
+
+    <system:String x:Key="Settings.ReminderTitle">Wichtige Erinnerung</system:String>
+
+    <system:String x:Key="Settings.ReminderSubtitle">Einige wichtige Punkte, die Sie bei heruntergeladenen Bildern beachten sollten ...</system:String>
+
+    <system:String x:Key="Settings.ReminderText">Wir empfehlen Ihnen, die heruntergeladenen Bilder nur als Hintergrundbild zu verwenden.  Für jede andere kommerzielle oder sonstige Nutzung wenden Sie sich bitte an den Urheberrechtsinhaber.</system:String>
+
+    <system:String x:Key="Shared.FileErrorTitle">Dateisystemfehler.</system:String>
+
+    <system:String x:Key="Shared.FileErrorText">Die Bilddatei konnte nicht gespeichert werden.</system:String>
+
+</ResourceDictionary>
