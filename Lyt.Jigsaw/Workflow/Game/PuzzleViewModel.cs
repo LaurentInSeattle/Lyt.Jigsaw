@@ -98,14 +98,15 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
 
     public void StartNewGame(
         byte[] imageBytes, byte[] thumbnailBytes, WriteableBitmap image,
-        PuzzleSetup setup, int rotationSteps, int snap,
+        PuzzleImageSetup setup, 
+        PuzzleParameters puzzleParameters,
         bool randomize = true)
     {
         PixelSize imagePixelSize = image.PixelSize;
         var game = this.jigsawModel.NewGame(
             imageBytes, thumbnailBytes,
             imagePixelSize.Height, imagePixelSize.Width,
-            setup, rotationSteps, snap);
+            setup, puzzleParameters);
         if (game is null)
         {
             this.Logger.Info("Failed Creating new game");

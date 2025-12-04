@@ -7,14 +7,16 @@ public sealed class Game
     public Game() {  /* for serialization */ }
 #pragma warning restore CS8618 
 
-    public Game(Puzzle puzzle)
+    public Game(Puzzle puzzle, PuzzleParameters puzzleParameters)
     {
         this.Name = FileManagerModel.TimestampString();
         this.IsCompleted = false;
+        this.Progress = 0;
         this.Started = DateTime.Now;
         this.LastPlayed = DateTime.Now;
         this.Played = TimeSpan.Zero;
         this.Puzzle = puzzle;
+        this.PuzzleParameters = puzzleParameters;
     }
 
     #region Serialized Properties ( Must all be public for both get and set ) 
@@ -23,11 +25,15 @@ public sealed class Game
 
     public bool IsCompleted { get; set; }
 
+    public int Progress { get; set; }
+
     public DateTime Started { get; set; }
 
     public DateTime LastPlayed { get; set; }
 
     public TimeSpan Played { get; set; }
+
+    public PuzzleParameters PuzzleParameters { get; set; }
 
     #endregion Serialized Properties ( Must all be public for both get and set ) 
 

@@ -1,8 +1,8 @@
 ﻿namespace Lyt.Jigsaw.Model.PuzzleObjects; 
 
-public sealed class PuzzleSetup
+public sealed class PuzzleImageSetup
 {
-    public PuzzleSetup(int pieceSize, IntSize imageSize)
+    public PuzzleImageSetup(int pieceSize, IntSize imageSize)
     {
         this.PieceSize = pieceSize;
         this.Rows = imageSize.Height / pieceSize; 

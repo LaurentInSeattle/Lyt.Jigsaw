@@ -13,13 +13,14 @@ public sealed partial class JigsawModel : ModelBase
     public Game? NewGame(
         byte[] imageBytes, byte[] thumbnailBytes,
         int imagePixelHeight, int imagePixelWidth,
-        PuzzleSetup setup, int rotationSteps, int snap)
+        PuzzleImageSetup setup, 
+        PuzzleParameters puzzleParameters)
     {
         try
         {
             var puzzle = new Puzzle(this.Logger);
-            puzzle.Setup(setup, rotationSteps, snap);
-            var game = new Game(puzzle);
+            puzzle.Setup(setup, puzzleParameters);
+            var game = new Game(puzzle, puzzleParameters);
             this.Game = game;
             this.Puzzle = puzzle;
             this.SavePuzzle();
@@ -153,6 +154,19 @@ public sealed partial class JigsawModel : ModelBase
 
     #endregion In-Game Puzzle Actions 
 
+    // Replicate the puzzle completion state to the game so that we have it 
+    // to show in game lists without having to load the entire puzzle
+    private void ReplicatePuzzleState()
+    {
+        if ((this.Game is null) || (this.Puzzle is null))
+        {
+            return;
+        }
+
+        this.Game.IsCompleted = this.Puzzle.IsComplete;
+        this.Game.Progress = this.Puzzle.Progress();
+    }
+
     public bool SaveGame()
     {
         if ((this.Game is null) || (this.Puzzle is null))
@@ -164,9 +178,7 @@ public sealed partial class JigsawModel : ModelBase
         {
             lock (this.Game)
             {
-                // Replicate the puzzle completion state to the game so that we have it 
-                // to show in game lists without loading the entire puzzle
-                this.Game.IsCompleted = this.Puzzle.IsComplete;
+                this.ReplicatePuzzleState(); 
 
                 // Serialize and save to disk
                 var fileId = new FileId(Area.User, Kind.Json, this.Game.GameName);
@@ -239,9 +251,7 @@ public sealed partial class JigsawModel : ModelBase
         {
             lock (this.Puzzle)
             {
-                // Replicate the puzzle completion state to the game so that we have it 
-                // to show in game lists without loading the entire puzzle
-                this.Game.IsCompleted = this.Puzzle.IsComplete;
+                this.ReplicatePuzzleState();
 
                 // Serialize and save to disk, puzzle is NOT dirty 
                 var fileId = new FileId(Area.User, Kind.JsonCompressed, this.Game.PuzzleName);

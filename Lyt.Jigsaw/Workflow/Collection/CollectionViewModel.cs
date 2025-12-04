@@ -74,7 +74,7 @@ public sealed partial class CollectionViewModel :
     private int rotations;
     private int snap;
     private int contrast;
-    private Dictionary<int, PuzzleSetup> setups;
+    private Dictionary<int, PuzzleImageSetup> setups;
     private List<int> pieceCounts;
     private byte[]? imageBytes;
 
@@ -111,7 +111,7 @@ public sealed partial class CollectionViewModel :
         this.ThumbnailsPanelViewModel.LoadThumnails();
         this.loaded = true;
 
-        if  (this.jigsawModel.HasNoSavedGames())
+        if (this.jigsawModel.HasNoSavedGames())
         {
             this.SimulateDropImage();
         }
@@ -221,15 +221,23 @@ public sealed partial class CollectionViewModel :
 
         try
         {
-            PuzzleSetup setup = this.setups[this.pieceCount];
+            PuzzleImageSetup setup = this.setups[this.pieceCount];
+            PuzzleParameters puzzleParameters = new()
+            {
+                PieceCount = this.pieceCount,
+                Rows = setup.Rows,
+                Columns = setup.Columns,
+                RotationSteps = this.rotations,
+                Snap = this.snap,
+                Hints = 0,
+            };
             var writeableBitmap =
                 WriteableBitmap.DecodeToWidth(new MemoryStream(this.imageBytes), DecodeToWidthThumbnail);
             byte[] thumbnailBytes = writeableBitmap.EncodeToJpeg();
             var vm = App.GetRequiredService<PuzzleViewModel>();
             vm.StartNewGame(
-                this.imageBytes, thumbnailBytes, this.PuzzleImage,
-                setup, this.rotations, this.snap);
-            ActivatePuzzleView(); 
+                this.imageBytes, thumbnailBytes, this.PuzzleImage, setup, puzzleParameters);
+            ActivatePuzzleView();
         }
         catch (Exception ex)
         {
@@ -237,7 +245,7 @@ public sealed partial class CollectionViewModel :
         }
     }
 
-    private static void ActivatePuzzleView ()
+    private static void ActivatePuzzleView()
     {
         ViewSelector<ActivatedView>.Enable(ActivatedView.Puzzle);
         ApplicationMessagingExtensions.Select(ActivatedView.Puzzle);
@@ -273,7 +281,7 @@ public sealed partial class CollectionViewModel :
 
             this.sourceImage = cropped;
             var temp = cropped.Duplicate();
-            this.imageBytes = temp.EncodeToJpeg(); 
+            this.imageBytes = temp.EncodeToJpeg();
         }
 
         this.PuzzleImage = this.sourceImage;
@@ -404,7 +412,7 @@ public sealed partial class CollectionViewModel :
         else
         {
             // Make sure we have a proper setup 
-            if (!this.setups.TryGetValue(this.pieceCount, out PuzzleSetup? setup) || setup is null)
+            if (!this.setups.TryGetValue(this.pieceCount, out PuzzleImageSetup? setup) || setup is null)
             {
                 return;
             }
@@ -415,7 +423,7 @@ public sealed partial class CollectionViewModel :
                     7.5f :
                     this.contrast == 1 ?
                         6.0f :
-                        this.contrast == 2 ? 
+                        this.contrast == 2 ?
                             4.5f :
                             this.contrast == 3 ? 3.0f : 0.0f;
             WriteableBitmap contrastAjusted = sourceImage.Clahe(clipLimit, this.Profiler);

@@ -23,12 +23,12 @@
 			<Grid.RowDefinitions>
 				<RowDefinition Height="36" />
 				<RowDefinition Height="200" />
-				<RowDefinition Height="36" />
+				<RowDefinition Height="12" />
 			</Grid.RowDefinitions>
 			<TextBlock
 				Grid.Row="0"
 				Text="{Binding Title}"
-				FontSize="24"
+				FontSize="16"
 				TextAlignment="Center"			
 				Foreground="{StaticResource PastelOrchid_0_080}"
 				VerticalAlignment="Center"

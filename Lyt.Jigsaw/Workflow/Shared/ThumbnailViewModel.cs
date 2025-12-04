@@ -28,22 +28,22 @@ public sealed partial class ThumbnailViewModel : ViewModel<ThumbnailView>, IReci
     private WriteableBitmap thumbnail;
 
     /// <summary>  Creates a thumbnail view model </summary>
-    public ThumbnailViewModel(ISelectListener parent, Model.GameObjects.Game game, byte[] imageBytes)        
+    public ThumbnailViewModel(ISelectListener parent, Model.GameObjects.Game game, byte[] imageBytes)
     {
         this.parent = parent;
         this.Game = game;
         this.ImageBytes = imageBytes;
-        this.BorderHeight = LargeBorderHeight ;
+        this.BorderHeight = LargeBorderHeight;
         this.ImageHeight = LargeImageHeight;
         this.Title = string.Empty;
         this.Details = string.Empty;
-        this.SetThumbnailTitle(); 
+        this.SetThumbnailStrings();
         this.Thumbnail = WriteableBitmap.Decode(new MemoryStream(imageBytes));
         this.Subscribe<LanguageChangedMessage>();
     }
 
     // We need to reload the thumbnail view title, so that it will be properly localized
-    public void Receive(LanguageChangedMessage _) => this.SetThumbnailTitle(); 
+    public void Receive(LanguageChangedMessage _) => this.SetThumbnailStrings();
 
     internal void OnSelect() => this.parent.OnSelect(this);
 
@@ -65,10 +65,10 @@ public sealed partial class ThumbnailViewModel : ViewModel<ThumbnailView>, IReci
         if (this.IsBound)
         {
             this.View.Select();
-        } 
+        }
     }
 
-    private void SetThumbnailTitle()
+    private void SetThumbnailStrings()
     {
         string? currentLanguage = this.Localizer.CurrentLanguage;
         if (!string.IsNullOrEmpty(currentLanguage))
@@ -77,7 +77,16 @@ public sealed partial class ThumbnailViewModel : ViewModel<ThumbnailView>, IReci
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(currentLanguage);
         }
 
-        string dateString = this.Game.Started.Date.ToShortDateString();
-        this.Title = dateString;
+        string dateString =
+            string.Format(
+                "Started: {0}", // this.Localizer.GetString("ThumbnailStartedFormat"),
+                this.Game.Started.Date.ToShortDateString());
+        string progressString =
+            this.Game.IsCompleted ?
+                "Completed" : // this.Localizer.GetString("ThumbnailCompleted") :
+                string.Format(
+                    "Progress: {0} %", // this.Localizer.GetString("ThumbnailProgressFormat"), 
+                    this.Game.Progress);
+        this.Title = string.Concat(dateString, " - ", progressString);
     }
 }

@@ -12,14 +12,14 @@ public sealed class Puzzle
 
     private readonly Profiler profiler;
 
-    public static Dictionary<int, PuzzleSetup> GenerateSetups(IntSize imageSize)
+    public static Dictionary<int, PuzzleImageSetup> GenerateSetups(IntSize imageSize)
     {
-        Dictionary<int, PuzzleSetup> puzzleSetups = [];
+        Dictionary<int, PuzzleImageSetup> puzzleSetups = [];
         int minDimension = Math.Min(imageSize.Width, imageSize.Height);
         int maxPieceSize = minDimension / 3;
         for (int pieceSize = 32; pieceSize <= maxPieceSize; pieceSize += 4)
         {
-            var setup = new PuzzleSetup(pieceSize, imageSize);
+            var setup = new PuzzleImageSetup(pieceSize, imageSize);
             int pieceCount = setup.Rows * setup.Columns;
             if (pieceCount > Puzzle.MaxPieceCount)
             {
@@ -73,7 +73,7 @@ public sealed class Puzzle
     [JsonIgnore]
     internal List<Piece> Moves { get; private set; } = [];
 
-    public int Progress()
+    internal int Progress()
     {
         int groupedPiecesCount =
             this.Groups.Count <= 0 ?
@@ -90,27 +90,27 @@ public sealed class Puzzle
 
     internal int RotationStepAngle => this.RotationSteps <= 1 ? 0 : 360 / this.RotationSteps;
 
-    public List<Piece> GetMoves() => this.Moves;
+    internal List<Piece> GetMoves() => this.Moves;
 
-    public bool Setup(PuzzleSetup setup, int rotationSteps, int snap)
+    internal bool Setup(PuzzleImageSetup setup, PuzzleParameters puzzleParameters)
     {
-        if ((rotationSteps < 0) || (rotationSteps > 6))
+        if ((puzzleParameters.RotationSteps < 0) || (puzzleParameters.RotationSteps > 6))
         {
             return false;
         }
 
-        if ((snap < 0) || (snap > 3))
+        if ((puzzleParameters.Snap < 0) || (puzzleParameters.Snap > 3))
         {
             return false;
         }
 
-        this.RotationSteps = rotationSteps;
+        this.RotationSteps = puzzleParameters.RotationSteps;
         this.Rows = setup.Rows;
         this.Columns = setup.Columns;
         this.PieceSize = setup.PieceSize;
         this.PieceOverlap = setup.PieceSize / 4;
         this.PieceCount = this.Rows * this.Columns;
-        int snapReverse = 3 - snap;
+        int snapReverse = 3 - puzzleParameters.Snap;
         double maybeSnapDistance = this.PieceOverlap / 3.2 + snapReverse * this.PieceOverlap / 4.2;
         this.PieceSnapDistance = Math.Max(10.0, maybeSnapDistance);
 
@@ -154,7 +154,7 @@ public sealed class Puzzle
         }
     }
 
-    public bool CheckForSnaps(Piece movingPiece)
+    internal bool CheckForSnaps(Piece movingPiece)
     {
         this.Moves.Clear();
 
