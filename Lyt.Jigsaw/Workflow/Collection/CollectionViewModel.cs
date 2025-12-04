@@ -63,10 +63,19 @@ public sealed partial class CollectionViewModel :
     private double contrastSliderValue;
 
     [ObservableProperty]
+    private string hintsString;
+
+    [ObservableProperty]
+    private double hintsSliderValue;
+
+    [ObservableProperty]
     private bool parametersVisible;
 
     [ObservableProperty]
     private bool parametersEnabled;
+
+    [ObservableProperty]
+    private double parametersOpacity;
 
     private bool loaded;
     private PlayStatus state;
@@ -74,6 +83,7 @@ public sealed partial class CollectionViewModel :
     private int rotations;
     private int snap;
     private int contrast;
+    private int hints;
     private Dictionary<int, PuzzleImageSetup> setups;
     private List<int> pieceCounts;
     private byte[]? imageBytes;
@@ -90,24 +100,21 @@ public sealed partial class CollectionViewModel :
         this.Subscribe<ModelLoadedMessage>();
 
         // Setup UI 
-        this.rotations = 1;
-        this.snap = 0;
-        this.contrast = 0;
         this.PieceCountString = string.Empty;
         this.RotationsString = string.Empty;
         this.SnapString = string.Empty;
         this.ContrastString = string.Empty;
+        this.HintsString = string.Empty;
         this.ParametersVisible = false;
+        this.ParametersEnabled = false;
+        this.ParametersOpacity = 1.0;
+        this.SetUiParametersToDefaults(); 
     }
 
     public override void Activate(object? activationParameters)
     {
         base.Activate(activationParameters);
 
-        // TODO : Set up properly sliders 
-        this.OnRotationsSliderValueChanged(0.0);
-        this.OnSnapSliderValueChanged(0);
-        this.OnContrastSliderValueChanged(4);
         this.ThumbnailsPanelViewModel.LoadThumnails();
         this.loaded = true;
 
@@ -229,7 +236,7 @@ public sealed partial class CollectionViewModel :
                 Columns = setup.Columns,
                 RotationSteps = this.rotations,
                 Snap = this.snap,
-                Hints = 0,
+                Hints = this.hints,
             };
             var writeableBitmap =
                 WriteableBitmap.DecodeToWidth(new MemoryStream(this.imageBytes), DecodeToWidthThumbnail);
@@ -299,7 +306,8 @@ public sealed partial class CollectionViewModel :
 
     internal void Select(Model.GameObjects.Game game)
     {
-        // TODO: Load game parameters into the UI 
+        // Load game parameters into the UI 
+        this.SetUiParametersFromGame(game.PuzzleParameters); 
 
         // Load the puzzle image regardless of completion status
         string gameKey = game.Name;
@@ -322,6 +330,10 @@ public sealed partial class CollectionViewModel :
             if (game.IsCompleted)
             {
                 // Completed game: allow to redo it with different parameters
+                this.ParametersVisible = true;
+                this.ParametersEnabled = true;
+                this.ParametersOpacity = 1.0;
+
                 // Need to duplicate the image 
                 this.sourceImage = image.Duplicate();
 
@@ -330,6 +342,11 @@ public sealed partial class CollectionViewModel :
             }
             else
             {
+                // Game in progress : Show parameters but dont allow to change them 
+                this.ParametersVisible = true;
+                this.ParametersEnabled = false;
+                this.ParametersOpacity = 0.5;
+
                 // No need to duplicate the image 
                 this.state = PlayStatus.ReadyForRestart;
             }
@@ -341,6 +358,30 @@ public sealed partial class CollectionViewModel :
     }
 
     #region Game Parameters 
+
+    private void SetUiParametersToDefaults()
+    {
+        this.PieceCountSliderValue = this.PieceCountMin;
+        this.RotationsSliderValue = 0.0; 
+        this.SnapSliderValue = 2.0;
+        this.ContrastSliderValue = 4.0;
+
+        // Force property changed 
+        this.HintsSliderValue = 1.0;
+        this.HintsSliderValue = 0.0;
+    }
+
+    private void SetUiParametersFromGame(PuzzleParameters puzzleParameters)
+    {
+        // Need to 'remember' the maximum piece count
+        this.PieceCountMin = 9;
+        this.PieceCountMax = 1080;
+        this.PieceCountSliderValue = puzzleParameters.PieceCount;
+        this.RotationsSliderValue = puzzleParameters.RotationSteps;
+        this.SnapSliderValue = puzzleParameters.Snap;
+        this.ContrastSliderValue = 4.0;
+        this.HintsSliderValue = puzzleParameters.Hints;
+    }
 
     partial void OnPieceCountSliderValueChanged(double value)
     {
@@ -384,6 +425,18 @@ public sealed partial class CollectionViewModel :
                     "Strong" :
                     this.snap == 2 ?
                         "Normal" : "Weak";
+    }
+
+    partial void OnHintsSliderValueChanged(double value)
+    {
+        this.hints = (int)value;
+        this.HintsString =
+            this.hints == 0 ?
+                "Infinite" :
+                this.hints == 1 ?
+                    "Three" :
+                    this.hints == 2 ?
+                        "Only One" : "None";
     }
 
     partial void OnContrastSliderValueChanged(double value)
@@ -465,12 +518,11 @@ public sealed partial class CollectionViewModel :
         this.pieceCounts = counts;
 
         // UI update 
-        this.OnRotationsSliderValueChanged(1.0);
         this.PieceCountMin = min;
         this.PieceCountMax = max;
         this.ParametersVisible = true;
         this.ParametersEnabled = true;
-
+        this.ParametersOpacity = 1.0;
         this.state = PlayStatus.ReadyForNew;
         return true;
     }
