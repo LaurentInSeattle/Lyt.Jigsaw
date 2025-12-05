@@ -41,6 +41,40 @@
 
     <system:String x:Key="Collection.Continue">Συνεχίστε να λύνετε αυτό το παζλ:</system:String>
 
+    <system:String x:Key="Collection.PieceCount">Πλήθος τεμαχίων:</system:String>
+
+    <system:String x:Key="Collection.Rotations">Περιστροφές:</system:String>
+
+    <system:String x:Key="Collection.SnapStrength">Δύναμη κουμπώματος:</system:String>
+
+    <system:String x:Key="Collection.Hints">Συμβουλές:</system:String>
+
+    <system:String x:Key="Collection.AddedContrast">Προστέθηκε αντίθεση:</system:String>
+
+    <system:String x:Key="Collection.None">Κανένας</system:String>
+
+    <system:String x:Key="Collection.SnapMighty">Ισχυρός</system:String>
+
+    <system:String x:Key="Collection.SnapStrong">Ισχυρός</system:String>
+
+    <system:String x:Key="Collection.SnapNormal">Κανονικός</system:String>
+
+    <system:String x:Key="Collection.SnapWeak">Αδύναμος</system:String>
+
+    <system:String x:Key="Collection.HintsInfinite">Απειρος</system:String>
+
+    <system:String x:Key="Collection.HintsThree">Τρία</system:String>
+
+    <system:String x:Key="Collection.HintsOnlyOne">Μόνο Ένα</system:String>
+
+    <system:String x:Key="Collection.ContrastExtreme">Ακρο</system:String>
+
+    <system:String x:Key="Collection.ContrastStrong">Ισχυρός</system:String>
+
+    <system:String x:Key="Collection.ContrastMedium">Μέσον</system:String>
+
+    <system:String x:Key="Collection.ContrastWeak">Μόνο λίγο</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">Εμφάνιση μόνο:</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">Σε εξέλιξη</system:String>

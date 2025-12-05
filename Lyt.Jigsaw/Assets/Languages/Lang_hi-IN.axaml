@@ -41,6 +41,40 @@
 
     <system:String x:Key="Collection.Continue">इस पहेली को हल करना जारी रखें:</system:String>
 
+    <system:String x:Key="Collection.PieceCount">टुकड़ा गिनती:</system:String>
+
+    <system:String x:Key="Collection.Rotations">घूर्णन:</system:String>
+
+    <system:String x:Key="Collection.SnapStrength">स्नैप ताकत:</system:String>
+
+    <system:String x:Key="Collection.Hints">संकेत:</system:String>
+
+    <system:String x:Key="Collection.AddedContrast">जोड़ा गया कंट्रास्ट:</system:String>
+
+    <system:String x:Key="Collection.None">कोई नहीं</system:String>
+
+    <system:String x:Key="Collection.SnapMighty">ताकतवर</system:String>
+
+    <system:String x:Key="Collection.SnapStrong">मज़बूत</system:String>
+
+    <system:String x:Key="Collection.SnapNormal">सामान्य</system:String>
+
+    <system:String x:Key="Collection.SnapWeak">कमज़ोर</system:String>
+
+    <system:String x:Key="Collection.HintsInfinite">अनंत</system:String>
+
+    <system:String x:Key="Collection.HintsThree">तीन</system:String>
+
+    <system:String x:Key="Collection.HintsOnlyOne">केवल एक</system:String>
+
+    <system:String x:Key="Collection.ContrastExtreme">चरम</system:String>
+
+    <system:String x:Key="Collection.ContrastStrong">मज़बूत</system:String>
+
+    <system:String x:Key="Collection.ContrastMedium">मध्यम</system:String>
+
+    <system:String x:Key="Collection.ContrastWeak">बस थोड़ा सा</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">केवल इतना ही दिखाना:</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">प्रगति पर है</system:String>

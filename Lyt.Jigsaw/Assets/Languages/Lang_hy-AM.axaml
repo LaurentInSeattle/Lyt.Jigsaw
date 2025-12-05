@@ -41,6 +41,40 @@
 
     <system:String x:Key="Collection.Continue">Շարունակեք լուծել այս հանելուկը.</system:String>
 
+    <system:String x:Key="Collection.PieceCount">Կտորների քանակ.</system:String>
+
+    <system:String x:Key="Collection.Rotations">Պտտումներ:</system:String>
+
+    <system:String x:Key="Collection.SnapStrength">Կտրուկի ուժը.</system:String>
+
+    <system:String x:Key="Collection.Hints">Հուշումներ.</system:String>
+
+    <system:String x:Key="Collection.AddedContrast">Ավելացված հակադրություն.</system:String>
+
+    <system:String x:Key="Collection.None">Ոչ մեկը</system:String>
+
+    <system:String x:Key="Collection.SnapMighty">Հզոր</system:String>
+
+    <system:String x:Key="Collection.SnapStrong">Ուժեղ</system:String>
+
+    <system:String x:Key="Collection.SnapNormal">Նորմալ</system:String>
+
+    <system:String x:Key="Collection.SnapWeak">Թույլ</system:String>
+
+    <system:String x:Key="Collection.HintsInfinite">Անսահման</system:String>
+
+    <system:String x:Key="Collection.HintsThree">Երեք</system:String>
+
+    <system:String x:Key="Collection.HintsOnlyOne">Միայն Մեկը</system:String>
+
+    <system:String x:Key="Collection.ContrastExtreme">Ծայրահեղ</system:String>
+
+    <system:String x:Key="Collection.ContrastStrong">Ուժեղ</system:String>
+
+    <system:String x:Key="Collection.ContrastMedium">Միջին</system:String>
+
+    <system:String x:Key="Collection.ContrastWeak">Ընդամենը մի քիչ</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">Ցույց տալ միայն.</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">Ընթացքի մեջ</system:String>

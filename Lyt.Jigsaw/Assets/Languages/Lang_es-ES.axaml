@@ -41,6 +41,40 @@
 
     <system:String x:Key="Collection.Continue">Continúe resolviendo este rompecabezas:</system:String>
 
+    <system:String x:Key="Collection.PieceCount">Número de piezas:</system:String>
+
+    <system:String x:Key="Collection.Rotations">Rotaciones:</system:String>
+
+    <system:String x:Key="Collection.SnapStrength">Fuerza de encaje:</system:String>
+
+    <system:String x:Key="Collection.Hints">Consejos:</system:String>
+
+    <system:String x:Key="Collection.AddedContrast">Contraste añadido:</system:String>
+
+    <system:String x:Key="Collection.None">Ninguno</system:String>
+
+    <system:String x:Key="Collection.SnapMighty">Poderoso</system:String>
+
+    <system:String x:Key="Collection.SnapStrong">Fuerte</system:String>
+
+    <system:String x:Key="Collection.SnapNormal">Normal</system:String>
+
+    <system:String x:Key="Collection.SnapWeak">Débil</system:String>
+
+    <system:String x:Key="Collection.HintsInfinite">Infinito</system:String>
+
+    <system:String x:Key="Collection.HintsThree">Tres</system:String>
+
+    <system:String x:Key="Collection.HintsOnlyOne">Sólo uno</system:String>
+
+    <system:String x:Key="Collection.ContrastExtreme">Extremo</system:String>
+
+    <system:String x:Key="Collection.ContrastStrong">Fuerte</system:String>
+
+    <system:String x:Key="Collection.ContrastMedium">Medio</system:String>
+
+    <system:String x:Key="Collection.ContrastWeak">solo un poco</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">Mostrar sólo:</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">En curso</system:String>

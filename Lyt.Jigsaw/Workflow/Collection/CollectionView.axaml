@@ -81,7 +81,7 @@
 							Margin="4"
 							Theme="{StaticResource H3}"
 							HorizontalAlignment="Right"
-							Text="Piece Count:"
+							Text="{DynamicResource Collection.PieceCount}"
 							Opacity="{Binding ParametersOpacity}"
 							/>
 						<Slider 
@@ -109,7 +109,7 @@
 							Margin="4"
 							Theme="{StaticResource H3}"
 							HorizontalAlignment="Right"
-							Text="Rotations:"
+							Text="{DynamicResource Collection.Rotations}"
 							Opacity="{Binding ParametersOpacity}"
 							/>
 						<Slider 
@@ -156,7 +156,7 @@
 							Grid.Row="2" Grid.Column="0" 
 							Margin="4"
 							Theme="{StaticResource H3}"
-							Text="Snap Strength:"
+							Text="{DynamicResource Collection.SnapStrength}"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
 							Opacity="{Binding ParametersOpacity}"
@@ -185,7 +185,7 @@
 							Grid.Row="3" Grid.Column="0" 
 							Margin="4"
 							Theme="{StaticResource H3}"
-							Text="Hints:"
+							Text="{DynamicResource Collection.Hints}"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
 							Opacity="{Binding ParametersOpacity}"
@@ -214,7 +214,7 @@
 							Grid.Row="4" Grid.Column="0" 
 							Margin="4"
 							Theme="{StaticResource H3}"
-							Text="Added Contrast:"
+							Text="{DynamicResource Collection.AddedContrast}"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
 							Opacity="{Binding ParametersOpacity}"
@@ -226,7 +226,7 @@
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*"/>
 							<ColumnDefinition Width="250"/>
-							<ColumnDefinition Width="180" />
+							<ColumnDefinition Width="170" />
 						</Grid.ColumnDefinitions>
 						<TextBlock
 							Grid.Column="0"
@@ -240,7 +240,7 @@
 							Grid.Column="1" 
 							Style="{StaticResource ViewIconButton}"
 							Margin="4"
-							Height="70" Width="240"
+							Height="68" Width="240"
 							GlyphSource="puzzle_piece"
 							Text="{DynamicResource Shell.Play}"
 							Command="{Binding OnPlay}"

@@ -28,6 +28,27 @@
 	<system:String x:Key="Collection.StartAgain">Start again this puzzle:</system:String>
 	<system:String x:Key="Collection.Continue">Continue solving this puzzle:</system:String>
 
+	<system:String x:Key="Collection.PieceCount">Piece Count:</system:String>
+	<system:String x:Key="Collection.Rotations">Rotations:</system:String>
+	<system:String x:Key="Collection.SnapStrength">Snap Strength:</system:String>
+	<system:String x:Key="Collection.Hints">Hints:</system:String>
+	<system:String x:Key="Collection.AddedContrast">Added Contrast:</system:String>
+
+	<system:String x:Key="Collection.None">None</system:String>
+	
+	<system:String x:Key="Collection.SnapMighty">Mighty</system:String>
+	<system:String x:Key="Collection.SnapStrong">Strong</system:String>
+	<system:String x:Key="Collection.SnapNormal">Normal</system:String>
+	<system:String x:Key="Collection.SnapWeak">Weak</system:String>
+
+	<system:String x:Key="Collection.HintsInfinite">Infinite</system:String>
+	<system:String x:Key="Collection.HintsThree">Three</system:String>
+	<system:String x:Key="Collection.HintsOnlyOne">Only One</system:String>
+	<system:String x:Key="Collection.ContrastExtreme">Extreme</system:String>
+	<system:String x:Key="Collection.ContrastStrong">Strong</system:String>
+	<system:String x:Key="Collection.ContrastMedium">Medium</system:String>
+	<system:String x:Key="Collection.ContrastWeak">Just a Bit</system:String>
+
 	<!-- Thumbs -->
 	<system:String x:Key="Collection.Thumbs.ShowOnly">Show Only:</system:String>
 	<system:String x:Key="Collection.Thumbs.InProgress">In Progress</system:String>
@@ -53,8 +74,8 @@
 
 
 	<system:String x:Key="Settings.ReminderTitle">Important Reminder</system:String>
-	<system:String x:Key="Settings.ReminderSubtitle">Some important points to remember about downloaded images...</system:String>
-	<system:String x:Key="Settings.ReminderText">You are advised to use the downloaded images only as wallpaper. For any other use, commercial or otherwise, please contact the copyright holder.</system:String>
+	<system:String x:Key="Settings.ReminderSubtitle">An important point to remember about downloaded images...</system:String>
+	<system:String x:Key="Settings.ReminderText">You are advised to use downloaded images only as puzzle images. For any other use, commercial or otherwise, please contact the copyright holder.</system:String>
 
 	<!-- Shared  -->
 	<system:String x:Key="Shared.FileErrorTitle">File system error.</system:String>

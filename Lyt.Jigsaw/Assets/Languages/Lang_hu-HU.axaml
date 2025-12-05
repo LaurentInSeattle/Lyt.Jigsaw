@@ -41,6 +41,40 @@
 
     <system:String x:Key="Collection.Continue">Folytasd a rejtvény megfejtését:</system:String>
 
+    <system:String x:Key="Collection.PieceCount">Darabszám:</system:String>
+
+    <system:String x:Key="Collection.Rotations">Forgatások:</system:String>
+
+    <system:String x:Key="Collection.SnapStrength">Kapcsolóerő:</system:String>
+
+    <system:String x:Key="Collection.Hints">Tippek:</system:String>
+
+    <system:String x:Key="Collection.AddedContrast">Hozzáadott kontraszt:</system:String>
+
+    <system:String x:Key="Collection.None">Egyik sem</system:String>
+
+    <system:String x:Key="Collection.SnapMighty">Hatalmas</system:String>
+
+    <system:String x:Key="Collection.SnapStrong">Erős</system:String>
+
+    <system:String x:Key="Collection.SnapNormal">Normál</system:String>
+
+    <system:String x:Key="Collection.SnapWeak">Gyenge</system:String>
+
+    <system:String x:Key="Collection.HintsInfinite">Végtelen</system:String>
+
+    <system:String x:Key="Collection.HintsThree">Három</system:String>
+
+    <system:String x:Key="Collection.HintsOnlyOne">Csak Egy</system:String>
+
+    <system:String x:Key="Collection.ContrastExtreme">Szélső</system:String>
+
+    <system:String x:Key="Collection.ContrastStrong">Erős</system:String>
+
+    <system:String x:Key="Collection.ContrastMedium">Közepes</system:String>
+
+    <system:String x:Key="Collection.ContrastWeak">Csak egy kicsit</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">Csak megjelenítés:</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">Folyamatban van</system:String>

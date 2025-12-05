@@ -41,6 +41,40 @@
 
     <system:String x:Key="Collection.Continue">このパズルを解き続けてください。</system:String>
 
+    <system:String x:Key="Collection.PieceCount">個数:</system:String>
+
+    <system:String x:Key="Collection.Rotations">回転:</system:String>
+
+    <system:String x:Key="Collection.SnapStrength">スナップ強度:</system:String>
+
+    <system:String x:Key="Collection.Hints">ヒント:</system:String>
+
+    <system:String x:Key="Collection.AddedContrast">コントラストを追加:</system:String>
+
+    <system:String x:Key="Collection.None">なし</system:String>
+
+    <system:String x:Key="Collection.SnapMighty">マイティ</system:String>
+
+    <system:String x:Key="Collection.SnapStrong">強い</system:String>
+
+    <system:String x:Key="Collection.SnapNormal">普通</system:String>
+
+    <system:String x:Key="Collection.SnapWeak">弱い</system:String>
+
+    <system:String x:Key="Collection.HintsInfinite">無限</system:String>
+
+    <system:String x:Key="Collection.HintsThree">三つ</system:String>
+
+    <system:String x:Key="Collection.HintsOnlyOne">唯一</system:String>
+
+    <system:String x:Key="Collection.ContrastExtreme">過激</system:String>
+
+    <system:String x:Key="Collection.ContrastStrong">強い</system:String>
+
+    <system:String x:Key="Collection.ContrastMedium">中くらい</system:String>
+
+    <system:String x:Key="Collection.ContrastWeak">ちょっとだけ</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">表示のみ:</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">進行中</system:String>

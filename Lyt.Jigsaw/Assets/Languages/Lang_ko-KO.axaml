@@ -41,6 +41,40 @@
 
     <system:String x:Key="Collection.Continue">계속해서 이 퍼즐을 풀어보세요.</system:String>
 
+    <system:String x:Key="Collection.PieceCount">개수:</system:String>
+
+    <system:String x:Key="Collection.Rotations">회전:</system:String>
+
+    <system:String x:Key="Collection.SnapStrength">스냅 강도:</system:String>
+
+    <system:String x:Key="Collection.Hints">힌트:</system:String>
+
+    <system:String x:Key="Collection.AddedContrast">추가된 대비:</system:String>
+
+    <system:String x:Key="Collection.None">없음</system:String>
+
+    <system:String x:Key="Collection.SnapMighty">거대한</system:String>
+
+    <system:String x:Key="Collection.SnapStrong">강한</system:String>
+
+    <system:String x:Key="Collection.SnapNormal">정상</system:String>
+
+    <system:String x:Key="Collection.SnapWeak">약한</system:String>
+
+    <system:String x:Key="Collection.HintsInfinite">무한</system:String>
+
+    <system:String x:Key="Collection.HintsThree">삼</system:String>
+
+    <system:String x:Key="Collection.HintsOnlyOne">오직 하나</system:String>
+
+    <system:String x:Key="Collection.ContrastExtreme">극심한</system:String>
+
+    <system:String x:Key="Collection.ContrastStrong">강한</system:String>
+
+    <system:String x:Key="Collection.ContrastMedium">중간</system:String>
+
+    <system:String x:Key="Collection.ContrastWeak">조금만</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">표시만:</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">진행 중</system:String>

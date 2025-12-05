@@ -41,6 +41,40 @@
 
     <system:String x:Key="Collection.Continue">Continua a risolvere questo enigma:</system:String>
 
+    <system:String x:Key="Collection.PieceCount">Conteggio pezzi:</system:String>
+
+    <system:String x:Key="Collection.Rotations">Rotazioni:</system:String>
+
+    <system:String x:Key="Collection.SnapStrength">Forza dello scatto:</system:String>
+
+    <system:String x:Key="Collection.Hints">Suggerimenti:</system:String>
+
+    <system:String x:Key="Collection.AddedContrast">Contrasto aggiunto:</system:String>
+
+    <system:String x:Key="Collection.None">Nessuno</system:String>
+
+    <system:String x:Key="Collection.SnapMighty">Potente</system:String>
+
+    <system:String x:Key="Collection.SnapStrong">Forte</system:String>
+
+    <system:String x:Key="Collection.SnapNormal">Normale</system:String>
+
+    <system:String x:Key="Collection.SnapWeak">Debole</system:String>
+
+    <system:String x:Key="Collection.HintsInfinite">Infinito</system:String>
+
+    <system:String x:Key="Collection.HintsThree">Tre</system:String>
+
+    <system:String x:Key="Collection.HintsOnlyOne">Solo Uno</system:String>
+
+    <system:String x:Key="Collection.ContrastExtreme">Estremo</system:String>
+
+    <system:String x:Key="Collection.ContrastStrong">Forte</system:String>
+
+    <system:String x:Key="Collection.ContrastMedium">Medio</system:String>
+
+    <system:String x:Key="Collection.ContrastWeak">Solo un po'</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">Mostra solo:</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">In corso</system:String>

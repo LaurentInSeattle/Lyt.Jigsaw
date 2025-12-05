@@ -5,6 +5,7 @@ using static Lyt.Jigsaw.Messaging.ToolbarCommandMessage;
 public sealed partial class CollectionViewModel :
     ViewModel<CollectionView>,
     IRecipient<ToolbarCommandMessage>,
+    IRecipient<LanguageChangedMessage>,
     IRecipient<ModelLoadedMessage>
 {
     private const int DecodeToWidthThumbnail = 420;
@@ -78,7 +79,7 @@ public sealed partial class CollectionViewModel :
     private double parametersOpacity;
 
     [ObservableProperty]
-    private string howToPlay; 
+    private string howToPlay;
 
     private bool loaded;
     private PlayStatus state;
@@ -100,6 +101,7 @@ public sealed partial class CollectionViewModel :
         this.ThumbnailsPanelViewModel = new ThumbnailsPanelViewModel(this, jigsawModel);
         this.state = PlayStatus.Unprepared;
         this.Subscribe<ToolbarCommandMessage>();
+        this.Subscribe<LanguageChangedMessage>();
         this.Subscribe<ModelLoadedMessage>();
 
         // Setup UI 
@@ -108,15 +110,15 @@ public sealed partial class CollectionViewModel :
         this.SnapString = string.Empty;
         this.ContrastString = string.Empty;
         this.HintsString = string.Empty;
-        this.HowToPlay = string.Empty; 
-            //"1. Drag and drop an image onto the drop area or select an image from your collection.\n" +
-            //"2. Adjust the puzzle parameters as desired.\n" +
-            //"3. Click 'Play' to start solving the puzzle!\n" +
-            //"4. Enjoy your jigsaw puzzle experience!";
+        this.HowToPlay = string.Empty;
+        //"1. Drag and drop an image onto the drop area or select an image from your collection.\n" +
+        //"2. Adjust the puzzle parameters as desired.\n" +
+        //"3. Click 'Play' to start solving the puzzle!\n" +
+        //"4. Enjoy your jigsaw puzzle experience!";
         this.ParametersVisible = false;
         this.ParametersEnabled = false;
         this.ParametersOpacity = 1.0;
-        this.SetUiParametersToDefaults(); 
+        this.SetUiParametersToDefaults();
     }
 
     public override void Activate(object? activationParameters)
@@ -146,6 +148,13 @@ public sealed partial class CollectionViewModel :
         this.OnImageDrop(imageBytes);
     }
 
+    public void Receive(LanguageChangedMessage message)
+    {
+        this.LocalizeRotations();
+        this.LocalizeSnap();
+        this.LocalizeHints();
+        this.LocalizeContrast();
+    }
 
     public void Receive(ModelLoadedMessage _)
     {
@@ -319,7 +328,7 @@ public sealed partial class CollectionViewModel :
     internal void Select(Model.GameObjects.Game game)
     {
         // Load game parameters into the UI 
-        this.SetUiParametersFromGame(game.PuzzleParameters); 
+        this.SetUiParametersFromGame(game.PuzzleParameters);
 
         // Load the puzzle image regardless of completion status
         string gameKey = game.Name;
@@ -374,7 +383,7 @@ public sealed partial class CollectionViewModel :
     private void SetUiParametersToDefaults()
     {
         this.PieceCountSliderValue = this.PieceCountMin;
-        this.RotationsSliderValue = 0.0; 
+        this.RotationsSliderValue = 0.0;
         this.SnapSliderValue = 2.0;
         this.ContrastSliderValue = 4.0;
 
@@ -421,47 +430,51 @@ public sealed partial class CollectionViewModel :
     partial void OnRotationsSliderValueChanged(double value)
     {
         this.rotations = (int)value;
+        this.LocalizeRotations(); 
+    }
+
+    private void LocalizeRotations () =>
         this.RotationsString =
             this.rotations <= 1 ?
-                "None" :
+                this.Localize("Collection.None") :
                 string.Format("{0:D}", this.rotations);
-    }
 
     partial void OnSnapSliderValueChanged(double value)
     {
         this.snap = (int)value;
+        this.LocalizeSnap(); 
+    }
+
+    private void LocalizeSnap() =>
         this.SnapString =
             this.snap == 0 ?
-                "Mighty" :
+                this.Localize("Collection.SnapMighty") :
                 this.snap == 1 ?
-                    "Strong" :
+                    this.Localize("Collection.SnapStrong") :
                     this.snap == 2 ?
-                        "Normal" : "Weak";
-    }
+                        this.Localize("Collection.SnapNormal") :
+                        this.Localize("Collection.SnapWeak");
 
     partial void OnHintsSliderValueChanged(double value)
     {
         this.hints = (int)value;
+        this.LocalizeHints();
+    }
+
+    private void LocalizeHints() =>
         this.HintsString =
             this.hints == 0 ?
-                "Infinite" :
+                this.Localize("Collection.HintsInfinite") :
                 this.hints == 1 ?
-                    "Three" :
+                    this.Localize("Collection.HintsThree") :
                     this.hints == 2 ?
-                        "Only One" : "None";
-    }
+                        this.Localize("Collection.HintsOnlyOne") :
+                        this.Localize("Collection.None");
 
     partial void OnContrastSliderValueChanged(double value)
     {
         this.contrast = (int)value;
-        this.ContrastString =
-            this.contrast == 0 ?
-                "Extreme" :
-                this.contrast == 1 ?
-                    "Strong" :
-                    this.contrast == 2 ?
-                        "Medium" :
-                        this.contrast == 3 ? "Weak" : "None";
+        this.LocalizeContrast();
 
         if (this.sourceImage is null || this.setups.Count == 0)
         {
@@ -501,6 +514,19 @@ public sealed partial class CollectionViewModel :
             this.imageBytes = temp.EncodeToJpeg();
         }
     }
+
+    private void LocalizeContrast() =>
+        this.ContrastString =
+            this.contrast == 0 ?
+                            this.Localize("Collection.ContrastExtreme") :
+                this.contrast == 1 ?
+                            this.Localize("Collection.ContrastStrong") :
+                    this.contrast == 2 ?
+                            this.Localize("Collection.ContrastMedium") :
+                        this.contrast == 3 ?
+                            this.Localize("Collection.ContrastWeak") :
+                            this.Localize("Collection.None");
+
 
     #endregion Game Parameters 
 
@@ -544,6 +570,6 @@ public sealed partial class CollectionViewModel :
         Schedule.OnUiThread(210, () =>
         {
             this.ThumbnailsPanelViewModel.LoadThumnails();
-        }, DispatcherPriority.Background    );
+        }, DispatcherPriority.Background);
     }
 }

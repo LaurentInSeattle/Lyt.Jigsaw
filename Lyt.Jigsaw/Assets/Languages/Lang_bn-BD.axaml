@@ -41,6 +41,40 @@
 
     <system:String x:Key="Collection.Continue">এই ধাঁধা সমাধান করা চালিয়ে যান:</system:String>
 
+    <system:String x:Key="Collection.PieceCount">টুকরা সংখ্যা:</system:String>
+
+    <system:String x:Key="Collection.Rotations">ঘূর্ণন:</system:String>
+
+    <system:String x:Key="Collection.SnapStrength">স্ন্যাপ শক্তি:</system:String>
+
+    <system:String x:Key="Collection.Hints">ইঙ্গিত:</system:String>
+
+    <system:String x:Key="Collection.AddedContrast">যোগ করা বৈসাদৃশ্য:</system:String>
+
+    <system:String x:Key="Collection.None">কোনোটিই নয়</system:String>
+
+    <system:String x:Key="Collection.SnapMighty">পরাক্রমশালী</system:String>
+
+    <system:String x:Key="Collection.SnapStrong">শক্তিশালী</system:String>
+
+    <system:String x:Key="Collection.SnapNormal">স্বাভাবিক</system:String>
+
+    <system:String x:Key="Collection.SnapWeak">দুর্বল</system:String>
+
+    <system:String x:Key="Collection.HintsInfinite">অসীম</system:String>
+
+    <system:String x:Key="Collection.HintsThree">তিন</system:String>
+
+    <system:String x:Key="Collection.HintsOnlyOne">শুধু একজন</system:String>
+
+    <system:String x:Key="Collection.ContrastExtreme">চরম</system:String>
+
+    <system:String x:Key="Collection.ContrastStrong">শক্তিশালী</system:String>
+
+    <system:String x:Key="Collection.ContrastMedium">মাঝারি</system:String>
+
+    <system:String x:Key="Collection.ContrastWeak">শুধু একটি বিট</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">শুধুমাত্র দেখান:</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">চলছে</system:String>

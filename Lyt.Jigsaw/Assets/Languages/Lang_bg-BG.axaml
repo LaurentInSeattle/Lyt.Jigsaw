@@ -41,6 +41,40 @@
 
     <system:String x:Key="Collection.Continue">Продължете да решавате този пъзел:</system:String>
 
+    <system:String x:Key="Collection.PieceCount">Брой парчета:</system:String>
+
+    <system:String x:Key="Collection.Rotations">Ротации:</system:String>
+
+    <system:String x:Key="Collection.SnapStrength">Сила на захващане:</system:String>
+
+    <system:String x:Key="Collection.Hints">Съвети:</system:String>
+
+    <system:String x:Key="Collection.AddedContrast">Добавен контраст:</system:String>
+
+    <system:String x:Key="Collection.None">Няма</system:String>
+
+    <system:String x:Key="Collection.SnapMighty">Могъщ</system:String>
+
+    <system:String x:Key="Collection.SnapStrong">Силен</system:String>
+
+    <system:String x:Key="Collection.SnapNormal">нормално</system:String>
+
+    <system:String x:Key="Collection.SnapWeak">слаб</system:String>
+
+    <system:String x:Key="Collection.HintsInfinite">Безкраен</system:String>
+
+    <system:String x:Key="Collection.HintsThree">три</system:String>
+
+    <system:String x:Key="Collection.HintsOnlyOne">Само един</system:String>
+
+    <system:String x:Key="Collection.ContrastExtreme">Екстремен</system:String>
+
+    <system:String x:Key="Collection.ContrastStrong">Силен</system:String>
+
+    <system:String x:Key="Collection.ContrastMedium">Среден</system:String>
+
+    <system:String x:Key="Collection.ContrastWeak">Само малко</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">Показване само:</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">В ход</system:String>

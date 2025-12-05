@@ -41,6 +41,40 @@
 
     <system:String x:Key="Collection.Continue">Löse dieses Rätsel weiter:</system:String>
 
+    <system:String x:Key="Collection.PieceCount">Stückzahl:</system:String>
+
+    <system:String x:Key="Collection.Rotations">Rotationen:</system:String>
+
+    <system:String x:Key="Collection.SnapStrength">Schnappfestigkeit:</system:String>
+
+    <system:String x:Key="Collection.Hints">Hinweise:</system:String>
+
+    <system:String x:Key="Collection.AddedContrast">Kontrast hinzugefügt:</system:String>
+
+    <system:String x:Key="Collection.None">Keiner</system:String>
+
+    <system:String x:Key="Collection.SnapMighty">Mächtig</system:String>
+
+    <system:String x:Key="Collection.SnapStrong">Stark</system:String>
+
+    <system:String x:Key="Collection.SnapNormal">Normal</system:String>
+
+    <system:String x:Key="Collection.SnapWeak">Schwach</system:String>
+
+    <system:String x:Key="Collection.HintsInfinite">Unendlich</system:String>
+
+    <system:String x:Key="Collection.HintsThree">Drei</system:String>
+
+    <system:String x:Key="Collection.HintsOnlyOne">Nur einer</system:String>
+
+    <system:String x:Key="Collection.ContrastExtreme">Extrem</system:String>
+
+    <system:String x:Key="Collection.ContrastStrong">Stark</system:String>
+
+    <system:String x:Key="Collection.ContrastMedium">Medium</system:String>
+
+    <system:String x:Key="Collection.ContrastWeak">Nur ein bisschen</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">Nur Anzeigen:</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">Im Gange</system:String>

@@ -41,6 +41,40 @@
 
     <system:String x:Key="Collection.Continue">Продовжте розгадувати цю головоломку:</system:String>
 
+    <system:String x:Key="Collection.PieceCount">Кількість штук:</system:String>
+
+    <system:String x:Key="Collection.Rotations">Обертання:</system:String>
+
+    <system:String x:Key="Collection.SnapStrength">Міцність замикання:</system:String>
+
+    <system:String x:Key="Collection.Hints">Підказки:</system:String>
+
+    <system:String x:Key="Collection.AddedContrast">Доданий контраст:</system:String>
+
+    <system:String x:Key="Collection.None">Жодного</system:String>
+
+    <system:String x:Key="Collection.SnapMighty">Могутній</system:String>
+
+    <system:String x:Key="Collection.SnapStrong">Сильний</system:String>
+
+    <system:String x:Key="Collection.SnapNormal">нормальний</system:String>
+
+    <system:String x:Key="Collection.SnapWeak">Слабкий</system:String>
+
+    <system:String x:Key="Collection.HintsInfinite">Нескінченний</system:String>
+
+    <system:String x:Key="Collection.HintsThree">три</system:String>
+
+    <system:String x:Key="Collection.HintsOnlyOne">Тільки один</system:String>
+
+    <system:String x:Key="Collection.ContrastExtreme">Екстрім</system:String>
+
+    <system:String x:Key="Collection.ContrastStrong">Сильний</system:String>
+
+    <system:String x:Key="Collection.ContrastMedium">Середній</system:String>
+
+    <system:String x:Key="Collection.ContrastWeak">Просто трохи</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">Показати лише:</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">В роботі</system:String>

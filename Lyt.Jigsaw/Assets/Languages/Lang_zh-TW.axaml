@@ -41,6 +41,40 @@
 
     <system:String x:Key="Collection.Continue">繼續解決這個難題：</system:String>
 
+    <system:String x:Key="Collection.PieceCount">件數：</system:String>
+
+    <system:String x:Key="Collection.Rotations">旋轉次數：</system:String>
+
+    <system:String x:Key="Collection.SnapStrength">咬合強度：</system:String>
+
+    <system:String x:Key="Collection.Hints">提示：</system:String>
+
+    <system:String x:Key="Collection.AddedContrast">添加對比度：</system:String>
+
+    <system:String x:Key="Collection.None">沒有任何</system:String>
+
+    <system:String x:Key="Collection.SnapMighty">強大的</system:String>
+
+    <system:String x:Key="Collection.SnapStrong">強的</system:String>
+
+    <system:String x:Key="Collection.SnapNormal">普通的</system:String>
+
+    <system:String x:Key="Collection.SnapWeak">虛弱的</system:String>
+
+    <system:String x:Key="Collection.HintsInfinite">無限</system:String>
+
+    <system:String x:Key="Collection.HintsThree">三</system:String>
+
+    <system:String x:Key="Collection.HintsOnlyOne">只有一個</system:String>
+
+    <system:String x:Key="Collection.ContrastExtreme">極端</system:String>
+
+    <system:String x:Key="Collection.ContrastStrong">強的</system:String>
+
+    <system:String x:Key="Collection.ContrastMedium">中等的</system:String>
+
+    <system:String x:Key="Collection.ContrastWeak">一點點</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">僅顯示：</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">進行中</system:String>
