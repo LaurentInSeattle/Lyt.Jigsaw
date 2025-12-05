@@ -24,6 +24,9 @@ public static class GeometryGenerator
         return points;
     }
 
+    // Consider moving this BELOW into the Avalonia area and create a new library for Avalonia images and media.
+    // Stuff above depends on this app Workflow/Game only.
+
     // Combine the two geometries with the 'Intersect' mode.
     public static Geometry InvertedClip(Geometry outerGeometry, Geometry innerGeometry)
         => new CombinedGeometry(GeometryCombineMode.Intersect, outerGeometry, innerGeometry);

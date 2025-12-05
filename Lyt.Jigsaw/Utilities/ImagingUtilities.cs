@@ -1,6 +1,4 @@
-﻿using Lyt.Utilities.Profiling;
-
-using SkiaSharp;
+﻿using SkiaSharp;
 
 // Consider moving this into the Avalonia area and create a new library for Avalonia images and media.
 namespace Lyt.Jigsaw.Utilities;
