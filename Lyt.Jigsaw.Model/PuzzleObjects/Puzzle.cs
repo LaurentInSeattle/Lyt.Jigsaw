@@ -80,7 +80,13 @@ public sealed class Puzzle
                 0 :
                 (from grp in this.Groups select grp.Pieces.Count).Sum();
         double ratio = groupedPiecesCount / (double)this.PieceCount;
-        return (int)Math.Round(100.0 * ratio);
+        int percent = (int)Math.Round(100.0 * ratio);
+        if (percent == 100  && !this.IsComplete)
+        {
+            percent = 99;
+        }
+
+        return percent;
     }
 
     public bool IsComplete
@@ -310,7 +316,7 @@ public sealed class Puzzle
             }
         }
 
-        if ( neighbours.Count >= 2)
+        if (neighbours.Count >= 2)
         {
             neighbours.Sort((a, b) => a.Distance.CompareTo(b.Distance));
         }

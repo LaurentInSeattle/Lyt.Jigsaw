@@ -526,4 +526,12 @@ public sealed partial class CollectionViewModel :
         this.state = PlayStatus.ReadyForNew;
         return true;
     }
+
+    internal void OnPuzzleCompleted()
+    {
+        Schedule.OnUiThread(210, () =>
+        {
+            this.ThumbnailsPanelViewModel.LoadThumnails();
+        }, DispatcherPriority.Background    );
+    }
 }

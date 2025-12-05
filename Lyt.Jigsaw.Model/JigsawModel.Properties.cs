@@ -60,46 +60,4 @@ public sealed partial class JigsawModel : ModelBase
     public bool IsInternetConnected { get => this.Get<bool>(); set => this.Set(value); }
 
     #endregion NOT serialized - WITH model changed event    
-
-    //public async Task TranslateMetadata(PictureMetadata pictureMetadata, string currentLanguage)
-    //{
-    //    bool updateModel = false;
-    //    TranslationMessage translationMessage = new();
-    //    string sourceKey = LanguageKeyFromCultureKey("en-US");
-    //    string currentLanguageKey = LanguageKeyFromCultureKey(currentLanguage);
-    //    if (!string.IsNullOrWhiteSpace(pictureMetadata.Title))
-    //    {
-    //        (bool success, string translatedTitle) =
-    //            await this.translatorService.Translate(
-    //                ProviderKey.Google,
-    //                pictureMetadata.Title, sourceKey, currentLanguageKey);
-    //        if (success && !string.IsNullOrWhiteSpace(translatedTitle))
-    //        {
-    //            pictureMetadata.TranslatedTitle = translatedTitle;
-    //            translationMessage.Title = translatedTitle;
-    //            updateModel = true;
-    //        }
-    //    }
-
-    //    if (!string.IsNullOrWhiteSpace(pictureMetadata.Description))
-    //    {
-    //        (bool success, string translatedDescription) =
-    //            await this.translatorService.Translate(
-    //                ProviderKey.Google,
-    //                pictureMetadata.Description, sourceKey, currentLanguageKey);
-    //        if (success && !string.IsNullOrWhiteSpace(translatedDescription))
-    //        {
-    //            pictureMetadata.TranslatedDescription = translatedDescription;
-    //            translationMessage.Description = translatedDescription;
-    //            updateModel = true;
-    //        }
-    //    }
-
-    //    if (updateModel)
-    //    {
-    //        pictureMetadata.TranslationLanguage = currentLanguage;
-    //        this.Update(pictureMetadata);
-    //        translationMessage.Publish();
-    //    }
-    //}
 }

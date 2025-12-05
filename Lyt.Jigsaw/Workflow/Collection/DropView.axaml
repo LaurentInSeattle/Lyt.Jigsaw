@@ -37,13 +37,14 @@
 					Text="{DynamicResource Collection.DropZone}"
 					Theme="{StaticResource H2}"
 					TextAlignment="Center"
-					VerticalAlignment="Top"
+					HorizontalAlignment="Center" VerticalAlignment="Top"
 					/>
 				<TextBlock
 					Margin="8 0 8 16"
 					Text="{DynamicResource Collection.DropZoneHelp}"
 					Theme="{StaticResource Large}"
-					VerticalAlignment="Bottom"
+					TextAlignment="Center"
+					HorizontalAlignment="Center" VerticalAlignment="Bottom"
 					/>
 			</Grid>
 		</Border>

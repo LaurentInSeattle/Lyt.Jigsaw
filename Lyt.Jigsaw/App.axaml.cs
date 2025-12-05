@@ -82,15 +82,16 @@ public partial class App : ApplicationBase
             new LocalizerConfiguration
             {
                 AssemblyName = App.AssemblyName,
-                Languages = 
+                Languages =
                 [
-                    "en-US",                     
-                    "fr-FR",
-                    "it-IT", 
-                    // "es-ES", "de-DE", "hu-HU",
-                    //"uk-UA", "bg-BG", "el-GR", "hy-AM", 
-                    //"jp-JP", "ko-KO", "zh-CN", "zh-TW", 
-                    //"hi-IN", "bn-BD"
+                    // Master, See JigsawLanguages.json in Tools folder 
+                    "en-US", 
+
+                    // Translated 
+                    "fr-FR", "it-IT", "es-ES", "de-DE",
+                    "uk-UA", "bg-BG", "el-GR", "hy-AM",
+                    "jp-JP", "ko-KO", "zh-CN", "zh-TW",
+                    "hi-IN", "bn-BD", "hu-HU",
                 ],
                 // Use default for all other config parameters 
             });

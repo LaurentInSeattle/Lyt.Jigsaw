@@ -184,7 +184,11 @@ public sealed partial class JigsawModel : ModelBase
                 var fileId = new FileId(Area.User, Kind.Json, this.Game.GameName);
                 this.fileManager.Save(fileId, this.Game);
 
-                if (!this.SavedGames.ContainsKey(this.Game.Name))
+                if (this.SavedGames.ContainsKey(this.Game.Name))
+                {
+                    this.SavedGames[this.Game.Name] = this.Game;
+                }
+                else
                 {
                     this.SavedGames.Add(this.Game.Name, this.Game);
                 }

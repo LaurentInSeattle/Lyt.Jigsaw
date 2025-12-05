@@ -54,7 +54,7 @@ public sealed partial class ThumbnailsPanelViewModel :
                 continue;
             }
 
-            // Make sure the game image is still present on disk 
+            // Make sure the game image is still present on disk, if not skip
             var fileIdImage = new FileId(Area.User, Kind.Binary, game.ImageName);
             if (!fileManagerModel.Exists(fileIdImage))
             {
@@ -142,8 +142,6 @@ public sealed partial class ThumbnailsPanelViewModel :
                     "There are no completed games yet.";
         }
     }
-
-    partial void OnProvidersSelectedIndexChanged(int value) => this.Filter();
 
     partial void OnShowInProgressChanged(bool value)
     {

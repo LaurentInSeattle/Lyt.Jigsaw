@@ -340,6 +340,9 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
                     vm.OnComplete();
                 }
             }
+
+            var collectionVm = App.GetRequiredService<CollectionViewModel>();
+            collectionVm.OnPuzzleCompleted();
         }
     }
 
