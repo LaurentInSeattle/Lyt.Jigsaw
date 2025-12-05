@@ -2,6 +2,8 @@
 
 using Lyt.Jigsaw.Model.Utilities;
 
+using static Lyt.Jigsaw.Messaging.ToolbarCommandMessage;
+
 public sealed partial class CollectionViewModel :
     ViewModel<CollectionView>,
     IRecipient<ToolbarCommandMessage>,
@@ -77,6 +79,9 @@ public sealed partial class CollectionViewModel :
     [ObservableProperty]
     private double parametersOpacity;
 
+    [ObservableProperty]
+    private string howToPlay; 
+
     private bool loaded;
     private PlayStatus state;
     private int pieceCount;
@@ -105,6 +110,11 @@ public sealed partial class CollectionViewModel :
         this.SnapString = string.Empty;
         this.ContrastString = string.Empty;
         this.HintsString = string.Empty;
+        this.HowToPlay = string.Empty; 
+            //"1. Drag and drop an image onto the drop area or select an image from your collection.\n" +
+            //"2. Adjust the puzzle parameters as desired.\n" +
+            //"3. Click 'Play' to start solving the puzzle!\n" +
+            //"4. Enjoy your jigsaw puzzle experience!";
         this.ParametersVisible = false;
         this.ParametersEnabled = false;
         this.ParametersOpacity = 1.0;
@@ -186,6 +196,9 @@ public sealed partial class CollectionViewModel :
 
         this.ThumbnailsPanelViewModel.LoadThumnails();
     }
+
+    [RelayCommand]
+    public void OnPlay() => this.Play();
 
     private void Play()
     {
@@ -292,6 +305,7 @@ public sealed partial class CollectionViewModel :
         }
 
         this.PuzzleImage = this.sourceImage;
+        this.HowToPlay = "Begin this new puzzle:";
         this.SetupUiForNewGame();
 
         return true;
@@ -317,7 +331,6 @@ public sealed partial class CollectionViewModel :
             return;
         }
 
-
         try
         {
             int decodeToWidth = 1920; //  1024 + 512;
@@ -333,7 +346,7 @@ public sealed partial class CollectionViewModel :
                 this.ParametersVisible = true;
                 this.ParametersEnabled = true;
                 this.ParametersOpacity = 1.0;
-
+                this.HowToPlay = "Start again this puzzle:";
                 // Need to duplicate the image 
                 this.sourceImage = image.Duplicate();
 
@@ -346,6 +359,7 @@ public sealed partial class CollectionViewModel :
                 this.ParametersVisible = true;
                 this.ParametersEnabled = false;
                 this.ParametersOpacity = 0.5;
+                this.HowToPlay = "Continue solving this puzzle:";
 
                 // No need to duplicate the image 
                 this.state = PlayStatus.ReadyForRestart;

@@ -10,6 +10,7 @@
 	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 
 	xmlns:controls="clr-namespace:Lyt.Jigsaw.Controls"
+	xmlns:glyphs="clr-namespace:Lyt.Avalonia.Controls.Glyphs;assembly=Lyt.Avalonia.Controls"
 	xmlns:interactions="using:Lyt.Avalonia.Mvvm.Behaviors"
 	>
 	<Grid
@@ -56,168 +57,198 @@
 					DataContext="{Binding DropViewModel}"
 					Margin="4 12 4 4"
 					/>
-				<Grid
-					IsVisible="{Binding ParametersVisible}" 
-					IsEnabled="{Binding ParametersEnabled}" 
+				<StackPanel
 					Grid.Column="2"
-					> 
-					<Grid.RowDefinitions>
-						<RowDefinition Height="72" />
-						<RowDefinition Height="72" />
-						<RowDefinition Height="72" />
-						<RowDefinition Height="72" />
-						<RowDefinition Height="72" />
-						<RowDefinition Height="*" />
-					</Grid.RowDefinitions>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="160"/>
-						<ColumnDefinition Width="*"/>
-						<ColumnDefinition Width="180" />
-					</Grid.ColumnDefinitions>
-					<TextBlock
-						Grid.Row="0" Grid.Column="0" 
-						Margin="4"
-						Theme="{StaticResource H3}"
-						HorizontalAlignment="Right"
-						Text="Piece Count:"
-						Opacity="{Binding ParametersOpacity}"
-						/>
-					<Slider 
-						Grid.Row="0" Grid.Column="1" 
-						Margin="4 8 4 4 "
-						VerticalAlignment="Center" HorizontalAlignment="Stretch"
-						TickFrequency="1.0"
-						TickPlacement="None"
-						IsSnapToTickEnabled="True"
-						SmallChange="1" LargeChange="5"
-						Minimum="{Binding PieceCountMin}"
-						Maximum="{Binding PieceCountMax}"
-						Value="{Binding PieceCountSliderValue}"
-						/>
-					<TextBlock
-						Grid.Row="0" Grid.Column="2" 
-						Margin="4"
-						Theme="{StaticResource H2}"
-						HorizontalAlignment="Left"
-						Text="{Binding PieceCountString}"
-						Opacity="{Binding ParametersOpacity}"
-						/>
-					<TextBlock
-						Grid.Row="1" Grid.Column="0" 
-						Margin="4"
-						Theme="{StaticResource H3}"
-						HorizontalAlignment="Right"
-						Text="Rotations:"
-						Opacity="{Binding ParametersOpacity}"
-						/>
-					<Slider 
-						Grid.Row="1" Grid.Column="1" 
-						Margin="4 8 4 4 "
-						VerticalAlignment="Center" HorizontalAlignment="Stretch"
-						TickFrequency="1.0"
-						TickPlacement="BottomRight"
-						IsSnapToTickEnabled="True"
-						SmallChange="1" LargeChange="1"
-						Minimum="1"
-						Maximum="6"
-						Value="{Binding RotationsSliderValue}"
-						/>
-					<TextBlock
-						Grid.Row="1" Grid.Column="2" 
-						Margin="4"
-						Theme="{StaticResource H2}"
-						HorizontalAlignment="Left"
-						Text="{Binding RotationsString}"
-						Opacity="{Binding ParametersOpacity}"
-						/>
-					<Slider 
-						Grid.Row="2" Grid.Column="1" 
-						Margin="4 8 4 4 "
-						VerticalAlignment="Center" HorizontalAlignment="Stretch"
-						TickFrequency="1.0"
-						TickPlacement="BottomRight"
-						IsSnapToTickEnabled="True"
-						SmallChange="1" LargeChange="1"
-						Minimum="0"
-						Maximum="3"
-						Value="{Binding SnapSliderValue}"
-						/>
-					<TextBlock
-						Grid.Row="2" Grid.Column="2" 
-						Margin="4"
-						Theme="{StaticResource H2}"
-						HorizontalAlignment="Left"
-						Text="{Binding SnapString}"
-						Opacity="{Binding ParametersOpacity}"
-						/>
-					<TextBlock
-						Grid.Row="2" Grid.Column="0" 
-						Margin="4"
-						Theme="{StaticResource H3}"
-						Text="Snap Strength:"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Center"
-						Opacity="{Binding ParametersOpacity}"
-						/>
-					<Slider 
-						Grid.Row="3" Grid.Column="1" 
-						Margin="4 8 4 4 "
-						VerticalAlignment="Center" HorizontalAlignment="Stretch"
-						TickFrequency="1.0"
-						TickPlacement="BottomRight"
-						IsSnapToTickEnabled="True"
-						SmallChange="1" LargeChange="1"
-						Minimum="0"
-						Maximum="3"
-						Value="{Binding HintsSliderValue}"
-						/>
-					<TextBlock
-						Grid.Row="3" Grid.Column="2" 
-						Margin="4"
-						Theme="{StaticResource H2}"
-						HorizontalAlignment="Left"
-						Text="{Binding HintsString}"
-						Opacity="{Binding ParametersOpacity}"
-						/>
-					<TextBlock
-						Grid.Row="3" Grid.Column="0" 
-						Margin="4"
-						Theme="{StaticResource H3}"
-						Text="Hints:"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Center"
-						Opacity="{Binding ParametersOpacity}"
-						/>
-					<Slider 
-						Grid.Row="4" Grid.Column="1" 
-						Margin="4 8 4 4 "
-						VerticalAlignment="Center" HorizontalAlignment="Stretch"
-						TickFrequency="1.0"
-						TickPlacement="BottomRight"
-						IsSnapToTickEnabled="True"
-						SmallChange="1" LargeChange="1"
-						Minimum="0"
-						Maximum="4"
-						Value="{Binding ContrastSliderValue}"
-						/>
-					<TextBlock
-						Grid.Row="4" Grid.Column="2" 
-						Margin="4"
-						Theme="{StaticResource H2}"
-						HorizontalAlignment="Left"
-						Text="{Binding ContrastString}"
-						Opacity="{Binding ParametersOpacity}"
-						/>
-					<TextBlock
-						Grid.Row="4" Grid.Column="0" 
-						Margin="4"
-						Theme="{StaticResource H3}"
-						Text="Added Contrast:"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Center"
-						Opacity="{Binding ParametersOpacity}"
-						/>
-				</Grid>
+					>
+					<Grid
+						IsVisible="{Binding ParametersVisible}" 
+						IsEnabled="{Binding ParametersEnabled}" 
+						> 
+						<Grid.RowDefinitions>
+							<RowDefinition Height="72" />
+							<RowDefinition Height="72" />
+							<RowDefinition Height="72" />
+							<RowDefinition Height="72" />
+							<RowDefinition Height="72" />
+						</Grid.RowDefinitions>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="160"/>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="180" />
+						</Grid.ColumnDefinitions>
+						<TextBlock
+							Grid.Row="0" Grid.Column="0" 
+							Margin="4"
+							Theme="{StaticResource H3}"
+							HorizontalAlignment="Right"
+							Text="Piece Count:"
+							Opacity="{Binding ParametersOpacity}"
+							/>
+						<Slider 
+							Grid.Row="0" Grid.Column="1" 
+							Margin="4 8 4 4 "
+							VerticalAlignment="Center" HorizontalAlignment="Stretch"
+							TickFrequency="1.0"
+							TickPlacement="None"
+							IsSnapToTickEnabled="True"
+							SmallChange="1" LargeChange="5"
+							Minimum="{Binding PieceCountMin}"
+							Maximum="{Binding PieceCountMax}"
+							Value="{Binding PieceCountSliderValue}"
+							/>
+						<TextBlock
+							Grid.Row="0" Grid.Column="2" 
+							Margin="4"
+							Theme="{StaticResource H2}"
+							HorizontalAlignment="Left"
+							Text="{Binding PieceCountString}"
+							Opacity="{Binding ParametersOpacity}"
+							/>
+						<TextBlock
+							Grid.Row="1" Grid.Column="0" 
+							Margin="4"
+							Theme="{StaticResource H3}"
+							HorizontalAlignment="Right"
+							Text="Rotations:"
+							Opacity="{Binding ParametersOpacity}"
+							/>
+						<Slider 
+							Grid.Row="1" Grid.Column="1" 
+							Margin="4 8 4 4 "
+							VerticalAlignment="Center" HorizontalAlignment="Stretch"
+							TickFrequency="1.0"
+							TickPlacement="BottomRight"
+							IsSnapToTickEnabled="True"
+							SmallChange="1" LargeChange="1"
+							Minimum="1"
+							Maximum="6"
+							Value="{Binding RotationsSliderValue}"
+							/>
+						<TextBlock
+							Grid.Row="1" Grid.Column="2" 
+							Margin="4"
+							Theme="{StaticResource H2}"
+							HorizontalAlignment="Left"
+							Text="{Binding RotationsString}"
+							Opacity="{Binding ParametersOpacity}"
+							/>
+						<Slider 
+							Grid.Row="2" Grid.Column="1" 
+							Margin="4 8 4 4 "
+							VerticalAlignment="Center" HorizontalAlignment="Stretch"
+							TickFrequency="1.0"
+							TickPlacement="BottomRight"
+							IsSnapToTickEnabled="True"
+							SmallChange="1" LargeChange="1"
+							Minimum="0"
+							Maximum="3"
+							Value="{Binding SnapSliderValue}"
+							/>
+						<TextBlock
+							Grid.Row="2" Grid.Column="2" 
+							Margin="4"
+							Theme="{StaticResource H2}"
+							HorizontalAlignment="Left"
+							Text="{Binding SnapString}"
+							Opacity="{Binding ParametersOpacity}"
+							/>
+						<TextBlock
+							Grid.Row="2" Grid.Column="0" 
+							Margin="4"
+							Theme="{StaticResource H3}"
+							Text="Snap Strength:"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Opacity="{Binding ParametersOpacity}"
+							/>
+						<Slider 
+							Grid.Row="3" Grid.Column="1" 
+							Margin="4 8 4 4 "
+							VerticalAlignment="Center" HorizontalAlignment="Stretch"
+							TickFrequency="1.0"
+							TickPlacement="BottomRight"
+							IsSnapToTickEnabled="True"
+							SmallChange="1" LargeChange="1"
+							Minimum="0"
+							Maximum="3"
+							Value="{Binding HintsSliderValue}"
+							/>
+						<TextBlock
+							Grid.Row="3" Grid.Column="2" 
+							Margin="4"
+							Theme="{StaticResource H2}"
+							HorizontalAlignment="Left"
+							Text="{Binding HintsString}"
+							Opacity="{Binding ParametersOpacity}"
+							/>
+						<TextBlock
+							Grid.Row="3" Grid.Column="0" 
+							Margin="4"
+							Theme="{StaticResource H3}"
+							Text="Hints:"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Opacity="{Binding ParametersOpacity}"
+							/>
+						<Slider 
+							Grid.Row="4" Grid.Column="1" 
+							Margin="4 8 4 4 "
+							VerticalAlignment="Center" HorizontalAlignment="Stretch"
+							TickFrequency="1.0"
+							TickPlacement="BottomRight"
+							IsSnapToTickEnabled="True"
+							SmallChange="1" LargeChange="1"
+							Minimum="0"
+							Maximum="4"
+							Value="{Binding ContrastSliderValue}"
+							/>
+						<TextBlock
+							Grid.Row="4" Grid.Column="2" 
+							Margin="4"
+							Theme="{StaticResource H2}"
+							HorizontalAlignment="Left"
+							Text="{Binding ContrastString}"
+							Opacity="{Binding ParametersOpacity}"
+							/>
+						<TextBlock
+							Grid.Row="4" Grid.Column="0" 
+							Margin="4"
+							Theme="{StaticResource H3}"
+							Text="Added Contrast:"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Opacity="{Binding ParametersOpacity}"
+							/>
+					</Grid>
+					<Grid
+						Height="80"
+						>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="250"/>
+							<ColumnDefinition Width="180" />
+						</Grid.ColumnDefinitions>
+						<TextBlock
+							Grid.Column="0"
+							Margin="4"
+							Theme="{StaticResource H2}"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Text="{Binding HowToPlay}"
+							/>
+						<glyphs:GlyphButton
+							Grid.Column="1" 
+							Margin="4"
+							Height="70" Width="240"
+							Style="{StaticResource ViewIconButton}"
+							GlyphSource="puzzle_piece"
+							Text="{DynamicResource Shell.Play}"
+							Command="{Binding OnPlay}"
+							GlyphStrokeThickness="0"
+							/>
+					</Grid>
+
+				</StackPanel>
 			</Grid>
 			<Image
 				Grid.Column="2" Grid.Row="2" 

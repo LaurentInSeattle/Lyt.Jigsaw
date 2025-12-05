@@ -32,13 +32,6 @@
 			Command="{Binding OnSaveToDesktop}"
 			GlyphStrokeThickness="0"
 			/>
-		<glyphs:GlyphButton
-			Style="{StaticResource AppToolbarIconButton}"
-			GlyphSource="puzzle_piece"
-			Text="{DynamicResource Shell.Play}"
-			Command="{Binding OnPlay}"
-			GlyphStrokeThickness="0"
-			/>
 	</StackPanel>
 
 </UserControl>

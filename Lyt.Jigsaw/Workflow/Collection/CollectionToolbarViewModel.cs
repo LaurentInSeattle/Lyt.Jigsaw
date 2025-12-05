@@ -8,9 +8,6 @@ public sealed partial class CollectionToolbarViewModel : ViewModel<CollectionToo
 #pragma warning disable CA1822 // Mark members as static
 
     [RelayCommand]
-    public void OnPlay() => Command(ToolbarCommand.Play);
-
-    [RelayCommand]
     public void OnRemoveFromCollection() => Command(ToolbarCommand.RemoveFromCollection);
     
     [RelayCommand]
