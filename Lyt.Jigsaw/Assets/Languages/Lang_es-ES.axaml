@@ -35,11 +35,21 @@
 
     <system:String x:Key="Collection.DropZoneHelp">Arrastre y suelte un archivo de imagen aquí para crear una nueva imagen de rompecabezas.</system:String>
 
+    <system:String x:Key="Collection.BeginNew">Comienza este nuevo rompecabezas:</system:String>
+
+    <system:String x:Key="Collection.StartAgain">Comienza de nuevo este rompecabezas:</system:String>
+
+    <system:String x:Key="Collection.Continue">Continúe resolviendo este rompecabezas:</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">Mostrar sólo:</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">En curso</system:String>
 
     <system:String x:Key="Collection.Thumbs.Completed">Terminado</system:String>
+
+    <system:String x:Key="Collection.Thumbs.StartedFormat">Iniciado: {0}</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ProgressFormat">Progreso: {0} %</system:String>
 
     <system:String x:Key="Intro.AgreeMIT">Acepto los términos de la Licencia MIT, Continuar.</system:String>
 

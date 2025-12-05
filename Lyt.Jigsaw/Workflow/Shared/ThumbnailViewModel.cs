@@ -79,13 +79,13 @@ public sealed partial class ThumbnailViewModel : ViewModel<ThumbnailView>, IReci
 
         string dateString =
             string.Format(
-                "Started: {0}", // this.Localizer.GetString("ThumbnailStartedFormat"),
+                this.Localizer.Lookup("Collection.Thumbs.StartedFormat"),
                 this.Game.Started.Date.ToShortDateString());
         string progressString =
             this.Game.IsCompleted ?
-                "Completed" : // this.Localizer.GetString("ThumbnailCompleted") :
+                this.Localizer.Lookup("Collection.Thumbs.Completed") : 
                 string.Format(
-                    "Progress: {0} %", // this.Localizer.GetString("ThumbnailProgressFormat"), 
+                    this.Localizer.Lookup("Collection.Thumbs.ProgressFormat"),
                     this.Game.Progress);
         this.Title = string.Concat(dateString, " - ", progressString);
     }

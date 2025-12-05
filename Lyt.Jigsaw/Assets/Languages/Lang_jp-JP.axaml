@@ -35,11 +35,21 @@
 
     <system:String x:Key="Collection.DropZoneHelp">ここに画像ファイルをドラッグ＆ドロップして、新しいパズル絵を作成します。</system:String>
 
+    <system:String x:Key="Collection.BeginNew">この新しいパズルを始めましょう:</system:String>
+
+    <system:String x:Key="Collection.StartAgain">このパズルをもう一度やり直します。</system:String>
+
+    <system:String x:Key="Collection.Continue">このパズルを解き続けてください。</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">表示のみ:</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">進行中</system:String>
 
     <system:String x:Key="Collection.Thumbs.Completed">完了</system:String>
+
+    <system:String x:Key="Collection.Thumbs.StartedFormat">開始しました: {0}</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ProgressFormat">進行状況: {0} %</system:String>
 
     <system:String x:Key="Intro.AgreeMIT">MIT ライセンスの条項に同意します。続行します。</system:String>
 

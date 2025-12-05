@@ -35,11 +35,21 @@
 
     <system:String x:Key="Collection.DropZoneHelp">Trascina e rilascia i file qui per aggiungerli alla collezione di sfondi.</system:String>
 
+    <system:String x:Key="Collection.BeginNew">Inizia questo nuovo puzzle:</system:String>
+
+    <system:String x:Key="Collection.StartAgain">Ricomincia questo puzzle:</system:String>
+
+    <system:String x:Key="Collection.Continue">Continua a risolvere questo enigma:</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">Mostra solo:</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">In corso</system:String>
 
     <system:String x:Key="Collection.Thumbs.Completed">Completato</system:String>
+
+    <system:String x:Key="Collection.Thumbs.StartedFormat">Iniziato: {0}</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ProgressFormat">Avanzamento: {0} %</system:String>
 
     <system:String x:Key="Intro.AgreeMIT">Accetto i termini della licenza MIT, Continua.</system:String>
 

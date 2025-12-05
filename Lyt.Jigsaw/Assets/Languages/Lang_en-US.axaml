@@ -1,7 +1,7 @@
 <ResourceDictionary 
 	xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:system="clr-namespace:System;assembly=System.Runtime"
 	>
 	<!-- Toast-->
 	<system:String x:Key="Toast.Dismiss">Close</system:String>
@@ -22,11 +22,19 @@
 	<system:String x:Key="Collection.Remove">Remove</system:String>
 	<system:String x:Key="Collection.SaveToDesktop">Save to Desktop</system:String>
 	<system:String x:Key="Collection.DropZone">Drag and Drop Zone</system:String>
-	<system:String x:Key="Collection.DropZoneHelp">Drag and drop an image file here to create a new puzzle picture.</system:String>
+	<system:String x:Key="Collection.DropZoneHelp">Drag and drop an image file here to create a new puzzle.</system:String>
 
+	<system:String x:Key="Collection.BeginNew">Begin this new puzzle:</system:String>
+	<system:String x:Key="Collection.StartAgain">Start again this puzzle:</system:String>
+	<system:String x:Key="Collection.Continue">Continue solving this puzzle:</system:String>
+
+	<!-- Thumbs -->
 	<system:String x:Key="Collection.Thumbs.ShowOnly">Show Only:</system:String>
 	<system:String x:Key="Collection.Thumbs.InProgress">In Progress</system:String>
 	<system:String x:Key="Collection.Thumbs.Completed">Completed</system:String>
+
+	<system:String x:Key="Collection.Thumbs.StartedFormat">Started: {0}</system:String>
+	<system:String x:Key="Collection.Thumbs.ProgressFormat">Progress: {0} %</system:String>
 
 	<!-- Intro  -->
 	<system:String x:Key="Intro.AgreeMIT">I accept the terms of the MIT License, Continue.</system:String>

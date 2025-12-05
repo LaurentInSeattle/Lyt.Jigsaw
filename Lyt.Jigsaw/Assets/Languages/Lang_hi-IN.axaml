@@ -35,11 +35,21 @@
 
     <system:String x:Key="Collection.DropZoneHelp">एक नया पहेली चित्र बनाने के लिए एक छवि फ़ाइल को यहाँ खींचें और छोड़ें।</system:String>
 
+    <system:String x:Key="Collection.BeginNew">इस नई पहेली को शुरू करें:</system:String>
+
+    <system:String x:Key="Collection.StartAgain">इस पहेली को फिर से शुरू करें:</system:String>
+
+    <system:String x:Key="Collection.Continue">इस पहेली को हल करना जारी रखें:</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">केवल इतना ही दिखाना:</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">प्रगति पर है</system:String>
 
     <system:String x:Key="Collection.Thumbs.Completed">पुरा होना।</system:String>
+
+    <system:String x:Key="Collection.Thumbs.StartedFormat">प्रारंभ: {0}</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ProgressFormat">प्रगति: {0} %</system:String>
 
     <system:String x:Key="Intro.AgreeMIT">मैं एमआईटी लाइसेंस की शर्तों को स्वीकार करता हूं, जारी रखें।</system:String>
 

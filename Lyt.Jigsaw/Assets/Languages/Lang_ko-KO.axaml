@@ -35,11 +35,21 @@
 
     <system:String x:Key="Collection.DropZoneHelp">새로운 퍼즐 그림을 만들려면 이미지 파일을 여기에 끌어다 놓으십시오.</system:String>
 
+    <system:String x:Key="Collection.BeginNew">이 새로운 퍼즐을 시작해보세요:</system:String>
+
+    <system:String x:Key="Collection.StartAgain">이 퍼즐을 다시 시작하세요.</system:String>
+
+    <system:String x:Key="Collection.Continue">계속해서 이 퍼즐을 풀어보세요.</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">표시만:</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">진행 중</system:String>
 
     <system:String x:Key="Collection.Thumbs.Completed">완전한</system:String>
+
+    <system:String x:Key="Collection.Thumbs.StartedFormat">시작됨: {0}</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ProgressFormat">진행률: {0} %</system:String>
 
     <system:String x:Key="Intro.AgreeMIT">MIT 라이선스 조건에 동의합니다. 계속하세요.</system:String>
 

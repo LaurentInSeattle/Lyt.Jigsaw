@@ -35,11 +35,21 @@
 
     <system:String x:Key="Collection.DropZoneHelp">Húzzon ide egy képfájlt új rejtvénykép létrehozásához.</system:String>
 
+    <system:String x:Key="Collection.BeginNew">Kezdje el ezt az új rejtvényt:</system:String>
+
+    <system:String x:Key="Collection.StartAgain">Kezdje újra ezt a rejtvényt:</system:String>
+
+    <system:String x:Key="Collection.Continue">Folytasd a rejtvény megfejtését:</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">Csak megjelenítés:</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">Folyamatban van</system:String>
 
     <system:String x:Key="Collection.Thumbs.Completed">Befejezve</system:String>
+
+    <system:String x:Key="Collection.Thumbs.StartedFormat">Kezdve: {0}</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ProgressFormat">Haladás: {0} %</system:String>
 
     <system:String x:Key="Intro.AgreeMIT">Elfogadom az MIT Licenc feltételeit, Folytatás.</system:String>
 

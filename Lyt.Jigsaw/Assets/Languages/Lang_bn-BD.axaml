@@ -35,11 +35,21 @@
 
     <system:String x:Key="Collection.DropZoneHelp">একটি নতুন ধাঁধার ছবি তৈরি করতে এখানে একটি ইমেজ ফাইল টেনে আনুন।</system:String>
 
+    <system:String x:Key="Collection.BeginNew">এই নতুন ধাঁধা শুরু করুন:</system:String>
+
+    <system:String x:Key="Collection.StartAgain">এই ধাঁধা আবার শুরু করুন:</system:String>
+
+    <system:String x:Key="Collection.Continue">এই ধাঁধা সমাধান করা চালিয়ে যান:</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">শুধুমাত্র দেখান:</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">চলছে</system:String>
 
     <system:String x:Key="Collection.Thumbs.Completed">সম্পন্ন</system:String>
+
+    <system:String x:Key="Collection.Thumbs.StartedFormat">শুরু হয়েছে: {0}</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ProgressFormat">অগ্রগতি: {0} %</system:String>
 
     <system:String x:Key="Intro.AgreeMIT">আমি এমআইটি লাইসেন্সের শর্তাবলী স্বীকার করছি, চালিয়ে যান।</system:String>
 

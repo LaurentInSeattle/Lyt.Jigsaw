@@ -35,11 +35,21 @@
 
     <system:String x:Key="Collection.DropZoneHelp">Перетягніть сюди файл зображення, щоб створити нову картинку-головоломку.</system:String>
 
+    <system:String x:Key="Collection.BeginNew">Розпочніть цю нову головоломку:</system:String>
+
+    <system:String x:Key="Collection.StartAgain">Розпочніть цю головоломку знову:</system:String>
+
+    <system:String x:Key="Collection.Continue">Продовжте розгадувати цю головоломку:</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">Показати лише:</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">В роботі</system:String>
 
     <system:String x:Key="Collection.Thumbs.Completed">Виконано</system:String>
+
+    <system:String x:Key="Collection.Thumbs.StartedFormat">Розпочато: {0}</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ProgressFormat">Перебіг: {0} %</system:String>
 
     <system:String x:Key="Intro.AgreeMIT">Я приймаю умови Ліцензії MIT, Продовжити.</system:String>
 

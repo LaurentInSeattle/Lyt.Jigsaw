@@ -18,8 +18,8 @@
 		Background="Transparent"
 		>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="10" />
-			<ColumnDefinition Width="640" />
+			<ColumnDefinition Width="4" />
+			<ColumnDefinition Width="680" />
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="2" />
 		</Grid.ColumnDefinitions>
@@ -238,16 +238,15 @@
 							/>
 						<glyphs:GlyphButton
 							Grid.Column="1" 
+							Style="{StaticResource ViewIconButton}"
 							Margin="4"
 							Height="70" Width="240"
-							Style="{StaticResource ViewIconButton}"
 							GlyphSource="puzzle_piece"
 							Text="{DynamicResource Shell.Play}"
 							Command="{Binding OnPlay}"
 							GlyphStrokeThickness="0"
 							/>
 					</Grid>
-
 				</StackPanel>
 			</Grid>
 			<Image

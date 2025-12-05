@@ -35,11 +35,21 @@
 
     <system:String x:Key="Collection.DropZoneHelp">Ziehen Sie eine Bilddatei hierher und legen Sie sie dort ab, um ein neues Puzzlebild zu erstellen.</system:String>
 
+    <system:String x:Key="Collection.BeginNew">Beginnen Sie mit diesem neuen Rätsel:</system:String>
+
+    <system:String x:Key="Collection.StartAgain">Beginnen Sie dieses Rätsel noch einmal:</system:String>
+
+    <system:String x:Key="Collection.Continue">Löse dieses Rätsel weiter:</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">Nur Anzeigen:</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">Im Gange</system:String>
 
     <system:String x:Key="Collection.Thumbs.Completed">Vollendet</system:String>
+
+    <system:String x:Key="Collection.Thumbs.StartedFormat">Gestartet: {0}</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ProgressFormat">Fortschritt: {0} %</system:String>
 
     <system:String x:Key="Intro.AgreeMIT">Ich akzeptiere die Bedingungen der MIT-Lizenz. Fahren Sie fort.</system:String>
 

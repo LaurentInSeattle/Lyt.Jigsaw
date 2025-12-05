@@ -1,7 +1,5 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Collection;
 
-using Lyt.Jigsaw.Model.Utilities;
-
 using static Lyt.Jigsaw.Messaging.ToolbarCommandMessage;
 
 public sealed partial class CollectionViewModel :
@@ -305,7 +303,7 @@ public sealed partial class CollectionViewModel :
         }
 
         this.PuzzleImage = this.sourceImage;
-        this.HowToPlay = "Begin this new puzzle:";
+        this.HowToPlay = this.Localize("Collection.BeginNew");
         this.SetupUiForNewGame();
 
         return true;
@@ -346,7 +344,7 @@ public sealed partial class CollectionViewModel :
                 this.ParametersVisible = true;
                 this.ParametersEnabled = true;
                 this.ParametersOpacity = 1.0;
-                this.HowToPlay = "Start again this puzzle:";
+                this.HowToPlay = this.Localize("Collection.StartAgain");
                 // Need to duplicate the image 
                 this.sourceImage = image.Duplicate();
 
@@ -359,7 +357,7 @@ public sealed partial class CollectionViewModel :
                 this.ParametersVisible = true;
                 this.ParametersEnabled = false;
                 this.ParametersOpacity = 0.5;
-                this.HowToPlay = "Continue solving this puzzle:";
+                this.HowToPlay = this.Localize("Collection.Continue");
 
                 // No need to duplicate the image 
                 this.state = PlayStatus.ReadyForRestart;

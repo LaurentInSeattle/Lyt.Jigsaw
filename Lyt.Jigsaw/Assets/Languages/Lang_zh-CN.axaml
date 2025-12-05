@@ -35,11 +35,21 @@
 
     <system:String x:Key="Collection.DropZoneHelp">将图像文件拖放到此处以创建新的拼图图片。</system:String>
 
+    <system:String x:Key="Collection.BeginNew">开始这个新的谜题：</system:String>
+
+    <system:String x:Key="Collection.StartAgain">重新开始这个谜题：</system:String>
+
+    <system:String x:Key="Collection.Continue">继续解决这个难题：</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">仅显示：</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">进行中</system:String>
 
     <system:String x:Key="Collection.Thumbs.Completed">完全的</system:String>
+
+    <system:String x:Key="Collection.Thumbs.StartedFormat">开始时间：{0}</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ProgressFormat">进度：{0} %</system:String>
 
     <system:String x:Key="Intro.AgreeMIT">我接受 MIT 许可证的条款，继续。</system:String>
 

@@ -35,11 +35,21 @@
 
     <system:String x:Key="Collection.DropZoneHelp">Σύρετε και αποθέστε ένα αρχείο εικόνας εδώ για να δημιουργήσετε μια νέα εικόνα παζλ.</system:String>
 
+    <system:String x:Key="Collection.BeginNew">Ξεκινήστε αυτό το νέο παζλ:</system:String>
+
+    <system:String x:Key="Collection.StartAgain">Ξεκινήστε ξανά αυτό το παζλ:</system:String>
+
+    <system:String x:Key="Collection.Continue">Συνεχίστε να λύνετε αυτό το παζλ:</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">Εμφάνιση μόνο:</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">Σε εξέλιξη</system:String>
 
     <system:String x:Key="Collection.Thumbs.Completed">Ολοκληρώθηκε το</system:String>
+
+    <system:String x:Key="Collection.Thumbs.StartedFormat">Ξεκίνησε: {0}</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ProgressFormat">Πρόοδος: {0} %</system:String>
 
     <system:String x:Key="Intro.AgreeMIT">Αποδέχομαι τους όρους της άδειας MIT, Συνέχεια.</system:String>
 

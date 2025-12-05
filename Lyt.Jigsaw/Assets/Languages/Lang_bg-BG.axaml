@@ -35,11 +35,21 @@
 
     <system:String x:Key="Collection.DropZoneHelp">Плъзнете и пуснете файл с изображение тук, за да създадете нова картина на пъзел.</system:String>
 
+    <system:String x:Key="Collection.BeginNew">Започнете този нов пъзел:</system:String>
+
+    <system:String x:Key="Collection.StartAgain">Започнете отново този пъзел:</system:String>
+
+    <system:String x:Key="Collection.Continue">Продължете да решавате този пъзел:</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">Показване само:</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">В ход</system:String>
 
     <system:String x:Key="Collection.Thumbs.Completed">Завършено</system:String>
+
+    <system:String x:Key="Collection.Thumbs.StartedFormat">Започнато: {0}</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ProgressFormat">Напредък: {0} %</system:String>
 
     <system:String x:Key="Intro.AgreeMIT">Приемам условията на лиценза на MIT, продължете.</system:String>
 

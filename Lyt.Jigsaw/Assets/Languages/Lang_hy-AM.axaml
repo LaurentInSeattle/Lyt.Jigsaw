@@ -35,11 +35,21 @@
 
     <system:String x:Key="Collection.DropZoneHelp">Քաշեք և թողեք պատկերի ֆայլ այստեղ՝ նոր գլուխկոտրուկ նկար ստեղծելու համար:</system:String>
 
+    <system:String x:Key="Collection.BeginNew">Սկսեք այս նոր հանելուկը.</system:String>
+
+    <system:String x:Key="Collection.StartAgain">Նորից սկսեք այս հանելուկը.</system:String>
+
+    <system:String x:Key="Collection.Continue">Շարունակեք լուծել այս հանելուկը.</system:String>
+
     <system:String x:Key="Collection.Thumbs.ShowOnly">Ցույց տալ միայն.</system:String>
 
     <system:String x:Key="Collection.Thumbs.InProgress">Ընթացքի մեջ</system:String>
 
     <system:String x:Key="Collection.Thumbs.Completed">Ավարտված է</system:String>
+
+    <system:String x:Key="Collection.Thumbs.StartedFormat">Սկսվել է՝ {0}</system:String>
+
+    <system:String x:Key="Collection.Thumbs.ProgressFormat">Առաջընթաց՝ {0} %</system:String>
 
     <system:String x:Key="Intro.AgreeMIT">Ես ընդունում եմ MIT լիցենզիայի պայմանները, շարունակել:</system:String>
 
