@@ -8,7 +8,5 @@ public enum ActivatedView : int
     Intro,
     Puzzle,
     Collection,
-    Game, 
-    Settings,
     Language,
 }

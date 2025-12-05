@@ -115,43 +115,33 @@
                         Group="{Binding ElementName=SelectionGroup}"
                         />
                     <glyphs:GlyphButton
-                    x:Name="TodayButton"
-                    Style="{StaticResource NavigationIconButton}"
-                    GlyphSource="puzzle_piece"
-                    GlyphStrokeThickness="0"
-                    Text="{DynamicResource Shell.Play}"
-                    IsSelected="True"
-                    Command="{Binding OnToday}"
-                    Group="{Binding ElementName=SelectionGroup}"
-                    />
+                        x:Name="TodayButton"
+                        Style="{StaticResource NavigationIconButton}"
+                        GlyphSource="puzzle_piece"
+                        GlyphStrokeThickness="0"
+                        Text="{DynamicResource Shell.Play}"
+                        IsSelected="True"
+                        Command="{Binding OnToday}"
+                        Group="{Binding ElementName=SelectionGroup}"
+                        />
                     <glyphs:GlyphButton
-                    x:Name="SettingsButton"
-                    Style="{StaticResource NavigationIconButton}"
-                    GlyphSource="settings"
-                    GlyphStrokeThickness="0"
-                    GlyphAngle="20"
-                    Text="{DynamicResource Shell.Settings}"
-                    Command="{Binding OnSettings}"
-                    Group="{Binding ElementName=SelectionGroup}"
-                    />
+                        x:Name="FlagButton"
+                        Style="{StaticResource NavigationIconButton}"
+                        GlyphSource="flag"
+                        GlyphStrokeThickness="0"
+                        Text="{DynamicResource Shell.Language}"
+                        Command="{Binding OnLanguage}"
+                        Group="{Binding ElementName=SelectionGroup}"
+                        />
                     <glyphs:GlyphButton
-                    x:Name="FlagButton"
-                    Style="{StaticResource NavigationIconButton}"
-                    GlyphSource="flag"
-                    GlyphStrokeThickness="0"
-                    Text="{DynamicResource Shell.Language}"
-                    Command="{Binding OnLanguage}"
-                    Group="{Binding ElementName=SelectionGroup}"
-                    />
-                    <glyphs:GlyphButton
-                    x:Name="IntroButton"
-                    Style="{StaticResource NavigationIconButton}"
-                    GlyphSource="arrow_up"
-                    GlyphStrokeThickness="0"
-                    Text="{DynamicResource Shell.About}"
-                    Command="{Binding OnInfo}"
-                    Group="{Binding ElementName=SelectionGroup}"
-                    />
+                        x:Name="IntroButton"
+                        Style="{StaticResource NavigationIconButton}"
+                        GlyphSource="arrow_up"
+                        GlyphStrokeThickness="0"
+                        Text="{DynamicResource Shell.About}"
+                        Command="{Binding OnInfo}"
+                        Group="{Binding ElementName=SelectionGroup}"
+                        />
                 </StackPanel>
 
                 <!-- View Selector - Close tool bar - Aligned Right -->

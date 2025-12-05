@@ -28,7 +28,6 @@ public partial class App : ApplicationBase
            typeof(CollectionToolbarViewModel),
            typeof(IntroViewModel),
            typeof(IntroToolbarViewModel),
-           typeof(SettingsViewModel),
            typeof(LanguageViewModel),
            typeof(LanguageToolbarViewModel),
         ],

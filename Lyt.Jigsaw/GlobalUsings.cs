@@ -102,6 +102,5 @@ global using Lyt.Jigsaw.Workflow.Collection;
 global using Lyt.Jigsaw.Workflow.Game;
 global using Lyt.Jigsaw.Workflow.Intro;
 global using Lyt.Jigsaw.Workflow.Language;
-global using Lyt.Jigsaw.Workflow.Settings;
 global using Lyt.Jigsaw.Workflow.Shared;
 global using Lyt.Jigsaw.Utilities;

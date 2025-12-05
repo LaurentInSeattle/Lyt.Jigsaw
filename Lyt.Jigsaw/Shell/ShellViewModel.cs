@@ -104,15 +104,15 @@ public sealed partial class ShellViewModel
                 new SelectableView<ActivatedView>(activatedView, vm, control, vmToolbar));
         }
 
-        void SetupNoToolbar<TViewModel, TControl>(
-                ActivatedView activatedView, Control control)
-            where TViewModel : ViewModel<TControl>
-            where TControl : Control, IView, new()
-        {
-            var vm = App.GetRequiredService<TViewModel>();
-            vm.CreateViewAndBind();
-            selectableViews.Add(new SelectableView<ActivatedView>(activatedView, vm));
-        }
+        //void SetupNoToolbar<TViewModel, TControl>(
+        //        ActivatedView activatedView, Control control)
+        //    where TViewModel : ViewModel<TControl>
+        //    where TControl : Control, IView, new()
+        //{
+        //    var vm = App.GetRequiredService<TViewModel>();
+        //    vm.CreateViewAndBind();
+        //    selectableViews.Add(new SelectableView<ActivatedView>(activatedView, vm));
+        //}
 
         Setup<CollectionViewModel, CollectionView, CollectionToolbarViewModel, CollectionToolbarView>(
             ActivatedView.Collection, view.CollectionButton);
@@ -122,8 +122,6 @@ public sealed partial class ShellViewModel
 
         Setup<LanguageViewModel, LanguageView, LanguageToolbarViewModel, LanguageToolbarView>(
             ActivatedView.Language, view.FlagButton);
-
-        SetupNoToolbar<SettingsViewModel, SettingsView>(ActivatedView.Settings, view.SettingsButton);
 
         Setup<IntroViewModel, IntroView, IntroToolbarViewModel, IntroToolbarView>(
             ActivatedView.Intro, view.IntroButton);
@@ -167,9 +165,6 @@ public sealed partial class ShellViewModel
 
     [RelayCommand]
     public void OnCollection() => Select(ActivatedView.Collection);
-
-    [RelayCommand]
-    public void OnSettings() => Select(ActivatedView.Settings);
 
     [RelayCommand]
     public void OnInfo() => Select(ActivatedView.Intro);
