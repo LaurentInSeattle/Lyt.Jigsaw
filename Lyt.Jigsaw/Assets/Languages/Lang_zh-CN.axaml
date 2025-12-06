@@ -85,6 +85,30 @@
 
     <system:String x:Key="Collection.Thumbs.ProgressFormat">进度：{0} %</system:String>
 
+    <system:String x:Key="Puzzle.Toolbar.Dark">黑暗的</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Light">光</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Background">背景</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.ShowImage">显示图片</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.ToggleEdges">切换边缘</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Hint">暗示</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Progress">进步</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Zoom">飞涨</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.FullScreen">全屏</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.EscToReturn">Esc键。 返回</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Min">最小</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Max">最大限度</system:String>
+
     <system:String x:Key="Intro.AgreeMIT">我接受 MIT 许可证的条款，继续。</system:String>
 
     <system:String x:Key="Intro.LicenseTitle">许可条款</system:String>

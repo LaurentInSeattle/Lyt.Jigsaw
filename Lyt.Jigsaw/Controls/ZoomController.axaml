@@ -8,38 +8,40 @@
 	xmlns:glyphs="clr-namespace:Lyt.Avalonia.Controls.Glyphs;assembly=Lyt.Avalonia.Controls"
 	>
   <Grid>
-		<Grid.ColumnDefinitions>
+	<Grid.ColumnDefinitions>
       <ColumnDefinition Width="60"/>
+      <ColumnDefinition Width="4"/>
       <ColumnDefinition Width="140"/>
+      <ColumnDefinition Width="4"/>
       <ColumnDefinition Width="60"/>
     </Grid.ColumnDefinitions>
     <glyphs:GlyphButton
-				x:Name="minButton"
-				Grid.Column="0"
-				Style="{StaticResource AppToolbarIconButton}"
-				Click="OnButtonMinClick"
-				GlyphSource="zoom_fit"
-				GlyphStrokeThickness="0.1"
-				Text="Fit"
-				/>
-    <glyphs:GlyphButton
-				x:Name="maxButton"
-				Grid.Column="2"
-				Style="{StaticResource AppToolbarIconButton}"
-				Click="OnButtonMaxClick"
-				GlyphSource="zoom_in"
-				GlyphStrokeThickness="0.1"
-				Text="Max"
-				/>
-			<Slider
-				x:Name="Slider"
-				Grid.Column="1"
-				Orientation="Horizontal"
-				HorizontalAlignment="Stretch" VerticalAlignment="Center"
-				ValueChanged="OnSliderValueChanged"
-				TickPlacement="None"
-				IsSnapToTickEnabled="False"
+		x:Name="minButton"
+		Grid.Column="0"
+		Style="{StaticResource AppToolbarIconButton}"
+		Click="OnButtonMinClick"
+		GlyphSource="zoom_fit"
+		GlyphStrokeThickness="0.1"
+		Text="{DynamicResource Puzzle.Toolbar.Min}"  
+		/>
+	<Slider
+		x:Name="Slider"
+		Grid.Column="2"
+		Orientation="Horizontal"
+		HorizontalAlignment="Stretch" VerticalAlignment="Center"
+		ValueChanged="OnSliderValueChanged"
+		TickPlacement="None"
+		IsSnapToTickEnabled="False"
         Margin="0 -2 0 0"
-				/>
+		/>
+    <glyphs:GlyphButton
+		x:Name="maxButton"
+		Grid.Column="5"
+		Style="{StaticResource AppToolbarIconButton}"
+		Click="OnButtonMaxClick"
+		GlyphSource="zoom_in"
+		GlyphStrokeThickness="0.1"
+		Text="{DynamicResource Puzzle.Toolbar.Max}"  
+		/>
   </Grid>
 </UserControl>

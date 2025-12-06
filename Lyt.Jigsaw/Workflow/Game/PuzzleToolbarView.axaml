@@ -20,26 +20,26 @@
 		<Grid.ColumnDefinitions>
 			<!-- Background -->
 			<ColumnDefinition Width="60" />
-			<ColumnDefinition Width="140" />
+			<ColumnDefinition Width="120" />
 			<ColumnDefinition Width="60" />
 			<!-- Spacer -->
 			<ColumnDefinition Width="10" />
 			<!-- Help / Hints Buttons -->
-			<ColumnDefinition Width="80" />
-			<ColumnDefinition Width="80" />
-			<ColumnDefinition Width="80" />
+			<ColumnDefinition Width="100" />
+			<ColumnDefinition Width="100" />
+			<ColumnDefinition Width="100" />
 		  <!-- Spacer -->
 		  <ColumnDefinition Width="10" />
 		  <!-- Progress -->
-		  <ColumnDefinition Width="120" />
+		  <ColumnDefinition Width="130" />
 		  <!-- Spacer -->
 		  <ColumnDefinition Width="10" />
 		  <!-- Zoom -->
-		  <ColumnDefinition Width="280" />
+		  <ColumnDefinition Width="320" />
 		  <!-- Spacer -->
 		  <ColumnDefinition Width="10" />
 		  <!-- Fullscreen -->
-		  <ColumnDefinition Width="120" />
+		  <ColumnDefinition Width="200" />
     </Grid.ColumnDefinitions>
 
 		<TextBlock
@@ -48,7 +48,7 @@
 			Theme="{StaticResource H4}"
 			HorizontalAlignment="Right" VerticalAlignment="Center"
 			Foreground="{StaticResource PastelOrchid_0_080}"
-			Text="Dark"
+			Text="{DynamicResource Puzzle.Toolbar.Dark}"  
 			/>
 		<Slider 
 			Grid.Row="0" Grid.Column="1" 
@@ -68,40 +68,37 @@
 			Theme="{StaticResource H4}"
 			HorizontalAlignment="Left" VerticalAlignment="Center"
 			Foreground="{StaticResource PastelOrchid_0_080}"
-			Text="Light"
+			Text="{DynamicResource Puzzle.Toolbar.Light}"  
 			/>
 		<controls:ExtendedTextBlock
 			Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1"
-			Text="Background"
+			Text="{DynamicResource Puzzle.Toolbar.Background}"
 			Typography="{StaticResource Medium}"
 			Foreground="{StaticResource PastelOrchid_0_080}"
 			/>
-
 		<glyphs:GlyphButton
 			Grid.Column="4"
 			Style="{StaticResource AppToolbarIconButton}"
 			Behaviour="Continuous"
 			GlyphSource="wallpaper"
 			GlyphStrokeThickness="0.1"
-			Text="Show Image"
+			Text="{DynamicResource Puzzle.Toolbar.ShowImage}"  
 			Command="{Binding OnShowImage}"
 			/>
-
 		<glyphs:GlyphButton
 			Grid.Column="5"
 			Style="{StaticResource AppToolbarIconButton}"
 			GlyphSource="border_all"
 			GlyphStrokeThickness="0.1"
-			Text="Toggle Edges"
+			Text="{DynamicResource Puzzle.Toolbar.ToggleEdges}"  
 			Command="{Binding OnShowEdges}"
 			/>
-
 		<glyphs:GlyphButton
 			Grid.Column="6"
 			Style="{StaticResource AppToolbarIconButton}"
 			GlyphSource="lightbulb_filament"
 			GlyphStrokeThickness="0.1"
-			Text="Hint"
+			Text="{DynamicResource Puzzle.Toolbar.Hint}"  
 			Command="{Binding OnRandomize}"
 			/>
 		<controls:ExtendedTextBlock
@@ -113,27 +110,27 @@
 		<TextBlock
 			Grid.Row="0" Grid.Column="8"
 			Margin="4"
-			Theme="{StaticResource H1}"
+			Theme="{StaticResource Title}"
 			HorizontalAlignment="Center" VerticalAlignment="Center"      
 			Foreground="{StaticResource PastelOrchid_0_080}"
 			Text="{Binding Progress}"
 			/>
-    <controls:ExtendedTextBlock
+	    <controls:ExtendedTextBlock
 			Grid.Column="8" Grid.ColumnSpan="1" Grid.Row="1"
-			Text="Progress"
+			Text="{DynamicResource Puzzle.Toolbar.Progress}"  
 			Typography="{StaticResource Medium}"
 			Foreground="{StaticResource PastelOrchid_0_080}"
 			/>
 
-    <controls:ZoomController
+		<controls:ZoomController
 			x:Name="ZoomController"
 			Grid.Column="10" Grid.Row="0"
 			VerticalAlignment="Center" HorizontalAlignment="Center"
 			Min="1.0" Max="2.0"
 			/>
-    <controls:ExtendedTextBlock
+		<controls:ExtendedTextBlock
 			Grid.Column="10" Grid.ColumnSpan="1" Grid.Row="1"
-			Text="Zoom"
+			Text="{DynamicResource Puzzle.Toolbar.Zoom}"  
 			Typography="{StaticResource Medium}"
 			Foreground="{StaticResource PastelOrchid_0_080}"
 			/>
@@ -142,12 +139,12 @@
 			Style="{StaticResource AppToolbarIconButton}"
 			GlyphSource="full_screen_maximize"
 			GlyphStrokeThickness="0.1"
-			Text="Full Screen"
+			Text="{DynamicResource Puzzle.Toolbar.FullScreen}"  
 			Command="{Binding OnFullscreen}"
 			/>
 		<controls:ExtendedTextBlock
 			Grid.Column="12" Grid.ColumnSpan="2" Grid.Row="1"
-			Text="Esc to Return"
+			Text="{DynamicResource Puzzle.Toolbar.EscToReturn}"  
 			Typography="{StaticResource Medium}"
 			Foreground="{StaticResource PastelOrchid_0_080}"
 			/>

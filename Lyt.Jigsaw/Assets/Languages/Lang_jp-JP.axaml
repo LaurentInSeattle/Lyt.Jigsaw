@@ -85,6 +85,30 @@
 
     <system:String x:Key="Collection.Thumbs.ProgressFormat">進行状況: {0} %</system:String>
 
+    <system:String x:Key="Puzzle.Toolbar.Dark">暗い</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Light">ライト</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Background">背景</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.ShowImage">画像を表示</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.ToggleEdges">エッジの切り替え</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Hint">ヒント</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Progress">進捗</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Zoom">ズーム</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.FullScreen">全画面表示</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.EscToReturn">ESC。 戻る</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Min">分</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Max">マックス</system:String>
+
     <system:String x:Key="Intro.AgreeMIT">MIT ライセンスの条項に同意します。続行します。</system:String>
 
     <system:String x:Key="Intro.LicenseTitle">ライセンス条項</system:String>

@@ -85,6 +85,30 @@
 
     <system:String x:Key="Collection.Thumbs.ProgressFormat">진행률: {0} %</system:String>
 
+    <system:String x:Key="Puzzle.Toolbar.Dark">어두운</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Light">빛</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Background">배경</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.ShowImage">이미지 표시</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.ToggleEdges">가장자리 전환</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Hint">힌트</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Progress">진전</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Zoom">줌</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.FullScreen">전체 화면</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.EscToReturn">Esc.  돌아오다</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Min">최소</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Max">맥스</system:String>
+
     <system:String x:Key="Intro.AgreeMIT">MIT 라이선스 조건에 동의합니다. 계속하세요.</system:String>
 
     <system:String x:Key="Intro.LicenseTitle">라이센스 조건</system:String>

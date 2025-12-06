@@ -85,6 +85,30 @@
 
     <system:String x:Key="Collection.Thumbs.ProgressFormat">Progreso: {0} %</system:String>
 
+    <system:String x:Key="Puzzle.Toolbar.Dark">Oscuro</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Light">Luz</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Background">Fondo</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.ShowImage">Mostrar imagen</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.ToggleEdges">Alternar bordes</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Hint">Pista</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Progress">Progreso</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Zoom">Zoom</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.FullScreen">Pantalla completa</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.EscToReturn">Esc.  para regresar</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Min">mín.</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Max">máx.</system:String>
+
     <system:String x:Key="Intro.AgreeMIT">Acepto los términos de la Licencia MIT, Continuar.</system:String>
 
     <system:String x:Key="Intro.LicenseTitle">Términos de licencia</system:String>

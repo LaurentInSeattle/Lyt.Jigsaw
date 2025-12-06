@@ -85,6 +85,30 @@
 
     <system:String x:Key="Collection.Thumbs.ProgressFormat">Haladás: {0} %</system:String>
 
+    <system:String x:Key="Puzzle.Toolbar.Dark">Sötét</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Light">Fény</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Background">Háttér</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.ShowImage">Kép megjelenítése</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.ToggleEdges">Élek váltása</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Hint">Célzás</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Progress">Előrehalad</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Zoom">Zoomolás</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.FullScreen">Teljes képernyő</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.EscToReturn">Esc.  hogy Visszatérjen</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Min">Min</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Max">Max</system:String>
+
     <system:String x:Key="Intro.AgreeMIT">Elfogadom az MIT Licenc feltételeit, Folytatás.</system:String>
 
     <system:String x:Key="Intro.LicenseTitle">Licencfeltételek</system:String>

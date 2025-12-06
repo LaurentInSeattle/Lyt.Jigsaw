@@ -85,6 +85,30 @@
 
     <system:String x:Key="Collection.Thumbs.ProgressFormat">অগ্রগতি: {0} %</system:String>
 
+    <system:String x:Key="Puzzle.Toolbar.Dark">অন্ধকার</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Light">আলো</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Background">পটভূমি</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.ShowImage">ছবি দেখান</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.ToggleEdges">প্রান্ত টগল করুন</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Hint">ইঙ্গিত</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Progress">অগ্রগতি</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Zoom">জুম</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.FullScreen">পূর্ণ পর্দা</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.EscToReturn">Esc.  ফিরে আসা</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Min">মিন</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Max">সর্বোচ্চ</system:String>
+
     <system:String x:Key="Intro.AgreeMIT">আমি এমআইটি লাইসেন্সের শর্তাবলী স্বীকার করছি, চালিয়ে যান।</system:String>
 
     <system:String x:Key="Intro.LicenseTitle">লাইসেন্সের শর্তাবলী</system:String>

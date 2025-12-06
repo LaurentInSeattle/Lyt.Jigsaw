@@ -85,6 +85,30 @@
 
     <system:String x:Key="Collection.Thumbs.ProgressFormat">Перебіг: {0} %</system:String>
 
+    <system:String x:Key="Puzzle.Toolbar.Dark">Темний</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Light">світло</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Background">Фон</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.ShowImage">Показати зображення</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.ToggleEdges">Перемикати краї</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Hint">Підказка</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Progress">Прогрес</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Zoom">Збільшити</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.FullScreen">Повний екран</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.EscToReturn">Esc.  щоб повернутися</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Min">Хв</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Max">Макс</system:String>
+
     <system:String x:Key="Intro.AgreeMIT">Я приймаю умови Ліцензії MIT, Продовжити.</system:String>
 
     <system:String x:Key="Intro.LicenseTitle">Ліцензійні умови</system:String>

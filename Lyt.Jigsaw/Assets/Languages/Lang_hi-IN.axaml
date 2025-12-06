@@ -85,6 +85,30 @@
 
     <system:String x:Key="Collection.Thumbs.ProgressFormat">प्रगति: {0} %</system:String>
 
+    <system:String x:Key="Puzzle.Toolbar.Dark">अँधेरा</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Light">रोशनी</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Background">पृष्ठभूमि</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.ShowImage">छवि दिखाएँ</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.ToggleEdges">किनारों को टॉगल करें</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Hint">संकेत देना</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Progress">प्रगति</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Zoom">ज़ूम</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.FullScreen">पूर्ण स्क्रीन</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.EscToReturn">ईएससी।  लौटने के लिये</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Min">मिन</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Max">अधिकतम</system:String>
+
     <system:String x:Key="Intro.AgreeMIT">मैं एमआईटी लाइसेंस की शर्तों को स्वीकार करता हूं, जारी रखें।</system:String>
 
     <system:String x:Key="Intro.LicenseTitle">लाइसेंस शर्तों</system:String>

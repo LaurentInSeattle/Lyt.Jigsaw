@@ -83,7 +83,11 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
         }
 
         this.IsHitTestVisible = this.IsVisible;
-        this.PathIsVisible = this.IsVisible;
+        var puzzle = piece.Puzzle;
+        if (!puzzle.IsComplete)
+        {
+            this.PathIsVisible = this.IsVisible;
+        } 
     }
 
     public void OnComplete ()

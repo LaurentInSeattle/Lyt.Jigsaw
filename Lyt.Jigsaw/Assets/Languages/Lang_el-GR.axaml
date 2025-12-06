@@ -85,6 +85,30 @@
 
     <system:String x:Key="Collection.Thumbs.ProgressFormat">Πρόοδος: {0} %</system:String>
 
+    <system:String x:Key="Puzzle.Toolbar.Dark">Σκοτάδι</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Light">Φως</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Background">Φόντο</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.ShowImage">Εμφάνιση εικόνας</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.ToggleEdges">Εναλλαγή άκρων</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Hint">Υπαινιγμός</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Progress">Πρόοδος</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Zoom">Ανίπταμαι διαγωνίως</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.FullScreen">Πλήρης οθόνη</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.EscToReturn">Esc.  προς Επιστροφή</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Min">Ελάχ</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Max">Μέγ</system:String>
+
     <system:String x:Key="Intro.AgreeMIT">Αποδέχομαι τους όρους της άδειας MIT, Συνέχεια.</system:String>
 
     <system:String x:Key="Intro.LicenseTitle">Όροι άδειας χρήσης</system:String>

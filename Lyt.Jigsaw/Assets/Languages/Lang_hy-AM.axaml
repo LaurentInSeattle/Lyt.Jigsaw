@@ -85,6 +85,30 @@
 
     <system:String x:Key="Collection.Thumbs.ProgressFormat">Առաջընթաց՝ {0} %</system:String>
 
+    <system:String x:Key="Puzzle.Toolbar.Dark">Մութ</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Light">Լույս</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Background">Նախապատմություն</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.ShowImage">Ցույց տալ պատկերը</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.ToggleEdges">Փոխարկել եզրերը</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Hint">Հուշում</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Progress">Առաջընթաց</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Zoom">Մեծացնել</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.FullScreen">Ամբողջ էկրանով</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.EscToReturn">Էսկ.  դեպի Վերադարձ</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Min">Min</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Max">Մաքս</system:String>
+
     <system:String x:Key="Intro.AgreeMIT">Ես ընդունում եմ MIT լիցենզիայի պայմանները, շարունակել:</system:String>
 
     <system:String x:Key="Intro.LicenseTitle">Լիցենզիայի պայմաններ</system:String>

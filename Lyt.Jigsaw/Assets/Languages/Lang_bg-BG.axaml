@@ -85,6 +85,30 @@
 
     <system:String x:Key="Collection.Thumbs.ProgressFormat">Напредък: {0} %</system:String>
 
+    <system:String x:Key="Puzzle.Toolbar.Dark">Тъмно</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Light">светлина</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Background">Фон</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.ShowImage">Показване на изображение</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.ToggleEdges">Превключване на ръбове</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Hint">Подсказка</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Progress">Напредък</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Zoom">мащабиране</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.FullScreen">Цял екран</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.EscToReturn">Esc.  за връщане</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Min">Мин</system:String>
+
+    <system:String x:Key="Puzzle.Toolbar.Max">Макс</system:String>
+
     <system:String x:Key="Intro.AgreeMIT">Приемам условията на лиценза на MIT, продължете.</system:String>
 
     <system:String x:Key="Intro.LicenseTitle">Лицензионни условия</system:String>
