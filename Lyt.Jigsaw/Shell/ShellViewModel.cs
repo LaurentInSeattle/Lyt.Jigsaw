@@ -90,7 +90,7 @@ public sealed partial class ShellViewModel
         var selectableViews = new List<SelectableView<ActivatedView>>();
 
         void Setup<TViewModel, TControl, TToolbarViewModel, TToolbarControl>(
-                ActivatedView activatedView, Control control)
+                ActivatedView activatedView, Control? control)
             where TViewModel : ViewModel<TControl>
             where TControl : Control, IView, new()
             where TToolbarViewModel : ViewModel<TToolbarControl>
@@ -118,7 +118,7 @@ public sealed partial class ShellViewModel
             ActivatedView.Collection, view.CollectionButton);
 
         Setup<PuzzleViewModel, PuzzleView, PuzzleToolbarViewModel, PuzzleToolbarView>(
-            ActivatedView.Puzzle, view.TodayButton);
+            ActivatedView.Puzzle, null);
 
         Setup<LanguageViewModel, LanguageView, LanguageToolbarViewModel, LanguageToolbarView>(
             ActivatedView.Language, view.FlagButton);
@@ -159,9 +159,6 @@ public sealed partial class ShellViewModel
 
 #pragma warning disable IDE0079 
 #pragma warning disable CA1822 // Mark members as static
-
-    [RelayCommand]
-    public void OnToday() => Select(ActivatedView.Puzzle);
 
     [RelayCommand]
     public void OnCollection() => Select(ActivatedView.Collection);
