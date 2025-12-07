@@ -25,13 +25,6 @@
 			Command="{Binding OnRemoveFromCollection}"
 			GlyphStrokeThickness="0"
 			/>
-		<glyphs:GlyphButton
-			Style="{StaticResource AppToolbarIconButton}"
-			GlyphSource="save"
-			Text="{DynamicResource Collection.SaveToDesktop}"
-			Command="{Binding OnSaveToDesktop}"
-			GlyphStrokeThickness="0"
-			/>
 	</StackPanel>
 
 </UserControl>

@@ -11,11 +11,11 @@
 
     <system:String x:Key="Shell.About">A propos...</system:String>
 
-    <system:String x:Key="Shell.Play">Jouer</system:String>
+    <system:String x:Key="Shell.Play">Jouer!</system:String>
 
     <system:String x:Key="Shell.Collection">Collection</system:String>
 
-    <system:String x:Key="Shell.Settings">Réglages</system:String>
+    <system:String x:Key="Shell.Settings">Paramètres</system:String>
 
     <system:String x:Key="Shell.Language">Langue</system:String>
 
@@ -29,27 +29,27 @@
 
     <system:String x:Key="Collection.Remove">Supprimer</system:String>
 
-    <system:String x:Key="Collection.SaveToDesktop">Sauv. sur Desktop</system:String>
+    <system:String x:Key="Collection.SaveToDesktop">Enregistrer sur le bureau</system:String>
 
     <system:String x:Key="Collection.DropZone">Zone de Glisser-déposer</system:String>
 
-    <system:String x:Key="Collection.DropZoneHelp">Faites glisser et déposez des fichiers ici pour les ajouter à votre collection.</system:String>
+    <system:String x:Key="Collection.DropZoneHelp">Faites glisser et déposez des fichiers image ici pour creer un nouveau puzzle.</system:String>
 
     <system:String x:Key="Collection.BeginNew">Commencez ce nouveau puzzle :</system:String>
 
-    <system:String x:Key="Collection.StartAgain">Recommencez cette énigme :</system:String>
+    <system:String x:Key="Collection.StartAgain">Recommencez ce puzzle :</system:String>
 
-    <system:String x:Key="Collection.Continue">Continuez à résoudre cette énigme :</system:String>
+    <system:String x:Key="Collection.Continue">Continuez à résoudre ce puzzle :</system:String>
 
     <system:String x:Key="Collection.PieceCount">Nombre de pièces :</system:String>
 
     <system:String x:Key="Collection.Rotations">Rotations :</system:String>
 
-    <system:String x:Key="Collection.SnapStrength">Force de pression :</system:String>
+    <system:String x:Key="Collection.SnapStrength">Attraction :</system:String>
 
     <system:String x:Key="Collection.Hints">Conseils :</system:String>
 
-    <system:String x:Key="Collection.AddedContrast">Contraste ajouté :</system:String>
+    <system:String x:Key="Collection.AddedContrast">Ajout de Contraste :</system:String>
 
     <system:String x:Key="Collection.None">Aucun</system:String>
 
@@ -65,7 +65,7 @@
 
     <system:String x:Key="Collection.HintsThree">Trois</system:String>
 
-    <system:String x:Key="Collection.HintsOnlyOne">Seulement un</system:String>
+    <system:String x:Key="Collection.HintsOnlyOne">Seulement Un</system:String>
 
     <system:String x:Key="Collection.ContrastExtreme">Extrême</system:String>
 
@@ -73,7 +73,7 @@
 
     <system:String x:Key="Collection.ContrastMedium">Moyen</system:String>
 
-    <system:String x:Key="Collection.ContrastWeak">Juste un peu</system:String>
+    <system:String x:Key="Collection.ContrastWeak">Juste un Peu</system:String>
 
     <system:String x:Key="Collection.Thumbs.ShowOnly">Montrer:</system:String>
 
@@ -83,17 +83,17 @@
 
     <system:String x:Key="Collection.Thumbs.StartedFormat">Démarré le: {0}</system:String>
 
-    <system:String x:Key="Collection.Thumbs.ProgressFormat">Progression: {0} %</system:String>
+    <system:String x:Key="Collection.Thumbs.ProgressFormat">Progrès: {0} %</system:String>
 
     <system:String x:Key="Puzzle.Toolbar.Dark">Sombre</system:String>
 
-    <system:String x:Key="Puzzle.Toolbar.Light">Lumière</system:String>
+    <system:String x:Key="Puzzle.Toolbar.Light">Clair</system:String>
 
     <system:String x:Key="Puzzle.Toolbar.Background">Arrière-plan</system:String>
 
     <system:String x:Key="Puzzle.Toolbar.ShowImage">Afficher l'image</system:String>
 
-    <system:String x:Key="Puzzle.Toolbar.ToggleEdges">Basculer les bords</system:String>
+    <system:String x:Key="Puzzle.Toolbar.ToggleEdges">Afficher les Bords</system:String>
 
     <system:String x:Key="Puzzle.Toolbar.Hint">Indice</system:String>
 
@@ -103,7 +103,7 @@
 
     <system:String x:Key="Puzzle.Toolbar.FullScreen">Plein écran</system:String>
 
-    <system:String x:Key="Puzzle.Toolbar.EscToReturn">Échap.  revenir</system:String>
+    <system:String x:Key="Puzzle.Toolbar.EscToReturn">Échap. pour Revenir</system:String>
 
     <system:String x:Key="Puzzle.Toolbar.Min">Min.</system:String>
 
@@ -125,7 +125,7 @@
 
     <system:String x:Key="Language.Continue">Continuer</system:String>
 
-    <system:String x:Key="Settings.CleanupNow">Nettoyez Maintenant</system:String>
+    <system:String x:Key="Settings.CleanupNow">Nettoyer maintenant</system:String>
 
     <system:String x:Key="Settings.ReminderTitle">Un rappel important...</system:String>
 

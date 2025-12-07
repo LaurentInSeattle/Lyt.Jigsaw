@@ -154,7 +154,7 @@
                 <Grid
                     x:Name="ShellViewToolbar"
                     Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="999" Grid.RowSpan="1"
-                    Margin="320 0 0 0"
+                    Margin="280 0 0 0"
                     VerticalAlignment="Stretch" HorizontalAlignment="Left"
                     />
                 <!-- Do not add rows and/or columns to the toaster host-->

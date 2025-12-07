@@ -17,10 +17,7 @@ public sealed partial class CollectionViewModel :
         ReadyForNew,
     }
 
-    private readonly JigsawModel jigsawModel;
-
-    // NOT cropped and NO contrast applied
-    private WriteableBitmap? sourceImage;
+    #region Observable Properties 
 
     [ObservableProperty]
     private ThumbnailsPanelViewModel thumbnailsPanelViewModel;
@@ -81,6 +78,13 @@ public sealed partial class CollectionViewModel :
     [ObservableProperty]
     private string howToPlay;
 
+    #endregion Observable Properties 
+
+    private readonly JigsawModel jigsawModel;
+
+    // NOT cropped and NO contrast applied
+    private WriteableBitmap? sourceImage;
+
     private bool loaded;
     private PlayStatus state;
     private int pieceCount;
@@ -104,7 +108,7 @@ public sealed partial class CollectionViewModel :
         this.Subscribe<LanguageChangedMessage>();
         this.Subscribe<ModelLoadedMessage>();
 
-        // Setup UI 
+        // Initial UI Setup
         this.PieceCountString = string.Empty;
         this.RotationsString = string.Empty;
         this.SnapString = string.Empty;
@@ -169,17 +173,8 @@ public sealed partial class CollectionViewModel :
     {
         switch (message.Command)
         {
-            case ToolbarCommandMessage.ToolbarCommand.Play:
-                this.Play();
-                break;
-
             case ToolbarCommandMessage.ToolbarCommand.RemoveFromCollection:
                 this.DeleteGame();
-                break;
-
-            case ToolbarCommandMessage.ToolbarCommand.CollectionSaveToDesktop:
-                // TODO : Implement saving puzzle image to desktop
-                // this.SaveToDesktop();
                 break;
 
             // Ignore all other commands 
@@ -558,6 +553,8 @@ public sealed partial class CollectionViewModel :
         // UI update 
         this.PieceCountMin = min;
         this.PieceCountMax = max;
+        this.pieceCount = min;
+        this.SetUiParametersToDefaults();
         this.ParametersVisible = true;
         this.ParametersEnabled = true;
         this.ParametersOpacity = 1.0;

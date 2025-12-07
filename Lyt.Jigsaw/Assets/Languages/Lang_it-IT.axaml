@@ -29,23 +29,23 @@
 
     <system:String x:Key="Collection.Remove">Rimuovi</system:String>
 
-    <system:String x:Key="Collection.SaveToDesktop">Salva sul Desktop</system:String>
+    <system:String x:Key="Collection.SaveToDesktop">Salva sul desktop</system:String>
 
     <system:String x:Key="Collection.DropZone">Zona di Rilascio</system:String>
 
-    <system:String x:Key="Collection.DropZoneHelp">Trascina e rilascia i file qui per aggiungerli alla collezione di sfondi.</system:String>
+    <system:String x:Key="Collection.DropZoneHelp">Trascina e rilascia qui un file immagine per creare un nuovo puzzle.</system:String>
 
-    <system:String x:Key="Collection.BeginNew">Inizia questo nuovo puzzle:</system:String>
+    <system:String x:Key="Collection.BeginNew">Inizia un nuovo puzzle:</system:String>
 
     <system:String x:Key="Collection.StartAgain">Ricomincia questo puzzle:</system:String>
 
-    <system:String x:Key="Collection.Continue">Continua a risolvere questo enigma:</system:String>
+    <system:String x:Key="Collection.Continue">Continua a risolvere questo puzzle:</system:String>
 
     <system:String x:Key="Collection.PieceCount">Conteggio pezzi:</system:String>
 
     <system:String x:Key="Collection.Rotations">Rotazioni:</system:String>
 
-    <system:String x:Key="Collection.SnapStrength">Forza dello scatto:</system:String>
+    <system:String x:Key="Collection.SnapStrength">Attrazione:</system:String>
 
     <system:String x:Key="Collection.Hints">Suggerimenti:</system:String>
 
@@ -73,11 +73,11 @@
 
     <system:String x:Key="Collection.ContrastMedium">Medio</system:String>
 
-    <system:String x:Key="Collection.ContrastWeak">Solo un po'</system:String>
+    <system:String x:Key="Collection.ContrastWeak">Solo un Po'</system:String>
 
     <system:String x:Key="Collection.Thumbs.ShowOnly">Mostra solo:</system:String>
 
-    <system:String x:Key="Collection.Thumbs.InProgress">In corso</system:String>
+    <system:String x:Key="Collection.Thumbs.InProgress">In Corso</system:String>
 
     <system:String x:Key="Collection.Thumbs.Completed">Completato</system:String>
 
@@ -87,13 +87,13 @@
 
     <system:String x:Key="Puzzle.Toolbar.Dark">Buio</system:String>
 
-    <system:String x:Key="Puzzle.Toolbar.Light">Leggero</system:String>
+    <system:String x:Key="Puzzle.Toolbar.Light">Chiaro</system:String>
 
     <system:String x:Key="Puzzle.Toolbar.Background">Sfondo</system:String>
 
-    <system:String x:Key="Puzzle.Toolbar.ShowImage">Mostra immagine</system:String>
+    <system:String x:Key="Puzzle.Toolbar.ShowImage">Mostra Immagine</system:String>
 
-    <system:String x:Key="Puzzle.Toolbar.ToggleEdges">Attiva/disattiva bordi</system:String>
+    <system:String x:Key="Puzzle.Toolbar.ToggleEdges">Mostra Bordi</system:String>
 
     <system:String x:Key="Puzzle.Toolbar.Hint">Suggerimento</system:String>
 
@@ -101,11 +101,11 @@
 
     <system:String x:Key="Puzzle.Toolbar.Zoom">Zoom</system:String>
 
-    <system:String x:Key="Puzzle.Toolbar.FullScreen">A schermo intero</system:String>
+    <system:String x:Key="Puzzle.Toolbar.FullScreen">A Schermo Intero</system:String>
 
-    <system:String x:Key="Puzzle.Toolbar.EscToReturn">Esc.  ritornare</system:String>
+    <system:String x:Key="Puzzle.Toolbar.EscToReturn">Esc. per ritornare</system:String>
 
-    <system:String x:Key="Puzzle.Toolbar.Min">minimo</system:String>
+    <system:String x:Key="Puzzle.Toolbar.Min">Minimo</system:String>
 
     <system:String x:Key="Puzzle.Toolbar.Max">Massimo</system:String>
 
@@ -125,7 +125,7 @@
 
     <system:String x:Key="Language.Continue">Continua</system:String>
 
-    <system:String x:Key="Settings.CleanupNow">Ripulire Adesso</system:String>
+    <system:String x:Key="Settings.CleanupNow">Pulisci adesso</system:String>
 
     <system:String x:Key="Settings.ReminderTitle">Promemoria importante...</system:String>
 

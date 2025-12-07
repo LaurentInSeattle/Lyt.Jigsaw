@@ -226,7 +226,7 @@
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*"/>
 							<ColumnDefinition Width="250"/>
-							<ColumnDefinition Width="170" />
+							<ColumnDefinition Width="100" />
 						</Grid.ColumnDefinitions>
 						<TextBlock
 							Grid.Column="0"

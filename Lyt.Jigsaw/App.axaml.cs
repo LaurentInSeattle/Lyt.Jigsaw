@@ -34,13 +34,13 @@ public partial class App : ApplicationBase
         [
             // Services 
             App.LoggerService,
-            new Tuple<Type, Type>(typeof(IAnimationService), typeof(AnimationService)),
-            new Tuple<Type, Type>(typeof(ILocalizer), typeof(LocalizerModel)),
-            new Tuple<Type, Type>(typeof(IDialogService), typeof(DialogService)),
-            new Tuple<Type, Type>(typeof(IDispatch), typeof(Dispatch)),
-            new Tuple<Type, Type>(typeof(IProfiler), typeof(Profiler)),
-            new Tuple<Type, Type>(typeof(IToaster), typeof(Toaster)),
-            new Tuple<Type, Type>(typeof(IRandomizer), typeof(Randomizer)),
+            Service<IAnimationService, AnimationService>(),
+            Service<ILocalizer, LocalizerModel>(),
+            Service<IDialogService, DialogService >(),
+            Service<IDispatch, Dispatch>(),
+            Service<IProfiler, Profiler>(),
+            Service<IToaster, Toaster>(),
+            Service<IRandomizer, Randomizer>(),
         ],
         singleInstanceRequested: false,
         splashImageUri: null,
@@ -52,20 +52,21 @@ public partial class App : ApplicationBase
         Debug.WriteLine("App Instance created");
     }
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning disable CS8618 
+    // Non-nullable field must contain a non-null value when exiting constructor. 
     public static App Instance { get; private set; }
 #pragma warning restore CS8618 
 
     private static Tuple<Type, Type> LoggerService =>
             Debugger.IsAttached ?
-                new Tuple<Type, Type>(typeof(ILogger), typeof(LogViewerWindow)) :
-                new Tuple<Type, Type>(typeof(ILogger), typeof(Logger));
+                Service<ILogger, LogViewerWindow>() :
+                Service<ILogger, Logger>();
 
     public bool RestartRequired { get; set; }
 
     protected override async Task OnStartupBegin()
     {
-        ViewModel.TypeInitialize(ApplicationBase.AppHost); 
+        ViewModel.TypeInitialize(ApplicationBase.AppHost);
 
         var logger = App.GetRequiredService<ILogger>();
         logger.Debug("OnStartupBegin begins");
@@ -87,13 +88,13 @@ public partial class App : ApplicationBase
                     // Master, See JigsawLanguages.json in Tools folder 
                     "en-US", 
 
-                    // Translated 
+                    // Auto Translated 
                     "fr-FR", "it-IT", "es-ES", "de-DE",
                     "uk-UA", "bg-BG", "el-GR", "hy-AM",
                     "jp-JP", "ko-KO", "zh-CN", "zh-TW",
                     "hi-IN", "bn-BD", "hu-HU",
                 ],
-                // Use default for all other config parameters 
+                // Use default for all other config parameters of the Localizer 
             });
 
         logger.Debug("OnStartupBegin complete");
