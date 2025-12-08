@@ -27,7 +27,16 @@
 			Source="{Binding CroppedBitmap}"
 			Clip="{Binding ClipGeometry}"
 			RenderTransform="{Binding ImageRotationTransform}"
-			/>
+			>
+			<Image.Effect>
+				<DropShadowEffect
+					Color="Black"
+					BlurRadius="8"
+					Opacity="0.4"
+					OffsetX="4" OffsetY="4"
+					/>
+			</Image.Effect>
+		</Image>
 		<Path
 			Stroke="DarkGray"
 			StrokeThickness="2.0"

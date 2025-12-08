@@ -90,8 +90,12 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
         } 
     }
 
-    public void OnComplete ()
-        => this.PathIsVisible = false;
+    public void OnComplete()
+    {
+        // Hide the path and remove any effects
+        this.PathIsVisible = false;
+        this.View.Image.Effect = null;
+    } 
 
     public void OnEntered() { }
 
