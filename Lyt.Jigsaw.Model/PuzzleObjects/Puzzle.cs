@@ -12,6 +12,7 @@ public sealed class Puzzle
 
     internal Randomizer Randomizer;
 
+    // TODO: Need to get a profile after deserialization as well
     private Profiler profiler;
 
     public static Dictionary<int, PuzzleImageSetup> GenerateSetups(IntSize imageSize)
@@ -363,7 +364,7 @@ public sealed class Puzzle
             bool loopSuccess = true;
             while (hintedPieces.Count < hintPieceCount)
             {
-                var lastHintedPiece = hintedPieces[hintedPieces.Count - 1];
+                var lastHintedPiece = hintedPieces[^1];
                 var snapCandidates = this.GetUngroupedNeighboursOf(lastHintedPiece.Piece);
                 if (snapCandidates.Count == 0)
                 {
@@ -419,6 +420,7 @@ public sealed class Puzzle
         return false;
     }
 
+    // TODO: Relocate to Piece class
     private List<SnapPiece> GetUngroupedNeighboursOf(Piece piece)
     {
         List<SnapPiece> neighbours = [];
