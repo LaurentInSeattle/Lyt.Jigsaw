@@ -220,6 +220,12 @@ public sealed class Piece
                 IntPointList.RandomizeBasePoints().Swap().Offset(1000, 200);
     }
 
+    public void ResetRotation()
+    {
+        this.RotationSteps = 0;
+        this.RotationAngle = 0; 
+    }
+
     public void Rotate(bool isCCW = true)
     {
         if (isCCW)

@@ -36,37 +36,6 @@ public sealed partial class JigsawModel : ModelBase
         }
     }
 
-    public byte[]? LoadGame(string gameKey)
-    {
-        try
-        {
-            // Load from disk and deserialize
-            string gameName = Game.GameNameFromKey(gameKey);
-            var fileId = new FileId(Area.User, Kind.Json, gameName);
-            var game =
-                this.fileManager.Load<Game>(fileId) ??
-                throw new Exception("Failed to deserialize");
-
-            this.Game = game;
-            this.LoadPuzzle();
-            byte[]? imageBytes = this.LoadImage();
-            if ((imageBytes is null) || (imageBytes.Length < 256))
-            {
-                throw new Exception("Failed to read image from disk: " + gameName);
-            }
-
-            this.timeoutTimer.Start();
-
-            Debug.WriteLine("Game Loaded");
-            return imageBytes;
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine("Load, Exception thrown: " + ex);
-            return null;
-        }
-    }
-
     #region In-Game Puzzle Actions 
 
     public void PuzzleIsActive() => this.timeoutTimer.ResetTimeout();
@@ -96,6 +65,20 @@ public sealed partial class JigsawModel : ModelBase
             new PuzzleChangedMessage(PuzzleChange.Background, value).Publish();
             return true;
         });
+
+    public void ProvidePuzzleHint()
+    {
+        this.ActionPuzzle(puzzle =>
+        {
+            bool gotHint = puzzle.ProvideHint();
+            if ( gotHint)
+            {
+                new PuzzleChangedMessage(PuzzleChange.Hint).Publish();
+            }
+
+            return gotHint;
+        });
+    }
 
     public bool CheckForPuzzleSnaps(Piece piece) =>
         this.ActionPuzzle(puzzle =>
@@ -152,7 +135,55 @@ public sealed partial class JigsawModel : ModelBase
         return this.Puzzle.Progress();
     }
 
+    private bool ActionPuzzle(Func<Puzzle, bool> action)
+    {
+        if ((this.Game is null) || (this.Puzzle is null))
+        {
+            return false;
+        }
+
+        this.IsPuzzleDirty = true;
+        this.timeoutTimer.ResetTimeout();
+        lock (this.Puzzle)
+        {
+            return action(this.Puzzle);
+        }
+    }
+
     #endregion In-Game Puzzle Actions 
+
+    #region Load and Save 
+
+    public byte[]? LoadGame(string gameKey)
+    {
+        try
+        {
+            // Load from disk and deserialize
+            string gameName = Game.GameNameFromKey(gameKey);
+            var fileId = new FileId(Area.User, Kind.Json, gameName);
+            var game =
+                this.fileManager.Load<Game>(fileId) ??
+                throw new Exception("Failed to deserialize");
+
+            this.Game = game;
+            this.LoadPuzzle();
+            byte[]? imageBytes = this.LoadImage();
+            if ((imageBytes is null) || (imageBytes.Length < 256))
+            {
+                throw new Exception("Failed to read image from disk: " + gameName);
+            }
+
+            this.timeoutTimer.Start();
+
+            Debug.WriteLine("Game Loaded");
+            return imageBytes;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("Load, Exception thrown: " + ex);
+            return null;
+        }
+    }
 
     // Replicate the puzzle completion state to the game so that we have it 
     // to show in game lists without having to load the entire puzzle
@@ -385,18 +416,6 @@ public sealed partial class JigsawModel : ModelBase
         this.SavePuzzle();
     }
 
-    private bool ActionPuzzle(Func<Puzzle, bool> action)
-    {
-        if ((this.Game is null) || (this.Puzzle is null))
-        {
-            return false;
-        }
+    #endregion Load and Save 
 
-        this.IsPuzzleDirty = true;
-        this.timeoutTimer.ResetTimeout();
-        lock (this.Puzzle)
-        {
-            return action(this.Puzzle);
-        }
-    }
 }

@@ -31,6 +31,10 @@ public sealed partial class PuzzleToolbarViewModel: ViewModel<PuzzleToolbarView>
         }
     }
 
+#pragma warning disable CA1822 
+    // Mark members as static
+    // Relay commands cannot be static
+    
     [RelayCommand]
     public void OnShowEdges()
     {
@@ -39,10 +43,8 @@ public sealed partial class PuzzleToolbarViewModel: ViewModel<PuzzleToolbarView>
     }
 
     [RelayCommand]
-    public void OnRandomize() 
-    {
-        // Later
-    }
+    public void OnHint()
+        => this.jigsawModel.ProvidePuzzleHint();
 
     [RelayCommand]
     public void OnShowImage(ButtonTag buttonTag) 
@@ -54,13 +56,12 @@ public sealed partial class PuzzleToolbarViewModel: ViewModel<PuzzleToolbarView>
         } 
     }
 
-    public void OnFullscreen()
-    {
-        // Use for full screen for now 
+    [RelayCommand]
+    public void OnFullscreen() =>
         new ToolbarCommandMessage(ToolbarCommandMessage.ToolbarCommand.PlayFullscreen).Publish();
-    }
+
+#pragma warning restore CA1822 // Mark members as static
 
     partial void OnBackgroundSliderValueChanged(double value)
-        // Debug.WriteLine("Background: " + value.ToString("F2"));
         => this.jigsawModel.SetPuzzleBackground (value);
 }

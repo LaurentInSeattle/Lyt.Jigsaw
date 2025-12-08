@@ -159,5 +159,11 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
         this.ImageRotationTransform = new RotateTransform(this.piece.RotationAngle);
         this.PathRotationTransform = new RotateTransform(this.piece.RotationAngle);
     }
+
+    internal void BringToFront()
+    {
+        var pieceView = this.View;
+        pieceView.BringToTop();
+    }
 }
 

@@ -1,5 +1,7 @@
 ﻿namespace Lyt.Jigsaw.Model.PuzzleObjects;
 
+using System.Collections.Generic;
+
 public sealed class Puzzle
 {
 #if DEBUG
@@ -8,9 +10,9 @@ public sealed class Puzzle
     public const int MaxPieceCount = 1080;
 #endif
 
-    internal readonly Randomizer Randomizer;
+    internal Randomizer Randomizer;
 
-    private readonly Profiler profiler;
+    private Profiler profiler;
 
     public static Dictionary<int, PuzzleImageSetup> GenerateSetups(IntSize imageSize)
     {
@@ -73,6 +75,10 @@ public sealed class Puzzle
     [JsonIgnore]
     internal List<Piece> Moves { get; private set; } = [];
 
+    // 1.7: Lazily accomodate for piece alignment and spacing 
+    private Location Center => 
+        new (this.PieceSize * this.Columns / 1.7, this.PieceSize * this.Rows / 1.7);
+
     internal int Progress()
     {
         int groupedPiecesCount =
@@ -81,7 +87,7 @@ public sealed class Puzzle
                 (from grp in this.Groups select grp.Pieces.Count).Sum();
         double ratio = groupedPiecesCount / (double)this.PieceCount;
         int percent = (int)Math.Round(100.0 * ratio);
-        if (percent == 100  && !this.IsComplete)
+        if (percent == 100 && !this.IsComplete)
         {
             percent = 99;
         }
@@ -141,6 +147,8 @@ public sealed class Puzzle
 
     internal void FinalizeAfterDeserialization()
     {
+        this.Randomizer = new Randomizer();
+
         // recreate the piece dictionary 
         foreach (var piece in this.Pieces)
         {
@@ -324,6 +332,159 @@ public sealed class Puzzle
         return neighbours;
     }
 
+    internal bool ProvideHint()
+    {
+        if (this.IsComplete)
+        {
+            return false;
+        }
+
+        // How many pieces should be hinted at once
+        int hintPieceCount = this.PieceCount / 30;
+        hintPieceCount = Math.Max(2, hintPieceCount);
+        hintPieceCount = Math.Min(10, hintPieceCount);
+
+        var ungroupedPieces = (from piece in this.Pieces where !piece.IsGrouped select piece).ToList();
+        if (ungroupedPieces.Count == 0)
+        {
+            return false;
+        }
+
+        int retries = 0;
+        List<SnapPiece> hintedPieces = [];
+        while (retries < 10)
+        {
+            hintedPieces.Clear();
+            int randomIndex = this.Randomizer.Next(0, ungroupedPieces.Count);
+            var startingPiece = ungroupedPieces[randomIndex];
+            Debug.WriteLine("Starting Piece: " + startingPiece.Position.Row + " " + startingPiece.Position.Column);
+            hintedPieces.Add(new SnapPiece(startingPiece, Placement.Left, 0.0));
+
+            bool loopSuccess = true;
+            while (hintedPieces.Count < hintPieceCount)
+            {
+                var lastHintedPiece = hintedPieces[hintedPieces.Count - 1];
+                var snapCandidates = this.GetUngroupedNeighboursOf(lastHintedPiece.Piece);
+                if (snapCandidates.Count == 0)
+                {
+                    loopSuccess = false;
+                    break;
+                }
+
+                // Snap the last hinted piece to the first candidate
+                int randomSnapIndex = this.Randomizer.Next(0, snapCandidates.Count);
+                SnapPiece snapPiece = snapCandidates[randomSnapIndex];
+                Debug.WriteLine("Snap Piece: " + snapPiece.Piece.Position.Row + " " + snapPiece.Piece.Position.Column);
+                if (snapPiece.Piece.IsGrouped)
+                {
+                    loopSuccess = false;
+                    break;
+                }
+
+                hintedPieces.Add(snapPiece);
+            }
+
+            if (!loopSuccess)
+            {
+                ++retries;
+                continue;
+            }
+
+            // Apply the hints
+            // remove the starting piece
+            hintedPieces.RemoveAt(0);
+            startingPiece.ResetRotation();
+
+            Piece lastSnap = startingPiece; 
+            foreach (var snapPiece in hintedPieces)
+            {
+                var pieceToSnapTo = snapPiece.Piece;
+
+                this.Moves.Add(startingPiece);
+                pieceToSnapTo.ResetRotation();
+                var targetPlacement = snapPiece.Placement.Opposite();
+                pieceToSnapTo.SnapTargetToThis(startingPiece, snapPiece.Placement.Opposite());
+                pieceToSnapTo.ManageGroups(startingPiece);
+
+                startingPiece = pieceToSnapTo;
+                lastSnap = pieceToSnapTo;
+            }
+
+            lastSnap.MoveTo(this.Center.X, this.Center.Y);
+
+            // Success
+            return true; 
+        }
+
+        return false;
+    }
+
+    private List<SnapPiece> GetUngroupedNeighboursOf(Piece piece)
+    {
+        List<SnapPiece> neighbours = [];
+        Group? pieceGroup = piece.MaybeGroup;
+        Piece candidate;
+
+        bool IsValidCandidate()
+        {
+            // Ignore invisible pieces
+            if (!candidate.IsVisible)
+            {
+                return false;
+            }
+
+            // pieces should not belong to the same group is there is one 
+            if ((pieceGroup is not null) && (candidate.MaybeGroup is Group candidateGroup))
+            {
+                if (pieceGroup == candidateGroup)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        if (!piece.IsTop)
+        {
+            candidate = piece.GetTop();
+            if (IsValidCandidate())
+            {
+                neighbours.Add(new SnapPiece(candidate, Placement.Top, 0.0));
+            }
+        }
+
+        if (!piece.IsBottom)
+        {
+            candidate = piece.GetBottom();
+            if (IsValidCandidate())
+            {
+                neighbours.Add(new SnapPiece(candidate, Placement.Bottom, 0.0));
+            }
+        }
+
+        if (!piece.IsLeft)
+        {
+            candidate = piece.GetLeft();
+            if (IsValidCandidate())
+            {
+                neighbours.Add(new SnapPiece(candidate, Placement.Left, 0.0));
+            }
+        }
+
+        if (!piece.IsRight)
+        {
+            candidate = piece.GetRight();
+            if (IsValidCandidate())
+            {
+                neighbours.Add(new SnapPiece(candidate, Placement.Right, 0.0));
+            }
+        }
+
+        return neighbours;
+    }
+
+
     private void CreatePieces()
     {
         this.profiler.StartTiming();
@@ -370,5 +531,4 @@ public sealed class Puzzle
         => this.PieceDictionary.TryGetValue(id, out Piece? piece) && piece is not null ?
                 piece :
                 throw new ArgumentException("No such Piece Id ");
-
 }

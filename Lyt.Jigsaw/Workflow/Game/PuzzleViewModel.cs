@@ -77,6 +77,11 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
             case PuzzleChange.Background:
                 this.UpdateBackground(message.Parameter);
                 break;
+
+            case PuzzleChange.Hint:
+                // display Hint, need to also move pieces on top of others
+                this.UpdateLocationsAfterSnap(withZIndex: true); 
+                break;
         }
     }
 
@@ -321,7 +326,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         throw new Exception("pieceViewModels has no view model for this piece.");
     }
 
-    internal void UpdateLocationsAfterSnap()
+    internal void UpdateLocationsAfterSnap(bool withZIndex = false)
     {
         List<Piece> movedPieces = this.jigsawModel.GetPuzzleMoves();
         foreach (Piece piece in movedPieces)
@@ -329,6 +334,10 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
             var pieceViewModel = this.GetViewModelFromPiece(piece);
             pieceViewModel.View.MoveTo(piece.Location);
             pieceViewModel.Rotate();
+            if (withZIndex)
+            {
+                pieceViewModel.BringToFront();
+            }
         }
 
         if (this.jigsawModel.IsPuzzleComplete())
@@ -362,17 +371,6 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         var brush = new SolidColorBrush(new Color(gray, gray, gray, gray));
         this.BackgroundBrush = brush;
     }
-
-    //Dispatch.OnUiThread(() =>
-    //{
-    //    this.Puzzle.VerifyLostPieces(this.CanvasWidth, this.CanvasHeight);
-
-    //});
-
-    //[RelayCommand]
-    //public void OnDoSomething()
-    //{
-    //}
 
     // public void Receive(LanguageChangedMessage message) => this.Localize();
 

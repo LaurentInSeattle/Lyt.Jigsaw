@@ -99,7 +99,7 @@
 			GlyphSource="lightbulb_filament"
 			GlyphStrokeThickness="0.1"
 			Text="{DynamicResource Puzzle.Toolbar.Hint}"  
-			Command="{Binding OnRandomize}"
+			Command="{Binding OnHint}"
 			/>
 		<controls:ExtendedTextBlock
 			Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="1"
