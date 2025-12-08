@@ -295,6 +295,78 @@ public sealed class Piece
         return false;
     }
 
+    internal List<SnapPiece> GetUngroupedNeighbours(List<SnapPiece> hintedPieces)
+    {
+        List<SnapPiece> neighbours = [];
+        Group? pieceGroup = this.MaybeGroup;
+        Piece candidate;
+
+        bool IsValidCandidate()
+        {
+            // Ignore invisible pieces
+            if (!candidate.IsVisible)
+            {
+                return false;
+            }
+
+            // Ignore pieces already hinted
+            if (hintedPieces.Any(sp => sp.Piece == candidate))
+            {
+                return false;
+            }
+
+            // Ignore pieces already grouped:
+            // pieces should not belong to the same group is there is one 
+            if ((pieceGroup is not null) && (candidate.MaybeGroup is Group candidateGroup))
+            {
+                if (pieceGroup == candidateGroup)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        if (!this.IsTop)
+        {
+            candidate = this.GetTop();
+            if (IsValidCandidate())
+            {
+                neighbours.Add(new SnapPiece(candidate, Placement.Top, 0.0));
+            }
+        }
+
+        if (!this.IsBottom)
+        {
+            candidate = this.GetBottom();
+            if (IsValidCandidate())
+            {
+                neighbours.Add(new SnapPiece(candidate, Placement.Bottom, 0.0));
+            }
+        }
+
+        if (!this.IsLeft)
+        {
+            candidate = this.GetLeft();
+            if (IsValidCandidate())
+            {
+                neighbours.Add(new SnapPiece(candidate, Placement.Left, 0.0));
+            }
+        }
+
+        if (!this.IsRight)
+        {
+            candidate = this.GetRight();
+            if (IsValidCandidate())
+            {
+                neighbours.Add(new SnapPiece(candidate, Placement.Right, 0.0));
+            }
+        }
+
+        return neighbours;
+    }
+
     internal void SnapTargetToThis(Piece targetPiece, Placement placement)
     {
         //if (placement == Placement.Unknown)

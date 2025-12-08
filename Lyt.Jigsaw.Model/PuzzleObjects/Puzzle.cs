@@ -146,9 +146,10 @@ public sealed class Puzzle
         }
     }
 
-    internal void FinalizeAfterDeserialization()
+    internal void FinalizeAfterDeserialization(ILogger logger)
     {
         this.Randomizer = new Randomizer();
+        this.profiler = new Profiler(logger);
 
         // recreate the piece dictionary 
         foreach (var piece in this.Pieces)
@@ -340,6 +341,8 @@ public sealed class Puzzle
             return false;
         }
 
+        this.profiler.StartTiming();
+
         // How many pieces should be hinted at once
         int hintPieceCount = this.PieceCount / 30;
         hintPieceCount = Math.Max(2, hintPieceCount);
@@ -353,7 +356,7 @@ public sealed class Puzzle
 
         int retries = 0;
         List<SnapPiece> hintedPieces = [];
-        while (retries < 10)
+        while (retries < 32)
         {
             hintedPieces.Clear();
             int randomIndex = this.Randomizer.Next(0, ungroupedPieces.Count);
@@ -365,7 +368,7 @@ public sealed class Puzzle
             while (hintedPieces.Count < hintPieceCount)
             {
                 var lastHintedPiece = hintedPieces[^1];
-                var snapCandidates = this.GetUngroupedNeighboursOf(lastHintedPiece.Piece);
+                var snapCandidates = lastHintedPiece.Piece.GetUngroupedNeighbours(hintedPieces);
                 if (snapCandidates.Count == 0)
                 {
                     loopSuccess = false;
@@ -411,81 +414,17 @@ public sealed class Puzzle
                 lastSnap = pieceToSnapTo;
             }
 
+            this.Moves.Add(lastSnap);
             lastSnap.MoveTo(this.Center.X, this.Center.Y);
 
             // Success
+            this.profiler.EndTiming("Hint Success");
             return true; 
         }
 
+        this.profiler.EndTiming("Hint Failed");
         return false;
     }
-
-    // TODO: Relocate to Piece class
-    private List<SnapPiece> GetUngroupedNeighboursOf(Piece piece)
-    {
-        List<SnapPiece> neighbours = [];
-        Group? pieceGroup = piece.MaybeGroup;
-        Piece candidate;
-
-        bool IsValidCandidate()
-        {
-            // Ignore invisible pieces
-            if (!candidate.IsVisible)
-            {
-                return false;
-            }
-
-            // pieces should not belong to the same group is there is one 
-            if ((pieceGroup is not null) && (candidate.MaybeGroup is Group candidateGroup))
-            {
-                if (pieceGroup == candidateGroup)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        if (!piece.IsTop)
-        {
-            candidate = piece.GetTop();
-            if (IsValidCandidate())
-            {
-                neighbours.Add(new SnapPiece(candidate, Placement.Top, 0.0));
-            }
-        }
-
-        if (!piece.IsBottom)
-        {
-            candidate = piece.GetBottom();
-            if (IsValidCandidate())
-            {
-                neighbours.Add(new SnapPiece(candidate, Placement.Bottom, 0.0));
-            }
-        }
-
-        if (!piece.IsLeft)
-        {
-            candidate = piece.GetLeft();
-            if (IsValidCandidate())
-            {
-                neighbours.Add(new SnapPiece(candidate, Placement.Left, 0.0));
-            }
-        }
-
-        if (!piece.IsRight)
-        {
-            candidate = piece.GetRight();
-            if (IsValidCandidate())
-            {
-                neighbours.Add(new SnapPiece(candidate, Placement.Right, 0.0));
-            }
-        }
-
-        return neighbours;
-    }
-
 
     private void CreatePieces()
     {

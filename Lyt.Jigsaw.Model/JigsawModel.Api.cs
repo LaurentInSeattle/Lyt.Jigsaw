@@ -13,7 +13,7 @@ public sealed partial class JigsawModel : ModelBase
     public Game? NewGame(
         byte[] imageBytes, byte[] thumbnailBytes,
         int imagePixelHeight, int imagePixelWidth,
-        PuzzleImageSetup setup, 
+        PuzzleImageSetup setup,
         PuzzleParameters puzzleParameters)
     {
         try
@@ -71,9 +71,11 @@ public sealed partial class JigsawModel : ModelBase
         this.ActionPuzzle(puzzle =>
         {
             bool gotHint = puzzle.ProvideHint();
-            if ( gotHint)
+            if (gotHint)
             {
+                int progress = puzzle.Progress();
                 new PuzzleChangedMessage(PuzzleChange.Hint).Publish();
+                new PuzzleChangedMessage(PuzzleChange.Progress, progress).Publish();
             }
 
             return gotHint;
@@ -87,7 +89,7 @@ public sealed partial class JigsawModel : ModelBase
             this.IsPuzzleDirty = hasMoves || this.IsPuzzleDirty;
             if (hasMoves)
             {
-                this.IsPuzzleComplete ();
+                this.IsPuzzleComplete();
                 new PuzzleChangedMessage(PuzzleChange.Progress, puzzle.Progress()).Publish();
             }
 
@@ -209,7 +211,7 @@ public sealed partial class JigsawModel : ModelBase
         {
             lock (this.Game)
             {
-                this.ReplicatePuzzleState(); 
+                this.ReplicatePuzzleState();
 
                 // Serialize and save to disk
                 var fileId = new FileId(Area.User, Kind.Json, this.Game.GameName);
@@ -240,10 +242,10 @@ public sealed partial class JigsawModel : ModelBase
         message = string.Empty;
         if (this.Game is not null && this.IsGameActive)
         {
-            if ( this.Game.Name == key)
+            if (this.Game.Name == key)
             {
                 // Cannot delete the game that is currently loaded
-                message = "Cannot delete the game that is currently loaded."; 
+                message = "Cannot delete the game that is currently loaded.";
                 return false;
             }
         }
@@ -363,7 +365,7 @@ public sealed partial class JigsawModel : ModelBase
                 byte[] imageBytes = this.fileManager.Load<byte[]>(fileIdImage);
 
                 Debug.WriteLine("Thumbnail Loaded");
-                this.ThumbnailCache.Add(name, imageBytes); 
+                this.ThumbnailCache.Add(name, imageBytes);
                 return imageBytes;
             }
             catch (Exception ex)
@@ -388,7 +390,7 @@ public sealed partial class JigsawModel : ModelBase
             // load from disk and deserialize 
             var fileId = new FileId(Area.User, Kind.JsonCompressed, this.Game.PuzzleName);
             Puzzle puzzle = this.fileManager.Load<Puzzle>(fileId);
-            puzzle.FinalizeAfterDeserialization();
+            puzzle.FinalizeAfterDeserialization(this.Logger);
             this.Puzzle = puzzle;
 
             Debug.WriteLine("Puzzle Loaded");
