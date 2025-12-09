@@ -14,10 +14,8 @@ public sealed partial class JigsawModel : ModelBase
         {
             Language = DefaultLanguage,
             IsFirstRun = true,
-            MaxImages = 128,
-            MaxStorageMB = 64,
-            MaxImageWidth = 3840,
             ShouldAutoCleanup = true,
+            Statistics = new GameStatistics(),
         };
 
     private readonly FileManagerModel fileManager;

@@ -12,16 +12,9 @@ public sealed partial class JigsawModel : ModelBase
     public bool IsFirstRun { get; set; } = false;
 
     [JsonRequired]
-    public int MaxImages { get => this.Get<int>(); set => this.Set(value); }
-
-    [JsonRequired]
-    public int MaxStorageMB { get => this.Get<int>(); set => this.Set(value); }
-
-    [JsonRequired]
-    public int MaxImageWidth { get => this.Get<int>(); set => this.Set(value); }
-
-    [JsonRequired]
     public bool ShouldAutoCleanup { get => this.Get<bool>(); set => this.Set(value); }
+
+    public GameStatistics Statistics { get; set; } = new();
 
     #endregion Serialized -  No model changed event
 
@@ -43,13 +36,13 @@ public sealed partial class JigsawModel : ModelBase
     public bool ThumbnailsLoaded { get; set; } = false;
 
     [JsonIgnore]
-    public bool PingComplete { get; set; } = false;
-
-    [JsonIgnore]
     public bool ModelLoadedNotified { get; set; } = false;
 
     [JsonIgnore]
     public bool ShowInProgress { get; set; } = true;
+
+    [JsonIgnore]
+    internal DateTime StartedPlay { get; set; } 
 
     #endregion Not serialized - No model changed event
 

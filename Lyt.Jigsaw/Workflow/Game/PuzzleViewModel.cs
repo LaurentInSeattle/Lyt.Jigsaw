@@ -55,6 +55,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
     public override void Deactivate()
     {
         // Force a full save on deactivation
+        this.jigsawModel.PausePlaying(); 
         this.jigsawModel.SavePuzzle();
         this.jigsawModel.SaveGame();
         this.jigsawModel.GameIsActive(isActive: false);
@@ -98,7 +99,8 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
 
         this.HackViewReset();
         new PuzzleChangedMessage(PuzzleChange.Progress, this.jigsawModel.GetPuzzleProgress()).Publish();
-        this.jigsawModel.GameIsActive(); 
+        this.jigsawModel.GameIsActive();
+        this.jigsawModel.ResumePlaying();
     }
 
     public void StartNewGame(
@@ -247,6 +249,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.HackViewReset();
         new PuzzleChangedMessage(PuzzleChange.Progress, this.jigsawModel.GetPuzzleProgress()).Publish();
         this.jigsawModel.GameIsActive();
+        this.jigsawModel.ResumePlaying();
     }
 
     private PieceView CreatePieceView(Piece piece)

@@ -20,6 +20,12 @@ public sealed partial class JigsawModel : ModelBase
         {
             var puzzle = new Puzzle(this.Logger);
             puzzle.Setup(setup, puzzleParameters);
+            this.Statistics.TotalGamesStarted += 1;
+            if (puzzle.PieceCount > this.Statistics.MaxPieceCount)
+            {
+                this.Statistics.MaxPieceCount = puzzle.PieceCount;
+            }
+
             var game = new Game(puzzle, puzzleParameters);
             this.Game = game;
             this.Puzzle = puzzle;
@@ -40,6 +46,38 @@ public sealed partial class JigsawModel : ModelBase
 
     public void PuzzleIsActive() => this.timeoutTimer.ResetTimeout();
 
+    public void ResumePlaying()
+    {
+        if ((this.Game is null) || (this.Puzzle is null))
+        {
+            return;
+        }
+
+        var now = DateTime.Now;
+        this.Game.LastPlayed = now;
+        this.StartedPlay = now;
+    }
+
+    public void PausePlaying()
+    {
+        if ((this.Game is null) || (this.Puzzle is null))
+        {
+            return;
+        }
+
+        var now = DateTime.Now;
+        TimeSpan playedThisSession = now - this.StartedPlay;
+        this.Game.Played += playedThisSession;
+        this.Statistics.TotalTimePlayed += playedThisSession;
+
+        if (this.Game.Played > this.Statistics.LongestGameTimePlayed)
+        {
+            this.Statistics.LongestGameTimePlayed = this.Game.Played;
+            this.Statistics.LongestGameDate = now;
+            this.Statistics.LongestGamePieceCount = this.Puzzle.PieceCount;
+        }
+    }
+
     public bool IsPuzzleComplete()
     {
         if ((this.Game is null) || (this.Puzzle is null))
@@ -50,6 +88,7 @@ public sealed partial class JigsawModel : ModelBase
         bool isComplete = this.Puzzle.IsComplete;
         if (isComplete)
         {
+            this.Statistics.TotalGamesCompleted += 1;
             this.SavePuzzle();
             this.SaveGame();
             this.timeoutTimer.Stop();
@@ -74,6 +113,11 @@ public sealed partial class JigsawModel : ModelBase
             if (gotHint)
             {
                 int progress = puzzle.Progress();
+
+                // Null checked by ActionPuzzle
+                this.Game!.HintsUsed += 1;
+                this.Game!.Progress = progress;
+                this.Statistics.TotalHintsUsed += 1;
                 new PuzzleChangedMessage(PuzzleChange.Hint).Publish();
                 new PuzzleChangedMessage(PuzzleChange.Progress, progress).Publish();
             }
@@ -89,6 +133,8 @@ public sealed partial class JigsawModel : ModelBase
             this.IsPuzzleDirty = hasMoves || this.IsPuzzleDirty;
             if (hasMoves)
             {
+                int moves = puzzle.Moves.Count;
+                this.Statistics.TotalPiecesSnapped += moves;
                 this.IsPuzzleComplete();
                 new PuzzleChangedMessage(PuzzleChange.Progress, puzzle.Progress()).Publish();
             }
@@ -107,6 +153,12 @@ public sealed partial class JigsawModel : ModelBase
             {
                 piece.Rotate(isCCW);
             }
+
+            if (piece.RotationSteps == 0)
+            {
+                this.Statistics.TotalPiecesRotated += 1;
+            }
+
             return true;
         });
 
@@ -419,5 +471,4 @@ public sealed partial class JigsawModel : ModelBase
     }
 
     #endregion Load and Save 
-
 }

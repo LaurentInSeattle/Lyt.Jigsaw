@@ -11,7 +11,6 @@ public sealed class Game
     {
         this.Name = FileManagerModel.TimestampString();
         this.IsCompleted = false;
-        this.Progress = 0;
         this.Started = DateTime.Now;
         this.LastPlayed = DateTime.Now;
         this.Played = TimeSpan.Zero;
@@ -26,6 +25,10 @@ public sealed class Game
     public bool IsCompleted { get; set; }
 
     public int Progress { get; set; }
+
+    public int PieceCount { get; set; }
+
+    public int HintsUsed { get; set; }
 
     public DateTime Started { get; set; }
 
