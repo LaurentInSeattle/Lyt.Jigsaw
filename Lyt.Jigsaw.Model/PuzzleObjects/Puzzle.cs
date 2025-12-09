@@ -348,81 +348,96 @@ public sealed class Puzzle
         hintPieceCount = Math.Max(2, hintPieceCount);
         hintPieceCount = Math.Min(10, hintPieceCount);
 
-        var ungroupedPieces = (from piece in this.Pieces where !piece.IsGrouped select piece).ToList();
-        if (ungroupedPieces.Count == 0)
+        bool TryHint ()
         {
+            var ungroupedPieces = (from piece in this.Pieces where !piece.IsGrouped select piece).ToList();
+            if (ungroupedPieces.Count == 0)
+            {
+                return false;
+            }
+
+            int retries = 0;
+            List<SnapPiece> hintedPieces = [];
+            while (retries < 32)
+            {
+                hintedPieces.Clear();
+                int randomIndex = this.Randomizer.Next(0, ungroupedPieces.Count);
+                var startingPiece = ungroupedPieces[randomIndex];
+                Debug.WriteLine("Starting Piece: " + startingPiece.Position.Row + " " + startingPiece.Position.Column);
+                hintedPieces.Add(new SnapPiece(startingPiece, Placement.Left, 0.0));
+
+                bool loopSuccess = true;
+                while (hintedPieces.Count < hintPieceCount)
+                {
+                    var lastHintedPiece = hintedPieces[^1];
+                    var snapCandidates = lastHintedPiece.Piece.GetUngroupedNeighbours(hintedPieces);
+                    if (snapCandidates.Count == 0)
+                    {
+                        loopSuccess = false;
+                        break;
+                    }
+
+                    // Snap the last hinted piece to the first candidate
+                    int randomSnapIndex = this.Randomizer.Next(0, snapCandidates.Count);
+                    SnapPiece snapPiece = snapCandidates[randomSnapIndex];
+                    Debug.WriteLine("Snap Piece: " + snapPiece.Piece.Position.Row + " " + snapPiece.Piece.Position.Column);
+                    if (snapPiece.Piece.IsGrouped)
+                    {
+                        loopSuccess = false;
+                        break;
+                    }
+
+                    hintedPieces.Add(snapPiece);
+                }
+
+                if (!loopSuccess)
+                {
+                    ++retries;
+                    continue;
+                }
+
+                // Apply the hints
+                // remove the starting piece
+                hintedPieces.RemoveAt(0);
+                startingPiece.ResetRotation();
+
+                Piece lastSnap = startingPiece;
+                foreach (var snapPiece in hintedPieces)
+                {
+                    var pieceToSnapTo = snapPiece.Piece;
+
+                    this.Moves.Add(startingPiece);
+                    pieceToSnapTo.ResetRotation();
+                    var targetPlacement = snapPiece.Placement.Opposite();
+                    pieceToSnapTo.SnapTargetToThis(startingPiece, snapPiece.Placement.Opposite());
+                    pieceToSnapTo.ManageGroups(startingPiece);
+
+                    startingPiece = pieceToSnapTo;
+                    lastSnap = pieceToSnapTo;
+                }
+
+                this.Moves.Add(lastSnap);
+                lastSnap.MoveTo(this.Center.X, this.Center.Y);
+
+                // Success
+                this.profiler.EndTiming("Hint Success");
+                return true;
+            }
+
+            this.profiler.EndTiming("Hint Failed");
             return false;
-        }
+        } 
 
-        int retries = 0;
-        List<SnapPiece> hintedPieces = [];
-        while (retries < 32)
+        while (hintPieceCount > 2)
         {
-            hintedPieces.Clear();
-            int randomIndex = this.Randomizer.Next(0, ungroupedPieces.Count);
-            var startingPiece = ungroupedPieces[randomIndex];
-            Debug.WriteLine("Starting Piece: " + startingPiece.Position.Row + " " + startingPiece.Position.Column);
-            hintedPieces.Add(new SnapPiece(startingPiece, Placement.Left, 0.0));
-
-            bool loopSuccess = true;
-            while (hintedPieces.Count < hintPieceCount)
+            if (TryHint())
             {
-                var lastHintedPiece = hintedPieces[^1];
-                var snapCandidates = lastHintedPiece.Piece.GetUngroupedNeighbours(hintedPieces);
-                if (snapCandidates.Count == 0)
-                {
-                    loopSuccess = false;
-                    break;
-                }
-
-                // Snap the last hinted piece to the first candidate
-                int randomSnapIndex = this.Randomizer.Next(0, snapCandidates.Count);
-                SnapPiece snapPiece = snapCandidates[randomSnapIndex];
-                Debug.WriteLine("Snap Piece: " + snapPiece.Piece.Position.Row + " " + snapPiece.Piece.Position.Column);
-                if (snapPiece.Piece.IsGrouped)
-                {
-                    loopSuccess = false;
-                    break;
-                }
-
-                hintedPieces.Add(snapPiece);
+                return true;
             }
 
-            if (!loopSuccess)
-            {
-                ++retries;
-                continue;
-            }
-
-            // Apply the hints
-            // remove the starting piece
-            hintedPieces.RemoveAt(0);
-            startingPiece.ResetRotation();
-
-            Piece lastSnap = startingPiece; 
-            foreach (var snapPiece in hintedPieces)
-            {
-                var pieceToSnapTo = snapPiece.Piece;
-
-                this.Moves.Add(startingPiece);
-                pieceToSnapTo.ResetRotation();
-                var targetPlacement = snapPiece.Placement.Opposite();
-                pieceToSnapTo.SnapTargetToThis(startingPiece, snapPiece.Placement.Opposite());
-                pieceToSnapTo.ManageGroups(startingPiece);
-
-                startingPiece = pieceToSnapTo;
-                lastSnap = pieceToSnapTo;
-            }
-
-            this.Moves.Add(lastSnap);
-            lastSnap.MoveTo(this.Center.X, this.Center.Y);
-
-            // Success
-            this.profiler.EndTiming("Hint Success");
-            return true; 
+            --hintPieceCount;
         }
 
-        this.profiler.EndTiming("Hint Failed");
         return false;
     }
 
