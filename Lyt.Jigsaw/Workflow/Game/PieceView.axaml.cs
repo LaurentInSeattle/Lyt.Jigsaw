@@ -5,11 +5,20 @@ using Location = Model.Infrastucture.Location;
 public sealed partial class PieceView : View
 {
     private DragMovable? dragMovable;
+    private int rotationAngle;
 
     public void AttachBehavior(Canvas canvas)
     {
         this.dragMovable = new DragMovable(canvas, adjustPosition: true);
         this.dragMovable.Attach(this);
+        //this.Image.Effect = new DropShadowEffect
+        //{
+        //    Color = Colors.Black,
+        //    BlurRadius = 8,
+        //    Opacity = 0.5,
+        //    OffsetX = 4, 
+        //    OffsetY = 4, 
+        //};
     }
 
     ~PieceView()
@@ -23,11 +32,43 @@ public sealed partial class PieceView : View
         this.SetValue(Canvas.TopProperty, location.Y);
     }
 
-    internal void MovePieceToLocation(Piece piece)
+    internal void Rotate(int newRotationAngle)
     {
-        this.SetValue(Canvas.LeftProperty, piece.Location.X);
-        this.SetValue(Canvas.TopProperty, piece.Location.Y);
+        if (this.rotationAngle != newRotationAngle)
+        {
+            this.rotationAngle = newRotationAngle;
+            var transform = new RotateTransform(this.rotationAngle);
+            this.Image.RenderTransform = transform;
+            this.Path.RenderTransform = transform;
+        }
     }
 
     internal void BringToTop() => this.SetValue(Canvas.ZIndexProperty, DragMovable.ZIndex);
+
+    internal void MoveToAndRotate(Location location, int newRotationAngle, bool bringToTop)
+    {
+        this.SetValue(Canvas.LeftProperty, location.X);
+        this.SetValue(Canvas.TopProperty, location.Y);
+
+        if (this.rotationAngle != newRotationAngle)
+        {
+            this.rotationAngle = newRotationAngle;
+            if (newRotationAngle == 0)
+            {
+                this.Image.RenderTransform = null;
+                this.Path.RenderTransform = null;
+            }
+            else
+            {
+                var transform = new RotateTransform(this.rotationAngle);
+                this.Image.RenderTransform = transform;
+                this.Path.RenderTransform = transform;
+            } 
+        }
+
+        if (bringToTop)
+        {
+            this.SetValue(Canvas.ZIndexProperty, DragMovable.ZIndex);
+        }
+    }
 }

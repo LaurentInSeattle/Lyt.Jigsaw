@@ -28,6 +28,7 @@
 			Clip="{Binding ClipGeometry}"
 			RenderTransform="{Binding ImageRotationTransform}"
 			>
+			<!--
 			<Image.Effect>
 				<DropShadowEffect
 					Color="Black"
@@ -36,8 +37,10 @@
 					OffsetX="4" OffsetY="4"
 					/>
 			</Image.Effect>
+			-->
 		</Image>
 		<Path
+			x:Name="Path"
 			Stroke="DarkGray"
 			StrokeThickness="2.0"
 			Opacity="0.7"

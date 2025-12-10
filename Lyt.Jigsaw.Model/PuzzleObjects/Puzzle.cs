@@ -358,12 +358,12 @@ public sealed class Puzzle
 
             int retries = 0;
             List<SnapPiece> hintedPieces = [];
-            while (retries < 32)
+            while (retries < 24)
             {
                 hintedPieces.Clear();
                 int randomIndex = this.Randomizer.Next(0, ungroupedPieces.Count);
                 var startingPiece = ungroupedPieces[randomIndex];
-                Debug.WriteLine("Starting Piece: " + startingPiece.Position.Row + " " + startingPiece.Position.Column);
+                // Debug.WriteLine("Starting Piece: " + startingPiece.Position.Row + " " + startingPiece.Position.Column);
                 hintedPieces.Add(new SnapPiece(startingPiece, Placement.Left, 0.0));
 
                 bool loopSuccess = true;
@@ -380,7 +380,7 @@ public sealed class Puzzle
                     // Snap the last hinted piece to the first candidate
                     int randomSnapIndex = this.Randomizer.Next(0, snapCandidates.Count);
                     SnapPiece snapPiece = snapCandidates[randomSnapIndex];
-                    Debug.WriteLine("Snap Piece: " + snapPiece.Piece.Position.Row + " " + snapPiece.Piece.Position.Column);
+                    // Debug.WriteLine("Snap Piece: " + snapPiece.Piece.Position.Row + " " + snapPiece.Piece.Position.Column);
                     if (snapPiece.Piece.IsGrouped)
                     {
                         loopSuccess = false;
@@ -420,24 +420,24 @@ public sealed class Puzzle
                 lastSnap.MoveTo(this.Center.X, this.Center.Y);
 
                 // Success
-                this.profiler.EndTiming("Hint Success");
                 return true;
             }
 
-            this.profiler.EndTiming("Hint Failed");
             return false;
         } 
 
-        while (hintPieceCount > 2)
+        while (hintPieceCount >= 2)
         {
             if (TryHint())
             {
+                this.profiler.EndTiming("Hint Success");
                 return true;
             }
 
             --hintPieceCount;
         }
 
+        this.profiler.EndTiming("Hint Failed");
         return false;
     }
 

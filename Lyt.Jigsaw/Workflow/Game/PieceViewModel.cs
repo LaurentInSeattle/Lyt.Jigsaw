@@ -63,7 +63,6 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
                 IntPointList.DummyPoints.ToScaledPoints(scale));
         this.ClipGeometry = GeometryGenerator.InvertedClip(outerGeometry, innerGeometry);
 
-        this.Rotate();
         this.IsHitTestVisible = true;
         this.IsVisible = true;
         this.PathIsVisible = true;
@@ -113,7 +112,7 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
         }
         else
         {
-            this.Rotate();
+            this.View.Rotate(this.piece.RotationAngle);
         }
     }
 
@@ -143,6 +142,8 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
 
         if (this.piece.IsGrouped)
         {
+            // this.Profiler.StartTiming();
+
             foreach (Piece other in this.piece.Group.Pieces)
             {
                 if (piece == other)
@@ -155,19 +156,10 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
                 pieceView.MoveTo(other.Location);
                 pieceView.BringToTop();
             }
+
+            // Takes about 5ms for 1000 pieces
+            // this.Profiler.EndTiming("Move Group Pieces");
         }
-    }
-
-    internal void Rotate()
-    {
-        this.ImageRotationTransform = new RotateTransform(this.piece.RotationAngle);
-        this.PathRotationTransform = new RotateTransform(this.piece.RotationAngle);
-    }
-
-    internal void BringToFront()
-    {
-        var pieceView = this.View;
-        pieceView.BringToTop();
     }
 }
 

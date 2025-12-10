@@ -397,6 +397,10 @@ public sealed partial class CollectionViewModel :
         this.SnapSliderValue = puzzleParameters.Snap;
         this.ContrastSliderValue = 4.0;
         this.HintsSliderValue = puzzleParameters.Hints;
+
+        // Do it here in case we have not loaded the pieceCounts setups yet
+        // See OnPieceCountSliderValueChanged below
+        this.PieceCountString = string.Format("{0:D}", puzzleParameters.PieceCount);
     }
 
     partial void OnPieceCountSliderValueChanged(double value)

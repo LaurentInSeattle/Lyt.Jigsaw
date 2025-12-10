@@ -94,7 +94,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         foreach (Piece piece in puzzle.Pieces)
         {
             var view = this.CreatePieceView(piece);
-            view.MovePieceToLocation(piece);
+            view.MoveToAndRotate(piece.Location, piece.RotationAngle, bringToTop: false);
         }
 
         this.HackViewReset();
@@ -151,7 +151,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
                     double x = canvasCol * pieceDistance;
                     double y = canvasRow * pieceDistance;
                     piece.MoveTo(x + xOffset, y + yOffset);
-                    view.MovePieceToLocation(piece);
+                    view.MoveToAndRotate(piece.Location, piece.RotationAngle, bringToTop: false);
 
                     // Debug.WriteLine("Placed at row {0} - col {1}", canvasRow, canvasCol);
 
@@ -236,7 +236,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
                 double x = (double)position.Column * pieceSizeWithOverlap;
                 double y = (double)position.Row * pieceSizeWithOverlap;
                 piece.MoveTo(x + xOffset, y + yOffset);
-                view.MovePieceToLocation(piece);
+                view.MoveToAndRotate(piece.Location, piece.RotationAngle, bringToTop: false);
             }
         }
 
@@ -335,12 +335,8 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         foreach (Piece piece in movedPieces)
         {
             var pieceViewModel = this.GetViewModelFromPiece(piece);
-            pieceViewModel.View.MoveTo(piece.Location);
-            pieceViewModel.Rotate();
-            if (withZIndex)
-            {
-                pieceViewModel.BringToFront();
-            }
+            var pieceView = pieceViewModel.View;
+            pieceView.MoveToAndRotate(piece.Location, piece.RotationAngle, bringToTop: withZIndex);
         }
 
         if (this.jigsawModel.IsPuzzleComplete())
