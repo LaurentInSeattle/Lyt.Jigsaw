@@ -344,9 +344,9 @@ public sealed class Puzzle
         this.profiler.StartTiming();
 
         // How many pieces should be hinted at once
-        int hintPieceCount = this.PieceCount / 30;
+        int hintPieceCount = this.PieceCount / 32;
         hintPieceCount = Math.Max(2, hintPieceCount);
-        hintPieceCount = Math.Min(10, hintPieceCount);
+        hintPieceCount = Math.Min(16, hintPieceCount);
 
         bool TryHint ()
         {
@@ -358,7 +358,7 @@ public sealed class Puzzle
 
             int retries = 0;
             List<SnapPiece> hintedPieces = [];
-            while (retries < 24)
+            while (retries < 20)
             {
                 hintedPieces.Clear();
                 int randomIndex = this.Randomizer.Next(0, ungroupedPieces.Count);
