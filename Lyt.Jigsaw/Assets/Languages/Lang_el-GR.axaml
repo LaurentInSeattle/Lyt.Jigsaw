@@ -85,6 +85,8 @@
 
     <system:String x:Key="Collection.Thumbs.ProgressFormat">Πρόοδος: {0} %</system:String>
 
+    <system:String x:Key="Collection.Thumbs.PuzzleFormat">Πλήθος τεμαχίων: {0} %</system:String>
+
     <system:String x:Key="Puzzle.Toolbar.Dark">Σκοτάδι</system:String>
 
     <system:String x:Key="Puzzle.Toolbar.Light">Φως</system:String>

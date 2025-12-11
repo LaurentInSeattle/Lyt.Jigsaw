@@ -56,7 +56,8 @@
 
 	<system:String x:Key="Collection.Thumbs.StartedFormat">Started: {0}</system:String>
 	<system:String x:Key="Collection.Thumbs.ProgressFormat">Progress: {0} %</system:String>
-
+	<system:String x:Key="Collection.Thumbs.PuzzleFormat">Piece Count: {0}</system:String>
+	
 	<!-- Game Toolbar -->
 	<system:String x:Key="Puzzle.Toolbar.Dark">Dark</system:String>
 	<system:String x:Key="Puzzle.Toolbar.Light">Light</system:String>

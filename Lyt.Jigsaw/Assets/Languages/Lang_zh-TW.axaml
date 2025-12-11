@@ -85,6 +85,8 @@
 
     <system:String x:Key="Collection.Thumbs.ProgressFormat">進度：{0} %</system:String>
 
+    <system:String x:Key="Collection.Thumbs.PuzzleFormat">件數：{0} %</system:String>
+
     <system:String x:Key="Puzzle.Toolbar.Dark">黑暗的</system:String>
 
     <system:String x:Key="Puzzle.Toolbar.Light">光</system:String>

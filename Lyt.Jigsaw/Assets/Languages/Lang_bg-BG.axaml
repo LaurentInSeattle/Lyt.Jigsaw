@@ -85,6 +85,8 @@
 
     <system:String x:Key="Collection.Thumbs.ProgressFormat">Напредък: {0} %</system:String>
 
+    <system:String x:Key="Collection.Thumbs.PuzzleFormat">Брой части: {0} %</system:String>
+
     <system:String x:Key="Puzzle.Toolbar.Dark">Тъмно</system:String>
 
     <system:String x:Key="Puzzle.Toolbar.Light">светлина</system:String>

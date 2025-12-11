@@ -85,6 +85,8 @@
 
     <system:String x:Key="Collection.Thumbs.ProgressFormat">Առաջընթաց՝ {0} %</system:String>
 
+    <system:String x:Key="Collection.Thumbs.PuzzleFormat">Կտորների քանակը՝ {0} %</system:String>
+
     <system:String x:Key="Puzzle.Toolbar.Dark">Մութ</system:String>
 
     <system:String x:Key="Puzzle.Toolbar.Light">Լույս</system:String>

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public sealed class Puzzle
 {
 #if DEBUG
-    public const int MaxPieceCount = 556;
+    public const int MaxPieceCount = 1080;
 #else
     public const int MaxPieceCount = 1080;
 #endif

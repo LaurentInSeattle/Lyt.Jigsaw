@@ -322,9 +322,6 @@ public sealed partial class CollectionViewModel :
 
     internal void Select(Model.GameObjects.Game game)
     {
-        // Load game parameters into the UI 
-        this.SetUiParametersFromGame(game.PuzzleParameters);
-
         // Load the puzzle image regardless of completion status
         string gameKey = game.Name;
         byte[]? imageBytes = this.jigsawModel.LoadGame(gameKey);
@@ -342,6 +339,13 @@ public sealed partial class CollectionViewModel :
             this.PuzzleImage = image;
             this.imageBytes = imageBytes;
             this.ParametersVisible = game.IsCompleted;
+
+            // Load game parameters into the UI: We need to know about possible setups
+            // if we want to restart it
+            var imageSize = image.PixelSize;
+            this.setups = Puzzle.GenerateSetups(new IntSize(imageSize.Height, imageSize.Width));
+            this.SetUiParametersFromGame(game.PuzzleParameters);
+
             if (game.IsCompleted)
             {
                 // Completed game: allow to redo it with different parameters

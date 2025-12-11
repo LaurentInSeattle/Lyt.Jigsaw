@@ -85,6 +85,8 @@
 
     <system:String x:Key="Collection.Thumbs.ProgressFormat">অগ্রগতি: {0} %</system:String>
 
+    <system:String x:Key="Collection.Thumbs.PuzzleFormat">টুকরা সংখ্যা: {0} %</system:String>
+
     <system:String x:Key="Puzzle.Toolbar.Dark">অন্ধকার</system:String>
 
     <system:String x:Key="Puzzle.Toolbar.Light">আলো</system:String>

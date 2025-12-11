@@ -75,7 +75,7 @@
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 						<shared:ThumbnailView 
-							Margin="4"
+							Margin="4 4 4 12"
 							/>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>

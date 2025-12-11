@@ -28,6 +28,7 @@ public sealed partial class JigsawModel : ModelBase
 
             var game = new Game(puzzle, puzzleParameters);
             this.Game = game;
+            this.Game.PieceCount = puzzle.PieceCount;
             this.Puzzle = puzzle;
             this.SavePuzzle();
             this.SaveImages(imageBytes, thumbnailBytes);
@@ -51,6 +52,11 @@ public sealed partial class JigsawModel : ModelBase
         if ((this.Game is null) || (this.Puzzle is null))
         {
             return;
+        }
+
+        if ( this.Game.PieceCount == 0)
+        {
+            this.Game.PieceCount = this.Puzzle.PieceCount;
         }
 
         var now = DateTime.Now;

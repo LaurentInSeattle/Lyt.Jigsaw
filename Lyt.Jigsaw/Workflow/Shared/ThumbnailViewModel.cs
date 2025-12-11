@@ -88,5 +88,9 @@ public sealed partial class ThumbnailViewModel : ViewModel<ThumbnailView>, IReci
                     this.Localize("Collection.Thumbs.ProgressFormat"),
                     this.Game.Progress);
         this.Title = string.Concat(dateString, " - ", progressString);
+        this.Details =
+            string.Format(
+                this.Localize("Collection.Thumbs.PuzzleFormat"),
+                this.Game.PieceCount);
     }
 }
