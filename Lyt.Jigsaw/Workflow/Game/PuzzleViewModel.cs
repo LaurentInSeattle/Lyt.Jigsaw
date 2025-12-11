@@ -3,6 +3,7 @@
 public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
     IRecipient<ZoomRequestMessage>,
     IRecipient<ShowPuzzleImageMessage>,
+    IRecipient<ToolbarCommandMessage>,
     IRecipient<PuzzleChangedMessage>
 {
     private readonly JigsawModel jigsawModel;
@@ -32,10 +33,14 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
 
     private readonly Dictionary<Piece, PieceViewModel> pieceViewModels;
 
+    private double savedZoomFactor;
+
     public PuzzleViewModel(JigsawModel jigsawModel)
     {
         this.jigsawModel = jigsawModel;
+        this.savedZoomFactor = 1.0; 
 
+        this.Subscribe<ToolbarCommandMessage>();
         this.Subscribe<ZoomRequestMessage>();
         this.Subscribe<ShowPuzzleImageMessage>();
         this.Subscribe<PuzzleChangedMessage>();
@@ -49,20 +54,42 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.Unregister<PuzzleChangedMessage>();
     }
 
-    public override void Activate(object? _) 
+    public override void Activate(object? _)
         => this.jigsawModel.GameIsActive(isActive: true);
 
     public override void Deactivate()
     {
         // Force a full save on deactivation
-        this.jigsawModel.PausePlaying(); 
+        this.jigsawModel.PausePlaying();
         this.jigsawModel.SavePuzzle();
         this.jigsawModel.SaveGame();
         this.jigsawModel.GameIsActive(isActive: false);
     }
 
+    public void Receive(ToolbarCommandMessage message)
+    {
+        if ((message.Command == ToolbarCommandMessage.ToolbarCommand.PlayFullscreen) ||
+            (message.Command == ToolbarCommandMessage.ToolbarCommand.PlayWindowed))
+        {
+            if (savedZoomFactor != 1.0)
+            {
+                // Need to wait a bit or else the layout manager will throw 
+                Schedule.OnUiThread(100, () =>
+                {
+                    // ensure property changed 
+                    this.ZoomFactor = 1.0;
+                    this.ZoomFactor = this.savedZoomFactor;
+                }, DispatcherPriority.ApplicationIdle);
+            } 
+        }
+    }
+
     public void Receive(ZoomRequestMessage message)
-        => this.ZoomFactor = message.ZoomFactor;
+    {
+        double zoomFactor =message.ZoomFactor;
+        this.ZoomFactor = zoomFactor;
+        this.savedZoomFactor =zoomFactor;
+    }
 
     public void Receive(ShowPuzzleImageMessage message)
         => this.PuzzleImageIsVisible = message.Show;
@@ -81,7 +108,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
 
             case PuzzleChange.Hint:
                 // display Hint, need to also move pieces on top of others
-                this.UpdateLocationsAfterSnap(withZIndex: true); 
+                this.UpdateLocationsAfterSnap(withZIndex: true);
                 break;
         }
     }
@@ -97,15 +124,12 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
             view.MoveToAndRotate(piece.Location, piece.RotationAngle, bringToTop: false);
         }
 
-        this.HackViewReset();
-        new PuzzleChangedMessage(PuzzleChange.Progress, this.jigsawModel.GetPuzzleProgress()).Publish();
-        this.jigsawModel.GameIsActive();
-        this.jigsawModel.ResumePlaying();
+        this.UpdateToolbarAndGameState();
     }
 
     public void StartNewGame(
         byte[] imageBytes, byte[] thumbnailBytes, WriteableBitmap image,
-        PuzzleImageSetup setup, 
+        PuzzleImageSetup setup,
         PuzzleParameters puzzleParameters,
         bool randomize = true)
     {
@@ -246,10 +270,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.Logger.Info(string.Format("Piece Count: {0}", puzzle.PieceCount));
         this.Profiler.EndTiming("Creating pieces");
 
-        this.HackViewReset();
-        new PuzzleChangedMessage(PuzzleChange.Progress, this.jigsawModel.GetPuzzleProgress()).Publish();
-        this.jigsawModel.GameIsActive();
-        this.jigsawModel.ResumePlaying();
+        this.UpdateToolbarAndGameState();
     }
 
     private PieceView CreatePieceView(Piece piece)
@@ -281,17 +302,14 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.PuzzleImageIsVisible = false;
     }
 
-    private void HackViewReset()
+    private void UpdateToolbarAndGameState()
     {
+        this.jigsawModel.GameIsActive();
+        this.jigsawModel.ResumePlaying();
         Schedule.OnUiThread(50, () =>
         {
-            this.View.InvalidateVisual();
-            this.ZoomFactor = 1.01;
-            Schedule.OnUiThread(100, () =>
-            {
-                this.View.InvalidateVisual();
-                this.ZoomFactor = 1.0;
-            }, DispatcherPriority.Background);
+            new PuzzleChangedMessage(PuzzleChange.Start).Publish();
+            new PuzzleChangedMessage(PuzzleChange.Progress, this.jigsawModel.GetPuzzleProgress()).Publish();
         }, DispatcherPriority.Background);
 
     }

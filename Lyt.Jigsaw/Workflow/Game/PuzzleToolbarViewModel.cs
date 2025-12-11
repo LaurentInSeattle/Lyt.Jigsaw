@@ -25,6 +25,10 @@ public sealed partial class PuzzleToolbarViewModel: ViewModel<PuzzleToolbarView>
             default:
                 return;
 
+            case PuzzleChange.Start:
+                this.View.ZoomController.SetMin(); 
+                break;
+
             case PuzzleChange.Progress:
                 this.Progress = string.Format( "{0:D} %", (int) message.Parameter);
                 break;

@@ -6,6 +6,7 @@ public enum PuzzleChange
     Background,
     Progress,
     Hint,
+    Start,
 }
 
 public sealed record class PuzzleChangedMessage(PuzzleChange Change, double Parameter = 0.0); 
