@@ -115,6 +115,8 @@ public partial class ThumbnailView : View
             this.isPressed ?
                 pressedBrush :
                 this.isSelected ? selectedBrush : insideBrush;
+        this.outerBorder.Background =
+            this.isSelected ? new SolidColorBrush(0x80_000000) : Brushes.Transparent;
     }
 
 }

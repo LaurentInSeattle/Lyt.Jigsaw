@@ -7,6 +7,8 @@ public partial class DropView : View
     private static readonly SolidColorBrush? normalBrush;
     private static readonly SolidColorBrush? hotBrush;
 
+    private IBrush? normalBrushBackground;
+
     static DropView()
     {
         TryFindResource<SolidColorBrush>("LightAqua_0_120", out SolidColorBrush? brush);
@@ -28,6 +30,8 @@ public partial class DropView : View
         {
             this.DropRectangle.Stroke = normalBrush;
         }
+        
+        this.normalBrushBackground = this.DropRectangle.Fill;
 
         DragDrop.SetAllowDrop(this.DropBorder, true);
         this.DropBorder.AddHandler(DragDrop.DropEvent, this.OnDrop);
@@ -47,6 +51,7 @@ public partial class DropView : View
     {
         if (hotBrush is not null)
         {
+            this.DropRectangle.Fill = Brushes.Transparent;
             this.DropRectangle.Stroke = hotBrush;
         }
     }
@@ -55,6 +60,7 @@ public partial class DropView : View
     {
         if (normalBrush is not null)
         {
+            this.DropRectangle.Fill = this.normalBrushBackground;
             this.DropRectangle.Stroke = normalBrush;
         }
     }
@@ -63,6 +69,7 @@ public partial class DropView : View
     {
         if (normalBrush is not null)
         {
+            this.DropRectangle.Fill = this.normalBrushBackground;
             this.DropRectangle.Stroke = normalBrush;
         }
 
