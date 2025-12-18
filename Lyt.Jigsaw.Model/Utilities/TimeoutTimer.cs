@@ -55,11 +55,8 @@ public sealed class TimeoutTimer
 
     private void StopTimer()
     {
-        if (this.timer is not null)
-        {
-            this.timer.Dispose();
-            this.timer = null;
-        } 
+        this.timer?.Dispose();
+        this.timer = null;
 
         this.IsRunning = false;
     }
