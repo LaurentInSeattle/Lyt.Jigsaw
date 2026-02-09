@@ -29,6 +29,8 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
     private readonly PuzzleViewModel puzzleViewModel;
     private readonly Piece piece;
 
+    public Point PieceCenterPosition => this.piece.Center.ToPoint();
+
     public PieceViewModel(JigsawModel jigsawModel, PuzzleViewModel puzzleViewModel, Piece piece)
     {
         if (puzzleViewModel.Image is null)
@@ -162,4 +164,3 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
         }
     }
 }
-

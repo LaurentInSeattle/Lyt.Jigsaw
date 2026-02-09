@@ -10,6 +10,7 @@
 	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 
 	xmlns:panzoom="using:Lyt.Avalonia.Controls.PanZoom"
+	xmlns:drag="using:Lyt.Avalonia.Mvvm.Behaviors.DragMove"
 	
 	Background="Transparent"
   Focusable="True"
@@ -26,14 +27,15 @@
 			>
 			<panzoom:PanZoomControl.ZoomableContent
 				>				
-				<Canvas
+				<drag:DragCanvas
 					x:Name="InnerCanvas"
+					Background="#A0404040"
 					ClipToBounds="False"
 					RenderOptions.BitmapInterpolationMode="LowQuality"
 					Width="{Binding CanvasWidth}" 
 					Height="{Binding CanvasHeight}"
 					>
-				</Canvas>
+				</drag:DragCanvas>
 			</panzoom:PanZoomControl.ZoomableContent>
 		</panzoom:PanZoomControl>
 		<Image

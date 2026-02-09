@@ -304,6 +304,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
 
     private void UpdateToolbarAndGameState()
     {
+        this.View.InnerCanvas.InitializeBuckets();
         this.jigsawModel.GameIsActive();
         this.jigsawModel.ResumePlaying();
         Schedule.OnUiThread(50, () =>

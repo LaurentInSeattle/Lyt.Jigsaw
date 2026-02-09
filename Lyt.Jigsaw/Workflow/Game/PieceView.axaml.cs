@@ -2,12 +2,12 @@
 
 using Location = Model.Infrastucture.Location;
 
-public sealed partial class PieceView : View
+public sealed partial class PieceView : View, IDragMovableView
 {
     private DragMovable? dragMovable;
     private int rotationAngle;
 
-    public void AttachBehavior(Canvas canvas)
+    public void AttachBehavior(DragCanvas canvas)
     {
         this.dragMovable = new DragMovable(canvas, adjustPosition: true);
         this.dragMovable.Attach(this);
@@ -25,6 +25,18 @@ public sealed partial class PieceView : View
     {
         this.dragMovable?.Detach();
     }
+
+    public bool HasDragMovable => this.dragMovable is not null;
+
+    public DragMovable DragMovable 
+        => this.dragMovable is not null ? 
+                this.dragMovable : 
+                throw new Exception("Should have cchecked HasDragMovable property");
+
+    public Point GetCenterPosition
+        => this.DataContext is PieceViewModel viewModel ? 
+                viewModel.PieceCenterPosition : 
+                throw new InvalidOperationException("Invalid data context");
 
     internal void MoveTo(Location location)
     {
