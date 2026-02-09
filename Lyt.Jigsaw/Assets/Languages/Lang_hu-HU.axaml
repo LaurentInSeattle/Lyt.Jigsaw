@@ -85,7 +85,7 @@
 
     <system:String x:Key="Collection.Thumbs.ProgressFormat">Haladás: {0} %</system:String>
 
-    <system:String x:Key="Collection.Thumbs.PuzzleFormat">Darabszám: {0} %</system:String>
+    <system:String x:Key="Collection.Thumbs.PuzzleFormat">Darabszám: {0}</system:String>
 
     <system:String x:Key="Puzzle.Toolbar.Dark">Sötét</system:String>
 

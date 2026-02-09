@@ -85,7 +85,7 @@
 
     <system:String x:Key="Collection.Thumbs.ProgressFormat">진행률: {0} %</system:String>
 
-    <system:String x:Key="Collection.Thumbs.PuzzleFormat">부품 수: {0} %</system:String>
+    <system:String x:Key="Collection.Thumbs.PuzzleFormat">부품 수: {0}</system:String>
 
     <system:String x:Key="Puzzle.Toolbar.Dark">어두운</system:String>
 

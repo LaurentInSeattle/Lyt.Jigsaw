@@ -85,7 +85,7 @@
 
     <system:String x:Key="Collection.Thumbs.ProgressFormat">Progrès: {0} %</system:String>
 
-    <system:String x:Key="Collection.Thumbs.PuzzleFormat">Nombre de pièces : {0} %</system:String>
+    <system:String x:Key="Collection.Thumbs.PuzzleFormat">Nombre de pièces : {0}</system:String>
 
     <system:String x:Key="Puzzle.Toolbar.Dark">Sombre</system:String>
 
