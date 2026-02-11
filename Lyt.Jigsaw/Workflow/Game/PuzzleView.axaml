@@ -29,7 +29,6 @@
 				>				
 				<drag:DragCanvas
 					x:Name="InnerCanvas"
-					Background="#A0404040"
 					ClipToBounds="False"
 					RenderOptions.BitmapInterpolationMode="LowQuality"
 					Width="{Binding CanvasWidth}" 
