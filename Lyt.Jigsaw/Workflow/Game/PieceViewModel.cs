@@ -98,12 +98,6 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
         this.View.Image.Effect = null;
     } 
 
-    public void OnEntered() { }
-
-    public void OnExited() { }
-
-    public void OnLongPress() { }
-
     public void OnClicked(bool isRightClick)
     {
         this.jigsawModel.RotatePuzzlePiece(this.piece, isCCW: isRightClick); 
