@@ -124,7 +124,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
             view.MoveToAndRotate(piece.Location, piece.RotationAngle, bringToTop: false);
         }
 
-        this.UpdateToolbarAndGameState(puzzle);
+        this.UpdateToolbarAndGameState();
     }
 
     public void StartNewGame(
@@ -270,7 +270,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.Logger.Info(string.Format("Piece Count: {0}", puzzle.PieceCount));
         this.Profiler.EndTiming("Creating pieces");
 
-        this.UpdateToolbarAndGameState(puzzle);
+        this.UpdateToolbarAndGameState();
     }
 
     private PieceView CreatePieceView(Piece piece)
@@ -302,7 +302,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.PuzzleImageIsVisible = false;
     }
 
-    private void UpdateToolbarAndGameState(Puzzle puzzle)
+    private void UpdateToolbarAndGameState()
     {
         this.jigsawModel.GameIsActive();
         this.jigsawModel.ResumePlaying();
