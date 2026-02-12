@@ -16,8 +16,8 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
     [ObservableProperty]
     private Transform? pathRotationTransform;
 
-    //[ObservableProperty]
-    //private bool isHitTestVisible; 
+    [ObservableProperty]
+    private bool isHitTestVisible;
 
     [ObservableProperty]
     private bool pathIsVisible;
@@ -73,7 +73,7 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
                 IntPointList.DummyPoints.ToScaledPoints(scale));
         this.ClipGeometry = GeometryGenerator.InvertedClip(outerGeometry, innerGeometry);
 
-        //this.IsHitTestVisible = true;
+        this.IsHitTestVisible = true;
         this.IsVisible = true;
         this.PathIsVisible = true;
         this.Subscribe<ShowEdgesMessage>();
@@ -91,7 +91,7 @@ public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableV
             this.IsVisible = this.piece.IsGrouped || this.piece.IsEdge;
         }
 
-        //this.IsHitTestVisible = this.IsVisible;
+        this.IsHitTestVisible = this.IsVisible;
         var puzzle = piece.Puzzle;
         if (!puzzle.IsComplete)
         {

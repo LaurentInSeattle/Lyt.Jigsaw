@@ -2,12 +2,12 @@
 
 using Location = Model.Infrastucture.Location;
 
-public sealed partial class PieceView : View, IDragMovableView
+public sealed partial class PieceView : View
 {
     private DragMovable? dragMovable;
     private int rotationAngle;
 
-    public void AttachBehavior(DragCanvas canvas)
+    public void AttachBehavior(Canvas canvas)
     {
         this.dragMovable = new DragMovable(canvas, adjustPosition: true);
         this.dragMovable.Attach(this);
