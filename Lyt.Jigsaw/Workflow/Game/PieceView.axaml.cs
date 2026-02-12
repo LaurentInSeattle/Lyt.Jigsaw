@@ -33,9 +33,9 @@ public sealed partial class PieceView : View, IDragMovableView
                 this.dragMovable : 
                 throw new Exception("Should have cchecked HasDragMovable property");
 
-    public Point GetCenterPosition
+    public Point GetCenterLocation
         => this.DataContext is PieceViewModel viewModel ? 
-                viewModel.PieceCenterPosition : 
+                viewModel.PieceCenterLocation : 
                 throw new InvalidOperationException("Invalid data context");
 
     internal void MoveTo(Location location)

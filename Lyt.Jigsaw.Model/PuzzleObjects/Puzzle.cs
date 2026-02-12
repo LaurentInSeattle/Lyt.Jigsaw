@@ -1,7 +1,5 @@
 ﻿namespace Lyt.Jigsaw.Model.PuzzleObjects;
 
-using System.Collections.Generic;
-
 public sealed class Puzzle
 {
 #if DEBUG

@@ -87,7 +87,7 @@
 
     <system:String x:Key="Collection.Thumbs.PuzzleFormat">Conteggio pezzi: {0}</system:String>
 
-    <system:String x:Key="Puzzle.Toolbar.Dark">Buio</system:String>
+    <system:String x:Key="Puzzle.Toolbar.Dark">Scuro</system:String>
 
     <system:String x:Key="Puzzle.Toolbar.Light">Chiaro</system:String>
 

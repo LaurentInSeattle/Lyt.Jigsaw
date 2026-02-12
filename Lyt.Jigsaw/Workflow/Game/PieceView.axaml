@@ -16,12 +16,11 @@
 	xmlns:progress="clr-namespace:Lyt.Avalonia.Controls.Progress;assembly=Lyt.Avalonia.Controls"
 	
 	Background="Transparent"
-	IsHitTestVisible="{Binding IsHitTestVisible}"
 	>
 	<Grid
 		ClipToBounds="False"
 		IsVisible="{Binding IsVisible}"
-		>    
+		>
 		<Image
 			x:Name="Image"
 			Source="{Binding CroppedBitmap}"
@@ -48,5 +47,12 @@
 			RenderTransform="{Binding PathRotationTransform}"
 			IsVisible="{Binding PathIsVisible}"
 			/>
+		<!-- Center --> 
+		<!-- 
+		<Ellipse
+			Fill="Red"
+			Width="8" Height="8"
+			/>
+		-->
 	</Grid>
 </UserControl>
