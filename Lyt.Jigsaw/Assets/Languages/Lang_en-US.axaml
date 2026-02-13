@@ -71,6 +71,7 @@
 	<system:String x:Key="Puzzle.Toolbar.EscToReturn">Esc. to Return</system:String>
 	<system:String x:Key="Puzzle.Toolbar.Min">Min</system:String>
 	<system:String x:Key="Puzzle.Toolbar.Max">Max</system:String>
+	<system:String x:Key="Puzzle.Toolbar.Rearrange">Rearrange</system:String>
 
 	<!-- Intro  -->
 	<system:String x:Key="Intro.AgreeMIT">I accept the terms of the MIT License, Continue.</system:String>

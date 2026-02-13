@@ -25,5 +25,6 @@ public sealed record class ToolbarCommandMessage(
         // Settings toolbars 
         Cleanup,
         PlayWindowed,
+        Rearrange,
     }
 }

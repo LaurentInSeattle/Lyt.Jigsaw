@@ -111,6 +111,8 @@
 
     <system:String x:Key="Puzzle.Toolbar.Max">Մաքս</system:String>
 
+    <system:String x:Key="Puzzle.Toolbar.Rearrange">Վերադասավորել</system:String>
+
     <system:String x:Key="Intro.AgreeMIT">Ես ընդունում եմ MIT լիցենզիայի պայմանները, շարունակել:</system:String>
 
     <system:String x:Key="Intro.LicenseTitle">Լիցենզիայի պայմաններ</system:String>

@@ -111,6 +111,8 @@
 
     <system:String x:Key="Puzzle.Toolbar.Max">máx.</system:String>
 
+    <system:String x:Key="Puzzle.Toolbar.Rearrange">Arreglar de nuevo</system:String>
+
     <system:String x:Key="Intro.AgreeMIT">Acepto los términos de la Licencia MIT, Continuar.</system:String>
 
     <system:String x:Key="Intro.LicenseTitle">Términos de licencia</system:String>

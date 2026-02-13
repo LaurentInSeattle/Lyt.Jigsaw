@@ -111,6 +111,8 @@
 
     <system:String x:Key="Puzzle.Toolbar.Max">अधिकतम</system:String>
 
+    <system:String x:Key="Puzzle.Toolbar.Rearrange">को पुनर्व्यवस्थित</system:String>
+
     <system:String x:Key="Intro.AgreeMIT">मैं एमआईटी लाइसेंस की शर्तों को स्वीकार करता हूं, जारी रखें।</system:String>
 
     <system:String x:Key="Intro.LicenseTitle">लाइसेंस शर्तों</system:String>

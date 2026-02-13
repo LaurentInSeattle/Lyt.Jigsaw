@@ -111,6 +111,8 @@
 
     <system:String x:Key="Puzzle.Toolbar.Max">Max</system:String>
 
+    <system:String x:Key="Puzzle.Toolbar.Rearrange">Rendezzük át</system:String>
+
     <system:String x:Key="Intro.AgreeMIT">Elfogadom az MIT Licenc feltételeit, Folytatás.</system:String>
 
     <system:String x:Key="Intro.LicenseTitle">Licencfeltételek</system:String>

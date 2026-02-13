@@ -111,6 +111,8 @@
 
     <system:String x:Key="Puzzle.Toolbar.Max">Макс</system:String>
 
+    <system:String x:Key="Puzzle.Toolbar.Rearrange">Переставити</system:String>
+
     <system:String x:Key="Intro.AgreeMIT">Я приймаю умови Ліцензії MIT, Продовжити.</system:String>
 
     <system:String x:Key="Intro.LicenseTitle">Ліцензійні умови</system:String>

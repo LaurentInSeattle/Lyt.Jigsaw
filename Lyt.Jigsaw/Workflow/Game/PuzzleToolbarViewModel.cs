@@ -64,6 +64,10 @@ public sealed partial class PuzzleToolbarViewModel: ViewModel<PuzzleToolbarView>
     public void OnFullscreen() =>
         new ToolbarCommandMessage(ToolbarCommandMessage.ToolbarCommand.PlayFullscreen).Publish();
 
+    [RelayCommand]
+    public void OnRearrange() =>
+        new ToolbarCommandMessage(ToolbarCommandMessage.ToolbarCommand.Rearrange).Publish();
+
 #pragma warning restore CA1822 // Mark members as static
 
     partial void OnBackgroundSliderValueChanged(double value)

@@ -1,5 +1,20 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+<!--  text_align_distributed  for reorg -->
+<DrawingGroup x:Key = "text_align_distributedDrawingGroup">
+<DrawingGroup>
+    <DrawingGroup.ClipGeometry>
+      <RectangleGeometry Rect="0,0,24,24" />
+    </DrawingGroup.ClipGeometry>
+    <GeometryDrawing Brush="#FF212121" >
+      <GeometryDrawing.Geometry>
+        <PathGeometry FillRule="NonZero" Figures="M5.2803,7.2197L4.5607,6.5 21.25,6.5C21.6642,6.5 22,6.1642 22,5.75 22,5.3358 21.6642,5 21.25,5L4.5607,5 5.2803,4.2803C5.5732,3.9874 5.5732,3.5126 5.2803,3.2197 4.9874,2.9268 4.5126,2.9268 4.2197,3.2197L2.2197,5.2197C1.9268,5.5126,1.9268,5.9874,2.2197,6.2803L4.2197,8.2803C4.5126,8.5732 4.9874,8.5732 5.2803,8.2803 5.5732,7.9874 5.5732,7.5126 5.2803,7.2197z M2.75,11.5C2.3358,11.5 2,11.8358 2,12.25 2,12.6642 2.3358,13 2.75,13L21.25,13C21.6642,13 22,12.6642 22,12.25 22,11.8358 21.6642,11.5 21.25,11.5L2.75,11.5z M2.75,19.5L19.4393,19.5 18.7197,20.2197C18.4268,20.5126 18.4268,20.9874 18.7197,21.2803 19.0126,21.5732 19.4874,21.5732 19.7803,21.2803L21.7803,19.2803C22.0732,18.9874,22.0732,18.5126,21.7803,18.2197L19.7803,16.2197C19.4874,15.9268 19.0126,15.9268 18.7197,16.2197 18.4268,16.5126 18.4268,16.9874 18.7197,17.2803L19.4393,18 2.75,18C2.3358,18 2,18.3358 2,18.75 2,19.1642 2.3358,19.5 2.75,19.5z" />
+      </GeometryDrawing.Geometry>
+    </GeometryDrawing>
+  </DrawingGroup>
+</DrawingGroup>
+<DrawingImage x:Key="text_align_distributed" Drawing="{StaticResource text_align_distributedDrawingGroup}" />
+
 <!--  border_all  -->
 <DrawingGroup x:Key = "border_allDrawingGroup">
 <DrawingGroup>

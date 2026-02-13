@@ -111,6 +111,8 @@
 
     <system:String x:Key="Puzzle.Toolbar.Max">マックス</system:String>
 
+    <system:String x:Key="Puzzle.Toolbar.Rearrange">並べ替える</system:String>
+
     <system:String x:Key="Intro.AgreeMIT">MIT ライセンスの条項に同意します。続行します。</system:String>
 
     <system:String x:Key="Intro.LicenseTitle">ライセンス条項</system:String>

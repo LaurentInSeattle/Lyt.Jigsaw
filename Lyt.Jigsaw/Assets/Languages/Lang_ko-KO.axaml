@@ -111,6 +111,8 @@
 
     <system:String x:Key="Puzzle.Toolbar.Max">맥스</system:String>
 
+    <system:String x:Key="Puzzle.Toolbar.Rearrange">재배열</system:String>
+
     <system:String x:Key="Intro.AgreeMIT">MIT 라이선스 조건에 동의합니다. 계속하세요.</system:String>
 
     <system:String x:Key="Intro.LicenseTitle">라이센스 조건</system:String>

@@ -1,5 +1,9 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Game;
 
+using Lyt.Jigsaw.Model.GameObjects;
+
+using static ToolbarCommandMessage.ToolbarCommand; 
+
 public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
     IRecipient<ZoomRequestMessage>,
     IRecipient<ShowPuzzleImageMessage>,
@@ -68,8 +72,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
 
     public void Receive(ToolbarCommandMessage message)
     {
-        if ((message.Command == ToolbarCommandMessage.ToolbarCommand.PlayFullscreen) ||
-            (message.Command == ToolbarCommandMessage.ToolbarCommand.PlayWindowed))
+        if ((message.Command == PlayFullscreen) || (message.Command == PlayWindowed))
         {
             if (savedZoomFactor != 1.0)
             {
@@ -81,6 +84,10 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
                     this.ZoomFactor = this.savedZoomFactor;
                 }, DispatcherPriority.ApplicationIdle);
             } 
+        }
+        else if (message.Command == Rearrange)
+        {
+            this.RearrangeUngroupedPieces(); 
         }
     }
 
@@ -271,6 +278,114 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.Profiler.EndTiming("Creating pieces");
 
         this.UpdateToolbarAndGameState();
+    }
+
+    private void RearrangeUngroupedPieces()
+    {
+        var game = this.jigsawModel.Game;
+        var puzzle = this.jigsawModel.Puzzle;
+        if ((game is null) || (puzzle is null))
+        {
+            this.Logger.Info("No game or no puzzle ???");
+            return;
+        }
+
+        int pieceSize = puzzle.PieceSize;
+        int pieceSizeWithOverlap = pieceSize + 2 * puzzle.PieceOverlap;
+        double pieceDistance = pieceSizeWithOverlap * 0.78;
+
+        var ungroupedPieces = puzzle.Pieces.Where(p => !p.IsGrouped).ToList();
+        if ( ungroupedPieces.Count == 0)
+        {
+            return;
+        }
+
+        // Duplicate the list and shuffle the copy 
+        var pieces = ungroupedPieces.Shuffle().ToList();
+        int pieceIndex = 0;
+        int pieceCount = pieces.Count;
+        this.Logger.Info(string.Format("Ungrouped Piece Count: {0}", pieceCount));
+
+        int canvasRows = 2 + puzzle.Rows;
+        int canvasColumns = 2 + puzzle.Columns;
+        double xOffset = -pieceDistance / 12.0;
+        double yOffset = -pieceDistance / 12.0;
+
+        void PlacePiece(int canvasRow, int canvasCol)
+        {
+            if (pieceIndex < pieceCount)
+            {
+                Piece piece = pieces[pieceIndex];
+                var view = this.GetViewFromPiece(piece);
+                double x = canvasCol * pieceDistance;
+                double y = canvasRow * pieceDistance;
+                piece.MoveTo(x + xOffset, y + yOffset);
+                view.MoveToAndRotate(piece.Location, piece.RotationAngle, bringToTop: false);
+
+                // Debug.WriteLine("Placed at row {0} - col {1}", canvasRow, canvasCol);
+
+                pieceIndex++;
+            }
+        }
+
+        void RectangularPlacement(int topRow, int rightColumn, int bottomRow, int leftColumn)
+        {
+            int columnCount = 1 + rightColumn - leftColumn;
+            int halfColumnCount = columnCount / 2;
+            bool oddColumn = columnCount - 2 * halfColumnCount > 0;
+
+            // Top Row
+            for (int count = 0; count < halfColumnCount; ++count)
+            {
+                PlacePiece(topRow, leftColumn + count);
+                PlacePiece(topRow, rightColumn - count);
+            }
+
+            // add middle if needed 
+            if (oddColumn)
+            {
+                PlacePiece(topRow, leftColumn + halfColumnCount);
+            }
+
+            // middle rows 
+            for (int row = 1 + topRow; row < bottomRow; row++)
+            {
+                PlacePiece(row, leftColumn);
+                PlacePiece(row, rightColumn);
+            }
+
+            // Bottom Row
+            for (int count = 0; count < halfColumnCount; ++count)
+            {
+                PlacePiece(bottomRow, leftColumn + count);
+                PlacePiece(bottomRow, rightColumn - count);
+            }
+
+            // add middle if needed 
+            if (oddColumn)
+            {
+                PlacePiece(bottomRow, leftColumn + halfColumnCount);
+            }
+        }
+
+        int top = 0;
+        int right = canvasColumns - 1;
+        int bottom = canvasRows - 1;
+        int left = 0;
+
+        while (bottom > top)
+        {
+            RectangularPlacement(top, right, bottom, left);
+            if (pieceIndex >= pieceCount)
+            {
+                break;
+            }
+
+            ++top;
+            --bottom;
+            ++left;
+            --right;
+        }
     }
 
     private PieceView CreatePieceView(Piece piece)
