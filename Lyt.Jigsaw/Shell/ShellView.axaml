@@ -134,11 +134,11 @@
                         />
                 </StackPanel>
 
-                <!-- View Selector - Close tool bar - Aligned Right -->
+                <!-- Close tool bar - Aligned Right -->
                 <StackPanel
                     Orientation="Horizontal"
                     Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="999" Grid.RowSpan="1"
-                    Margin="0 0 16 0"
+                    Margin="0 0 0 0"
                     HorizontalAlignment="Right"
                     >
                     <glyphs:GlyphButton

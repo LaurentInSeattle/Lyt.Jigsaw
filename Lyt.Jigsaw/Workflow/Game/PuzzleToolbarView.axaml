@@ -28,6 +28,7 @@
 			<ColumnDefinition Width="100" />
 			<ColumnDefinition Width="100" />
 			<ColumnDefinition Width="100" />
+			<ColumnDefinition Width="100" />
 		  <!-- Spacer -->
 		  <ColumnDefinition Width="10" />
 		  <!-- Progress -->
@@ -35,15 +36,11 @@
 		  <!-- Spacer -->
 		  <ColumnDefinition Width="10" />
 		  <!-- Zoom -->
-		  <ColumnDefinition Width="320" />
+		  <ColumnDefinition Width="310" />
 		  <!-- Spacer -->
 		  <ColumnDefinition Width="10" />
 		  <!-- Fullscreen -->
 		  <ColumnDefinition Width="180" />
-		  <!-- Spacer -->
-		  <ColumnDefinition Width="10" />
-		  <!-- Rearrange -->
-		  <ColumnDefinition Width="130" />
 	</Grid.ColumnDefinitions>
 
 		<TextBlock
@@ -100,19 +97,27 @@
 		<glyphs:GlyphButton
 			Grid.Column="6"
 			Style="{StaticResource AppToolbarIconButton}"
+			GlyphSource="text_align_distributed"
+			GlyphStrokeThickness="0.1"
+			Text="{DynamicResource Puzzle.Toolbar.Rearrange}"  
+			Command="{Binding OnRearrange}"
+			/>
+		<glyphs:GlyphButton
+			Grid.Column="7"
+			Style="{StaticResource AppToolbarIconButton}"
 			GlyphSource="lightbulb_filament"
 			GlyphStrokeThickness="0.1"
 			Text="{DynamicResource Puzzle.Toolbar.Hint}"  
 			Command="{Binding OnHint}"
 			/>
 		<controls:ExtendedTextBlock
-			Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="1"
+			Grid.Column="4" Grid.ColumnSpan="4" Grid.Row="1"
 			Text=" ¯\_(ツ)_/¯ "
 			Typography="{StaticResource Medium}"
 			Foreground="{StaticResource PastelOrchid_0_080}"
 			/>
 		<TextBlock
-			Grid.Row="0" Grid.Column="8"
+			Grid.Row="0" Grid.Column="9"
 			Margin="4"
 			Theme="{StaticResource Title}"
 			HorizontalAlignment="Center" VerticalAlignment="Center"      
@@ -120,7 +125,7 @@
 			Text="{Binding Progress}"
 			/>
 		<controls:ExtendedTextBlock
-			Grid.Column="8" Grid.ColumnSpan="1" Grid.Row="1"
+			Grid.Column="9" Grid.ColumnSpan="1" Grid.Row="1"
 			Text="{DynamicResource Puzzle.Toolbar.Progress}"  
 			Typography="{StaticResource Medium}"
 			Foreground="{StaticResource PastelOrchid_0_080}"
@@ -128,18 +133,18 @@
 
 		<controls:ZoomController
 			x:Name="ZoomController"
-			Grid.Column="10" Grid.Row="0"
+			Grid.Column="11" Grid.Row="0"
 			VerticalAlignment="Center" HorizontalAlignment="Center"
 			Min="1.0" Max="2.0"
 			/>
 		<controls:ExtendedTextBlock
-			Grid.Column="10" Grid.ColumnSpan="1" Grid.Row="1"
+			Grid.Column="11" Grid.ColumnSpan="1" Grid.Row="1"
 			Text="{DynamicResource Puzzle.Toolbar.Zoom}"  
 			Typography="{StaticResource Medium}"
 			Foreground="{StaticResource PastelOrchid_0_080}"
 			/>
 		<glyphs:GlyphButton
-			Grid.Column="12"
+			Grid.Column="13"
 			Style="{StaticResource AppToolbarIconButton}"
 			GlyphSource="full_screen_maximize"
 			GlyphStrokeThickness="0.1"
@@ -147,22 +152,8 @@
 			Command="{Binding OnFullscreen}"
 			/>
 		<controls:ExtendedTextBlock
-			Grid.Column="12" Grid.ColumnSpan="2" Grid.Row="1"
+			Grid.Column="13" Grid.ColumnSpan="2" Grid.Row="1"
 			Text="{DynamicResource Puzzle.Toolbar.EscToReturn}"  
-			Typography="{StaticResource Medium}"
-			Foreground="{StaticResource PastelOrchid_0_080}"
-			/>
-		<glyphs:GlyphButton
-			Grid.Column="14"
-			Style="{StaticResource AppToolbarIconButton}"
-			GlyphSource="text_align_distributed"
-			GlyphStrokeThickness="0.1"
-			Text="{DynamicResource Puzzle.Toolbar.Rearrange}"  
-			Command="{Binding OnRearrange}"
-			/>
-		<controls:ExtendedTextBlock
-			Grid.Column="14" Grid.ColumnSpan="2" Grid.Row="1"
-			Text="{DynamicResource Puzzle.Toolbar.Rearrange}"  
 			Typography="{StaticResource Medium}"
 			Foreground="{StaticResource PastelOrchid_0_080}"
 			/>
