@@ -22,4 +22,4 @@ Also builds with Jet Brains Rider. On Mac and Linux, you should disable the post
 - Avalonia (Skia)
 - Microsoft Dependency Injection and Hosting Framework
 - Microsoft Community Toolkit MVVM Framework
-- Microsoft CSharp Scripting Framework
+
