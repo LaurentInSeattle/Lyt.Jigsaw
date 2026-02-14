@@ -28,7 +28,6 @@
 				>				
 				<Canvas
 					x:Name="InnerCanvas"
-					Background="#A0404044"
 					ClipToBounds="False"
 					RenderOptions.BitmapInterpolationMode="LowQuality"
 					Width="{Binding CanvasWidth}" 
