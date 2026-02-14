@@ -1,6 +1,6 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Game;
 
-using static ToolbarCommandMessage.ToolbarCommand; 
+using static ToolbarCommandMessage.ToolbarCommand;
 
 public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
     IRecipient<ZoomRequestMessage>,
@@ -40,7 +40,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
     public PuzzleViewModel(JigsawModel jigsawModel)
     {
         this.jigsawModel = jigsawModel;
-        this.savedZoomFactor = 1.0; 
+        this.savedZoomFactor = 1.0;
 
         this.Subscribe<ToolbarCommandMessage>();
         this.Subscribe<ZoomRequestMessage>();
@@ -81,19 +81,19 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
                     this.ZoomFactor = 1.0;
                     this.ZoomFactor = this.savedZoomFactor;
                 }, DispatcherPriority.ApplicationIdle);
-            } 
+            }
         }
         else if (message.Command == Rearrange)
         {
-            this.RearrangeUngroupedPieces(); 
+            this.RearrangeUngroupedPieces();
         }
     }
 
     public void Receive(ZoomRequestMessage message)
     {
-        double zoomFactor =message.ZoomFactor;
+        double zoomFactor = message.ZoomFactor;
         this.ZoomFactor = zoomFactor;
-        this.savedZoomFactor =zoomFactor;
+        this.savedZoomFactor = zoomFactor;
     }
 
     public void Receive(ShowPuzzleImageMessage message)
@@ -122,21 +122,21 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
     {
         this.SetupView(image);
         _ = this.SetupCanvas(puzzle);
+        foreach (Piece piece in puzzle.Pieces)
+        {
+            var view = this.CreatePieceView(piece);
+            view.MoveToAndRotate(piece.Location, piece.RotationAngle, bringToTop: false);
+        }
+
+        this.UpdateToolbarAndGameState();
 
         // Ensure property changed and force layout update before moving pieces
         this.ZoomFactor = 1.5;
-        this.ZoomFactor = 1.0;
 
         // Wait at least one frame time
         Schedule.OnUiThread(60, () =>
         {
-            foreach (Piece piece in puzzle.Pieces)
-            {
-                var view = this.CreatePieceView(piece);
-                view.MoveToAndRotate(piece.Location, piece.RotationAngle, bringToTop: false);
-            }
-
-            this.UpdateToolbarAndGameState();
+            this.ZoomFactor = 1.0;
         }, DispatcherPriority.Normal);
     }
 
@@ -301,7 +301,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         double pieceDistance = pieceSizeWithOverlap * 0.78;
 
         var ungroupedPieces = puzzle.Pieces.Where(p => !p.IsGrouped).ToList();
-        if ( ungroupedPieces.Count == 0)
+        if (ungroupedPieces.Count == 0)
         {
             return;
         }
