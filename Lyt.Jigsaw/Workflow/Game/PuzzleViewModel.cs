@@ -1,7 +1,5 @@
 ﻿namespace Lyt.Jigsaw.Workflow.Game;
 
-using Lyt.Jigsaw.Model.GameObjects;
-
 using static ToolbarCommandMessage.ToolbarCommand; 
 
 public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
@@ -125,16 +123,24 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.SetupView(image);
         _ = this.SetupCanvas(puzzle);
 
-        foreach (Piece piece in puzzle.Pieces)
-        {
-            var view = this.CreatePieceView(piece);
-            view.MoveToAndRotate(piece.Location, piece.RotationAngle, bringToTop: false);
-        }
+        // Ensure property changed and force layout update before moving pieces
+        this.ZoomFactor = 1.5;
+        this.ZoomFactor = 1.0;
 
-        this.UpdateToolbarAndGameState();
+        // Wait at least one frame time
+        Schedule.OnUiThread(60, () =>
+        {
+            foreach (Piece piece in puzzle.Pieces)
+            {
+                var view = this.CreatePieceView(piece);
+                view.MoveToAndRotate(piece.Location, piece.RotationAngle, bringToTop: false);
+            }
+
+            this.UpdateToolbarAndGameState();
+        }, DispatcherPriority.Normal);
     }
 
-    public void StartNewGame(
+    internal void StartNewGame(
         byte[] imageBytes, byte[] thumbnailBytes, WriteableBitmap image,
         PuzzleImageSetup setup,
         PuzzleParameters puzzleParameters,

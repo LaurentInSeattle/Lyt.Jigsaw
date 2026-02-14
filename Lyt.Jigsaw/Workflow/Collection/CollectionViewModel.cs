@@ -223,7 +223,10 @@ public sealed partial class CollectionViewModel :
             {
                 var vm = App.GetRequiredService<PuzzleViewModel>();
                 vm.ResumePuzzle(this.jigsawModel.Puzzle, this.PuzzleImage);
-                ActivatePuzzleView();
+
+                // Need to wait for the game canvas to properly resize
+                // See PuzzleViewModel.ResumePuzzle() 
+                Schedule.OnUiThread(120, ActivatePuzzleView, DispatcherPriority.Background);                
             }
         }
         catch (Exception ex)
