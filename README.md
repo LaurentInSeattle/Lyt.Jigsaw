@@ -6,6 +6,12 @@ All ages from 9 to 999 puzzle pieces!
 
 Play with any image on your computer! 
 
+<p align="left"><img src="Screenshots\Screenshot 2026-02-16 102558" height="500"/>
+
+Very simple, but fun and relaxing. 
+
+Various difficulty levels, piece count, rotations, etc
+.
 # Build your own...
 
 - Clone this repo'
@@ -22,3 +28,4 @@ Also builds with Jet Brains Rider. On Mac and Linux, you should disable the post
 - Microsoft Dependency Injection and Hosting Framework
 - Microsoft Community Toolkit MVVM Framework
 
+"C:\Users\Laurent\source\repos\Lyt.Jigsaw\Screenshots\Screenshot 2026-02-16 102558.png"
