@@ -20,6 +20,11 @@ Automatically saves your progress, so that you can stop and resume whenever you 
 
 - Machine translated: Spanish, Ukrainian, Bulgarian, Armenian, Greek, German, Japanese, Chinese, Korean, Magyar, Hindi and Bengali.
 
+# Download and play...
+
+Windows x64 build: 
+(Intel CPU 64 bit) 
+
 # Build your own...
 
 - Clone this repo'
