@@ -2,7 +2,9 @@
 The classic jigsaw puzzle game for .Net 10 and Avalonia. 
 All ages from 9 to 999 puzzle pieces!
 
-<p align="left"><img src="Screenshots\Screenshot_2025-11-20.png" height="500"/>
+<p align="left"><img src="Screenshots\Screenshot_2026-02-16.png" height="500"/>
+
+Play with any image on your computer! 
 
 # Build your own...
 
