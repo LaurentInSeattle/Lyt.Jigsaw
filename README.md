@@ -6,7 +6,7 @@ All ages from 9 to 999 puzzle pieces!
 
 Play with any image on your computer! 
 
-<p align="left"><img src="Screenshots\Screenshot 2026-02-16 102558" height="500"/>
+<p align="left"><img src="Screenshots\Screenshot 2026-02-16 102558.png" height="500"/>
 
 Very simple, but fun and relaxing. 
 
