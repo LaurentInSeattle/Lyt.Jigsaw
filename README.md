@@ -22,8 +22,8 @@ Automatically saves your progress, so that you can stop and resume whenever you 
 
 # Download and play...
 
-Windows x64 build: 
-(Intel CPU 64 bit) 
+Windows x64 build: https://github.com/LaurentInSeattle/Lyt.Jigsaw/blob/main/Download/Jigsaw.zip 
+ (Intel CPU 64 bit Only!) 
 
 # Build your own...
 
