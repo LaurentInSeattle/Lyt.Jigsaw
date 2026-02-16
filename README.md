@@ -11,7 +11,13 @@ Play with any image on your computer!
 Very simple, but fun and relaxing. 
 
 Various difficulty levels, piece count, rotations, etc
-.
+
+# Localization
+
+- Human translated: Italian, French and English.
+
+- Machine translated: Spanish, Ukrainian, Bulgarian, Armenian, Greek, German, Japanese, Chinese, Korean, Magyar, Hindi and Bengali.
+
 # Build your own...
 
 - Clone this repo'
