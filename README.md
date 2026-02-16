@@ -5,12 +5,14 @@ All ages from 9 to 999 puzzle pieces!
 <p align="left"><img src="Screenshots\Screenshot_2026-02-16.png" height="500"/>
 
 Play with any image on your computer! 
+Supports dragging and dropping an image file from most web browsers.
 
 <p align="left"><img src="Screenshots\Screenshot 2026-02-16 102558.png" height="500"/>
 
 Very simple, but fun and relaxing. 
 
-Various difficulty levels, piece count, rotations, etc
+Various difficulty levels, piece count, rotations, etc.
+Automatically saves your progress, so that you can stop and resume whenever you want.
 
 # Localization
 
@@ -33,5 +35,3 @@ Also builds with Jet Brains Rider. On Mac and Linux, you should disable the post
 - Avalonia (Skia)
 - Microsoft Dependency Injection and Hosting Framework
 - Microsoft Community Toolkit MVVM Framework
-
-"C:\Users\Laurent\source\repos\Lyt.Jigsaw\Screenshots\Screenshot 2026-02-16 102558.png"
