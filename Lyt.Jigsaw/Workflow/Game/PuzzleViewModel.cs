@@ -349,13 +349,13 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         int canvasColumns;
         if ( pieceCount < 20)
         {
-            canvasRows = puzzle.Rows;
+            canvasRows = 1 + puzzle.Rows;
             canvasColumns = puzzle.Columns;
         }
         else if (pieceCount < 60)
         {
             canvasRows = 1 + puzzle.Rows;
-            canvasColumns = 1 + puzzle.Columns;
+            canvasColumns = 2 + puzzle.Columns;
         }
         else
         {
