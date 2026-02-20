@@ -24,9 +24,6 @@ public sealed partial class JigsawModel : ModelBase
     public Game? Game { get; set; }
 
     [JsonIgnore]
-    public Puzzle? Puzzle { get; set; }
-
-    [JsonIgnore]
     public Dictionary<string, Game> SavedGames { get; set; } = [];
 
     [JsonIgnore]

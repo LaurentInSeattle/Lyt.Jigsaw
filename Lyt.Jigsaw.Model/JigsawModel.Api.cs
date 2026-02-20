@@ -29,7 +29,7 @@ public sealed partial class JigsawModel : ModelBase
             var game = new Game(puzzle, puzzleParameters);
             this.Game = game;
             this.Game.PieceCount = puzzle.PieceCount;
-            this.Puzzle = puzzle;
+            this.Game.Puzzle = puzzle;
             this.SavePuzzle();
             this.SaveImages(imageBytes, thumbnailBytes);
             this.SaveGame();
@@ -49,14 +49,20 @@ public sealed partial class JigsawModel : ModelBase
 
     public void ResumePlaying()
     {
-        if ((this.Game is null) || (this.Puzzle is null))
+        if (this.Game is null)
+        {
+            return;
+        }
+
+        var puzzle = this.Game.Puzzle;
+        if (puzzle is null)
         {
             return;
         }
 
         if ( this.Game.PieceCount == 0)
         {
-            this.Game.PieceCount = this.Puzzle.PieceCount;
+            this.Game.PieceCount = puzzle.PieceCount;
         }
 
         var now = DateTime.Now;
@@ -66,7 +72,7 @@ public sealed partial class JigsawModel : ModelBase
 
     public void PausePlaying()
     {
-        if ((this.Game is null) || (this.Puzzle is null))
+        if ((this.Game is null) || (this.Game.Puzzle is null))
         {
             return;
         }
@@ -80,18 +86,18 @@ public sealed partial class JigsawModel : ModelBase
         {
             this.Statistics.LongestGameTimePlayed = this.Game.Played;
             this.Statistics.LongestGameDate = now;
-            this.Statistics.LongestGamePieceCount = this.Puzzle.PieceCount;
+            this.Statistics.LongestGamePieceCount = this.Game.Puzzle.PieceCount;
         }
     }
 
     public bool IsPuzzleComplete()
     {
-        if ((this.Game is null) || (this.Puzzle is null))
+        if ((this.Game is null) || (this.Game.Puzzle is null))
         {
             return false;
         }
 
-        bool isComplete = this.Puzzle.IsComplete;
+        bool isComplete = this.Game.Puzzle.IsComplete;
         if (isComplete)
         {
             this.Statistics.TotalGamesCompleted += 1;
@@ -177,36 +183,36 @@ public sealed partial class JigsawModel : ModelBase
 
     public List<Piece> GetPuzzleMoves()
     {
-        if ((this.Game is null) || (this.Puzzle is null))
+        if ((this.Game is null) || (this.Game.Puzzle is null))
         {
             return [];
         }
 
-        return this.Puzzle.GetMoves();
+        return this.Game.Puzzle.GetMoves();
     }
 
     public int GetPuzzleProgress()
     {
-        if ((this.Game is null) || (this.Puzzle is null))
+        if ((this.Game is null) || (this.Game.Puzzle is null))
         {
             return 0;
         }
 
-        return this.Puzzle.Progress();
+        return this.Game.Puzzle.Progress();
     }
 
     private bool ActionPuzzle(Func<Puzzle, bool> action)
     {
-        if ((this.Game is null) || (this.Puzzle is null))
+        if ((this.Game is null) || (this.Game.Puzzle is null))
         {
             return false;
         }
 
         this.IsPuzzleDirty = true;
         this.timeoutTimer.ResetTimeout();
-        lock (this.Puzzle)
+        lock (this.Game.Puzzle)
         {
-            return action(this.Puzzle);
+            return action(this.Game.Puzzle);
         }
     }
 
@@ -226,7 +232,15 @@ public sealed partial class JigsawModel : ModelBase
                 throw new Exception("Failed to deserialize");
 
             this.Game = game;
-            this.LoadPuzzle();
+            if (this.LoadPuzzle(out Puzzle? puzzle) && (puzzle is not null))
+            {
+                this.Game.Puzzle = puzzle;
+            }
+            else
+            {
+                throw new Exception("Failed to load puzzle for game: " + gameName);
+            }
+
             byte[]? imageBytes = this.LoadImage();
             if ((imageBytes is null) || (imageBytes.Length < 256))
             {
@@ -249,18 +263,18 @@ public sealed partial class JigsawModel : ModelBase
     // to show in game lists without having to load the entire puzzle
     private void ReplicatePuzzleState()
     {
-        if ((this.Game is null) || (this.Puzzle is null))
+        if ((this.Game is null) || (this.Game.Puzzle is null))
         {
             return;
         }
 
-        this.Game.IsCompleted = this.Puzzle.IsComplete;
-        this.Game.Progress = this.Puzzle.Progress();
+        this.Game.IsCompleted = this.Game.Puzzle.IsComplete;
+        this.Game.Progress = this.Game.Puzzle.Progress();
     }
 
     public bool SaveGame()
     {
-        if ((this.Game is null) || (this.Puzzle is null))
+        if ((this.Game is null) || (this.Game.Puzzle is null))
         {
             return false;
         }
@@ -337,20 +351,20 @@ public sealed partial class JigsawModel : ModelBase
 
     public bool SavePuzzle()
     {
-        if ((this.Game is null) || (this.Puzzle is null))
+        if ((this.Game is null) || (this.Game.Puzzle is null))
         {
             return false;
         }
 
         try
         {
-            lock (this.Puzzle)
+            lock (this.Game.Puzzle)
             {
                 this.ReplicatePuzzleState();
 
                 // Serialize and save to disk, puzzle is NOT dirty 
                 var fileId = new FileId(Area.User, Kind.JsonCompressed, this.Game.PuzzleName);
-                this.fileManager.Save(fileId, this.Puzzle);
+                this.fileManager.Save(fileId, this.Game.Puzzle);
                 this.IsPuzzleDirty = false;
             }
 
@@ -366,7 +380,7 @@ public sealed partial class JigsawModel : ModelBase
 
     private bool SaveImages(byte[] imageBytes, byte[] thumbnailBytes)
     {
-        if ((this.Game is null) || (this.Puzzle is null))
+        if ((this.Game is null) || (this.Game.Puzzle is null))
         {
             return false;
         }
@@ -391,7 +405,7 @@ public sealed partial class JigsawModel : ModelBase
 
     private byte[]? LoadImage()
     {
-        if ((this.Game is null) || (this.Puzzle is null))
+        if ((this.Game is null) || (this.Game.Puzzle is null))
         {
             return null;
         }
@@ -436,8 +450,9 @@ public sealed partial class JigsawModel : ModelBase
         return thumbnailBytes;
     }
 
-    public bool LoadPuzzle()
+    public bool LoadPuzzle(out Puzzle? puzzle)
     {
+        puzzle = null; 
         if (this.Game is null)
         {
             return false;
@@ -447,9 +462,8 @@ public sealed partial class JigsawModel : ModelBase
         {
             // load from disk and deserialize 
             var fileId = new FileId(Area.User, Kind.JsonCompressed, this.Game.PuzzleName);
-            Puzzle puzzle = this.fileManager.Load<Puzzle>(fileId);
+            puzzle = this.fileManager.Load<Puzzle>(fileId);
             puzzle.FinalizeAfterDeserialization(this.Logger);
-            this.Puzzle = puzzle;
 
             Debug.WriteLine("Puzzle Loaded");
             return true;
@@ -463,7 +477,7 @@ public sealed partial class JigsawModel : ModelBase
 
     private void OnSavePuzzle()
     {
-        if ((this.Game is null) || (this.Puzzle is null))
+        if ((this.Game is null) || (this.Game.Puzzle is null))
         {
             return;
         }

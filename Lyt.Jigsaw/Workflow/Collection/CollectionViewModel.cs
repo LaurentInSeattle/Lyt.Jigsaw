@@ -219,10 +219,12 @@ public sealed partial class CollectionViewModel :
     {
         try
         {
-            if ((this.jigsawModel.Puzzle is not null) && (this.PuzzleImage is not null))
+            if ((this.jigsawModel.Game is not null) &&
+                (this.jigsawModel.Game.Puzzle is not null) && 
+                (this.PuzzleImage is not null))
             {
                 var vm = App.GetRequiredService<PuzzleViewModel>();
-                vm.ResumePuzzle(this.jigsawModel.Puzzle, this.PuzzleImage);
+                vm.ResumePuzzle(this.jigsawModel.Game.Puzzle, this.PuzzleImage);
                 ActivatePuzzleView();
             }
         }

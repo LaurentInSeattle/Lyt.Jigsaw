@@ -318,8 +318,6 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         var puzzle = game.Puzzle;
         if (puzzle is null)
         {
-            // This happens when the game is completed and the puzzle is cleared,
-            // but the player clicks rearrange before starting a new game.
             this.Logger.Info("No puzzle ???");
             return;
         }
