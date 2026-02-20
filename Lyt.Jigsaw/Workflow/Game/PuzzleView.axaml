@@ -20,7 +20,6 @@
 		>
 		<panzoom:PanZoomControl
 			x:Name="PanAndZoom"
-			Grid.Column="1" Grid.Row="1" 
 			ZoomFactor="{Binding ZoomFactor}"
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			>

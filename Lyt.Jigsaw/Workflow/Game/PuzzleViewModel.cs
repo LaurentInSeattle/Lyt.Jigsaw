@@ -161,6 +161,8 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
 
         this.SetupView(image);
         var puzzle = game.Puzzle;
+
+        int pieceSize = puzzle.PieceSize;
         int pieceSizeWithOverlap = this.SetupCanvas(puzzle);
         double pieceDistance = pieceSizeWithOverlap * 0.78;
 
@@ -170,9 +172,25 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         int pieceCount = setup.PieceCount;
         if (randomize)
         {
-            int canvasRows = 2 + puzzle.Rows;
-            int canvasColumns = 2 + puzzle.Columns;
-            xOffset = -pieceDistance / 12.0;
+            int canvasRows;
+            int canvasColumns;
+            if (pieceCount < 20)
+            {
+                canvasRows = puzzle.Rows;
+                canvasColumns = 1 + puzzle.Columns;
+            }
+            else if (pieceCount < 60)
+            {
+                canvasRows = 1 + puzzle.Rows;
+                canvasColumns = 2 + puzzle.Columns;
+            }
+            else
+            {
+                canvasRows = 2 + puzzle.Rows;
+                canvasColumns = 2 + puzzle.Columns;
+            }
+
+            xOffset = -pieceDistance + 10.0;
             yOffset = -pieceDistance / 12.0;
 
             // Duplicate the list and shuffle the copy 
@@ -284,21 +302,27 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.Profiler.EndTiming("Creating pieces");
 
         this.UpdateToolbarAndGameState();
+
+        Schedule.OnUiThread(180, this.RearrangeUngroupedPieces, DispatcherPriority.ApplicationIdle); 
     }
 
     private void RearrangeUngroupedPieces()
     {
         var game = this.jigsawModel.Game;
-        var puzzle = this.jigsawModel.Puzzle;
-        if ((game is null) || (puzzle is null))
+        if (game is null)
         {
-            this.Logger.Info("No game or no puzzle ???");
+            this.Logger.Info("No game ???");
             return;
         }
 
-        int pieceSize = puzzle.PieceSize;
-        int pieceSizeWithOverlap = pieceSize + 2 * puzzle.PieceOverlap;
-        double pieceDistance = pieceSizeWithOverlap * 0.78;
+        var puzzle = game.Puzzle;
+        if (puzzle is null)
+        {
+            // This happens when the game is completed and the puzzle is cleared,
+            // but the player clicks rearrange before starting a new game.
+            this.Logger.Info("No puzzle ???");
+            return;
+        }
 
         var ungroupedPieces = puzzle.Pieces.Where(p => !p.IsGrouped).ToList();
         if (ungroupedPieces.Count == 0)
@@ -312,10 +336,51 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         int pieceCount = pieces.Count;
         this.Logger.Info(string.Format("Ungrouped Piece Count: {0}", pieceCount));
 
-        int canvasRows = 2 + puzzle.Rows;
-        int canvasColumns = 2 + puzzle.Columns;
-        double xOffset = -pieceDistance / 12.0;
-        double yOffset = -pieceDistance / 12.0;
+        var canvas = this.View.InnerCanvas;
+        var outerGrid = this.View.OuterGrid;
+        var screenPosition = outerGrid.PointToScreen(new Point());
+        var canvasPosition = canvas.PointToClient(screenPosition);
+
+        int pieceSize = puzzle.PieceSize;
+        int pieceSizeWithOverlap = pieceSize + 2 * puzzle.PieceOverlap;
+        double pieceDistance = pieceSizeWithOverlap * 0.78;
+
+        int canvasRows;
+        int canvasColumns;
+        if ( pieceCount < 20)
+        {
+            canvasRows = puzzle.Rows;
+            canvasColumns = puzzle.Columns;
+        }
+        else if (pieceCount < 60)
+        {
+            canvasRows = 1 + puzzle.Rows;
+            canvasColumns = 1 + puzzle.Columns;
+        }
+        else
+        {
+            canvasRows = 2 + puzzle.Rows;
+            canvasColumns = 2 + puzzle.Columns;
+        }
+
+        double width = outerGrid.Bounds.Width;
+        double xOffset = canvasPosition.X + 10.0 ;
+        double yOffset = canvasPosition.Y + 10.0;
+        int extraColumns = (int)(Math.Abs(xOffset)/ pieceSize);
+        canvasColumns += extraColumns;
+        canvasColumns += extraColumns;
+        if (Math.Abs(xOffset) * 2 >= pieceSize)
+        {
+            ++canvasColumns;
+        }
+
+        int extraRows = (int)(Math.Abs(yOffset) / pieceSize);
+        canvasRows += extraRows;
+        canvasRows += extraRows;
+        if (Math.Abs(yOffset) *2 >= pieceSize)
+        {
+            ++canvasRows;
+        }
 
         void PlacePiece(int canvasRow, int canvasCol)
         {
