@@ -129,7 +129,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         }
 
         this.UpdateToolbarAndGameState();
-        this.ScheduleZoomAndRearrange(); 
+        this.ScheduleZoomAndRearrange();
     }
 
     internal void StartNewGame(
@@ -152,27 +152,19 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
 
         this.SetupView(image);
         var puzzle = game.Puzzle;
-
-        int pieceSize = puzzle.PieceSize;
         int pieceSizeWithOverlap = this.SetupCanvas(puzzle);
-        double pieceDistance = pieceSizeWithOverlap * 0.78;
+        double xOffset = pieceSizeWithOverlap / 2.0;
+        double yOffset = pieceSizeWithOverlap;
 
-        double xOffset;
-        double yOffset;
-
-        int pieceCount = setup.PieceCount;
-            xOffset = pieceSizeWithOverlap / 2.0;
-            yOffset = pieceSizeWithOverlap;
-
-            foreach (Piece piece in puzzle.Pieces)
-            {
-                var view = this.CreatePieceView(piece);
-                var position = piece.Position;
-                double x = (double)position.Column * pieceSizeWithOverlap;
-                double y = (double)position.Row * pieceSizeWithOverlap;
-                piece.MoveTo(x + xOffset, y + yOffset);
-                view.MoveToAndRotate(piece.Location, piece.RotationAngle, bringToTop: false);
-            }
+        foreach (Piece piece in puzzle.Pieces)
+        {
+            var view = this.CreatePieceView(piece);
+            var position = piece.Position;
+            double x = (double)position.Column * pieceSizeWithOverlap;
+            double y = (double)position.Row * pieceSizeWithOverlap;
+            piece.MoveTo(x + xOffset, y + yOffset);
+            view.MoveToAndRotate(piece.Location, piece.RotationAngle, bringToTop: false);
+        }
 
         this.jigsawModel.SavePuzzle();
 
@@ -181,7 +173,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.Profiler.EndTiming("Creating pieces");
 
         this.UpdateToolbarAndGameState();
-        this.ScheduleZoomAndRearrange(); 
+        this.ScheduleZoomAndRearrange();
     }
 
     private void ScheduleZoomAndRearrange()
@@ -238,12 +230,12 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         int pieceSize = puzzle.PieceSize;
         int pieceSizeWithOverlap = pieceSize + 2 * puzzle.PieceOverlap;
         double pieceDistance = pieceSizeWithOverlap * 0.78;
-        int canvasRows = (int) (height / pieceDistance);
+        int canvasRows = (int)(height / pieceDistance);
         int canvasColumns = (int)(width / pieceDistance);
         double extraWidth = width - canvasColumns * pieceDistance;
         double extraHeight = height - canvasRows * pieceDistance;
-        double xOffset = canvasPositionOrigin.X + extraWidth / 2.0 ;
-        double yOffset = canvasPositionOrigin.Y + extraHeight / 2.0 ;
+        double xOffset = canvasPositionOrigin.X + extraWidth / 2.0;
+        double yOffset = canvasPositionOrigin.Y + extraHeight / 2.0;
 
         void PlacePiece(int canvasRow, int canvasCol)
         {
