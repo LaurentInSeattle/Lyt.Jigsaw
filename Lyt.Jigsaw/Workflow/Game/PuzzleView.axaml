@@ -41,6 +41,5 @@
 			Source="{Binding PuzzleImage}"
 			IsVisible="{Binding PuzzleImageIsVisible}"
 			/>
-
 	</Grid>
 </UserControl>

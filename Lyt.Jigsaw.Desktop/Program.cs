@@ -16,6 +16,7 @@ internal class Program
         => AppBuilder.Configure<Lyt.Jigsaw.App>()
             .UsePlatformDetect()
             .WithInterFont()
+            .With(new SkiaOptions() { MaxGpuResourceSizeBytes = 2L * 1024L * 1024L * 1024L }) // 2 GB 
             .LogToTrace()
             .WithDeveloperTools();
 }
