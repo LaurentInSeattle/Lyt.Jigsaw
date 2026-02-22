@@ -35,6 +35,8 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
 
     private readonly Dictionary<Piece, PieceViewModel> pieceViewModels;
 
+    private bool isRearranging;
+
     private double savedZoomFactor;
 
     public PuzzleViewModel(JigsawModel jigsawModel)
@@ -61,6 +63,8 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
 
     public override void Deactivate()
     {
+        this.isRearranging = false;
+
         // Force a full save on deactivation
         this.jigsawModel.PausePlaying();
         this.jigsawModel.SavePuzzle();
@@ -85,7 +89,10 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         }
         else if (message.Command == Rearrange)
         {
-            this.RearrangeUngroupedPieces();
+            if ( !this.isRearranging)
+            {
+                this.RearrangeUngroupedPieces();
+            }
         }
     }
 
@@ -217,6 +224,8 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
             return;
         }
 
+        this.isRearranging = true ; 
+
         // Duplicate the list and shuffle the copy 
         var pieces = ungroupedPieces.Shuffle().ToList();
         int pieceIndex = 0;
@@ -318,6 +327,8 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
             ++left;
             --right;
         }
+
+        this.isRearranging = false;
     }
 
     private PieceView CreatePieceView(Piece piece)
