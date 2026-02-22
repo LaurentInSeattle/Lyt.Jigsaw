@@ -182,7 +182,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.ZoomFactor = 1.5;
 
         // Wait at least one frame time
-        Schedule.OnUiThread(120, () =>
+        Schedule.OnUiThread(180, () =>
         {
             this.ZoomFactor = 1.0;
             this.RearrangeUngroupedPieces();
@@ -202,6 +202,12 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         if (puzzle is null)
         {
             this.Logger.Info("No puzzle ???");
+            return;
+        }
+
+        if (puzzle.IsComplete)
+        {
+            this.Logger.Info("Complete: No rearrange");
             return;
         }
 
