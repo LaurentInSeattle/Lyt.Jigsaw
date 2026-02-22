@@ -9,6 +9,7 @@ public sealed partial class CollectionViewModel :
     IRecipient<ModelLoadedMessage>
 {
     private const int DecodeToWidthThumbnail = 420;
+    private const int MinDecodeToWidthImage = 1920; //  1024 + 512;
 
     private enum PlayStatus
     {
@@ -278,7 +279,28 @@ public sealed partial class CollectionViewModel :
     internal bool OnImageDrop(byte[] imageBytes)
     {
         this.imageBytes = imageBytes;
-        int decodeToWidth = 1920; //  1024 + 512;
+        var baseIimage = WriteableBitmap.Decode(new MemoryStream(imageBytes));
+        if (baseIimage is null)
+        {
+            // Failed to decode the image
+            // TODO: Message
+            return false;
+        }
+
+        // int div to get the number of 8 pixel blocks in the width
+        int baseImageWidth = baseIimage.PixelSize.Width;
+        int tempWidth = baseImageWidth / 8; 
+        int roundedImageWidth = tempWidth * 8;
+        int decodeToWidth; 
+        if (roundedImageWidth < MinDecodeToWidthImage)
+        {
+            decodeToWidth = MinDecodeToWidthImage; 
+        }
+        else
+        {
+            decodeToWidth = roundedImageWidth;
+        }
+
         var image =
             WriteableBitmap.DecodeToWidth(
                 new MemoryStream(imageBytes), decodeToWidth, BitmapInterpolationMode.HighQuality);
