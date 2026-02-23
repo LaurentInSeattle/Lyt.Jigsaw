@@ -196,6 +196,38 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         }, DispatcherPriority.ApplicationIdle);
     }
 
+    /*
+     Crashing in Release ONLY !! 
+
+Description: The process was terminated due to an unhandled exception.
+Exception Info: System.Exception: pieceViewModels has no view for this piece.
+   at Lyt.Jigsaw.Workflow.Game.PuzzleViewModel.<RearrangeUngroupedPieces>g__PlacePiece|23_1(Int32 canvasRow, Int32 canvasCol, <>c__DisplayClass23_0&)
+   at Lyt.Jigsaw.Workflow.Game.PuzzleViewModel.<RearrangeUngroupedPieces>g__RectangularPlacement|23_2(Int32 topRow, Int32 rightColumn, Int32 bottomRow, Int32 leftColumn, <>c__DisplayClass23_0&)
+   at Lyt.Jigsaw.Workflow.Game.PuzzleViewModel.RearrangeUngroupedPieces()
+   at CommunityToolkit.Mvvm.Messaging.WeakReferenceMessenger.SendAll[TMessage](ReadOnlySpan`1 pairs, Int32 i, TMessage message)
+   at CommunityToolkit.Mvvm.Messaging.WeakReferenceMessenger.Send[TMessage,TToken](TMessage message, TToken token)
+   at Lyt.Framework.Interfaces.Messaging.MessagingExtensions.Publish[TMessage](TMessage message)
+   at Lyt.Avalonia.Controls.Glyphs.GlyphButton.ActivateCommand(RoutedEventArgs rea, ButtonTag buttonTag)
+   at Lyt.Avalonia.Controls.Glyphs.GlyphButton.OnPointerReleased(Object sender, PointerReleasedEventArgs args)
+   at Avalonia.Interactivity.EventRoute.RaiseEventImpl(RoutedEventArgs e)
+   at Avalonia.Interactivity.EventRoute.RaiseEvent(Interactive source, RoutedEventArgs e)
+   at Avalonia.Interactivity.Interactive.RaiseEvent(RoutedEventArgs e)
+   at Avalonia.Input.MouseDevice.MouseUp(IMouseDevice device, UInt64 timestamp, IInputRoot root, Point p, PointerPointProperties props, KeyModifiers inputModifiers, IInputElement hitTest)
+   at Avalonia.Input.MouseDevice.ProcessRawEvent(RawPointerEventArgs e)
+   at Avalonia.Controls.TopLevel.<>c.<HandleInput>b__150_0(Object state)
+   at Avalonia.Threading.Dispatcher.Send(SendOrPostCallback action, Object arg, Nullable`1 priority)
+   at Avalonia.Controls.TopLevel.HandleInput(RawInputEventArgs e)
+   at Avalonia.Win32.WindowImpl.AppWndProc(IntPtr hWnd, UInt32 msg, IntPtr wParam, IntPtr lParam)
+   at Avalonia.Win32.WindowImpl.WndProcMessageHandler(IntPtr hWnd, UInt32 msg, IntPtr wParam, IntPtr lParam)
+   at Avalonia.Win32.Interop.UnmanagedMethods.DispatchMessage(MSG& lpmsg)
+   at Avalonia.Win32.Win32DispatcherImpl.RunLoop(CancellationToken cancellationToken)
+   at Avalonia.Threading.DispatcherFrame.Run(IControlledDispatcherImpl impl)
+   at Avalonia.Threading.Dispatcher.PushFrame(DispatcherFrame frame)
+   at Avalonia.Threading.Dispatcher.MainLoop(CancellationToken cancellationToken)
+   at Avalonia.Controls.ApplicationLifetimes.ClassicDesktopStyleApplicationLifetime.StartCore(String[] args)
+   at Lyt.Jigsaw.Desktop.Program.Main(String[] args)
+
+    */
     private void RearrangeUngroupedPieces()
     {
         var game = this.jigsawModel.Game;
@@ -256,12 +288,28 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         {
             if (pieceIndex < pieceCount)
             {
-                Piece piece = pieces[pieceIndex];
-                var view = this.GetViewFromPiece(piece);
-                double x = canvasCol * pieceDistance;
-                double y = canvasRow * pieceDistance;
-                piece.MoveTo(x + xOffset, y + yOffset);
-                view.MoveToAndRotate(piece.Location, piece.RotationAngle, bringToTop: false);
+                try
+                {
+                    Piece piece = pieces[pieceIndex];
+                    var view = this.GetViewFromPiece(piece);
+                    double x = canvasCol * pieceDistance;
+                    double y = canvasRow * pieceDistance;
+                    piece.MoveTo(x + xOffset, y + yOffset);
+                    view.MoveToAndRotate(piece.Location, piece.RotationAngle, bringToTop: false);
+                }
+                catch (Exception ex)
+                {
+                    this.Logger.Error("Error placing piece at index: " + pieceIndex);
+                    this.Logger.Error(ex.ToString());
+                    if ( Debugger.IsAttached)
+                    {
+                        Debugger.Break();
+                    }
+                    else
+                    {
+                        // Swallow 
+                    }
+                }
 
                 // Debug.WriteLine("Placed at row {0} - col {1}", canvasRow, canvasCol);
 
