@@ -85,6 +85,7 @@
 			GlyphStrokeThickness="0.1"
 			Text="{DynamicResource Puzzle.Toolbar.ShowImage}"  
 			Command="{Binding OnShowImage}"
+			IsDisabled="{Binding IsDisabled}"
 			/>
 		<glyphs:GlyphButton
 			Grid.Column="5"
@@ -93,6 +94,7 @@
 			GlyphStrokeThickness="0.1"
 			Text="{DynamicResource Puzzle.Toolbar.ToggleEdges}"  
 			Command="{Binding OnShowEdges}"
+			IsDisabled="{Binding IsDisabled}"
 			/>
 		<glyphs:GlyphButton
 			Grid.Column="6"
@@ -101,6 +103,7 @@
 			GlyphStrokeThickness="0.1"
 			Text="{DynamicResource Puzzle.Toolbar.Rearrange}"  
 			Command="{Binding OnRearrange}"
+			IsDisabled="{Binding IsDisabled}"
 			/>
 		<glyphs:GlyphButton
 			Grid.Column="7"
@@ -109,6 +112,7 @@
 			GlyphStrokeThickness="0.1"
 			Text="{DynamicResource Puzzle.Toolbar.Hint}"  
 			Command="{Binding OnHint}"
+			IsDisabled="{Binding IsDisabled}"
 			/>
 		<controls:ExtendedTextBlock
 			Grid.Column="4" Grid.ColumnSpan="4" Grid.Row="1"
@@ -150,6 +154,7 @@
 			GlyphStrokeThickness="0.1"
 			Text="{DynamicResource Puzzle.Toolbar.FullScreen}"  
 			Command="{Binding OnFullscreen}"
+			IsDisabled="{Binding IsDisabled}"
 			/>
 		<controls:ExtendedTextBlock
 			Grid.Column="13" Grid.ColumnSpan="2" Grid.Row="1"

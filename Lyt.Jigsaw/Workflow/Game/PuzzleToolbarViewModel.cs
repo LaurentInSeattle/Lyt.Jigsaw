@@ -12,9 +12,13 @@ public sealed partial class PuzzleToolbarViewModel: ViewModel<PuzzleToolbarView>
     [ObservableProperty]
     private string progress = "-" ;
 
+    [ObservableProperty]
+    private bool isDisabled;
+
     public PuzzleToolbarViewModel(JigsawModel jigsawModel)
     {
         this.jigsawModel = jigsawModel;
+        this.IsDisabled = true;
         this.Subscribe<PuzzleChangedMessage>();    
     }
 
@@ -27,6 +31,11 @@ public sealed partial class PuzzleToolbarViewModel: ViewModel<PuzzleToolbarView>
 
             case PuzzleChange.Start:
                 this.View.ZoomController.SetMin(); 
+                this.IsDisabled = false;
+                break;
+
+            case PuzzleChange.Complete:
+                this.IsDisabled = true;
                 break;
 
             case PuzzleChange.Progress:

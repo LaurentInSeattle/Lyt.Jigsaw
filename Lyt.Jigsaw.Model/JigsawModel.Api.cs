@@ -104,6 +104,7 @@ public sealed partial class JigsawModel : ModelBase
             this.SavePuzzle();
             this.SaveGame();
             this.timeoutTimer.Stop();
+            new PuzzleChangedMessage(PuzzleChange.Complete).Publish();
         }
 
         return isComplete;
