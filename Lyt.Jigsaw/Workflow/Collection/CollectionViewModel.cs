@@ -279,8 +279,8 @@ public sealed partial class CollectionViewModel :
     internal bool OnImageDrop(byte[] imageBytes)
     {
         this.imageBytes = imageBytes;
-        var baseIimage = WriteableBitmap.Decode(new MemoryStream(imageBytes));
-        if (baseIimage is null)
+        var baseImage = WriteableBitmap.Decode(new MemoryStream(imageBytes));
+        if (baseImage is null)
         {
             // Failed to decode the image
             // TODO: Message
@@ -288,7 +288,7 @@ public sealed partial class CollectionViewModel :
         }
 
         // int div to get the number of 8 pixel blocks in the width
-        int baseImageWidth = baseIimage.PixelSize.Width;
+        int baseImageWidth = baseImage.PixelSize.Width;
         int tempWidth = baseImageWidth / 8; 
         int roundedImageWidth = tempWidth * 8;
         int decodeToWidth; 
@@ -356,7 +356,28 @@ public sealed partial class CollectionViewModel :
 
         try
         {
-            int decodeToWidth = 1920; //  1024 + 512;
+            var baseImage = WriteableBitmap.Decode(new MemoryStream(imageBytes));
+            if (baseImage is null)
+            {
+                // Failed to decode the image
+                // TODO: Message
+                return;
+            }
+
+            // int div to get the number of 8 pixel blocks in the width
+            int baseImageWidth = baseImage.PixelSize.Width;
+            int tempWidth = baseImageWidth / 8;
+            int roundedImageWidth = tempWidth * 8;
+            int decodeToWidth;
+            if (roundedImageWidth < MinDecodeToWidthImage)
+            {
+                decodeToWidth = MinDecodeToWidthImage;
+            }
+            else
+            {
+                decodeToWidth = roundedImageWidth;
+            }
+
             var image =
                 WriteableBitmap.DecodeToWidth(
                     new MemoryStream(imageBytes), decodeToWidth, BitmapInterpolationMode.HighQuality);
