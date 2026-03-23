@@ -36,7 +36,7 @@ public static class ImagingUtilities
 
         using (ILockedFramebuffer fb = writeableBitmap.Lock())
         {
-            bitmap.CopyPixels(fb, AlphaFormat.Opaque);
+            bitmap.CopyPixels(fb);
         }
 
         return writeableBitmap;

@@ -31,10 +31,10 @@ public sealed class Fullscreen(Window mainWindow)
             Focusable = true,
             CanMaximize = true,
             Content = view,
-            ExtendClientAreaChromeHints = ExtendClientAreaChromeHints.NoChrome,
+            // ExtendClientAreaChromeHints = ExtendClientAreaChromeHints.NoChrome,
             ShowActivated = true,
             ShowInTaskbar = false,
-            SystemDecorations = SystemDecorations.None,
+            WindowDecorations = WindowDecorations.None,
             Topmost = true,
             // Provide an icon for the fullscreen window, reuse the main window icon if available.
             Icon = this.mainWindow.Icon,
