@@ -5,25 +5,25 @@ using Location = Model.Infrastucture.Location;
 public sealed partial class PieceViewModel : ViewModel<PieceView>, IDragMovableViewModel, IRecipient<ShowEdgesMessage>
 {
     [ObservableProperty]
-    private CroppedBitmap croppedBitmap;
+    public partial CroppedBitmap CroppedBitmap { get; set; }
 
     [ObservableProperty]
-    private Geometry clipGeometry;
+    public partial Geometry ClipGeometry { get; set; }
 
     [ObservableProperty]
-    private Transform? imageRotationTransform;
+    public partial Transform? ImageRotationTransform { get; set; }
 
     [ObservableProperty]
-    private Transform? pathRotationTransform;
+    public partial Transform? PathRotationTransform { get; set; }
 
     [ObservableProperty]
-    private bool isHitTestVisible;
+    public partial bool IsHitTestVisible { get; set; }
 
     [ObservableProperty]
-    private bool pathIsVisible;
+    public partial bool PathIsVisible { get; set; }
 
     [ObservableProperty]
-    private bool isVisible;
+    public partial bool IsVisible { get; set; }
 
     private readonly JigsawModel jigsawModel;
     private readonly PuzzleViewModel puzzleViewModel;

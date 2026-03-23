@@ -13,19 +13,19 @@ public sealed partial class ThumbnailViewModel : ViewModel<ThumbnailView>, IReci
     private readonly ISelectListener parent;
 
     [ObservableProperty]
-    private double borderHeight;
+    public partial double BorderHeight { get; set; }
 
     [ObservableProperty]
-    private double imageHeight;
+    public partial double ImageHeight { get; set; }
 
     [ObservableProperty]
-    private string title;
+    public partial string Title { get; set; }
 
     [ObservableProperty]
-    private string details;
+    public partial string Details { get; set; }
 
     [ObservableProperty]
-    private WriteableBitmap thumbnail;
+    public partial WriteableBitmap Thumbnail { get; set; }
 
     /// <summary>  Creates a thumbnail view model </summary>
     public ThumbnailViewModel(ISelectListener parent, Model.GameObjects.Game game, byte[] imageBytes)

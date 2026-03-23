@@ -12,7 +12,7 @@ public sealed partial class ShellViewModel
     private readonly IToaster toaster;
 
     [ObservableProperty]
-    public bool mainToolbarIsVisible;
+    public partial bool MainToolbarIsVisible { get; set; }
 
     private ViewSelector<ActivatedView>? viewSelector;
     public bool isFirstActivation;

@@ -7,13 +7,13 @@ public sealed partial class PuzzleToolbarViewModel: ViewModel<PuzzleToolbarView>
     private bool showEdges;
 
     [ObservableProperty]
-    private double backgroundSliderValue;
+    public partial double BackgroundSliderValue { get; set; }
 
     [ObservableProperty]
-    private string progress = "-" ;
+    public partial string Progress { get; set; } = "-";
 
     [ObservableProperty]
-    private bool isDisabled;
+    public partial bool IsDisabled { get; set; }
 
     public PuzzleToolbarViewModel(JigsawModel jigsawModel)
     {

@@ -60,7 +60,7 @@ public sealed partial class LanguageViewModel : ViewModel<LanguageView>
     }
 
     [ObservableProperty]
-    private int selectedLanguageIndex ; 
+    public partial int SelectedLanguageIndex { get; set; }
 
     partial void OnSelectedLanguageIndexChanged(int value)
     { 
@@ -75,6 +75,6 @@ public sealed partial class LanguageViewModel : ViewModel<LanguageView>
         this.JigsawModel.SelectLanguage (languageKey);
     }
 
-    [ObservableProperty]    
-    private ObservableCollection<LanguageInfoViewModel> languages; 
+    [ObservableProperty]
+    public partial ObservableCollection<LanguageInfoViewModel> Languages { get; set; }
 }

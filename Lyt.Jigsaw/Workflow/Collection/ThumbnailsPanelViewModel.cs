@@ -11,16 +11,16 @@ public sealed partial class ThumbnailsPanelViewModel :
     private readonly CollectionViewModel collectionViewModel;
 
     [ObservableProperty]
-    private bool showInProgress;
+    public partial bool ShowInProgress { get; set; }
 
     [ObservableProperty]
-    private ObservableCollection<ThumbnailViewModel> thumbnails;
+    public partial ObservableCollection<ThumbnailViewModel> Thumbnails { get; set; }
 
     [ObservableProperty]
-    private int providersSelectedIndex;
+    public partial int ProvidersSelectedIndex { get; set; }
 
     [ObservableProperty]
-    private string emptyMessage; 
+    public partial string EmptyMessage { get; set; }
 
     private ThumbnailViewModel? selectedThumbnail;
     private Model.GameObjects.Game? selectedGame;

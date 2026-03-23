@@ -21,63 +21,61 @@ public sealed partial class CollectionViewModel :
     #region Observable Properties 
 
     [ObservableProperty]
-    private ThumbnailsPanelViewModel thumbnailsPanelViewModel;
+    public partial ThumbnailsPanelViewModel ThumbnailsPanelViewModel { get; set; }
 
     [ObservableProperty]
-    private DropViewModel dropViewModel;
+    public partial DropViewModel DropViewModel { get; set; }
 
     [ObservableProperty]
-    // Either copy of sourceImage and possibly cropped and with requested contrast applied
-    private WriteableBitmap? puzzleImage;
+    public partial WriteableBitmap? PuzzleImage { get; set; }
 
     [ObservableProperty]
-    private string pieceCountString;
+    public partial string PieceCountString { get; set; }
 
     [ObservableProperty]
-
-    private int pieceCountMin;
-
-    [ObservableProperty]
-    private int pieceCountMax;
+    public partial int PieceCountMin { get; set; }
 
     [ObservableProperty]
-    private double pieceCountSliderValue;
+    public partial int PieceCountMax { get; set; }
 
     [ObservableProperty]
-    private string rotationsString;
+    public partial double PieceCountSliderValue { get; set; }
 
     [ObservableProperty]
-    private double rotationsSliderValue;
+    public partial string RotationsString { get; set; }
 
     [ObservableProperty]
-    private string snapString;
+    public partial double RotationsSliderValue { get; set; }
 
     [ObservableProperty]
-    private double snapSliderValue;
+    public partial string SnapString { get; set; }
 
     [ObservableProperty]
-    private string contrastString;
+    public partial double SnapSliderValue { get; set; }
 
     [ObservableProperty]
-    private double contrastSliderValue;
+    public partial string ContrastString { get; set; }
 
     [ObservableProperty]
-    private string hintsString;
+    public partial double ContrastSliderValue { get; set; }
 
     [ObservableProperty]
-    private double hintsSliderValue;
+    public partial string HintsString { get; set; }
 
     [ObservableProperty]
-    private bool parametersVisible;
+    public partial double HintsSliderValue { get; set; }
 
     [ObservableProperty]
-    private bool parametersEnabled;
+    public partial bool ParametersVisible { get; set; }
 
     [ObservableProperty]
-    private double parametersOpacity;
+    public partial bool ParametersEnabled { get; set; }
 
     [ObservableProperty]
-    private string howToPlay;
+    public partial double ParametersOpacity { get; set; }
+
+    [ObservableProperty]
+    public partial string HowToPlay { get; set; }
 
     #endregion Observable Properties 
 

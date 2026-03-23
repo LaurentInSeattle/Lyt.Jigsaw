@@ -13,25 +13,25 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
     public WriteableBitmap? Image;
 
     [ObservableProperty]
-    private double canvasWidth;
+    public partial double CanvasWidth { get; set; }
 
     [ObservableProperty]
-    private double canvasHeight;
+    public partial double CanvasHeight { get; set; }
 
     [ObservableProperty]
-    private double zoomFactor;
+    public partial double ZoomFactor { get; set; }
 
     [ObservableProperty]
-    private double backgroundOpacity;
+    public partial double BackgroundOpacity { get; set; }
 
     [ObservableProperty]
-    private SolidColorBrush backgroundBrush;
+    public partial SolidColorBrush BackgroundBrush { get; set; }
 
     [ObservableProperty]
-    private WriteableBitmap? puzzleImage;
+    public partial WriteableBitmap? PuzzleImage { get; set; }
 
     [ObservableProperty]
-    private bool puzzleImageIsVisible;
+    public partial bool PuzzleImageIsVisible { get; set; }
 
     private readonly Dictionary<Piece, PieceViewModel> pieceViewModels;
 
@@ -49,7 +49,7 @@ public sealed partial class PuzzleViewModel : ViewModel<PuzzleView>,
         this.Subscribe<ShowPuzzleImageMessage>();
         this.Subscribe<PuzzleChangedMessage>();
         this.pieceViewModels = [];
-        this.backgroundBrush = new SolidColorBrush(Colors.Transparent);
+        BackgroundBrush = new SolidColorBrush(Colors.Transparent);
     }
 
     ~PuzzleViewModel()
