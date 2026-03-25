@@ -2,12 +2,12 @@
 The classic jigsaw puzzle game for .Net 10 and Avalonia. 
 All ages from 9 to 999 puzzle pieces!
 
-<p align="left"><img src="Screenshots\Screenshot_2026-02-16.png" height="500"/>
+<p align="left"><img src="Screenshots\Screenshot 2026-03-25 120811.png"" height="500"/>
 
 Play with any image on your computer! 
 Supports dragging and dropping an image file from most web browsers.
 
-<p align="left"><img src="Screenshots\Screenshot 2026-02-16 102558.png" height="500"/>
+<p align="left"><img src="Screenshots\Screenshot 2026-03-25 115321.png"" height="500"/>
 
 Very simple, but fun and relaxing. 
 
