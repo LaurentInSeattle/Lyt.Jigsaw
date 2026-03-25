@@ -20,10 +20,14 @@ Automatically saves your progress, so that you can stop and resume whenever you 
 
 - Machine translated: Spanish, Ukrainian, Bulgarian, Armenian, Greek, German, Japanese, Chinese, Korean, Magyar, Hindi and Bengali.
 
+
+Contributions to improve localization are always welcome! 
+Please feel free to submit a Pull Request.
+
 # Download and play...
 
 Windows x64 build: https://github.com/LaurentInSeattle/Lyt.Jigsaw/blob/main/Download/Jigsaw.zip 
- (Intel CPU 64 bit Only!) 
+(Intel CPU 64 bit Only!) 
 
 # Build your own...
 
@@ -32,11 +36,13 @@ Windows x64 build: https://github.com/LaurentInSeattle/Lyt.Jigsaw/blob/main/Down
 - => Clone the "Lyt.Avalonia" repo' side by side. (https://github.com/LaurentInSeattle/Lyt.Avalonia)
 - Open the solution in Visual Studio, restore nugets, then clean and build.
 
-Developed and tested with .Net 10, Visual Studio 2026 18.3 and Avalonia 11.3.12.
-Also builds with Jet Brains Rider. On Mac and Linux, you should disable the post build event, as it is Windows specific.
+Developed and tested with .Net 10, Visual Studio 2026 18.4 and Avalonia 12.0. RC1 
+Also builds with Jet Brains Rider. 
+On Mac and Linux, you should disable the post build event, as it is Windows specific.
 
 # Dependencies
 
-- Avalonia (Skia)
+- .Net 10
+- Avalonia 12 (Skia)
 - Microsoft Dependency Injection and Hosting Framework
 - Microsoft Community Toolkit MVVM Framework
