@@ -36,7 +36,7 @@ Windows x64 build: https://github.com/LaurentInSeattle/Lyt.Jigsaw/blob/main/Down
 - => Clone the "Lyt.Avalonia" repo' side by side. (https://github.com/LaurentInSeattle/Lyt.Avalonia)
 - Open the solution in Visual Studio, restore nugets, then clean and build.
 
-Developed and tested with .Net 10, Visual Studio 2026 18.4 and Avalonia 12.0. RC1 
+Developed and tested with .Net 10, Visual Studio 2026 18.4 and Avalonia 12.0.0 
 Also builds with Jet Brains Rider. 
 On Mac and Linux, you should disable the post build event, as it is Windows specific.
 

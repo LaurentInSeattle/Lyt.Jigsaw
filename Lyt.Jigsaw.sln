@@ -49,6 +49,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{EC0125C5-45A9-49B5-AA3C-3523D52C322F}"
 	ProjectSection(SolutionItems) = preProject
 		Tools\JigsawLanguages.json = Tools\JigsawLanguages.json
+		Tools\Lyt.Translator.Cli.exe = Tools\Lyt.Translator.Cli.exe
 		Tools\prebuild.bat = Tools\prebuild.bat
 	EndProjectSection
 EndProject
