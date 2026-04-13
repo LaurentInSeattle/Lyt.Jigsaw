@@ -22,10 +22,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="12.0.0" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="12.0.0" />
-    <PackageReference Include="Avalonia.Fonts.Inter" Version="12.0.0" />
-    <PackageReference Include="AvaloniaUI.DiagnosticsSupport" Version="2.1.1" />
+    <PackageReference Include="Avalonia" Version="12.0.1" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="12.0.1" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="12.0.1" />
+    <PackageReference Include="AvaloniaUI.DiagnosticsSupport" Version="2.2.0" />
     <PackageReference Include="SkiaSharp" Version="3.119.2" />
   </ItemGroup>
 
@@ -51,58 +51,6 @@
     <ProjectReference Include="..\..\Lyt.Framework\Lyt.Persistence\Lyt.Persistence.csproj" />
     <ProjectReference Include="..\..\Lyt.Framework\Lyt.Utilities\Lyt.Utilities.csproj" />
     <ProjectReference Include="..\Lyt.Jigsaw.Model\Lyt.Jigsaw.Model.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Workflow\Language\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AvaloniaResource Update="Assets\Icons\FluentSvgResourceDictionary.axaml">
-      <SubType>Designer</SubType>
-    </AvaloniaResource>
-    <AvaloniaResource Update="Assets\Icons\Icons.axaml">
-      <SubType>Designer</SubType>
-    </AvaloniaResource>
-    <AvaloniaResource Update="Assets\Icons\PathResourceDictionary.axaml">
-      <SubType>Designer</SubType>
-    </AvaloniaResource>
-    <AvaloniaResource Update="Assets\Languages\Lang_en-US.axaml">
-      <SubType>Designer</SubType>
-    </AvaloniaResource>
-    <AvaloniaResource Update="Assets\Languages\Lang_fr-FR.axaml">
-      <SubType>Designer</SubType>
-    </AvaloniaResource>
-    <AvaloniaResource Update="Assets\Languages\Lang_it-IT.axaml">
-      <SubType>Designer</SubType>
-    </AvaloniaResource>
-    <AvaloniaResource Update="Assets\Palette\DeepBluePalette.axaml">
-      <SubType>Designer</SubType>
-    </AvaloniaResource>
-    <AvaloniaResource Update="Assets\Theme\AutoCompleteBoxStyles.axaml">
-      <SubType>Designer</SubType>
-    </AvaloniaResource>
-    <AvaloniaResource Update="Assets\Theme\Buttons.axaml">
-      <SubType>Designer</SubType>
-    </AvaloniaResource>
-    <AvaloniaResource Update="Assets\Theme\ListBoxItemStyles.axaml">
-      <SubType>Designer</SubType>
-    </AvaloniaResource>
-    <AvaloniaResource Update="Assets\Theme\ListBoxStyles.axaml">
-      <SubType>Designer</SubType>
-    </AvaloniaResource>
-    <AvaloniaResource Update="Assets\Theme\Sliders.axaml">
-      <SubType>Designer</SubType>
-    </AvaloniaResource>
-    <AvaloniaResource Update="Assets\Theme\TextBoxStyles.axaml">
-      <SubType>Designer</SubType>
-    </AvaloniaResource>
-    <AvaloniaResource Update="Assets\Theme\Toggles.axaml">
-      <SubType>Designer</SubType>
-    </AvaloniaResource>
-    <AvaloniaResource Update="Assets\Theme\Typography.axaml">
-      <SubType>Designer</SubType>
-    </AvaloniaResource>
   </ItemGroup>
 
 </Project>
