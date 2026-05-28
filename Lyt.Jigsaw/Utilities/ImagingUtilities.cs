@@ -1,5 +1,7 @@
 ﻿using SkiaSharp;
 
+using System.Buffers;
+
 // Consider moving this into the Avalonia area and create a new library for Avalonia images and media.
 namespace Lyt.Jigsaw.Utilities;
 
@@ -47,6 +49,7 @@ public static class ImagingUtilities
 
     public static unsafe WriteableBitmap Crop(this WriteableBitmap source, PixelRect roi)
     {
+        byte[]? destBytes = null; 
         try
         {
             var size = source.PixelSize;
@@ -63,7 +66,9 @@ public static class ImagingUtilities
 
             byte* srcData = (byte*)fb.Address;
             int bytesPerPixel = format.BitsPerPixel / 8;
-            byte[] destBytes = new byte[roi.Width * roi.Height * format.BitsPerPixel / 8];
+
+            int destBytesLength = roi.Width * roi.Height * format.BitsPerPixel / 8;
+            destBytes = ArrayPool<byte>.Shared.Rent(destBytesLength);
             fixed (byte* dstData = destBytes)
             {
                 int dstRow = 0;
@@ -95,6 +100,13 @@ public static class ImagingUtilities
         catch (Exception ex)
         {
             throw new InvalidOperationException("Failed to crop bitmap", ex);
+        }
+        finally
+        {
+            if (destBytes is not null)
+            {
+                ArrayPool<byte>.Shared.Return(destBytes);
+            } 
         }
 
     }
@@ -135,6 +147,7 @@ public static class ImagingUtilities
 
     public static unsafe WriteableBitmap Clahe(this WriteableBitmap sourceBitmap, float clipLimit, IProfiler profiler)
     {
+        byte[]? imageBuffer = null;
         try
         {
             using ILockedFramebuffer sourceFrameBuffer = sourceBitmap.Lock();
@@ -143,17 +156,17 @@ public static class ImagingUtilities
             int height = sourceFrameBuffer.Size.Height;
             int width = sourceFrameBuffer.Size.Width;
             PixelRect sourceRect = new(0, 0, width, height);
-            byte[] imageBuffer = new byte[height * width * 4];
+            int imageBufferLength = height * width * 4; 
+            imageBuffer = ArrayPool<byte>.Shared.Rent(imageBufferLength) ;
             fixed (byte* arrayPtr = imageBuffer)
             {
                 // The 'dataArray' is pinned here, and 'arrayPtr' points to its first element.
                 nint buffer = (nint)arrayPtr;
-                sourceBitmap.CopyPixels(sourceRect, buffer, imageBuffer.Length, sourceFrameBuffer.RowBytes);
+                sourceBitmap.CopyPixels(sourceRect, buffer, imageBufferLength, sourceFrameBuffer.RowBytes);
             }
 
-            byte[] bytes;
             var clahe = new Clahe(8, 8, clipLimit);
-            bytes = clahe.Process(imageBuffer, height, width, profiler);
+            byte[] bytes = clahe.Process(imageBuffer, height, width, profiler);
             fixed (byte* arrayPtr = bytes)
             {
                 // The 'dataArray' is pinned here, and 'arrayPtr' points to its first element.
@@ -173,6 +186,13 @@ public static class ImagingUtilities
         {
             Debug.WriteLine("Failed: " + ex);
             throw new Exception("Failed to apply Clahe: " +  ex);
+        }
+        finally
+        {
+            if (imageBuffer is not null)
+            {
+                ArrayPool<byte>.Shared.Return(imageBuffer);
+            }
         }
     }
 
