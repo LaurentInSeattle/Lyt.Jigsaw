@@ -19,16 +19,16 @@
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<!-- Background -->
-			<ColumnDefinition Width="60" />
+			<ColumnDefinition Width="70" />
 			<ColumnDefinition Width="120" />
-			<ColumnDefinition Width="60" />
+			<ColumnDefinition Width="70" />
 			<!-- Spacer -->
 			<ColumnDefinition Width="10" />
 			<!-- Help / Hints Buttons -->
-			<ColumnDefinition Width="100" />
-			<ColumnDefinition Width="100" />
-			<ColumnDefinition Width="100" />
-			<ColumnDefinition Width="100" />
+			<ColumnDefinition Width="120" />
+			<ColumnDefinition Width="120" />
+			<ColumnDefinition Width="120" />
+			<ColumnDefinition Width="120" />
 		  <!-- Spacer -->
 		  <ColumnDefinition Width="10" />
 		  <!-- Progress -->
@@ -36,7 +36,7 @@
 		  <!-- Spacer -->
 		  <ColumnDefinition Width="10" />
 		  <!-- Zoom -->
-		  <ColumnDefinition Width="310" />
+		  <ColumnDefinition Width="320" />
 		  <!-- Spacer -->
 		  <ColumnDefinition Width="10" />
 		  <!-- Fullscreen -->
@@ -131,7 +131,8 @@
 		<controls:ExtendedTextBlock
 			Grid.Column="9" Grid.ColumnSpan="1" Grid.Row="1"
 			Text="{DynamicResource Puzzle.Toolbar.Progress}"  
-			Typography="{StaticResource Medium}"
+			Typography="{StaticResource Large}"
+			FontWeight="Bold"
 			Foreground="{StaticResource PastelOrchid_0_080}"
 			/>
 

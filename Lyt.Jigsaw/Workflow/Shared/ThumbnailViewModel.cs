@@ -78,19 +78,15 @@ public sealed partial class ThumbnailViewModel : ViewModel<ThumbnailView>, IReci
         }
 
         string dateString =
-            string.Format(
-                this.Localize("Collection.Thumbs.StartedFormat"),
-                this.Game.Started.Date.ToShortDateString());
+            string.Format(this.Localize("Collection.Thumbs.StartedFormat"), this.Game.Started.Date.ToShortDateString());
         string progressString =
             this.Game.IsCompleted ?
-                this.Localize("Collection.Thumbs.Completed") : 
-                string.Format(
-                    this.Localize("Collection.Thumbs.ProgressFormat"),
-                    this.Game.Progress);
-        this.Title = string.Concat(dateString, " - ", progressString);
-        this.Details =
-            string.Format(
-                this.Localize("Collection.Thumbs.PuzzleFormat"),
-                this.Game.PieceCount);
+                string.Empty :
+                string.Format(this.Localize("Collection.Thumbs.ProgressFormat"), this.Game.Progress);
+        this.Title =
+            this.Game.IsCompleted ?
+                dateString :
+                string.Concat(dateString, " - ", progressString);
+        this.Details = string.Format(this.Localize("Collection.Thumbs.PuzzleFormat"), this.Game.PieceCount);
     }
 }

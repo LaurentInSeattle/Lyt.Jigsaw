@@ -122,8 +122,8 @@ public sealed class Puzzle
         this.PieceOverlap = setup.PieceSize / 4;
         this.PieceCount = this.Rows * this.Columns;
         int snapReverse = 3 - puzzleParameters.Snap;
-        double maybeSnapDistance = this.PieceOverlap / 3.2 + snapReverse * this.PieceOverlap / 4.2;
-        this.PieceSnapDistance = Math.Max(10.0, maybeSnapDistance);
+        double maybeSnapDistance = this.PieceOverlap / 3.2 + snapReverse * this.PieceOverlap / 4.0;
+        this.PieceSnapDistance = Math.Max(24.0, maybeSnapDistance);
 
         this.CreatePieces();
         return true;

@@ -9,13 +9,13 @@
 	>
   <Grid>
 	<Grid.ColumnDefinitions>
-      <ColumnDefinition Width="60"/>
-      <ColumnDefinition Width="4"/>
-      <ColumnDefinition Width="140"/>
-      <ColumnDefinition Width="4"/>
-      <ColumnDefinition Width="60"/>
-    </Grid.ColumnDefinitions>
-    <glyphs:GlyphButton
+	  <ColumnDefinition Width="90"/>
+	  <ColumnDefinition Width="2"/>
+	  <ColumnDefinition Width="124"/>
+	  <ColumnDefinition Width="2"/>
+	  <ColumnDefinition Width="90"/>
+	</Grid.ColumnDefinitions>
+	<glyphs:GlyphButton
 		x:Name="minButton"
 		Grid.Column="0"
 		Style="{StaticResource AppToolbarIconButton}"
@@ -32,11 +32,11 @@
 		ValueChanged="OnSliderValueChanged"
 		TickPlacement="None"
 		IsSnapToTickEnabled="False"
-        Margin="0 -2 0 0"
+		Margin="0 -2 0 0"
 		/>
-    <glyphs:GlyphButton
+	<glyphs:GlyphButton
 		x:Name="maxButton"
-		Grid.Column="5"
+		Grid.Column="4"
 		Style="{StaticResource AppToolbarIconButton}"
 		Click="OnButtonMaxClick"
 		GlyphSource="zoom_in"
