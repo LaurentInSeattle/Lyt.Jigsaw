@@ -60,8 +60,13 @@ public sealed partial class PuzzleToolbarViewModel: ViewModel<PuzzleToolbarView>
         => this.jigsawModel.ProvidePuzzleHint();
 
     [RelayCommand]
-    public void OnShowImage(ButtonTag buttonTag) 
+    public void OnShowImage(object? parameter) 
     {
+        if ( parameter is not ButtonTag buttonTag)
+        {
+            return; 
+        }
+
         if (buttonTag == ButtonTag.CountinuousBegin || buttonTag == ButtonTag.CountinuousEnd)
         {
             bool show = buttonTag == ButtonTag.CountinuousBegin;
